@@ -31,6 +31,8 @@
         ]
     },
     "trustedDependencies": [
+        "@esbuild/linux-x64",
+        "@tailwindcss/oxide",
         "esbuild",
         "lightningcss",
         "rollup"
