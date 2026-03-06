@@ -1,0 +1,8 @@
+[install]
+optional = false
+peer = false
+auto = "fallback"
+
+[test]
+root = "./tests"
+coverageDir = "./coverage"

@@ -1,0 +1,8 @@
+dist
+build
+coverage
+node_modules
+bun.lock
+*.generated.ts
+.env
+.env.*
