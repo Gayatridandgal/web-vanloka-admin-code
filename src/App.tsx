@@ -9,7 +9,6 @@ import { LoginScreen } from './auth/LoginPage';
 import { Sidebar } from './layouts/Sidebar';
 
 // Pages
-import { BulkPage } from './pages/BulkCommunication';
 import { Dashboard } from './pages/Dasboard';
 import { FeedbacksPage } from './pages/Feedback';
 import { FeedbackResolve } from './pages/FeedbackReslove';
@@ -128,15 +127,9 @@ function App() {
                                     path="/dashboard"
                                     element={<Dashboard onViewSessions={handleViewSessions} />}
                                 />
-                                <Route
-                                    path="/feedbacks"
-                                    element={<FeedbacksPage openModal={openModal} />}
-                                />
+                                <Route path="/feedbacks" element={<FeedbacksPage />} />
                                 {/* ── Staff management ── */}
-                                <Route
-                                    path="/staff"
-                                    element={<StaffPage openModal={openModal} />}
-                                />
+                                <Route path="/staff" element={<StaffPage />} />
                                 {/* ── Staff Creation ── */}
                                 <Route path="/staff/create" element={<StaffCreate />} />
 
@@ -145,7 +138,6 @@ function App() {
                                 {/* ── Trainee complaint submission ── */}
                                 <Route path="/feedbacks/complaint" element={<TraineeComplaint />} />
                                 <Route path="/reports" element={<ReportsPage />} />
-                                <Route path="/bulk" element={<BulkPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 {/* Any unknown path → dashboard */}
                                 <Route path="*" element={<Navigate to="/dashboard" replace />} />

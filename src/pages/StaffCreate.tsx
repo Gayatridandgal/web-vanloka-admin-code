@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { INITIAL_STAFF } from '../data/staffData';
 
 /* ── Types ─────────────────────────────────────── */
 interface Form {
@@ -191,7 +192,39 @@ const Err = ({ msg }: { msg?: string }) =>
 /* ── Component ─────────────────────────────────── */
 export const StaffCreate = () => {
     const navigate = useNavigate();
-    const [form, setForm] = useState<Form>(INIT);
+    const { id } = useParams<{ id?: string }>();
+    const isEdit = Boolean(id);
+
+    // Pre-fill form when editing
+    const getInitialForm = (): Form => {
+        if (!id) return INIT;
+        const emp = INITIAL_STAFF.find((s) => s.id === id);
+        if (!emp) return INIT;
+        return {
+            ...INIT,
+            employeeId: emp.id,
+            firstName: emp.firstName,
+            lastName: emp.lastName,
+            gender: emp.gender,
+            designation: emp.designation,
+            officialEmail: emp.email,
+            mobile: emp.phone,
+            address1: emp.address,
+            city: emp.city,
+            state: emp.state,
+            pinCode: emp.pinCode,
+            joiningDate: '',
+            employmentType: emp.employmentType,
+            bankName: emp.bankName,
+            accountNumber: emp.accountNumber,
+            ifsc: emp.ifsc,
+            accountStatus: emp.status === 'Active' ? 'Active' : 'Inactive / On Hold',
+            roles: [...emp.roles],
+            remarks: emp.remarks,
+        };
+    };
+
+    const [form, setForm] = useState<Form>(getInitialForm);
     const [errs, setErrs] = useState<Errs>({});
     const [saved, setSaved] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
@@ -318,10 +351,15 @@ export const StaffCreate = () => {
                                 marginBottom: 8,
                             }}
                         >
-                            Employee Created Successfully
+                            {isEdit
+                                ? 'Employee Updated Successfully'
+                                : 'Employee Created Successfully'}
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 6 }}>
-                            {form.firstName} {form.lastName} has been added to the organization.
+                            {form.firstName} {form.lastName}{' '}
+                            {isEdit
+                                ? 'has been updated successfully.'
+                                : 'has been added to the organization.'}
                         </div>
                         <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 32 }}>
                             Status:{' '}
@@ -377,7 +415,7 @@ export const StaffCreate = () => {
                         <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
                             group
                         </span>
-                        Add New Employee
+                        {isEdit ? 'Edit Employee' : 'Add New Employee'}
                     </div>
                     <div className="breadcrumb">
                         <span
@@ -390,7 +428,7 @@ export const StaffCreate = () => {
                         >
                             Staff Management
                         </span>
-                        <span>/</span> Add New Employee
+                        <span>/</span> {isEdit ? 'Edit Employee' : 'Add New Employee'}
                     </div>
                 </div>
                 <button
@@ -1197,8 +1235,8 @@ export const StaffCreate = () => {
                             onClick={handleSave}
                             style={{ minWidth: 200 }}
                         >
-                            <span className="material-symbols-outlined ms">save</span> SAVE EMPLOYEE
-                            RECORD
+                            <span className="material-symbols-outlined ms">save</span>{' '}
+                            {isEdit ? 'UPDATE EMPLOYEE' : 'SAVE EMPLOYEE RECORD'}
                         </button>
                     </div>
                 </div>

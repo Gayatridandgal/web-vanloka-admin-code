@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { INITIAL_FEEDBACKS } from '../data/feedbackData';
+import { Badge } from '../ui/index';
 
 /* ── Types ─────────────────────────────────── */
 interface ResolveForm {
@@ -56,9 +58,16 @@ const Err = ({ msg }: { msg?: string }) =>
 /* ── Component ──────────────────────────────── */
 export const FeedbackResolve = () => {
     const navigate = useNavigate();
+    const { id } = useParams<{ id?: string }>();
+
+    /* Look up complaint from shared data */
+    const complaint = id
+        ? INITIAL_FEEDBACKS.find((f) => f.id === id && f.type === 'complaint')
+        : INITIAL_FEEDBACKS.find((f) => f.type === 'complaint');
+
     const [form, setForm] = useState<ResolveForm>({
-        complaintId: 'CMP-2023-8842',
-        category: '',
+        complaintId: complaint?.id || 'CMP-UNKNOWN',
+        category: complaint?.category || '',
         resolutionSummary: '',
         closingRemarks: '',
     });
@@ -241,6 +250,195 @@ export const FeedbackResolve = () => {
             {/* ── PAGE BODY ── */}
             <div className="page-body">
                 <div style={{ maxWidth: 860, width: '100%', margin: '0 auto' }}>
+                    {/* ── ORIGINAL COMPLAINT DETAILS (at the top for context) ── */}
+                    {complaint && (
+                        <div
+                            style={{
+                                background: '#FEF2F2',
+                                border: '1.5px solid #FECACA',
+                                borderRadius: 16,
+                                overflow: 'hidden',
+                                marginBottom: 20,
+                            }}
+                        >
+                            <div
+                                style={{
+                                    padding: '14px 24px',
+                                    borderBottom: '1px solid #FECACA',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                }}
+                            >
+                                <span
+                                    style={{
+                                        fontSize: 10,
+                                        fontWeight: 900,
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '.08em',
+                                        color: '#DC2626',
+                                    }}
+                                >
+                                    Original Complaint Details
+                                </span>
+                                <div style={{ display: 'flex', gap: 6 }}>
+                                    <Badge variant="red">{complaint.priority}</Badge>
+                                    <Badge variant="amber">{complaint.status}</Badge>
+                                </div>
+                            </div>
+                            <div style={{ padding: '20px 24px' }}>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        gap: 14,
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: 44,
+                                            height: 44,
+                                            borderRadius: '50%',
+                                            background: '#FEE2E2',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            flexShrink: 0,
+                                        }}
+                                    >
+                                        <span
+                                            className="material-symbols-outlined"
+                                            style={{ fontSize: 22, color: '#DC2626' }}
+                                        >
+                                            report
+                                        </span>
+                                    </div>
+                                    <div style={{ flex: 1 }}>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 8,
+                                                marginBottom: 6,
+                                            }}
+                                        >
+                                            <span
+                                                style={{
+                                                    fontSize: 15,
+                                                    fontWeight: 800,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
+                                                {complaint.name}
+                                            </span>
+                                            <span
+                                                style={{
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                ({complaint.role})
+                                            </span>
+                                        </div>
+                                        <div
+                                            style={{
+                                                fontSize: 13,
+                                                color: '#475569',
+                                                lineHeight: 1.6,
+                                                marginBottom: 12,
+                                                fontStyle: 'italic',
+                                            }}
+                                        >
+                                            "{complaint.comment}"
+                                        </div>
+                                        <div
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 20,
+                                                flexWrap: 'wrap',
+                                            }}
+                                        >
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 5,
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                <span
+                                                    className="material-symbols-outlined"
+                                                    style={{ fontSize: 14 }}
+                                                >
+                                                    directions_bus
+                                                </span>
+                                                {complaint.target}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 5,
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                <span
+                                                    className="material-symbols-outlined"
+                                                    style={{ fontSize: 14 }}
+                                                >
+                                                    calendar_today
+                                                </span>
+                                                {complaint.date}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 5,
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                <span
+                                                    className="material-symbols-outlined"
+                                                    style={{ fontSize: 14 }}
+                                                >
+                                                    mail
+                                                </span>
+                                                {complaint.email}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 5,
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                <span
+                                                    className="material-symbols-outlined"
+                                                    style={{ fontSize: 14 }}
+                                                >
+                                                    phone
+                                                </span>
+                                                {complaint.phone}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* ── RESOLVE FORM CARD ── */}
                     <div
                         style={{
@@ -266,33 +464,31 @@ export const FeedbackResolve = () => {
                                     marginBottom: 4,
                                 }}
                             >
-                                <button
-                                    onClick={() => navigate('/feedbacks')}
+                                <div
                                     style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        cursor: 'pointer',
-                                        padding: 0,
+                                        width: 36,
+                                        height: 36,
+                                        borderRadius: 8,
+                                        background: '#DCFCE7',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        color: 'var(--text)',
+                                        justifyContent: 'center',
                                     }}
                                 >
                                     <span
                                         className="material-symbols-outlined"
-                                        style={{ fontSize: 22, color: '#64748B' }}
+                                        style={{ fontSize: 20, color: '#059669' }}
                                     >
-                                        arrow_back
+                                        check_circle
                                     </span>
-                                </button>
+                                </div>
                                 <div>
                                     <div
                                         style={{
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             fontWeight: 900,
                                             letterSpacing: '.02em',
                                             color: 'var(--text)',
-                                            textTransform: 'uppercase',
                                         }}
                                     >
                                         Resolve Complaint Form
@@ -326,8 +522,8 @@ export const FeedbackResolve = () => {
                                     <input
                                         className="form-input"
                                         value={form.complaintId}
-                                        onChange={f('complaintId')}
-                                        style={{ background: '#F8FAFC' }}
+                                        readOnly
+                                        style={{ background: '#F8FAFC', cursor: 'not-allowed' }}
                                     />
                                 </div>
                                 <div data-err={errs.category ? '1' : undefined}>
@@ -409,139 +605,6 @@ export const FeedbackResolve = () => {
                                     </span>
                                     Resolve &amp; Close
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ── ORIGINAL COMPLAINT DETAILS ── */}
-                    <div
-                        style={{
-                            background: '#F8FAFC',
-                            border: '1.5px solid var(--border)',
-                            borderRadius: 16,
-                            overflow: 'hidden',
-                            marginBottom: 8,
-                        }}
-                    >
-                        <div
-                            style={{
-                                padding: '14px 24px',
-                                borderBottom: '1px solid var(--border)',
-                            }}
-                        >
-                            <span
-                                style={{
-                                    fontSize: 10,
-                                    fontWeight: 900,
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.08em',
-                                    color: '#64748B',
-                                }}
-                            >
-                                Original Complaint Details
-                            </span>
-                        </div>
-                        <div style={{ padding: '20px 24px' }}>
-                            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-                                {/* Alert icon */}
-                                <div
-                                    style={{
-                                        width: 40,
-                                        height: 40,
-                                        borderRadius: '50%',
-                                        background: '#FEE2E2',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        flexShrink: 0,
-                                    }}
-                                >
-                                    <span
-                                        className="material-symbols-outlined"
-                                        style={{ fontSize: 20, color: '#DC2626' }}
-                                    >
-                                        info
-                                    </span>
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                    <div
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 8,
-                                            marginBottom: 6,
-                                        }}
-                                    >
-                                        <span
-                                            style={{
-                                                fontSize: 14,
-                                                fontWeight: 800,
-                                                color: 'var(--text)',
-                                            }}
-                                        >
-                                            John Doe
-                                        </span>
-                                        <span
-                                            style={{
-                                                fontSize: 11,
-                                                color: 'var(--muted)',
-                                                fontWeight: 600,
-                                            }}
-                                        >
-                                            (Staff)
-                                        </span>
-                                    </div>
-                                    <div
-                                        style={{
-                                            fontSize: 13,
-                                            color: '#475569',
-                                            lineHeight: 1.6,
-                                            marginBottom: 12,
-                                            fontStyle: 'italic',
-                                        }}
-                                    >
-                                        "AC was not working properly in the rear seats. Extremely
-                                        uncomfortable during the long haul trip on Oct 23rd."
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 5,
-                                                fontSize: 11,
-                                                color: 'var(--muted)',
-                                                fontWeight: 600,
-                                            }}
-                                        >
-                                            <span
-                                                className="material-symbols-outlined"
-                                                style={{ fontSize: 14 }}
-                                            >
-                                                directions_bus
-                                            </span>
-                                            KA-01-2345
-                                        </div>
-                                        <div
-                                            style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 5,
-                                                fontSize: 11,
-                                                color: 'var(--muted)',
-                                                fontWeight: 600,
-                                            }}
-                                        >
-                                            <span
-                                                className="material-symbols-outlined"
-                                                style={{ fontSize: 14 }}
-                                            >
-                                                calendar_today
-                                            </span>
-                                            Oct 23, 2023
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

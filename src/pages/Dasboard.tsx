@@ -2,6 +2,9 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
+import { INITIAL_INSTRUCTORS } from '../data/instructorData';
+import { INITIAL_TRAINEES } from '../data/traineeData';
+import { INITIAL_VEHICLES } from '../data/vehicleData';
 
 // Fix leaflet default icons
 delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl;
@@ -43,34 +46,48 @@ const IconChart = () => (
     </svg>
 );
 
-const IconRefresh = ({ spinning }: { spinning: boolean }) => (
-    <svg
-        width="26"
-        height="26"
-        viewBox="0 0 24 24"
-        fill="none"
-        style={{
-            transition: 'transform 0.6s',
-            transform: spinning ? 'rotate(360deg)' : 'none',
-        }}
-    >
+const IconUsers = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
-            d="M23 4v6h-6"
-            stroke="#94A3B8"
+            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.13a4 4 0 0 1 0 7.75"
+            stroke="#F59E0B"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        <circle
+            cx="9"
+            cy="7"
+            r="4"
+            stroke="#F59E0B"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
         />
         <path
-            d="M1 20v-6h6"
-            stroke="#94A3B8"
+            d="M23 21v-2a4 4 0 0 0-3-3.87"
+            stroke="#F59E0B"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
         />
+    </svg>
+);
+
+const IconBadge = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
         <path
-            d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
-            stroke="#94A3B8"
+            d="M12 15v5l-3-1.5L6 20v-5M18 10a6 6 0 1 1-12 0 6 6 0 0 1 12 0z"
+            stroke="#8B5CF6"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        />
+        <circle
+            cx="12"
+            cy="10"
+            r="2"
+            stroke="#8B5CF6"
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -172,16 +189,10 @@ interface Props {
    DASHBOARD
 ═══════════════════════════════════════════════════════════════════ */
 export const Dashboard = ({ onViewSessions }: Props) => {
-    const [refreshing, setRefreshing] = useState(false);
     const [showTimeout, setShowTimeout] = useState(false);
     const [countdown, setCountdown] = useState(Math.floor(INACTIVITY_MS / 1000));
     const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-    const handleRefresh = () => {
-        setRefreshing(true);
-        setTimeout(() => setRefreshing(false), 1400);
-    };
 
     /*
      * startTimer — only manages timers/intervals, NO setState calls.
@@ -360,7 +371,7 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                 <div
                     style={{
                         display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr',
+                        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
                         gap: 14,
                     }}
                 >
@@ -371,7 +382,29 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                         </div>
                         <div>
                             <div className="stat-label">Total Vehicles</div>
-                            <div className="stat-value">0</div>
+                            <div className="stat-value">{INITIAL_VEHICLES.length}</div>
+                        </div>
+                    </div>
+
+                    {/* Total Instructors */}
+                    <div className="stat-card">
+                        <div className="stat-icon" style={{ background: '#EDE9FE' }}>
+                            <IconBadge />
+                        </div>
+                        <div>
+                            <div className="stat-label">Total Instructors</div>
+                            <div className="stat-value">{INITIAL_INSTRUCTORS.length}</div>
+                        </div>
+                    </div>
+
+                    {/* Total Trainees */}
+                    <div className="stat-card">
+                        <div className="stat-icon" style={{ background: '#FEF3C7' }}>
+                            <IconUsers />
+                        </div>
+                        <div>
+                            <div className="stat-label">Total Trainees</div>
+                            <div className="stat-value">{INITIAL_TRAINEES.length}</div>
                         </div>
                     </div>
 
@@ -398,52 +431,64 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                         </div>
                     </div>
 
-                    {/* Refresh */}
+                    {/* Session Timeout */}
                     <div
                         className="stat-card"
                         style={{
-                            cursor: 'pointer',
                             justifyContent: 'center',
                             userSelect: 'none',
                         }}
-                        onClick={handleRefresh}
                     >
                         <div
                             style={{
                                 display: 'flex',
                                 flexDirection: 'column',
                                 alignItems: 'center',
-                                gap: 6,
+                                gap: 4,
                                 width: '100%',
+                                textAlign: 'center',
                             }}
                         >
-                            <IconRefresh spinning={refreshing} />
+                            <div
+                                style={{
+                                    fontSize: 13,
+                                    fontWeight: 900,
+                                    color: 'var(--text)',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Session Time out
+                            </div>
+
+                            {/* Countdown pill */}
                             <span
                                 style={{
                                     fontSize: 12,
                                     fontWeight: 800,
-                                    color: 'var(--muted)',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.06em',
-                                }}
-                            >
-                                {refreshing ? 'Refreshing...' : 'REFRESH'}
-                            </span>
-                            {/* Countdown pill */}
-                            <span
-                                style={{
-                                    fontSize: 11,
-                                    fontWeight: 700,
-                                    color: countdown < 60 ? '#DC2626' : '#94A3B8',
-                                    background: countdown < 60 ? '#FEE2E2' : '#F1F5F9',
-                                    padding: '3px 10px',
+                                    color: countdown < 60 ? '#DC2626' : 'var(--primary)',
+                                    background: countdown < 60 ? '#FEE2E2' : 'var(--primary-light)',
+                                    padding: '3px 12px',
                                     borderRadius: 20,
                                     letterSpacing: '.03em',
                                     transition: 'color .3s, background .3s',
+                                    margin: '2px 0',
                                 }}
                             >
                                 ⏱ {mmss}
                             </span>
+
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 600,
+                                    color: 'var(--muted)',
+                                    lineHeight: 1.3,
+                                    padding: '0 10px',
+                                }}
+                            >
+                                (Stay active on the page or perform actions to remain logged in.)
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -458,6 +503,9 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                             scrollWheelZoom={true}
                             style={{ height: '100%', width: '100%', minHeight: 460 }}
                             zoomControl={true}
+                            ref={(m) => {
+                                if (m) (window as unknown as { dashMap: typeof m }).dashMap = m;
+                            }}
                         >
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -466,9 +514,88 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                         </MapContainer>
 
                         {/* Fullscreen button */}
-                        <div className="map-expand-btn">
+                        <div
+                            className="map-expand-btn"
+                            style={{ right: 10, top: 10, cursor: 'pointer', zIndex: 1000 }}
+                            onClick={() => {
+                                const map = (window as unknown as { dashMap: unknown }).dashMap;
+                                if (map) {
+                                    (map as { setZoom: (zoom: number) => void }).setZoom(13);
+                                }
+                            }}
+                            title="Reset Zoom"
+                        >
                             <IconFullscreen />
                         </div>
+
+                        {/* Refresh Map button */}
+                        <button
+                            className="map-expand-btn"
+                            style={{
+                                right: 50,
+                                top: 10,
+                                background: 'white',
+                                border: 'none',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                cursor: 'pointer',
+                                zIndex: 1000,
+                            }}
+                            onClick={() => {
+                                const btn = document.getElementById('map-refresh-icon');
+                                if (btn) {
+                                    btn.style.transform = 'rotate(360deg)';
+                                    setTimeout(() => (btn.style.transform = 'none'), 600);
+                                }
+                                const map = (window as unknown as { dashMap: unknown }).dashMap;
+                                if (map) {
+                                    (
+                                        map as {
+                                            flyTo: (
+                                                coords: number[],
+                                                zoom: number,
+                                                opts: { duration: number }
+                                            ) => void;
+                                            invalidateSize: () => void;
+                                        }
+                                    ).flyTo([15.8497, 74.4977], 13, { duration: 1.5 });
+                                    (map as { invalidateSize: () => void }).invalidateSize();
+                                }
+                            }}
+                            title="Refresh Map"
+                        >
+                            <svg
+                                id="map-refresh-icon"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                style={{ transition: 'transform 0.6s' }}
+                            >
+                                <path
+                                    d="M23 4v6h-6"
+                                    stroke="#64748B"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path
+                                    d="M1 20v-6h6"
+                                    stroke="#64748B"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                <path
+                                    d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"
+                                    stroke="#64748B"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                            </svg>
+                        </button>
 
                         {/* No vehicles overlay */}
                         <div className="map-overlay-content">
