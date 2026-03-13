@@ -78,22 +78,35 @@ export const Pagination = ({
     info,
     pages,
     current,
+    total,
+    onChange,
 }: {
-    info: string;
-    pages: (string | number)[];
+    info?: string;
+    pages?: (string | number)[];
     current: number;
-}) => (
-    <div className="table-footer">
-        <span className="pag-info">{info}</span>
-        <div className="pag-btns">
-            {pages.map((p, i) => (
-                <button
-                    key={i}
-                    className={`pag-btn ${p === current ? 'active' : ''} ${typeof p === 'string' ? 'pag-btn-wide' : ''}`}
-                >
-                    {p}
-                </button>
-            ))}
+    total?: number;
+    onChange?: (page: number) => void;
+}) => {
+    const pageList: (string | number)[] =
+        pages ?? (total ? Array.from({ length: total }, (_, i) => i + 1) : []);
+    const infoText = info ?? (total ? `Page ${current} of ${total}` : '');
+
+    return (
+        <div className="table-footer">
+            {infoText && <span className="pag-info">{infoText}</span>}
+            <div className="pag-btns">
+                {pageList.map((p, i) => (
+                    <button
+                        key={i}
+                        className={`pag-btn ${p === current ? 'active' : ''} ${typeof p === 'string' ? 'pag-btn-wide' : ''}`}
+                        onClick={() => {
+                            if (typeof p === 'number' && onChange) onChange(p);
+                        }}
+                    >
+                        {p}
+                    </button>
+                ))}
+            </div>
         </div>
-    </div>
-);
+    );
+};

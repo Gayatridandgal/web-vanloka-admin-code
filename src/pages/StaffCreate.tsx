@@ -431,13 +431,12 @@ export const StaffCreate = () => {
                         <span>/</span> {isEdit ? 'Edit Employee' : 'Add New Employee'}
                     </div>
                 </div>
-                <button
-                    className="btn btn-secondary"
-                    onClick={() => navigate('/staff')}
-                    style={{ flexShrink: 0 }}
-                >
-                    <span className="material-symbols-outlined ms">arrow_back</span> Back to List
-                </button>
+                <div style={{ display: 'flex', gap: 12 }}>
+                    <button className="btn btn-secondary" onClick={() => navigate('/staff')}>
+                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        Back
+                    </button>
+                </div>
             </div>
 
             {/* ════════════════════════════════════════
@@ -1224,7 +1223,8 @@ export const StaffCreate = () => {
                             display: 'flex',
                             justifyContent: 'flex-end',
                             gap: 12,
-                            paddingBottom: 8,
+                            marginTop: 12,
+                            paddingBottom: 40,
                         }}
                     >
                         <button className="btn btn-secondary" onClick={() => navigate('/staff')}>

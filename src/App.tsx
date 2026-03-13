@@ -14,9 +14,25 @@ import { FeedbacksPage } from './pages/Feedback';
 import { FeedbackResolve } from './pages/FeedbackReslove';
 import { ReportsPage } from './pages/Report';
 import { SettingsPage } from './pages/Setting';
-import { StaffPage } from './pages/Staff'; // ← For staff listing page
+import { StaffPage } from './pages/Staff';
 import StaffCreate from './pages/StaffCreate';
-import { TraineeComplaint } from './pages/TraineeComplaint'; // ← For /feedbacks/complaint// ← For staff create modal
+import { OrganisationPage } from './pages/Organisation';
+import OrganisationCreate from './pages/OrganisationCreate';
+import { TraineeComplaint } from './pages/TraineeComplaint';
+import { RolesPage } from './pages/Roles';
+import { RoleCreatePage } from './pages/RoleCreate';
+import { BeaconPage } from './pages/Beacon';
+import { BeaconCreatePage } from './pages/BeaconCreate';
+import { GpsPage } from './pages/Gps';
+import { GpsCreatePage } from './pages/GpsCreate';
+import { PlanFeaturesPage } from './pages/PlanFeatures';
+import { PlanFeatureCreatePage } from './pages/PlanFeatureCreate';
+import { PlanPage } from './pages/Plan';
+import { PlanCreatePage } from './pages/PlanCreate';
+import { SupplierPage } from './pages/Supplier';
+import { SupplierCreatePage } from './pages/SupplierCreate';
+import { SupplierDeviceDetails } from './pages/SupplierDeviceDetails';
+import { AppUsersPage } from './pages/AppUsers';
 
 // Modals
 import { AllModals } from './modals/AllModals';
@@ -132,6 +148,30 @@ function App() {
                                 <Route path="/staff" element={<StaffPage />} />
                                 {/* ── Staff Creation ── */}
                                 <Route path="/staff/create" element={<StaffCreate />} />
+                                {/* ── Masters / Beacons ── */}
+                                <Route path="/masters/beacon-devices" element={<BeaconPage />} />
+                                <Route path="/masters/beacon-devices/create" element={<BeaconCreatePage />} />
+                                {/* ── Masters / GPS ── */}
+                                <Route path="/masters/gps-devices" element={<GpsPage />} />
+                                <Route path="/masters/gps-devices/create" element={<GpsCreatePage />} />
+                                {/* ── Masters / Plan Features ── */}
+                                <Route path="/masters/plan-features" element={<PlanFeaturesPage />} />
+                                <Route path="/masters/plan-features/create" element={<PlanFeatureCreatePage />} />
+                                <Route path="/plan" element={<PlanPage />} />
+                                <Route path="/plan/create" element={<PlanCreatePage />} />
+                                {/* ── Supplier management ── */}
+                                <Route path="/suppliers" element={<SupplierPage />} />
+                                <Route path="/suppliers/create" element={<SupplierCreatePage />} />
+                                <Route path="/suppliers/:id/devices" element={<SupplierDeviceDetails />} />
+                                {/* ── App Users management ── */}
+                                <Route path="/app-users" element={<AppUsersPage />} />
+                                {/* ── Organisation management ── */}
+                                <Route path="/organisation" element={<OrganisationPage />} />
+                                <Route path="/organisation/create" element={<OrganisationCreate />} />
+                                <Route path="/organisation/edit/:id" element={<OrganisationCreate />} />
+                                {/* ── Roles & Permissions ── */}
+                                <Route path="/roles-permissions" element={<RolesPage />} />
+                                <Route path="/roles-permissions/create" element={<RoleCreatePage />} />
 
                                 {/* ── Feedback resolve full-page form ── */}
                                 <Route path="/feedbacks/resolve" element={<FeedbackResolve />} />

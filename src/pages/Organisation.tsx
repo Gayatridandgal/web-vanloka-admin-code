@@ -1,0 +1,1510 @@
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { ChevronDown } from 'lucide-react';
+import { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
+import {
+    type Organisation,
+    type OrgType,
+    INITIAL_ORGANISATIONS,
+    orgStatusVariant,
+    orgTypeColor,
+    getOrgInitials,
+    orgAvatarColor,
+} from '../data/organisationData';
+import { Badge, Pagination } from '../ui/index';
+
+/* ═══════════════════════════════════════════════════
+   VIEW DETAIL OVERLAY
+   ═══════════════════════════════════════════════════ */
+const ViewOverlay = ({
+    org,
+    index,
+    onClose,
+}: {
+    org: Organisation;
+    index: number;
+    onClose: () => void;
+}) => {
+    const av = orgAvatarColor(index);
+    const init = getOrgInitials(org.name);
+    const tc = orgTypeColor(org.type);
+
+    const Field = ({ label, value }: { label: string; value: string }) => (
+        <div>
+            <div
+                style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    letterSpacing: '.06em',
+                    color: '#94A3B8',
+                    marginBottom: 3,
+                }}
+            >
+                {label}
+            </div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
+                {value || '—'}
+            </div>
+        </div>
+    );
+
+    return (
+        <div
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1000,
+                background: 'rgba(0,0,0,.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 24,
+            }}
+            onClick={onClose}
+        >
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    width: '100%',
+                    maxWidth: 640,
+                    maxHeight: '90vh',
+                    overflow: 'auto',
+                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* Header */}
+                <div
+                    style={{
+                        background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)',
+                        padding: '28px 28px 24px',
+                        borderRadius: '16px 16px 0 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 18,
+                    }}
+                >
+                    <div
+                        style={{
+                            width: 64,
+                            height: 64,
+                            borderRadius: '50%',
+                            background: av.bg,
+                            color: av.cl,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: 22,
+                            fontWeight: 900,
+                            border: '3px solid rgba(255,255,255,.3)',
+                            flexShrink: 0,
+                        }}
+                    >
+                        {init}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                        <div
+                            style={{
+                                fontSize: 20,
+                                fontWeight: 900,
+                                color: 'white',
+                                marginBottom: 4,
+                            }}
+                        >
+                            {org.name}
+                        </div>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 10,
+                                flexWrap: 'wrap',
+                            }}
+                        >
+                            <span
+                                style={{
+                                    fontSize: 12,
+                                    color: 'rgba(255,255,255,.75)',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                ID: #{org.id}
+                            </span>
+                            <Badge variant={orgStatusVariant(org.status)}>{org.status}</Badge>
+                            <span
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    padding: '2px 8px',
+                                    borderRadius: 6,
+                                    background: tc.bg,
+                                    color: tc.color,
+                                }}
+                            >
+                                {org.type}
+                            </span>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        style={{
+                            background: 'rgba(255,255,255,.15)',
+                            border: 'none',
+                            borderRadius: 8,
+                            width: 36,
+                            height: 36,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                        }}
+                    >
+                        <span
+                            className="material-symbols-outlined"
+                            style={{ color: 'white', fontSize: 20 }}
+                        >
+                            close
+                        </span>
+                    </button>
+                </div>
+
+                {/* Body */}
+                <div style={{ padding: '24px 28px' }}>
+                    {/* Quick stats */}
+                    <div
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr 1fr',
+                            gap: 12,
+                            marginBottom: 24,
+                        }}
+                    >
+                        {[
+                            {
+                                label: 'Type',
+                                value: org.type,
+                                icon: 'business',
+                                bg: '#EDE9FE',
+                                ic: '#7C3AED',
+                            },
+                            {
+                                label: 'City',
+                                value: org.city,
+                                icon: 'location_on',
+                                bg: '#DBEAFE',
+                                ic: '#2563EB',
+                            },
+                            {
+                                label: 'Status',
+                                value: org.status,
+                                icon: 'check_circle',
+                                bg: '#DCFCE7',
+                                ic: '#059669',
+                            },
+                        ].map((s) => (
+                            <div
+                                key={s.label}
+                                style={{
+                                    background: s.bg,
+                                    borderRadius: 10,
+                                    padding: '12px 14px',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                <span
+                                    className="material-symbols-outlined"
+                                    style={{
+                                        fontSize: 20,
+                                        color: s.ic,
+                                        marginBottom: 4,
+                                        display: 'block',
+                                    }}
+                                >
+                                    {s.icon}
+                                </span>
+                                <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--text)' }}>
+                                    {s.value}
+                                </div>
+                                <div
+                                    style={{
+                                        fontSize: 10,
+                                        fontWeight: 700,
+                                        color: '#64748B',
+                                        marginTop: 2,
+                                    }}
+                                >
+                                    {s.label}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Contact */}
+                    <SectionLabel icon="contact_mail" title="Contact Details" />
+                    <div
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr 1fr',
+                            gap: 16,
+                            marginBottom: 24,
+                        }}
+                    >
+                        <Field label="Contact Person" value={org.contactPerson} />
+                        <Field label="Email" value={org.email} />
+                        <Field label="Phone" value={org.phone} />
+                    </div>
+
+                    {/* Address */}
+                    <SectionLabel icon="home" title="Address" />
+                    <div
+                        style={{
+                            fontSize: 13,
+                            color: '#64748B',
+                            lineHeight: 1.6,
+                            marginBottom: 24,
+                            padding: '12px 16px',
+                            background: 'var(--surface)',
+                            borderRadius: 8,
+                            border: '1px solid var(--border)',
+                        }}
+                    >
+                        {org.address}, {org.city}, {org.state} – {org.pinCode}
+                    </div>
+
+                    {/* Statutory */}
+                    <SectionLabel icon="description" title="Statutory Details" />
+                    <div
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: '1fr 1fr',
+                            gap: 16,
+                            marginBottom: 24,
+                        }}
+                    >
+                        <Field label="GST Number" value={org.gstNumber} />
+                        <Field label="PAN Number" value={org.panNumber} />
+                    </div>
+
+                    {/* Type-specific details */}
+                    {org.type === 'Office' && (
+                        <>
+                            <SectionLabel icon="apartment" title="Office Details" />
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field label="Office Code" value={org.officeCode || ''} />
+                                <Field
+                                    label="Employees"
+                                    value={String(org.numberOfEmployees ?? '—')}
+                                />
+                                <Field label="Operating Hours" value={org.operatingHours || ''} />
+                            </div>
+                        </>
+                    )}
+
+                    {org.type === 'Vendor' && (
+                        <>
+                            <SectionLabel icon="store" title="Vendor Details" />
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field label="Vendor Type" value={org.vendorType || ''} />
+                                <Field label="Service Type" value={org.serviceType || ''} />
+                                <Field
+                                    label="Vehicles"
+                                    value={String(org.vehicleCount ?? '—')}
+                                />
+                            </div>
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field
+                                    label="Contract Start"
+                                    value={org.contractStartDate || ''}
+                                />
+                                <Field label="Contract End" value={org.contractEndDate || ''} />
+                            </div>
+                        </>
+                    )}
+
+                    {org.type === 'Motor Driving School' && (
+                        <>
+                            <SectionLabel icon="directions_car" title="MDS Details" />
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field
+                                    label="License Number"
+                                    value={org.mdsLicenseNumber || ''}
+                                />
+                                <Field
+                                    label="License Expiry"
+                                    value={org.licenseExpiryDate || ''}
+                                />
+                                <Field
+                                    label="Total Vehicles"
+                                    value={String(org.totalVehicles ?? '—')}
+                                />
+                            </div>
+                            {org.mdsCourses && org.mdsCourses.length > 0 && (
+                                <div style={{ marginBottom: 24 }}>
+                                    <Field
+                                        label="Courses Offered"
+                                        value={org.mdsCourses.join(', ')}
+                                    />
+                                </div>
+                            )}
+                        </>
+                    )}
+
+                    {org.type === 'Institute' && (
+                        <>
+                            <SectionLabel icon="school" title="Institute Details" />
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field label="Affiliated Body" value={org.affiliatedBody || ''} />
+                                <Field
+                                    label="Accreditation No."
+                                    value={org.accreditationNumber || ''}
+                                />
+                            </div>
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr 1fr',
+                                    gap: 16,
+                                    marginBottom: 24,
+                                }}
+                            >
+                                <Field
+                                    label="Student Capacity"
+                                    value={String(org.studentCapacity ?? '—')}
+                                />
+                                <Field
+                                    label="Courses"
+                                    value={(org.instituteCourses || []).join(', ')}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    {/* Remarks */}
+                    {org.remarks && (
+                        <>
+                            <SectionLabel icon="notes" title="Remarks" />
+                            <div
+                                style={{
+                                    fontSize: 13,
+                                    color: '#64748B',
+                                    lineHeight: 1.6,
+                                    padding: '12px 16px',
+                                    background: 'var(--surface)',
+                                    borderRadius: 8,
+                                    border: '1px solid var(--border)',
+                                }}
+                            >
+                                {org.remarks}
+                            </div>
+                        </>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* tiny helper for the overlay's section headers */
+const SectionLabel = ({ icon, title }: { icon: string; title: string }) => (
+    <div
+        style={{
+            fontSize: 11,
+            fontWeight: 900,
+            textTransform: 'uppercase',
+            letterSpacing: '.07em',
+            color: 'var(--primary)',
+            marginBottom: 12,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+        }}
+    >
+        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+            {icon}
+        </span>
+        {title}
+    </div>
+);
+
+/* ═══════════════════════════════════════════════════
+   DELETE CONFIRMATION OVERLAY
+   ═══════════════════════════════════════════════════ */
+const DeleteOverlay = ({
+    org,
+    onConfirm,
+    onCancel,
+}: {
+    org: Organisation;
+    onConfirm: () => void;
+    onCancel: () => void;
+}) => (
+    <div
+        style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            background: 'rgba(0,0,0,.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+        }}
+        onClick={onCancel}
+    >
+        <div
+            style={{
+                background: 'white',
+                borderRadius: 16,
+                width: '100%',
+                maxWidth: 420,
+                padding: '36px 32px 28px',
+                textAlign: 'center',
+                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div
+                style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    background: '#FEE2E2',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px',
+                }}
+            >
+                <span
+                    className="material-symbols-outlined"
+                    style={{ fontSize: 36, color: '#DC2626' }}
+                >
+                    delete_forever
+                </span>
+            </div>
+            <div
+                style={{
+                    fontSize: 18,
+                    fontWeight: 900,
+                    color: '#DC2626',
+                    marginBottom: 8,
+                }}
+            >
+                Delete Organisation?
+            </div>
+            <div
+                style={{
+                    fontSize: 13,
+                    color: '#64748B',
+                    marginBottom: 6,
+                    lineHeight: 1.6,
+                }}
+            >
+                You are about to permanently delete
+            </div>
+            <div
+                style={{
+                    fontSize: 15,
+                    fontWeight: 800,
+                    color: 'var(--text)',
+                    marginBottom: 4,
+                }}
+            >
+                {org.name}
+            </div>
+            <div
+                style={{
+                    fontSize: 12,
+                    color: 'var(--muted)',
+                    marginBottom: 24,
+                }}
+            >
+                ID: #{org.id} · {org.type}
+            </div>
+            <div
+                style={{
+                    background: '#FEF2F2',
+                    borderRadius: 8,
+                    padding: '10px 14px',
+                    marginBottom: 24,
+                    border: '1px solid #FECACA',
+                }}
+            >
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#DC2626' }}>
+                    ⚠ This action cannot be undone. All data associated with this organisation will
+                    be permanently removed.
+                </span>
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                    Cancel
+                </button>
+                <button
+                    className="btn"
+                    onClick={onConfirm}
+                    style={{
+                        minWidth: 120,
+                        background: '#DC2626',
+                        color: 'white',
+                        border: 'none',
+                        fontWeight: 800,
+                    }}
+                >
+                    <span className="material-symbols-outlined ms">delete</span>
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
+/* ═══════════════════════════════════════════════════
+   IMPORT EXCEL OVERLAY
+   ═══════════════════════════════════════════════════ */
+const ImportOverlay = ({
+    onClose,
+    onImport,
+}: {
+    onClose: () => void;
+    onImport: (rows: Organisation[]) => void;
+}) => {
+    const fileRef = useRef<HTMLInputElement>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
+    const [parsedRows, setParsedRows] = useState<Organisation[]>([]);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleFile = (file: File) => {
+        setError(null);
+        setFileName(file.name);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = new Uint8Array(e.target!.result as ArrayBuffer);
+                const wb = XLSX.read(data, { type: 'array' });
+                const ws = wb.Sheets[wb.SheetNames[0]];
+                const json: Record<string, string>[] = XLSX.utils.sheet_to_json(ws, {
+                    defval: '',
+                });
+
+                const rows: Organisation[] = json.map((r, i) => ({
+                    id: r['ID'] || r['id'] || `IMP-${Date.now()}-${i}`,
+                    name: r['Name'] || r['Organisation Name'] || `Organisation ${i + 1}`,
+                    type: (r['Type'] || r['type'] || 'Office') as OrgType,
+                    contactPerson: r['Contact Person'] || '',
+                    phone: r['Phone'] || r['phone'] || '',
+                    email: r['Email'] || r['email'] || '',
+                    address: r['Address'] || '',
+                    city: r['City'] || '',
+                    state: r['State'] || '',
+                    pinCode: r['PIN'] || r['Pin Code'] || '',
+                    status: (r['Status'] || 'Active') as Organisation['status'],
+                    gstNumber: r['GST'] || '',
+                    panNumber: r['PAN'] || '',
+                    remarks: r['Remarks'] || '',
+                }));
+                setParsedRows(rows);
+            } catch {
+                setError('Failed to parse the file. Please check the format.');
+                setParsedRows([]);
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    };
+
+    return (
+        <div
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1000,
+                background: 'rgba(0,0,0,.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 24,
+            }}
+            onClick={onClose}
+        >
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    width: '100%',
+                    maxWidth: 480,
+                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+                    overflow: 'hidden',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div
+                    style={{
+                        padding: '20px 24px',
+                        borderBottom: '1px solid var(--border)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--text)' }}>
+                        Import Organisation Data
+                    </div>
+                    <button
+                        onClick={onClose}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            borderRadius: 8,
+                            border: 'none',
+                            background: 'var(--surface)',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <span
+                            className="material-symbols-outlined"
+                            style={{ fontSize: 17, color: '#64748B' }}
+                        >
+                            close
+                        </span>
+                    </button>
+                </div>
+                <div style={{ padding: '22px 24px' }}>
+                    <div
+                        className="upload-zone"
+                        onClick={() => fileRef.current?.click()}
+                        onDragOver={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }}
+                        onDrop={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+                        }}
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <input
+                            ref={fileRef}
+                            type="file"
+                            accept=".xlsx,.xls,.csv"
+                            style={{ display: 'none' }}
+                            onChange={(e) => {
+                                if (e.target.files?.[0]) handleFile(e.target.files[0]);
+                            }}
+                        />
+                        <span
+                            className="material-symbols-outlined"
+                            style={{
+                                fontSize: 36,
+                                color: 'var(--primary)',
+                                display: 'block',
+                                marginBottom: 8,
+                            }}
+                        >
+                            cloud_upload
+                        </span>
+                        {fileName ? (
+                            <>
+                                <div
+                                    style={{
+                                        fontSize: 13,
+                                        fontWeight: 800,
+                                        marginBottom: 4,
+                                        color: '#059669',
+                                    }}
+                                >
+                                    📄 {fileName}
+                                </div>
+                                <div
+                                    style={{
+                                        fontSize: 12,
+                                        color: 'var(--primary)',
+                                        fontWeight: 700,
+                                    }}
+                                >
+                                    {parsedRows.length} record{parsedRows.length !== 1 ? 's' : ''}{' '}
+                                    found — click to change file
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div style={{ fontSize: 13, fontWeight: 800, marginBottom: 4 }}>
+                                    Drop file here or click to browse
+                                </div>
+                                <div style={{ fontSize: 12, color: 'var(--muted)' }}>
+                                    Supports .xlsx, .xls, .csv — Max 10 MB
+                                </div>
+                            </>
+                        )}
+                    </div>
+
+                    {error && (
+                        <div
+                            style={{
+                                marginTop: 12,
+                                fontSize: 12,
+                                fontWeight: 700,
+                                color: '#DC2626',
+                                background: '#FEE2E2',
+                                padding: '8px 12px',
+                                borderRadius: 8,
+                            }}
+                        >
+                            ⚠ {error}
+                        </div>
+                    )}
+
+                    <div
+                        style={{
+                            marginTop: 14,
+                            background: 'var(--primary-light)',
+                            borderRadius: 10,
+                            padding: '12px 14px',
+                            border: '1px solid #ddd6fe',
+                        }}
+                    >
+                        <div
+                            style={{
+                                fontSize: 11,
+                                fontWeight: 800,
+                                color: 'var(--primary)',
+                                marginBottom: 6,
+                            }}
+                        >
+                            📋 Expected Columns
+                        </div>
+                        <div
+                            style={{
+                                fontSize: 11,
+                                color: '#5b21b6',
+                                fontWeight: 600,
+                                lineHeight: 1.8,
+                            }}
+                        >
+                            Name · Type · Contact Person · Phone · Email · City · State · Status
+                        </div>
+                    </div>
+                </div>
+
+                {/* Footer */}
+                <div
+                    style={{
+                        padding: '14px 24px 20px',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: 10,
+                    }}
+                >
+                    <button className="btn btn-secondary" onClick={onClose}>
+                        Cancel
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        disabled={parsedRows.length === 0}
+                        onClick={() => {
+                            onImport(parsedRows);
+                            onClose();
+                        }}
+                        style={
+                            parsedRows.length === 0
+                                ? { opacity: 0.5, cursor: 'not-allowed' }
+                                : undefined
+                        }
+                    >
+                        <span className="material-symbols-outlined ms">upload</span>
+                        Import {parsedRows.length} Record{parsedRows.length !== 1 ? 's' : ''}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+/* ═══════════════════════════════════════════════════
+   MAIN PAGE COMPONENT
+   ═══════════════════════════════════════════════════ */
+const PER_PAGE = 8;
+const ORG_TYPES: OrgType[] = ['Office', 'Vendor', 'Motor Driving School', 'Institute'];
+
+export const OrganisationPage = () => {
+    const navigate = useNavigate();
+    const [list, setList] = useState<Organisation[]>(INITIAL_ORGANISATIONS);
+    const [query, setQuery] = useState('');
+    const [typeFilter, setTypeFilter] = useState<OrgType | ''>('');
+    const [statusFilter, setStatusFilter] = useState<Organisation['status'] | ''>('');
+    const [page, setPage] = useState(1);
+    const [viewIdx, setViewIdx] = useState<number | null>(null);
+    const [delIdx, setDelIdx] = useState<number | null>(null);
+    const [showImport, setShowImport] = useState(false);
+    const [showExport, setShowExport] = useState(false);
+    const exportRef = useRef<HTMLDivElement>(null);
+
+    /* ── Filtering ── */
+    const filtered = list.filter((o) => {
+        const q = query.toLowerCase();
+        const matchesQ =
+            !q ||
+            o.name.toLowerCase().includes(q) ||
+            o.id.toLowerCase().includes(q) ||
+            o.contactPerson.toLowerCase().includes(q) ||
+            o.city.toLowerCase().includes(q);
+        const matchesType = !typeFilter || o.type === typeFilter;
+        const matchesStatus = !statusFilter || o.status === statusFilter;
+        return matchesQ && matchesType && matchesStatus;
+    });
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+    const safePage = Math.min(page, pages);
+    const slice = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
+
+    /* ── Delete ── */
+    const confirmDelete = useCallback(() => {
+        if (delIdx == null) return;
+        setList((prev) => prev.filter((_, i) => i !== delIdx));
+        setDelIdx(null);
+    }, [delIdx]);
+
+    /* ── Export ── */
+    const exportPdf = useCallback(() => {
+        const doc = new jsPDF({ orientation: 'landscape' });
+        doc.setFontSize(16);
+        doc.text('Organisation Report', 14, 18);
+        autoTable(doc, {
+            startY: 26,
+            head: [['ID', 'Name', 'Type', 'Contact', 'Phone', 'City', 'Status']],
+            body: filtered.map((o) => [
+                o.id,
+                o.name,
+                o.type,
+                o.contactPerson,
+                o.phone,
+                o.city,
+                o.status,
+            ]),
+            styles: { fontSize: 9 },
+            headStyles: { fillColor: [124, 58, 237] },
+        });
+        doc.save('organisation-report.pdf');
+        setShowExport(false);
+    }, [filtered]);
+
+    const exportXlsx = useCallback(() => {
+        const ws = XLSX.utils.json_to_sheet(
+            filtered.map((o) => ({
+                ID: o.id,
+                Name: o.name,
+                Type: o.type,
+                Contact: o.contactPerson,
+                Phone: o.phone,
+                Email: o.email,
+                City: o.city,
+                State: o.state,
+                Status: o.status,
+            }))
+        );
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Organisations');
+        XLSX.writeFile(wb, 'organisation-report.xlsx');
+        setShowExport(false);
+    }, [filtered]);
+
+    /* ── Close export menu on outside click ── */
+    const closeExport = useCallback(
+        (e: MouseEvent) => {
+            if (exportRef.current && !exportRef.current.contains(e.target as Node))
+                setShowExport(false);
+        },
+        []
+    );
+    if (showExport) {
+        document.addEventListener('mousedown', closeExport);
+    } else {
+        document.removeEventListener('mousedown', closeExport);
+    }
+
+    /* ── Type summary cards ── */
+    const counts = {
+        Office: list.filter((o) => o.type === 'Office').length,
+        Vendor: list.filter((o) => o.type === 'Vendor').length,
+        'Motor Driving School': list.filter((o) => o.type === 'Motor Driving School').length,
+        Institute: list.filter((o) => o.type === 'Institute').length,
+    };
+
+    return (
+        <>
+            {/* Overlays */}
+            {viewIdx != null && (
+                <ViewOverlay org={list[viewIdx]} index={viewIdx} onClose={() => setViewIdx(null)} />
+            )}
+            {delIdx != null && (
+                <DeleteOverlay
+                    org={list[delIdx]}
+                    onConfirm={confirmDelete}
+                    onCancel={() => setDelIdx(null)}
+                />
+            )}
+            {showImport && (
+                <ImportOverlay
+                    onClose={() => setShowImport(false)}
+                    onImport={(rows) => setList((prev) => [...rows, ...prev])}
+                />
+            )}
+
+            {/* ═══ PAGE HEADER ═══ */}
+            <div className="page-header">
+                <div>
+                    <div className="page-title">
+                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
+                            corporate_fare
+                        </span>
+                        Organisation Management
+                    </div>
+                    <div className="breadcrumb">
+                        Admin <span>/</span> Organisation Management
+                    </div>
+                </div>
+                <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
+                    <button className="btn btn-secondary" onClick={() => setShowImport(true)}>
+                        <span className="material-symbols-outlined ms">upload</span> Import
+                    </button>
+                    <div ref={exportRef} style={{ position: 'relative' }}>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => setShowExport(!showExport)}
+                        >
+                            <span className="material-symbols-outlined ms">download</span> Export{' '}
+                            <ChevronDown size={13} />
+                        </button>
+                        {showExport && (
+                            <div
+                                style={{
+                                    position: 'absolute',
+                                    right: 0,
+                                    top: '110%',
+                                    background: 'white',
+                                    border: '1.5px solid var(--border)',
+                                    borderRadius: 10,
+                                    boxShadow: '0 12px 32px rgba(0,0,0,.1)',
+                                    overflow: 'hidden',
+                                    zIndex: 50,
+                                    minWidth: 170,
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        padding: '10px 14px',
+                                        cursor: 'pointer',
+                                        fontSize: 12,
+                                        fontWeight: 700,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 8,
+                                    }}
+                                    onClick={exportPdf}
+                                >
+                                    <span
+                                        className="material-symbols-outlined"
+                                        style={{ fontSize: 16, color: '#DC2626' }}
+                                    >
+                                        picture_as_pdf
+                                    </span>
+                                    Export as PDF
+                                </div>
+                                <div
+                                    style={{
+                                        padding: '10px 14px',
+                                        cursor: 'pointer',
+                                        fontSize: 12,
+                                        fontWeight: 700,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 8,
+                                    }}
+                                    onClick={exportXlsx}
+                                >
+                                    <span
+                                        className="material-symbols-outlined"
+                                        style={{ fontSize: 16, color: '#059669' }}
+                                    >
+                                        table_chart
+                                    </span>
+                                    Export as Excel
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => navigate('/organisation/create')}
+                    >
+                        <span className="material-symbols-outlined ms">add</span> Add Organisation
+                    </button>
+                </div>
+            </div>
+
+            {/* ═══ PAGE BODY ═══ */}
+            <div className="page-body">
+                {/* Summary cards */}
+                <div
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        gap: 16,
+                        marginBottom: 20,
+                    }}
+                >
+                    {ORG_TYPES.map((t) => {
+                        const tc = orgTypeColor(t);
+                        return (
+                            <div
+                                key={t}
+                                style={{
+                                    background: 'white',
+                                    border: '1.5px solid var(--border)',
+                                    borderRadius: 12,
+                                    padding: '18px 20px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 14,
+                                    cursor: 'pointer',
+                                    transition: 'box-shadow .15s',
+                                }}
+                                onClick={() =>
+                                    setTypeFilter((prev) => (prev === t ? '' : t))
+                                }
+                            >
+                                <div
+                                    style={{
+                                        width: 44,
+                                        height: 44,
+                                        borderRadius: 10,
+                                        background: tc.bg,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexShrink: 0,
+                                    }}
+                                >
+                                    <span
+                                        className="material-symbols-outlined"
+                                        style={{ fontSize: 22, color: tc.color }}
+                                    >
+                                        {t === 'Office'
+                                            ? 'apartment'
+                                            : t === 'Vendor'
+                                              ? 'store'
+                                              : t === 'Motor Driving School'
+                                                ? 'directions_car'
+                                                : 'school'}
+                                    </span>
+                                </div>
+                                <div>
+                                    <div
+                                        style={{
+                                            fontSize: 22,
+                                            fontWeight: 900,
+                                            color: 'var(--text)',
+                                        }}
+                                    >
+                                        {counts[t]}
+                                    </div>
+                                    <div
+                                        style={{
+                                            fontSize: 11,
+                                            fontWeight: 700,
+                                            color: '#64748B',
+                                        }}
+                                    >
+                                        {t === 'Motor Driving School' ? 'MDS' : t}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {/* Toolbar */}
+                <div
+                    style={{
+                        display: 'flex',
+                        gap: 12,
+                        marginBottom: 16,
+                        flexWrap: 'wrap',
+                        alignItems: 'center',
+                    }}
+                >
+                    <div style={{ position: 'relative', flex: '1 1 220px', maxWidth: 340 }}>
+                        <span
+                            className="material-symbols-outlined"
+                            style={{
+                                position: 'absolute',
+                                left: 12,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                fontSize: 17,
+                                color: '#94A3B8',
+                            }}
+                        >
+                            search
+                        </span>
+                        <input
+                            className="form-input"
+                            style={{
+                                width: '100%',
+                                boxSizing: 'border-box',
+                                paddingLeft: 36,
+                            }}
+                            placeholder="Search organisations…"
+                            value={query}
+                            onChange={(e) => {
+                                setQuery(e.target.value);
+                                setPage(1);
+                            }}
+                        />
+                    </div>
+                    <select
+                        className="form-select"
+                        value={typeFilter}
+                        onChange={(e) => {
+                            setTypeFilter(e.target.value as OrgType | '');
+                            setPage(1);
+                        }}
+                        style={{ width: 200 }}
+                    >
+                        <option value="">All Types</option>
+                        {ORG_TYPES.map((t) => (
+                            <option key={t} value={t}>
+                                {t}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        className="form-select"
+                        value={statusFilter}
+                        onChange={(e) => {
+                            setStatusFilter(e.target.value as Organisation['status'] | '');
+                            setPage(1);
+                        }}
+                        style={{ width: 160 }}
+                    >
+                        <option value="">All Statuses</option>
+                        <option>Active</option>
+                        <option>Inactive</option>
+                        <option>Pending</option>
+                    </select>
+                    <div
+                        style={{
+                            marginLeft: 'auto',
+                            fontSize: 12,
+                            fontWeight: 700,
+                            color: '#64748B',
+                        }}
+                    >
+                        Showing {slice.length} of {filtered.length} organisation
+                        {filtered.length !== 1 ? 's' : ''}
+                    </div>
+                </div>
+
+                {/* Table */}
+                <div
+                    style={{
+                        background: 'white',
+                        border: '1.5px solid var(--border)',
+                        borderRadius: 12,
+                        overflow: 'hidden',
+                        marginBottom: 16,
+                    }}
+                >
+                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <thead>
+                            <tr
+                                style={{
+                                    background: 'var(--surface)',
+                                    borderBottom: '1.5px solid var(--border)',
+                                }}
+                            >
+                                {[
+                                    'Organisation',
+                                    'Type',
+                                    'Contact Person',
+                                    'City',
+                                    'Status',
+                                    'Actions',
+                                ].map((h) => (
+                                    <th
+                                        key={h}
+                                        style={{
+                                            padding: '12px 16px',
+                                            textAlign: 'left',
+                                            fontSize: 10,
+                                            fontWeight: 900,
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '.06em',
+                                            color: '#64748B',
+                                        }}
+                                    >
+                                        {h}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {slice.length === 0 ? (
+                                <tr>
+                                    <td
+                                        colSpan={6}
+                                        style={{
+                                            padding: 40,
+                                            textAlign: 'center',
+                                            color: '#94A3B8',
+                                            fontWeight: 700,
+                                        }}
+                                    >
+                                        No organisations found.
+                                    </td>
+                                </tr>
+                            ) : (
+                                slice.map((o) => {
+                                    const realIdx = list.indexOf(o);
+                                    const av = orgAvatarColor(realIdx);
+                                    const tc = orgTypeColor(o.type);
+                                    return (
+                                        <tr
+                                            key={o.id}
+                                            style={{
+                                                borderBottom: '1px solid var(--border)',
+                                                cursor: 'pointer',
+                                                transition: 'background .12s',
+                                            }}
+                                            onMouseEnter={(e) =>
+                                                (e.currentTarget.style.background =
+                                                    'var(--surface)')
+                                            }
+                                            onMouseLeave={(e) =>
+                                                (e.currentTarget.style.background = 'transparent')
+                                            }
+                                            onClick={() => setViewIdx(realIdx)}
+                                        >
+                                            {/* Organisation */}
+                                            <td style={{ padding: '12px 16px' }}>
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 12,
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            width: 36,
+                                                            height: 36,
+                                                            borderRadius: '50%',
+                                                            background: av.bg,
+                                                            color: av.cl,
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            fontSize: 12,
+                                                            fontWeight: 900,
+                                                            flexShrink: 0,
+                                                        }}
+                                                    >
+                                                        {getOrgInitials(o.name)}
+                                                    </div>
+                                                    <div>
+                                                        <div
+                                                            style={{
+                                                                fontSize: 13,
+                                                                fontWeight: 800,
+                                                                color: 'var(--text)',
+                                                            }}
+                                                        >
+                                                            {o.name}
+                                                        </div>
+                                                        <div
+                                                            style={{
+                                                                fontSize: 11,
+                                                                color: '#94A3B8',
+                                                                fontWeight: 600,
+                                                            }}
+                                                        >
+                                                            {o.id}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            {/* Type */}
+                                            <td style={{ padding: '12px 16px' }}>
+                                                <span
+                                                    style={{
+                                                        fontSize: 11,
+                                                        fontWeight: 800,
+                                                        padding: '3px 10px',
+                                                        borderRadius: 6,
+                                                        background: tc.bg,
+                                                        color: tc.color,
+                                                    }}
+                                                >
+                                                    {tc.label}
+                                                </span>
+                                            </td>
+                                            {/* Contact */}
+                                            <td
+                                                style={{
+                                                    padding: '12px 16px',
+                                                    fontSize: 13,
+                                                    fontWeight: 600,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
+                                                {o.contactPerson}
+                                            </td>
+                                            {/* City */}
+                                            <td
+                                                style={{
+                                                    padding: '12px 16px',
+                                                    fontSize: 13,
+                                                    color: '#64748B',
+                                                    fontWeight: 600,
+                                                }}
+                                            >
+                                                {o.city}
+                                            </td>
+                                            {/* Status */}
+                                            <td style={{ padding: '12px 16px' }}>
+                                                <Badge variant={orgStatusVariant(o.status)}>
+                                                    {o.status}
+                                                </Badge>
+                                            </td>
+                                            {/* Actions */}
+                                            <td
+                                                style={{ padding: '12px 16px' }}
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <div
+                                                    style={{
+                                                        display: 'flex',
+                                                        gap: 6,
+                                                    }}
+                                                >
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        style={{
+                                                            padding: '4px 8px',
+                                                            fontSize: 11,
+                                                        }}
+                                                        onClick={() => setViewIdx(realIdx)}
+                                                        title="View"
+                                                    >
+                                                        <span
+                                                            className="material-symbols-outlined"
+                                                            style={{ fontSize: 15 }}
+                                                        >
+                                                            visibility
+                                                        </span>
+                                                    </button>
+                                                    <button
+                                                        className="btn btn-secondary"
+                                                        style={{
+                                                            padding: '4px 8px',
+                                                            fontSize: 11,
+                                                        }}
+                                                        onClick={() =>
+                                                            navigate(
+                                                                `/organisation/edit/${o.id}`
+                                                            )
+                                                        }
+                                                        title="Edit"
+                                                    >
+                                                        <span
+                                                            className="material-symbols-outlined"
+                                                            style={{ fontSize: 15 }}
+                                                        >
+                                                            edit
+                                                        </span>
+                                                    </button>
+                                                    <button
+                                                        className="btn"
+                                                        style={{
+                                                            padding: '4px 8px',
+                                                            fontSize: 11,
+                                                            background: '#FEE2E2',
+                                                            color: '#DC2626',
+                                                            border: '1px solid #FECACA',
+                                                        }}
+                                                        onClick={() => setDelIdx(realIdx)}
+                                                        title="Delete"
+                                                    >
+                                                        <span
+                                                            className="material-symbols-outlined"
+                                                            style={{ fontSize: 15 }}
+                                                        >
+                                                            delete
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+
+                {/* Pagination */}
+                {pages > 1 && (
+                    <Pagination
+                        current={safePage}
+                        total={pages}
+                        onChange={(p: number) => setPage(p)}
+                    />
+                )}
+            </div>
+        </>
+    );
+};
+
+export default OrganisationPage;
