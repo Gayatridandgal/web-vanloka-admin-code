@@ -65,7 +65,7 @@ function AdminLayout({ user, modal, openModal, closeModal, onLogout, children }:
             {/* Mobile overlay */}
             {mobileMenuOpen && (
                 <div 
-                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden"
+                    className="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-40 md:hidden animate-in fade-in duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                 />
             )}
@@ -76,10 +76,10 @@ function AdminLayout({ user, modal, openModal, closeModal, onLogout, children }:
                 onClose={() => setMobileMenuOpen(false)} 
             />
             <div className="page relative">
-                {/* Mobile hamburger - absolute positioned on pages that don't have their own */}
+                {/* Mobile hamburger - Moved to top-left */}
                 <button 
                     onClick={() => setMobileMenuOpen(true)}
-                    className="md:hidden absolute top-[13px] right-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                    className="md:hidden absolute top-[13px] left-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
                     aria-label="Open Menu"
                 >
                     <Menu size={18} strokeWidth={2.5} />

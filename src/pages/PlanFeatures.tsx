@@ -26,14 +26,14 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 24,
+            padding: window.innerWidth < 640 ? 12 : 24,
         }} onClick={onClose}>
             <div style={{
                 background: 'white',
                 borderRadius: 16,
                 width: '100%',
                 maxWidth: 480,
-                maxHeight: '90vh',
+                maxHeight: 'calc(100vh - 40px)',
                 overflow: 'auto',
                 boxShadow: '0 20px 60px rgba(0,0,0,.15)',
             }} onClick={e => e.stopPropagation()}>
@@ -83,7 +83,7 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
 
                 {/* Body */}
                 <div style={{ padding: '28px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Feature Code</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{feature.code}</div>

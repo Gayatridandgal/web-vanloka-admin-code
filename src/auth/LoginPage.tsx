@@ -376,21 +376,7 @@ const PwStrength = ({ pw }: { pw: string }) => {
    LEFT PANEL
 ════════════════════════════════════════════════════════ */
 const LeftPanel = () => (
-    <div
-        style={{
-            width: '44%',
-            minWidth: 400,
-            background: 'linear-gradient(155deg,#6D28D9 0%,#7C3AED 40%,#4C1D95 100%)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            overflow: 'hidden',
-            padding: '0 48px',
-            flexShrink: 0,
-        }}
-    >
+    <div className="login-left">
         <div
             style={{
                 position: 'absolute',
@@ -1435,41 +1421,13 @@ export const LoginScreen = ({ onLogin }: Props) => {
     const [resetEmail, setResetEmail] = useState('');
 
     return (
-        <div
-            style={{
-                position: 'fixed',
-                inset: 0,
-                display: 'flex',
-                fontFamily: "'Manrope',sans-serif",
-                overflow: 'hidden',
-            }}
-        >
+        <div className="login-root">
             <LeftPanel />
 
             {/* Right side */}
-            <div
-                style={{
-                    flex: 1,
-                    background: '#F7F8FC',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    minWidth: 0,
-                }}
-            >
+            <div className="login-right">
                 {/* Topbar */}
-                <div
-                    style={{
-                        height: 56,
-                        flexShrink: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'flex-end',
-                        padding: '0 40px',
-                        gap: 24,
-                        background: 'white',
-                        borderBottom: '1px solid #eef0f5',
-                    }}
-                >
+                <div className="login-topbar">
                     {['Support', 'Documentation'].map((link) => (
                         <a
                             key={link}
@@ -1490,6 +1448,7 @@ export const LoginScreen = ({ onLogin }: Props) => {
 
                 {/* Form area */}
                 <div
+                    className="login-card-container"
                     style={{
                         flex: 1,
                         overflowY: 'auto',

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Info, Key, CheckCircle2, ArrowLeft, ShieldCheck, Save } from 'lucide-react';
 
 /* ── Tiny Helpers ──────────────────────────────── */
-const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -14,8 +14,7 @@ const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
             background: 'var(--surface)',
         }}
     >
-        {icon === 'info' && <Info size={18} color="var(--primary)" />}
-        {icon === 'key' && <Key size={18} color="var(--primary)" />}
+        <Icon size={18} color="var(--primary)" />
         <span
             style={{
                 fontSize: 11,
@@ -148,7 +147,7 @@ export const RoleCreatePage = () => {
                             background: 'white',
                             borderRadius: 20,
                             border: '1.5px solid var(--border)',
-                            padding: '52px 60px',
+                            padding: 'min(52px, 8vw) min(60px, 8vw)',
                             textAlign: 'center',
                             maxWidth: 480,
                             width: '100%',
@@ -197,7 +196,7 @@ export const RoleCreatePage = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/roles-permissions')}
                             >
-                                <ArrowLeft size={16} className="ms mr-1" />{' '}
+                                <ArrowLeft size={16} className="ms" />{' '}
                                 Back to Roles
                             </button>
                         </div>
@@ -243,7 +242,7 @@ export const RoleCreatePage = () => {
             <div className="page-body">
                 <div style={{ maxWidth: 860, width: '100%', margin: '0 auto' }}>
                     <Card>
-                        <SectionHeader icon="info" title="Role Information" />
+                        <SectionHeader icon={Info} title="Role Information" />
                         <Body>
                             <div style={{ marginBottom: 20 }}>
                                 <Label>Role Name *</Label>

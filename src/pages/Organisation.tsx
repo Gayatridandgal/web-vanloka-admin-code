@@ -171,14 +171,7 @@ const ViewOverlay = ({
                 {/* Body */}
                 <div style={{ padding: '24px 28px' }}>
                     {/* Quick stats */}
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr',
-                            gap: 12,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid-cols-responsive-3" style={{ marginBottom: 24 }}>
                         {[
                             {
                                 label: 'Type',
@@ -231,14 +224,7 @@ const ViewOverlay = ({
 
                     {/* Contact */}
                     <SectionLabel icon={Contact} title="Contact Details" />
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr',
-                            gap: 16,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid-cols-responsive-3" style={{ marginBottom: 24 }}>
                         <Field label="Contact Person" value={org.contactPerson} />
                         <Field label="Email" value={org.email} />
                         <Field label="Phone" value={org.phone} />
@@ -263,14 +249,7 @@ const ViewOverlay = ({
 
                     {/* Statutory */}
                     <SectionLabel icon={FileText} title="Statutory Details" />
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: 16,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid-cols-responsive-2" style={{ marginBottom: 24 }}>
                         <Field label="GST Number" value={org.gstNumber} />
                         <Field label="PAN Number" value={org.panNumber} />
                     </div>
@@ -335,14 +314,7 @@ const ViewOverlay = ({
                     {org.type === 'Motor Driving School' && (
                         <>
                             <SectionLabel icon={Car} title="MDS Details" />
-                            <div
-                                style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr 1fr',
-                                    gap: 16,
-                                    marginBottom: 24,
-                                }}
-                            >
+                            <div className="grid-cols-responsive-3" style={{ marginBottom: 24 }}>
                                 <Field
                                     label="License Number"
                                     value={org.mdsLicenseNumber || ''}
@@ -370,28 +342,14 @@ const ViewOverlay = ({
                     {org.type === 'Institute' && (
                         <>
                             <SectionLabel icon={GraduationCap} title="Institute Details" />
-                            <div
-                                style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: 16,
-                                    marginBottom: 24,
-                                }}
-                            >
+                            <div className="grid-cols-responsive-2" style={{ marginBottom: 24 }}>
                                 <Field label="Affiliated Body" value={org.affiliatedBody || ''} />
                                 <Field
                                     label="Accreditation No."
                                     value={org.accreditationNumber || ''}
                                 />
                             </div>
-                            <div
-                                style={{
-                                    display: 'grid',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    gap: 16,
-                                    marginBottom: 24,
-                                }}
-                            >
+                            <div className="grid-cols-responsive-2" style={{ marginBottom: 24 }}>
                                 <Field
                                     label="Student Capacity"
                                     value={String(org.studentCapacity ?? '—')}
@@ -816,7 +774,7 @@ const ImportOverlay = ({
                                 : undefined
                         }
                     >
-                        <span className="material-symbols-outlined ms">upload</span>
+                        <UploadCloud size={16} className="ms" />
                         Import {parsedRows.length} Record{parsedRows.length !== 1 ? 's' : ''}
                     </button>
                 </div>

@@ -1,4 +1,4 @@
-import { ChevronDown, Radio, X, RadioReceiver, Plus, Search, SearchX, Settings2, BatteryWarning, Power, MapPin, Eye, Edit, Trash2 } from 'lucide-react';
+import { ChevronDown, Radio, X, RadioReceiver, Plus, Search, SearchX, Settings2, BatteryWarning, MapPin, Eye, Edit, Trash2, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -44,14 +44,14 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 24,
+            padding: window.innerWidth < 640 ? 12 : 24,
         }} onClick={onClose}>
             <div style={{
                 background: 'white',
                 borderRadius: 16,
                 width: '100%',
                 maxWidth: 480,
-                maxHeight: '90vh',
+                maxHeight: 'calc(100vh - 40px)',
                 overflow: 'auto',
                 boxShadow: '0 20px 60px rgba(0,0,0,.15)',
             }} onClick={e => e.stopPropagation()}>
@@ -101,7 +101,7 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
 
                 {/* Body */}
                 <div style={{ padding: '28px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>MAC Address</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{beacon.macAddress}</div>
@@ -114,7 +114,7 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Assigned To</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{beacon.assignedTo}</div>
@@ -125,7 +125,7 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                         </div>
                     </div>
 
-                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Battery Level</div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -189,19 +189,27 @@ export const BeaconPage = () => {
     const totalCount = DUMMY_BEACONS.length;
     const activeCount = DUMMY_BEACONS.filter(b => b.status === 'Active').length;
     const lowBatteryCount = DUMMY_BEACONS.filter(b => b.batteryLevel < 20).length;
-    const inactiveCount = DUMMY_BEACONS.filter(b => b.status === 'Inactive').length;
+    const maintenanceCount = DUMMY_BEACONS.filter(b => b.status === 'Maintenance').length;
 
     return (
         <>
             {/* ── HEADER ── */}
             <div className="page-header">
-                <div>
-                    <div className="page-title">
-                        <Radio size={18} className="ms mr-2" />
-                        Beacon Devices
-                    </div>
-                    <div className="breadcrumb">
-                        Admin <span>/</span> Masters <span>/</span> Beacon Devices
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <button 
+                        className="md:hidden p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+                        onClick={() => {/* This will be handled by App.tsx logic */}}
+                    >
+                        {/* The sidebar toggle is in AdminLayout, but we can add a placeholder or rely on layout */}
+                    </button>
+                    <div>
+                        <div className="page-title">
+                            <Radio size={18} className="ms mr-2" />
+                            Beacon Devices
+                        </div>
+                        <div className="breadcrumb">
+                            Admin <span>/</span> Masters <span>/</span> Beacon Devices
+                        </div>
                     </div>
                 </div>
                 <div className="header-actions">
@@ -222,14 +230,14 @@ export const BeaconPage = () => {
                         { bg: '#EDE9FE', ic: '#7C3AED', icon: 'radio', label: 'Total Beacons', val: String(totalCount), tc: '' },
                         { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
                         { bg: '#FEE2E2', ic: '#DC2626', icon: 'battery_alert', label: 'Low Battery', val: String(lowBatteryCount), tc: 'trend-down' },
-                        { bg: '#F1F5F9', ic: '#64748B', icon: 'power_settings_new', label: 'Inactive', val: String(inactiveCount), tc: '' },
+                        { bg: '#FEF3C7', ic: '#D97706', icon: 'maintenance', label: 'Maintenance', val: String(maintenanceCount), tc: '' },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
                                 {s.icon === 'radio' && <RadioReceiver size={18} color={s.ic} />}
                                 {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
                                 {s.icon === 'battery_alert' && <BatteryWarning size={18} color={s.ic} />}
-                                {s.icon === 'power_settings_new' && <Power size={18} color={s.ic} />}
+                                {s.icon === 'maintenance' && <Settings2 size={18} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>

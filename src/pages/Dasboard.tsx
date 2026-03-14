@@ -368,13 +368,7 @@ export const Dashboard = ({ onViewSessions }: Props) => {
             {/* ── Page Body ── */}
             <div className="page-body">
                 {/* Top stats row */}
-                <div
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr 1fr 1fr 1fr',
-                        gap: 14,
-                    }}
-                >
+                <div className="stat-grid stat-grid-5">
                     {/* Total Vehicles */}
                     <div className="stat-card">
                         <div className="stat-icon" style={{ background: '#DBEAFE' }}>
@@ -494,7 +488,7 @@ export const Dashboard = ({ onViewSessions }: Props) => {
                 </div>
 
                 {/* Map + Vehicle Select */}
-                <div style={{ display: 'flex', gap: 14, flex: 1, minHeight: 460 }}>
+                <div className="dashboard-content">
                     {/* Map */}
                     <div className="map-container" style={{ flex: 1, minHeight: 460 }}>
                         <MapContainer

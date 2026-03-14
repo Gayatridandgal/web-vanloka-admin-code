@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Info, FileText, CheckCircle2, ArrowLeft, CreditCard, Save } from 'lucide-react';
 
 /* ── Tiny Helpers (matching the latest Creation Form pattern) ── */
-const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string, highlight?: boolean }) => (
+const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
     <div
         style={{
             display: 'flex',
@@ -14,8 +14,7 @@ const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string
             background: highlight ? 'var(--highlight-blue)' : 'var(--surface)',
         }}
     >
-        {icon === 'info' && <Info size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
-        {icon === 'description' && <FileText size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
+        <Icon size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />
         <span
             style={{
                 fontSize: 11,
@@ -51,7 +50,7 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
 );
 
 const Grid = ({ children, cols = 2 }: { children: React.ReactNode; cols?: number }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 20 }}>
+    <div className={cols === 2 ? "grid-cols-responsive-2" : "grid-cols-responsive-3"} style={{ gap: 20 }}>
         {children}
     </div>
 );
@@ -120,13 +119,13 @@ export const PlanFeatureCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}>
                     <div
                         style={{
                             background: 'white',
                             borderRadius: 20,
                             border: '1.5px solid var(--border)',
-                            padding: '52px 60px',
+                            padding: 'min(52px, 8vw) min(60px, 8vw)',
                             textAlign: 'center',
                             maxWidth: 480,
                             width: '100%',
@@ -153,7 +152,7 @@ export const PlanFeatureCreatePage = () => {
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
                             <strong>{form.name}</strong> has been registered in the subscription system with code: <code>{form.code.toUpperCase()}</code>.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
@@ -161,7 +160,7 @@ export const PlanFeatureCreatePage = () => {
                                     setSaved(false);
                                 }}
                             >
-                                Add Another Feature
+                                Add Another
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/masters/plan-features')}>
                                 <ArrowLeft size={16} className="ms mr-1" /> Back to List
@@ -200,7 +199,7 @@ export const PlanFeatureCreatePage = () => {
                     
                     {/* Basic Info */}
                     <Card>
-                        <SectionHeader icon="info" title="Basic Information" highlight />
+                        <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
                             <Grid cols={2}>
                                 <div>
@@ -269,7 +268,7 @@ export const PlanFeatureCreatePage = () => {
 
                     {/* Description Area */}
                     <Card>
-                        <SectionHeader icon="description" title="Feature Capabilities" />
+                        <SectionHeader icon={FileText} title="Feature Capabilities" />
                         <Body>
                             <div>
                                 <Label>Description</Label>

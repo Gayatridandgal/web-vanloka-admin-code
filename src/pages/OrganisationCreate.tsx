@@ -1,5 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { 
+    Building2, 
+    Store, 
+    Car, 
+    GraduationCap, 
+    BarChart3, 
+    Home, 
+    Users, 
+    Lock, 
+    FileText, 
+    MapPin, 
+    Receipt, 
+    FileSignature, 
+    Truck, 
+    Building, 
+    RefreshCw, 
+    ArrowLeft, 
+    CheckCircle2,
+    Info,
+    ShieldCheck,
+    FileUp
+} from 'lucide-react';
 import { type OrgType, INITIAL_ORGANISATIONS } from '../data/organisationData';
 
 /* ── Types ─────────────────────────────────────── */
@@ -312,7 +334,7 @@ const STATES = [
 const VEHICLE_TYPES = ['Bus', 'Van', 'Car', 'Auto', 'Two-wheeler'];
 
 /* ── Tiny Helpers ──────────────────────────────── */
-const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -323,12 +345,7 @@ const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
             background: 'var(--surface)',
         }}
     >
-        <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 18, color: 'var(--primary)' }}
-        >
-            {icon}
-        </span>
+        <Icon size={18} color="var(--primary)" />
         <span
             style={{
                 fontSize: 11,
@@ -360,8 +377,8 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ cols, children, style }: { cols: string; children: React.ReactNode; style?: React.CSSProperties }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 16, ...style }}>{children}</div>
+const Grid = ({ cols, className, children, style }: { cols?: string; className?: string; children: React.ReactNode; style?: React.CSSProperties }) => (
+    <div className={className} style={{ display: cols ? 'grid' : undefined, gridTemplateColumns: cols, gap: 16, ...style }}>{children}</div>
 );
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -642,12 +659,7 @@ export const OrganisationCreate = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span
-                                className="material-symbols-outlined ms"
-                                style={{ fontSize: 18 }}
-                            >
-                                corporate_fare
-                            </span>
+                            <Building size={18} className="ms" />
                             Organisation Management
                         </div>
                         <div className="breadcrumb">
@@ -684,12 +696,7 @@ export const OrganisationCreate = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span
-                                className="material-symbols-outlined"
-                                style={{ fontSize: 44, color: '#059669' }}
-                            >
-                                check_circle
-                            </span>
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -745,8 +752,7 @@ export const OrganisationCreate = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/organisation')}
                             >
-                                <span className="material-symbols-outlined ms">arrow_back</span>{' '}
-                                Back to List
+                                <ArrowLeft size={18} className="ms" /> Back to List
                             </button>
                         </div>
                     </div>
@@ -762,9 +768,7 @@ export const OrganisationCreate = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                corporate_fare
-                            </span>
+                            <Building size={18} className="ms" />
                             {isEdit ? 'Edit Organisation' : 'Add New Organisation'}
                         </div>
                         <div className="breadcrumb">
@@ -786,7 +790,7 @@ export const OrganisationCreate = () => {
                         onClick={() => navigate('/organisation')}
                         style={{ flexShrink: 0 }}
                     >
-                        <span className="material-symbols-outlined ms">arrow_back</span> Back to List
+                        <ArrowLeft size={18} className="ms" /> Back to List
                     </button>
                 </div>
                 <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
@@ -808,10 +812,10 @@ export const OrganisationCreate = () => {
                         padding: '0 20px'
                     }}>
                         {[
-                            { type: 'Office', icon: 'apartment', color: '#2563EB', bg: '#EFF6FF', desc: 'Standard corporate offices or branches', border: '#BFDBFE' },
-                            { type: 'Vendor', icon: 'store', color: '#D97706', bg: '#FFFBEB', desc: 'Service providers and suppliers', border: '#FDE68A' },
-                            { type: 'Motor Driving School', icon: 'directions_car', color: '#059669', bg: '#ECFDF5', desc: 'Driving instruction centers', border: '#A7F3D0' },
-                            { type: 'Institute', icon: 'school', color: '#7C3AED', bg: '#F5F3FF', desc: 'Educational and training institutions', border: '#DDD6FE' }
+                            { type: 'Office', icon: Building2, color: '#2563EB', bg: '#EFF6FF', desc: 'Standard corporate offices or branches', border: '#BFDBFE' },
+                            { type: 'Vendor', icon: Store, color: '#D97706', bg: '#FFFBEB', desc: 'Service providers and suppliers', border: '#FDE68A' },
+                            { type: 'Motor Driving School', icon: Car, color: '#059669', bg: '#ECFDF5', desc: 'Driving instruction centers', border: '#A7F3D0' },
+                            { type: 'Institute', icon: GraduationCap, color: '#7C3AED', bg: '#F5F3FF', desc: 'Educational and training institutions', border: '#DDD6FE' }
                         ].map(t => (
                             <div
                                 key={t.type}
@@ -853,9 +857,7 @@ export const OrganisationCreate = () => {
                                     alignItems: 'center',
                                     justifyContent: 'center'
                                 }}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: 36, color: t.color }}>
-                                        {t.icon}
-                                    </span>
+                                    <t.icon size={36} color={t.color} />
                                 </div>
                                 <div>
                                     <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', margin: '0 0 8px 0' }}>
@@ -879,9 +881,7 @@ export const OrganisationCreate = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            corporate_fare
-                        </span>
+                        <Building2 size={18} className="ms" />
                         {isEdit ? 'Edit Organisation' : 'Add New Organisation'}
                     </div>
                     <div className="breadcrumb">
@@ -904,11 +904,11 @@ export const OrganisationCreate = () => {
                             className="btn btn-secondary"
                             onClick={() => setForm(v => ({ ...v, orgType: '' }))}
                         >
-                            <span className="material-symbols-outlined ms">sync_alt</span> Change Type
+                            <RefreshCw size={18} className="ms" /> Change Type
                         </button>
                     )}
                     <button className="btn btn-secondary" onClick={() => navigate('/organisation')}>
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
                 </div>
@@ -955,28 +955,13 @@ export const OrganisationCreate = () => {
                             flexShrink: 0,
                             boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
                         }}>
-                            <span
-                                className="material-symbols-outlined"
-                                style={{
-                                    fontSize: 24,
-                                    color:
-                                        form.orgType === 'Office'
-                                            ? '#2563EB'
-                                            : form.orgType === 'Vendor'
-                                                ? '#D97706'
-                                                : form.orgType === 'Motor Driving School'
-                                                    ? '#059669'
-                                                    : '#7C3AED',
-                                }}
-                            >
                                 {form.orgType === 'Office'
-                                    ? 'apartment'
+                                    ? <Building2 size={24} color="#2563EB" />
                                     : form.orgType === 'Vendor'
-                                        ? 'store'
+                                        ? <Store size={24} color="#D97706" />
                                         : form.orgType === 'Motor Driving School'
-                                            ? 'directions_car'
-                                            : 'school'}
-                            </span>
+                                            ? <Car size={24} color="#059669" />
+                                            : <GraduationCap size={24} color="#7C3AED" />}
                         </div>
                         <div>
                             <h3 style={{ fontSize: 16, fontWeight: 800, color: 'var(--text)', margin: '0 0 4px 0' }}>
@@ -998,9 +983,9 @@ export const OrganisationCreate = () => {
                     {/* ── BASIC INFORMATION ── */}
                     {form.orgType === 'Office' ? (
                         <Card>
-                            <SectionHeader icon="business" title="Basic Information" />
+                            <SectionHeader icon={Building2} title="Basic Information" />
                             <Body>
-                                <Grid cols="1.5fr 1fr">
+                                <Grid className="grid-cols-responsive-2">
                                     <div data-err={errs.orgName ? '1' : undefined}>
                                         <Label>Organisation Name*</Label>
                                         <input className="form-input" placeholder="e.g. VanLoka Branch" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
@@ -1011,7 +996,7 @@ export const OrganisationCreate = () => {
                                         <input className="form-input" value={form.orgType} readOnly style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface)' }} />
                                     </div>
                                 </Grid>
-                                <Grid cols="1fr 1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>Registration Type</Label>
                                         <select className="form-select" value={form.registrationType} onChange={f('registrationType')} style={{ width: '100%', boxSizing: 'border-box' }}>
@@ -1036,7 +1021,7 @@ export const OrganisationCreate = () => {
                                         <input className="form-input" placeholder="UDYAM-XX-00-0000000" value={form.udyamNo} onChange={f('udyamNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
                                     </div>
                                 </Grid>
-                                <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>GST Number</Label>
                                         <input className="form-input" placeholder="29AABCC1234A1Z5" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -1081,9 +1066,9 @@ export const OrganisationCreate = () => {
                     ) : (
                         (form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School') && (
                             <Card>
-                                <SectionHeader icon="business" title="Basic Information" />
+                                <SectionHeader icon={Building2} title="Basic Information" />
                                 <Body>
-                                    <Grid cols="1fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Organisation Name *</Label>
                                             <input className="form-input" placeholder="e.g. VanLoka Branch" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
@@ -1113,9 +1098,9 @@ export const OrganisationCreate = () => {
                     {/* ── OPERATIONAL METRICS (Office Only) ── */}
                     {form.orgType === 'Office' && (
                         <Card>
-                            <SectionHeader icon="analytics" title="Operational Metrics" />
+                            <SectionHeader icon={BarChart3} title="Operational Metrics" />
                             <Body>
-                                <Grid cols="1fr 1fr 1fr 1fr">
+                                <Grid className="grid-cols-responsive-4">
                                     <div>
                                         <Label>Total Employees</Label>
                                         <input type="number" className="form-input" placeholder="0" value={form.totalEmployees} onChange={f('totalEmployees')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -1133,7 +1118,7 @@ export const OrganisationCreate = () => {
                                         <input type="number" className="form-input" placeholder="0" value={form.beaconsDevices} onChange={f('beaconsDevices')} style={{ width: '100%', boxSizing: 'border-box' }} />
                                     </div>
                                 </Grid>
-                                <Grid cols="1fr 1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                <Grid className="grid-cols-responsive-4" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>Shifts</Label>
                                         <input type="number" className="form-input" placeholder="e.g. 3" value={form.shifts} onChange={f('shifts')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -1158,9 +1143,9 @@ export const OrganisationCreate = () => {
                     {/* ── ADDRESS DETAILS ── */}
                     {(form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School') && (
                         <Card>
-                            <SectionHeader icon="home" title="Address Details" />
+                            <SectionHeader icon={Home} title="Address Details" />
                             <Body>
-                                <Grid cols="1fr 1fr">
+                                <Grid className="grid-cols-responsive-2">
                                     <div data-err={errs.address1 ? '1' : undefined}>
                                         <Label>Address Line 1*</Label>
                                         <input className="form-input" placeholder="Building/Flat No, Street" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
@@ -1207,11 +1192,11 @@ export const OrganisationCreate = () => {
                     {/* ── CONTACT PERSONS (Office Only) ── */}
                     {form.orgType === 'Office' && (
                         <Card>
-                            <SectionHeader icon="contacts" title="Contact Persons" />
+                            <SectionHeader icon={Users} title="Contact Persons" />
                             <Body>
                                 <div style={{ marginBottom: 20 }}>
                                     <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--primary)', marginBottom: 15, borderBottom: '1px solid var(--border)', paddingBottom: 5 }}>Primary Contact</div>
-                                    <Grid cols="1fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Full Name*</Label>
                                             <input className="form-input" placeholder="Name" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
@@ -1236,7 +1221,7 @@ export const OrganisationCreate = () => {
 
                                 <div>
                                     <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--muted)', marginBottom: 15, borderBottom: '1px solid var(--border)', paddingBottom: 5 }}>Secondary Contact</div>
-                                    <Grid cols="1fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div>
                                             <Label>Full Name</Label>
                                             <input className="form-input" placeholder="Name" value={form.secondaryContactName} onChange={f('secondaryContactName')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -1262,9 +1247,9 @@ export const OrganisationCreate = () => {
                     {/* ── LOGIN CREDENTIALS (Office Only) ── */}
                     {form.orgType === 'Office' && (
                         <Card>
-                            <SectionHeader icon="lock" title="Login Credentials" />
+                            <SectionHeader icon={Lock} title="Login Credentials" />
                             <Body>
-                                <Grid cols="1fr 1fr">
+                                <Grid className="grid-cols-responsive-2">
                                     <div data-err={errs.adminEmail ? '1' : undefined}>
                                         <Label>Admin Email (Username)*</Label>
                                         <input className="form-input" placeholder="admin@admin.com" value={form.adminEmail} onChange={f('adminEmail')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.adminEmail ? '#DC2626' : undefined }} />
@@ -1286,9 +1271,9 @@ export const OrganisationCreate = () => {
                     {/* ── STATUTORY DETAILS (Motor Driving School / Others) ── */}
                     {form.orgType !== 'Office' && form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School' && (
                         <Card>
-                            <SectionHeader icon="description" title="Statutory Details" />
+                            <SectionHeader icon={FileText} title="Statutory Details" />
                             <Body>
-                                <Grid cols="1fr 1fr">
+                                <Grid className="grid-cols-responsive-2">
                                     <div>
                                         <Label>GST Number</Label>
                                         <input className="form-input" placeholder="29AABCC1234A1Z5" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -1313,9 +1298,9 @@ export const OrganisationCreate = () => {
                         <>
                             {/* ── Basic Info & Contacts ── */}
                             <Card>
-                                <SectionHeader icon="store" title="Basic Information & Contacts" />
+                                <SectionHeader icon={Store} title="Basic Information & Contacts" />
                                 <Body>
-                                    <Grid cols="1.5fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Vendor Name *</Label>
                                             <input className="form-input" placeholder="Legal name of the transport vendor" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
@@ -1366,9 +1351,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Office Address ── */}
                             <Card>
-                                <SectionHeader icon="location_on" title="Office Address" />
+                                <SectionHeader icon={MapPin} title="Office Address" />
                                 <Body>
-                                    <Grid cols="1fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Office Address Line 1 *</Label>
                                             <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
@@ -1411,9 +1396,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Statutory & Financial Details ── */}
                             <Card>
-                                <SectionHeader icon="receipt_long" title="Statutory & Financial Details" />
+                                <SectionHeader icon={Receipt} title="Statutory & Financial Details" />
                                 <Body>
-                                    <Grid cols="1fr 1fr 1fr">
+                                    <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.gstNumber ? '1' : undefined}>
                                             <Label>GST Number *</Label>
                                             <input className="form-input" placeholder="29AABCC..." value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.gstNumber ? '#DC2626' : undefined }} />
@@ -1436,7 +1421,7 @@ export const OrganisationCreate = () => {
                                             <input className="form-input" placeholder="UDYAM-XX-..." value={form.udyamNo} onChange={f('udyamNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.bankAccountNo ? '1' : undefined}>
                                             <Label>Bank Account Number *</Label>
                                             <input className="form-input" placeholder="Account Number" value={form.bankAccountNo} onChange={f('bankAccountNo')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.bankAccountNo ? '#DC2626' : undefined }} />
@@ -1458,9 +1443,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Contract & Insurance Details ── */}
                             <Card>
-                                <SectionHeader icon="history_edu" title="Contract & Insurance Details" />
+                                <SectionHeader icon={FileSignature} title="Contract & Insurance Details" />
                                 <Body>
-                                    <Grid cols="1fr 1fr 1fr">
+                                    <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.contractStartDate ? '1' : undefined}>
                                             <Label>Contract Start Date *</Label>
                                             <input type="date" className="form-input" value={form.contractStartDate} onChange={f('contractStartDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.contractStartDate ? '#DC2626' : undefined }} />
@@ -1505,9 +1490,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Vehicle Compliance Details ── */}
                             <Card>
-                                <SectionHeader icon="local_shipping" title="Vehicle Compliance Details" />
+                                <SectionHeader icon={Truck} title="Vehicle Compliance Details" />
                                 <Body>
-                                    <Grid cols="1fr 2fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.vehicleCount ? '1' : undefined}>
                                             <Label>Vehicle Count *</Label>
                                             <input type="number" className="form-input" placeholder="0" value={form.vehicleCount} onChange={f('vehicleCount')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.vehicleCount ? '#DC2626' : undefined }} />
@@ -1548,7 +1533,7 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <Err msg={errs.vehicleTypes} />
                                     </div>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 20 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 20 }}>
                                         <div data-err={errs.gpsInstalled ? '1' : undefined}>
                                             <Label>GPS Installed *</Label>
                                             <select className="form-select" value={form.gpsInstalled} onChange={f('gpsInstalled')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.gpsInstalled ? '#DC2626' : undefined }}>
@@ -1568,7 +1553,7 @@ export const OrganisationCreate = () => {
                                     </Grid>
                                     <div style={{ marginTop: 20 }}>
                                         <Label>Compliance Validity Status *</Label>
-                                        <Grid cols="1fr 1fr 1fr 1fr">
+                                        <Grid className="grid-cols-responsive-4">
                                             {[
                                                 { label: 'Permit', key: 'permitValidity' },
                                                 { label: 'Insurance', key: 'insuranceValidity' },
@@ -1592,9 +1577,9 @@ export const OrganisationCreate = () => {
                         <>
                             {/* ── Basic Information (License & Registration) ── */}
                             <Card>
-                                <SectionHeader icon="directions_car" title="Basic Information" />
+                                <SectionHeader icon={Car} title="Basic Information" />
                                 <Body>
-                                    <Grid cols="1.5fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Driving school Name *</Label>
                                             <input className="form-input" placeholder="Legal name as per RTO license" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
@@ -1606,7 +1591,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.mdsLicenseNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.licenseIssueDate ? '1' : undefined}>
                                             <Label>License Issue Date *</Label>
                                             <input type="date" className="form-input" value={form.licenseIssueDate} onChange={f('licenseIssueDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.licenseIssueDate ? '#DC2626' : undefined }} />
@@ -1629,7 +1614,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.registrationType} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.registrationNo ? '1' : undefined}>
                                             <Label>Registration Number *</Label>
                                             <input className="form-input" placeholder="Reg No" value={form.registrationNo} onChange={f('registrationNo')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.registrationNo ? '#DC2626' : undefined }} />
@@ -1654,9 +1639,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Contact & Location ── */}
                             <Card>
-                                <SectionHeader icon="contacts" title="Contact & Location" />
+                                <SectionHeader icon={Users} title="Contact & Location" />
                                 <Body>
-                                    <Grid cols="1fr 1fr 1fr">
+                                    <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
                                             <input className="form-input" placeholder="Name" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
@@ -1728,9 +1713,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── Operational & Safety Mapping ── */}
                             <Card>
-                                <SectionHeader icon="analytics" title="Operational & Safety Mapping" />
+                                <SectionHeader icon={BarChart3} title="Operational & Safety Mapping" />
                                 <Body>
-                                    <Grid cols="1fr 1fr 1fr">
+                                    <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.numTrainingVehicles ? '1' : undefined}>
                                             <Label>Number of Training Vehicles *</Label>
                                             <input type="number" className="form-input" placeholder="0" value={form.numTrainingVehicles} onChange={f('numTrainingVehicles')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numTrainingVehicles ? '#DC2626' : undefined }} />
@@ -1806,9 +1791,9 @@ export const OrganisationCreate = () => {
                         <>
                             {/* ── BASIC INFORMATION (Institution) ── */}
                             <Card>
-                                <SectionHeader icon="school" title="Basic Information" />
+                                <SectionHeader icon={GraduationCap} title="Basic Information" />
                                 <Body>
-                                    <Grid cols="1.5fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Institution Name *</Label>
                                             <input className="form-input" placeholder="Legal name of the school or college" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
@@ -1827,7 +1812,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.institutionType} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.affiliationBoard ? '1' : undefined}>
                                             <Label>Affiliation Board / University *</Label>
                                             <select className="form-select" value={form.affiliationBoard} onChange={f('affiliationBoard')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.affiliationBoard ? '#DC2626' : undefined }}>
@@ -1860,7 +1845,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.registrationNo} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.udiseCode ? '1' : undefined}>
                                             <Label>UDISE Code / College Code *</Label>
                                             <input className="form-input" placeholder="UDISE-123" value={form.udiseCode} onChange={f('udiseCode')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.udiseCode ? '#DC2626' : undefined }} />
@@ -1876,7 +1861,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.panNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
                                             <input className="form-input" placeholder="Principal / Coordinator" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
@@ -1893,7 +1878,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.primaryContactEmail} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
                                             <input className="form-input" placeholder="Escalation contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
@@ -1910,9 +1895,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── LOCATION & INFRASTRUCTURE ── */}
                             <Card>
-                                <SectionHeader icon="location_on" title="Location & Infrastructure" />
+                                <SectionHeader icon={MapPin} title="Location & Infrastructure" />
                                 <Body>
-                                    <Grid cols="1fr 1fr">
+                                    <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Campus Address Line 1 *</Label>
                                             <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
@@ -1961,9 +1946,9 @@ export const OrganisationCreate = () => {
 
                             {/* ── OPERATIONAL & SAFETY MAPPING ── */}
                             <Card>
-                                <SectionHeader icon="analytics" title="Operational & Safety Mapping" />
+                                <SectionHeader icon={BarChart3} title="Operational & Safety Mapping" />
                                 <Body>
-                                    <Grid cols="1fr 1fr 1fr">
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.numStudents ? '1' : undefined}>
                                             <Label>Number of Students *</Label>
                                             <input type="number" className="form-input" placeholder="0" value={form.numStudents} onChange={f('numStudents')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numStudents ? '#DC2626' : undefined }} />
@@ -2034,7 +2019,7 @@ export const OrganisationCreate = () => {
 
                     {/* ── DOCUMENT UPLOADS ── */}
                     <Card>
-                        <SectionHeader icon="upload_file" title="Document Uploads" />
+                        <SectionHeader icon={FileUp} title="Document Uploads" />
                         <Body>
                             {(form.orgType === 'Office' || form.orgType === 'Institute' || form.orgType === 'Motor Driving School') && (
                                 <div style={{
@@ -2050,7 +2035,7 @@ export const OrganisationCreate = () => {
                                     alignItems: 'flex-start',
                                     gap: 12
                                 }}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: 20, marginTop: 2 }}>info</span>
+                                    <Info size={20} style={{ marginTop: 2 }} />
                                     <div>
                                         <div style={{ textTransform: 'uppercase', marginBottom: 4, letterSpacing: '.05em' }}>Document Guidelines</div>
                                         Compulsory upload required (*) documents. Max file size: 5MB. Formats: PDF, JPG, PNG.
@@ -2127,9 +2112,9 @@ export const OrganisationCreate = () => {
                                                 transition: 'all 0.2s'
                                             }}
                                         >
-                                            <span className="material-symbols-outlined" style={{ fontSize: 26, color: form[key as keyof Form] ? 'var(--primary)' : '#CBD5E1' }}>
-                                                {form[key as keyof Form] ? 'check_circle' : 'cloud_upload'}
-                                            </span>
+                                            <div style={{ fontSize: 26, color: form[key as keyof Form] ? 'var(--primary)' : '#CBD5E1' }}>
+                                                {form[key as keyof Form] ? <CheckCircle2 size={26} /> : <FileUp size={26} />}
+                                            </div>
                                             <span style={{ fontSize: 10, fontWeight: 700, color: form[key as keyof Form] ? 'var(--primary)' : (errs[key as keyof Form] ? '#DC2626' : '#94A3B8'), textAlign: 'center', padding: '0 8px' }}>
                                                 {form[key as keyof Form] ? (form[key as keyof Form] as File).name : (errs[key as keyof Form] || 'No file chosen')}
                                             </span>
@@ -2144,9 +2129,9 @@ export const OrganisationCreate = () => {
 
                     {/* ── STATUS & REMARKS ── */}
                     <Card>
-                        <SectionHeader icon="shield_person" title="Status & Remarks" />
+                        <SectionHeader icon={ShieldCheck} title="Status & Remarks" />
                         <Body>
-                            <Grid cols="1fr 1fr">
+                            <Grid className="grid-cols-responsive-2">
                                 <div>
                                     <Label>Status</Label>
                                     <div style={{ display: 'flex', gap: 20, marginTop: 6 }}>
@@ -2219,7 +2204,7 @@ export const OrganisationCreate = () => {
                             onClick={handleSave}
                             style={{ minWidth: 200 }}
                         >
-                            <span className="material-symbols-outlined ms">save</span>{' '}
+                            <Receipt size={18} className="ms" />{' '}
                             {isEdit ? 'UPDATE ORGANISATION' : 'SAVE ORGANISATION'}
                         </button>
                     </div>

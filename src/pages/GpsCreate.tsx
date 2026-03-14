@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Map, CheckCircle2, ArrowLeft, Info, Cpu, CarFront, Save } from 'lucide-react';
 
 /* ── Tiny Helpers (matching StaffCreate & BeaconCreate) ── */
-const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string, highlight?: boolean }) => (
+const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
     <div
         style={{
             display: 'flex',
@@ -14,9 +14,7 @@ const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string
             background: highlight ? 'var(--highlight-blue)' : 'var(--surface)',
         }}
     >
-        {icon === 'info' && <Info size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
-        {icon === 'memory' && <Cpu size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
-        {icon === 'directions_car' && <CarFront size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
+        <Icon size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />
         <span
             style={{
                 fontSize: 11,
@@ -52,7 +50,7 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
 );
 
 const Grid = ({ children, cols = 2 }: { children: React.ReactNode; cols?: number }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 20 }}>
+    <div className={cols === 2 ? "grid-cols-responsive-2" : "grid-cols-responsive-3"} style={{ gap: 20 }}>
         {children}
     </div>
 );
@@ -129,13 +127,13 @@ export const GpsCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}>
                     <div
                         style={{
                             background: 'white',
                             borderRadius: 20,
                             border: '1.5px solid var(--border)',
-                            padding: '52px 60px',
+                            padding: 'min(52px, 8vw) min(60px, 8vw)',
                             textAlign: 'center',
                             maxWidth: 480,
                             width: '100%',
@@ -162,7 +160,7 @@ export const GpsCreatePage = () => {
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
                             <strong>{form.deviceId.toUpperCase()}</strong> (IMEI: {form.imei}) has been registered in the system.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
@@ -170,7 +168,7 @@ export const GpsCreatePage = () => {
                                     setSaved(false);
                                 }}
                             >
-                                Add Another GPS
+                                Add Another
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/masters/gps-devices')}>
                                 <ArrowLeft size={16} className="ms mr-1" /> Back to List
@@ -208,7 +206,7 @@ export const GpsCreatePage = () => {
                     
                     {/* Basic Info */}
                     <Card>
-                        <SectionHeader icon="info" title="Basic Information" highlight />
+                        <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
                             <Grid cols={3}>
                                 <div>
@@ -266,7 +264,7 @@ export const GpsCreatePage = () => {
 
                     {/* Hardware Info */}
                     <Card>
-                        <SectionHeader icon="memory" title="Hardware Details" />
+                        <SectionHeader icon={Cpu} title="Hardware Details" />
                         <Body>
                             <Grid>
                                 <div>
@@ -295,7 +293,7 @@ export const GpsCreatePage = () => {
 
                     {/* Assignment & Status */}
                     <Card>
-                        <SectionHeader icon="directions_car" title="Vehicle Assignment" />
+                        <SectionHeader icon={CarFront} title="Vehicle Assignment" />
                         <Body>
                             <Grid cols={2}>
                                 <div>

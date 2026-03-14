@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Radio, Info, Cpu, ClipboardList, Save, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 /* ── Tiny Helpers (matching StaffCreate & RolesCreate) ── */
-const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string, highlight?: boolean }) => (
+const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
     <div
         style={{
             display: 'flex',
@@ -13,12 +14,7 @@ const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string
             background: highlight ? 'var(--highlight-blue)' : 'var(--surface)',
         }}
     >
-        <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 18, color: highlight ? '#2563EB' : 'var(--primary)' }}
-        >
-            {icon}
-        </span>
+        <Icon size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />
         <span
             style={{
                 fontSize: 11,
@@ -54,7 +50,7 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
 );
 
 const Grid = ({ children, cols = 2 }: { children: React.ReactNode; cols?: number }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 20 }}>
+    <div className={cols === 2 ? "grid-cols-responsive-2" : "grid-cols-responsive-3"} style={{ gap: 20 }}>
         {children}
     </div>
 );
@@ -129,13 +125,13 @@ export const BeaconCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}>
                     <div
                         style={{
                             background: 'white',
                             borderRadius: 20,
                             border: '1.5px solid var(--border)',
-                            padding: '52px 60px',
+                            padding: 'min(52px, 8vw) min(60px, 8vw)',
                             textAlign: 'center',
                             maxWidth: 480,
                             width: '100%',
@@ -154,9 +150,7 @@ export const BeaconCreatePage = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: 44, color: '#059669' }}>
-                                check_circle
-                            </span>
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
                             Beacon Created Successfully
@@ -164,7 +158,7 @@ export const BeaconCreatePage = () => {
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
                             <strong>{form.beaconId.toUpperCase()}</strong> ({form.macAddress.toUpperCase()}) has been registered in the system.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
@@ -172,10 +166,10 @@ export const BeaconCreatePage = () => {
                                     setSaved(false);
                                 }}
                             >
-                                Add Another Beacon
+                                Add Another
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/masters/beacon-devices')}>
-                                <span className="material-symbols-outlined ms">arrow_back</span> Back to List
+                                <ArrowLeft size={16} className="ms" /> Back to List
                             </button>
                         </div>
                     </div>
@@ -190,7 +184,7 @@ export const BeaconCreatePage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>radio</span>
+                        <Radio size={18} className="ms mr-2" />
                         Add New Beacon
                     </div>
                     <div className="breadcrumb">
@@ -199,7 +193,7 @@ export const BeaconCreatePage = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-secondary" onClick={() => navigate('/masters/beacon-devices')}>
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        <ArrowLeft size={16} className="ms" />
                         Back
                     </button>
                 </div>
@@ -210,7 +204,7 @@ export const BeaconCreatePage = () => {
                     
                     {/* Basic Info */}
                     <Card>
-                        <SectionHeader icon="info" title="Basic Information" highlight />
+                        <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
                             <Grid>
                                 <div>
@@ -247,7 +241,7 @@ export const BeaconCreatePage = () => {
 
                     {/* Hardware Info */}
                     <Card>
-                        <SectionHeader icon="memory" title="Hardware Details" />
+                        <SectionHeader icon={Cpu} title="Hardware Details" />
                         <Body>
                             <Grid>
                                 <div>
@@ -279,7 +273,7 @@ export const BeaconCreatePage = () => {
 
                     {/* Assignment & Status */}
                     <Card>
-                        <SectionHeader icon="assignment" title="Assignment & Status" />
+                        <SectionHeader icon={ClipboardList} title="Assignment & Status" />
                         <Body>
                             <Grid cols={3}>
                                 <div>
@@ -339,7 +333,7 @@ export const BeaconCreatePage = () => {
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
-                            <span className="material-symbols-outlined ms">save</span> Save Beacon
+                            <Save size={18} className="ms" /> Save Beacon
                         </button>
                     </div>
 

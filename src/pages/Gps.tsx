@@ -45,14 +45,14 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 24,
+            padding: window.innerWidth < 640 ? 12 : 24,
         }} onClick={onClose}>
             <div style={{
                 background: 'white',
                 borderRadius: 16,
                 width: '100%',
                 maxWidth: 480,
-                maxHeight: '90vh',
+                maxHeight: 'calc(100vh - 40px)',
                 overflow: 'auto',
                 boxShadow: '0 20px 60px rgba(0,0,0,.15)',
             }} onClick={e => e.stopPropagation()}>
@@ -102,7 +102,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
 
                 {/* Body */}
                 <div style={{ padding: '28px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>IMEI Number</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{gps.imei}</div>
@@ -115,7 +115,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>SIM Number</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{gps.simNumber}</div>
@@ -126,7 +126,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                         </div>
                     </div>
 
-                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Network Signal</div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -230,14 +230,14 @@ export const GpsPage = () => {
                     {[
                         { bg: '#EDE9FE', ic: '#7C3AED', icon: 'map', label: 'Total Trackers', val: String(totalCount), tc: '' },
                         { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
-                        { bg: '#FEF3C7', ic: '#D97706', icon: 'signal_cellular_connected_no_internet_4_bar', label: 'Weak Signal', val: String(weakSignalCount), tc: 'trend-down' },
+                        { bg: '#FEF3C7', ic: '#D97706', icon: 'weak_signal', label: 'Weak Signal', val: String(weakSignalCount), tc: 'trend-down' },
                         { bg: '#F1F5F9', ic: '#64748B', icon: 'gps_off', label: 'Inactive', val: String(inactiveCount), tc: '' },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
                                 {s.icon === 'map' && <Map size={18} color={s.ic} />}
                                 {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
-                                {s.icon === 'signal_cellular_connected_no_internet_4_bar' && <SignalHigh size={18} color={s.ic} />}
+                                {s.icon === 'weak_signal' && <SignalHigh size={18} color={s.ic} />}
                                 {s.icon === 'gps_off' && <PowerOff size={18} color={s.ic} />}
                             </div>
                             <div>

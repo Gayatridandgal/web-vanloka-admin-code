@@ -108,7 +108,7 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                         return (
                             <div key={item.path}>
                                 <div
-                                    className={`nav-item ${hasActiveChild ? 'active' : ''}`}
+                                    className={`nav-item ${hasActiveChild ? 'parent-active' : ''}`}
                                     onClick={() => toggleGroup(item.path)}
                                     style={{
                                         display: 'flex',
@@ -142,7 +142,10 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                                             <div
                                                 key={child.path}
                                                 className={`nav-item ${isActive(child.path) ? 'active' : ''}`}
-                                                onClick={() => navigate(child.path)}
+                                                onClick={() => {
+                                                    navigate(child.path);
+                                                    onClose?.();
+                                                }}
                                                 style={{ fontSize: 12 }}
                                             >
                                                 {child.icon}
@@ -158,7 +161,10 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                         <div
                             key={item.path}
                             className={`nav-item ${isActive(item.path) ? 'active' : ''}`}
-                            onClick={() => navigate(item.path)}
+                            onClick={() => {
+                                navigate(item.path);
+                                onClose?.();
+                            }}
                         >
                             {item.icon}
                             {item.label}
