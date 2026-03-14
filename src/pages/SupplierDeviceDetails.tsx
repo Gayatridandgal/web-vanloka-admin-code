@@ -1,4 +1,4 @@
-import { ArrowLeft, Search } from 'lucide-react';
+import { ArrowLeft, Search, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -67,6 +67,8 @@ export const SupplierDeviceDetails = () => {
                                     <th style={{ padding: '16px 24px' }}>IMEI NUMBER</th>
                                     <th>MODEL</th>
                                     <th>TYPE</th>
+                                    <th>ORGANIZATION</th>
+                                    <th>ORG TYPE</th>
                                     <th>ADDED DATE</th>
                                     <th>STATUS</th>
                                     <th style={{ textAlign: 'right', paddingRight: 24 }}>ACTIONS</th>
@@ -82,6 +84,26 @@ export const SupplierDeviceDetails = () => {
                                         <td>
                                             <Badge variant="blue">{d.type}</Badge>
                                         </td>
+                                        <td style={{ fontWeight: 700, color: 'var(--text)' }}>
+                                            {d.assignedOrg || <span style={{ color: '#CBD5E1' }}>—</span>}
+                                        </td>
+                                        <td>
+                                            {d.orgType ? (
+                                                <div style={{ 
+                                                    display: 'inline-flex',
+                                                    padding: '2px 8px',
+                                                    background: '#F1F5F9',
+                                                    borderRadius: 6,
+                                                    fontSize: 10,
+                                                    fontWeight: 800,
+                                                    color: '#475569'
+                                                }}>
+                                                    {d.orgType}
+                                                </div>
+                                            ) : (
+                                                <span style={{ color: '#CBD5E1' }}>—</span>
+                                            )}
+                                        </td>
                                         <td style={{ color: 'var(--muted)', fontSize: 12 }}>{d.addedDate}</td>
                                         <td>
                                             <Badge variant={d.status === 'In Stock' ? 'green' : d.status === 'Assigned' ? 'amber' : 'red'}>
@@ -90,8 +112,8 @@ export const SupplierDeviceDetails = () => {
                                         </td>
                                         <td style={{ textAlign: 'right', paddingRight: 24 }}>
                                             <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
-                                                <button className="act-btn act-edit"><span className="material-symbols-outlined">edit</span></button>
-                                                <button className="act-btn act-delete"><span className="material-symbols-outlined">delete</span></button>
+                                                <button className="act-btn act-edit"><Edit size={16} /></button>
+                                                <button className="act-btn act-delete"><Trash2 size={16} /></button>
                                             </div>
                                         </td>
                                     </tr>

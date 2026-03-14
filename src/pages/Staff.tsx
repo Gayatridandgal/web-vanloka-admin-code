@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X, Building2, Briefcase, Calendar, User as UserIcon, Contact, Home, Landmark, StickyNote, Trash2, UploadCloud, FileDown, Palette, ImagePlus, FileText, Eye, Download, Users, UserCheck, Umbrella, MinusCircle, Search, SearchX, UserPlus, Edit } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -149,12 +149,7 @@ const ViewOverlay = ({
                             flexShrink: 0,
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ color: 'white', fontSize: 20 }}
-                        >
-                            close
-                        </span>
+                        <X size={20} color="white" />
                     </button>
                 </div>
 
@@ -173,21 +168,21 @@ const ViewOverlay = ({
                             {
                                 label: 'Department',
                                 value: staff.department,
-                                icon: 'business',
+                                icon: <Building2 size={20} />,
                                 bg: '#EDE9FE',
                                 ic: '#7C3AED',
                             },
                             {
                                 label: 'Employment',
                                 value: staff.employmentType,
-                                icon: 'work',
+                                icon: <Briefcase size={20} />,
                                 bg: '#DBEAFE',
                                 ic: '#2563EB',
                             },
                             {
                                 label: 'Joined',
                                 value: staff.joiningDate,
-                                icon: 'calendar_today',
+                                icon: <Calendar size={20} />,
                                 bg: '#DCFCE7',
                                 ic: '#059669',
                             },
@@ -201,17 +196,9 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{
-                                        fontSize: 20,
-                                        color: s.ic,
-                                        marginBottom: 4,
-                                        display: 'block',
-                                    }}
-                                >
+                                <div style={{ color: s.ic, marginBottom: 4 }}>
                                     {s.icon}
-                                </span>
+                                </div>
                                 <div
                                     style={{
                                         fontSize: 14,
@@ -249,9 +236,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            person
-                        </span>
+                        <UserIcon size={16} />
                         Personal Information
                     </div>
                     <div
@@ -281,9 +266,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            contact_mail
-                        </span>
+                        <Contact size={16} />
                         Contact Details
                     </div>
                     <div
@@ -312,9 +295,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            home
-                        </span>
+                        <Home size={16} />
                         Address
                     </div>
                     <div
@@ -346,9 +327,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            account_balance
-                        </span>
+                        <Landmark size={16} />
                         Bank Details
                     </div>
                     <div
@@ -380,12 +359,7 @@ const ViewOverlay = ({
                                     gap: 6,
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 16 }}
-                                >
-                                    notes
-                                </span>
+                                <StickyNote size={16} />
                                 Remarks
                             </div>
                             <div
@@ -458,12 +432,7 @@ const DeleteOverlay = ({
                     margin: '0 auto 20px',
                 }}
             >
-                <span
-                    className="material-symbols-outlined"
-                    style={{ fontSize: 36, color: '#DC2626' }}
-                >
-                    delete_forever
-                </span>
+                <Trash2 size={36} color="#DC2626" />
             </div>
             <div
                 style={{
@@ -533,7 +502,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <span className="material-symbols-outlined ms">delete</span>
+                    <Trash2 size={16} className="ms text-white" />
                     Delete
                 </button>
             </div>
@@ -669,12 +638,7 @@ const ImportOverlay = ({
                             justifyContent: 'center',
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: 17, color: '#64748B' }}
-                        >
-                            close
-                        </span>
+                        <X size={17} color="#64748B" />
                     </button>
                 </div>
                 {/* Body */}
@@ -703,17 +667,7 @@ const ImportOverlay = ({
                                 if (e.target.files?.[0]) handleFile(e.target.files[0]);
                             }}
                         />
-                        <span
-                            className="material-symbols-outlined"
-                            style={{
-                                fontSize: 36,
-                                color: 'var(--primary)',
-                                display: 'block',
-                                marginBottom: 8,
-                            }}
-                        >
-                            cloud_upload
-                        </span>
+                        <UploadCloud size={36} className="text-primary mb-2 mx-auto" style={{ display: 'block' }} />
                         {fileName ? (
                             <>
                                 <div
@@ -931,12 +885,7 @@ const ExportOverlay = ({
                     }}
                 >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: 24, color: 'white' }}
-                        >
-                            picture_as_pdf
-                        </span>
+                        <FileDown size={24} color="white" />
                         <div>
                             <div style={{ fontSize: 16, fontWeight: 900, color: 'white' }}>
                                 {overlayTitle}
@@ -966,12 +915,7 @@ const ExportOverlay = ({
                             justifyContent: 'center',
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ color: 'white', fontSize: 18 }}
-                        >
-                            close
-                        </span>
+                        <X size={18} color="white" />
                     </button>
                 </div>
 
@@ -990,16 +934,13 @@ const ExportOverlay = ({
                                     marginBottom: 14,
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
+                                <Palette
+                                    size={14}
                                     style={{
-                                        fontSize: 14,
                                         verticalAlign: 'middle',
                                         marginRight: 4,
                                     }}
-                                >
-                                    palette
-                                </span>
+                                />
                                 Branding Options
                             </div>
 
@@ -1096,17 +1037,15 @@ const ExportOverlay = ({
                                     </div>
                                 ) : (
                                     <>
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <ImagePlus
+                                            size={28}
+                                            color="#A78BFA"
                                             style={{
-                                                fontSize: 28,
-                                                color: '#A78BFA',
                                                 display: 'block',
                                                 marginBottom: 4,
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            add_photo_alternate
-                                        </span>
+                                        />
                                         <div
                                             style={{
                                                 fontSize: 11,
@@ -1224,16 +1163,13 @@ const ExportOverlay = ({
                                     marginBottom: 14,
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
+                                <Eye
+                                    size={14}
                                     style={{
-                                        fontSize: 14,
                                         verticalAlign: 'middle',
                                         marginRight: 4,
                                     }}
-                                >
-                                    preview
-                                </span>
+                                />
                                 PDF Preview
                             </div>
                             <div
@@ -1256,17 +1192,15 @@ const ExportOverlay = ({
                                     />
                                 ) : (
                                     <div style={{ textAlign: 'center', padding: 20 }}>
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <FileText
+                                            size={48}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 48,
-                                                color: '#CBD5E1',
                                                 display: 'block',
                                                 marginBottom: 8,
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            description
-                                        </span>
+                                        />
                                         <div
                                             style={{
                                                 fontSize: 13,
@@ -1318,9 +1252,7 @@ const ExportOverlay = ({
                             border: '1px solid #DDD6FE',
                         }}
                     >
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 16 }}>
-                            visibility
-                        </span>
+                        <Eye size={16} className="ms" />
                         Generate Preview
                     </button>
                     <button
@@ -1334,9 +1266,7 @@ const ExportOverlay = ({
                             boxShadow: '0 4px 14px rgba(124,58,237,.3)',
                         }}
                     >
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 16 }}>
-                            download
-                        </span>
+                        <Download size={16} className="ms" />
                         Download PDF
                     </button>
                 </div>
@@ -1611,9 +1541,7 @@ export const StaffPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            group
-                        </span>
+                        <Users size={18} className="ms" />
                         Staff Management
                     </div>
                     <div className="breadcrumb">
@@ -1622,15 +1550,15 @@ export const StaffPage = () => {
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-success" onClick={() => setShowImport(true)}>
-                        <span className="material-symbols-outlined ms">upload_file</span>
+                        <UploadCloud size={18} className="ms mr-1" />
                         Import Excel
                     </button>
                     <button className="btn btn-secondary" onClick={() => setShowExport(true)}>
-                        <span className="material-symbols-outlined ms">download</span>
+                        <Download size={18} className="ms mr-1" />
                         Export PDF
                     </button>
                     <button className="btn btn-primary" onClick={() => navigate('/staff/create')}>
-                        <span className="material-symbols-outlined ms">person_add</span>
+                        <UserPlus size={18} className="ms mr-1" />
                         Add Employee
                     </button>
                 </div>
@@ -1643,7 +1571,7 @@ export const StaffPage = () => {
                         {
                             bg: '#EDE9FE',
                             ic: '#7C3AED',
-                            icon: 'group',
+                            icon: <Users size={20} />,
                             label: 'Total Staff',
                             val: String(totalStaff),
                             trend: `${activeCount} active`,
@@ -1652,7 +1580,7 @@ export const StaffPage = () => {
                         {
                             bg: '#DCFCE7',
                             ic: '#059669',
-                            icon: 'check_circle',
+                            icon: <UserCheck size={20} />,
                             label: 'Active',
                             val: String(activeCount),
                             trend: '',
@@ -1661,7 +1589,7 @@ export const StaffPage = () => {
                         {
                             bg: '#FEF3C7',
                             ic: '#D97706',
-                            icon: 'beach_access',
+                            icon: <Umbrella size={20} />,
                             label: 'On Leave',
                             val: String(onLeaveCount),
                             trend: '',
@@ -1670,7 +1598,7 @@ export const StaffPage = () => {
                         {
                             bg: '#FEE2E2',
                             ic: '#DC2626',
-                            icon: 'block',
+                            icon: <MinusCircle size={20} />,
                             label: 'Inactive',
                             val: String(inactiveCount),
                             trend: '',
@@ -1679,12 +1607,9 @@ export const StaffPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <span
-                                    className="material-symbols-outlined ms"
-                                    style={{ color: s.ic }}
-                                >
+                                <div style={{ color: s.ic }}>
                                     {s.icon}
-                                </span>
+                                </div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -1699,20 +1624,17 @@ export const StaffPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
-                            style={{
-                                position: 'absolute',
-                                left: 10,
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                fontSize: 18,
-                                color: 'var(--muted)',
-                                pointerEvents: 'none',
-                            }}
-                        >
-                            search
-                        </span>
+                        <Search
+                                    size={18}
+                                    style={{
+                                        position: 'absolute',
+                                        left: 10,
+                                        top: '50%',
+                                        transform: 'translateY(-50%)',
+                                        color: 'var(--muted)',
+                                        pointerEvents: 'none',
+                                    }}
+                                />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -1800,17 +1722,15 @@ export const StaffPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No employees found
                                         {search ? ` matching "${search}"` : ''}
                                         {statusFilter !== 'All'
@@ -1893,9 +1813,7 @@ export const StaffPage = () => {
                                                             setViewStaff({ s, idx: globalIdx })
                                                         }
                                                     >
-                                                        <span className="material-symbols-outlined ms">
-                                                            visibility
-                                                        </span>
+                                                        <Eye size={18} className="ms" />
                                                     </button>
                                                     <button
                                                         className="act-btn act-edit"
@@ -1904,9 +1822,7 @@ export const StaffPage = () => {
                                                             navigate(`/staff/edit/${s.id}`)
                                                         }
                                                     >
-                                                        <span className="material-symbols-outlined ms">
-                                                            edit
-                                                        </span>
+                                                        <Edit size={18} className="ms" />
                                                     </button>
                                                     <button
                                                         className="act-btn"
@@ -1914,18 +1830,14 @@ export const StaffPage = () => {
                                                         style={{ color: '#7C3AED' }}
                                                         onClick={() => setExportIndividualStaff(s)}
                                                     >
-                                                        <span className="material-symbols-outlined ms">
-                                                            picture_as_pdf
-                                                        </span>
+                                                        <FileDown size={18} className="ms" />
                                                     </button>
                                                     <button
                                                         className="act-btn act-delete"
                                                         title="Delete Employee"
                                                         onClick={() => setDeleteStaff(s)}
                                                     >
-                                                        <span className="material-symbols-outlined ms">
-                                                            delete
-                                                        </span>
+                                                        <Trash2 size={18} className="ms" />
                                                     </button>
                                                 </div>
                                             </td>

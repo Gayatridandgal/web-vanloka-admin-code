@@ -1,3 +1,4 @@
+import { MessageSquare, ArrowLeft, CheckCircle2, AlertTriangle, Bus, Calendar, Mail, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL_FEEDBACKS } from '../data/feedbackData';
@@ -105,9 +106,7 @@ export const FeedbackResolve = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                chat_bubble
-                            </span>
+                            <MessageSquare size={18} className="ms mr-2" />
                             Feedbacks &amp; Complaints
                         </div>
                         <div className="breadcrumb">
@@ -155,12 +154,7 @@ export const FeedbackResolve = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span
-                                className="material-symbols-outlined"
-                                style={{ fontSize: 44, color: '#059669' }}
-                            >
-                                check_circle
-                            </span>
+                                <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -200,7 +194,7 @@ export const FeedbackResolve = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/feedbacks')}
                             >
-                                <span className="material-symbols-outlined ms">arrow_back</span>{' '}
+                                <ArrowLeft size={16} className="ms mr-1" />{' '}
                                 Back to Feedbacks
                             </button>
                         </div>
@@ -217,9 +211,7 @@ export const FeedbackResolve = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            chat_bubble
-                        </span>
+                        <MessageSquare size={18} className="ms mr-2" />
                         Feedbacks &amp; Complaints
                     </div>
                     <div className="breadcrumb">
@@ -243,7 +235,7 @@ export const FeedbackResolve = () => {
                     onClick={() => navigate('/feedbacks')}
                     style={{ flexShrink: 0 }}
                 >
-                    <span className="material-symbols-outlined ms">arrow_back</span> Back to List
+                    <ArrowLeft size={16} className="ms mr-1" /> Back to List
                 </button>
             </div>
 
@@ -306,12 +298,7 @@ export const FeedbackResolve = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
-                                            style={{ fontSize: 22, color: '#DC2626' }}
-                                        >
-                                            report
-                                        </span>
+                                            <AlertTriangle size={22} color="#DC2626" />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                         <div
@@ -370,12 +357,7 @@ export const FeedbackResolve = () => {
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                <span
-                                                    className="material-symbols-outlined"
-                                                    style={{ fontSize: 14 }}
-                                                >
-                                                    directions_bus
-                                                </span>
+                                                <Bus size={14} />
                                                 {complaint.target}
                                             </div>
                                             <div
@@ -388,12 +370,7 @@ export const FeedbackResolve = () => {
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                <span
-                                                    className="material-symbols-outlined"
-                                                    style={{ fontSize: 14 }}
-                                                >
-                                                    calendar_today
-                                                </span>
+                                                <Calendar size={14} />
                                                 {complaint.date}
                                             </div>
                                             <div
@@ -406,12 +383,7 @@ export const FeedbackResolve = () => {
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                <span
-                                                    className="material-symbols-outlined"
-                                                    style={{ fontSize: 14 }}
-                                                >
-                                                    mail
-                                                </span>
+                                                <Mail size={14} />
                                                 {complaint.email}
                                             </div>
                                             <div
@@ -424,12 +396,7 @@ export const FeedbackResolve = () => {
                                                     fontWeight: 600,
                                                 }}
                                             >
-                                                <span
-                                                    className="material-symbols-outlined"
-                                                    style={{ fontSize: 14 }}
-                                                >
-                                                    phone
-                                                </span>
+                                                <Phone size={14} />
                                                 {complaint.phone}
                                             </div>
                                         </div>
@@ -475,12 +442,7 @@ export const FeedbackResolve = () => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <span
-                                        className="material-symbols-outlined"
-                                        style={{ fontSize: 20, color: '#059669' }}
-                                    >
-                                        check_circle
-                                    </span>
+                                        <CheckCircle2 size={20} color="#059669" />
                                 </div>
                                 <div>
                                     <div
@@ -600,9 +562,7 @@ export const FeedbackResolve = () => {
                                     onClick={handleResolve}
                                     style={{ minWidth: 160 }}
                                 >
-                                    <span className="material-symbols-outlined ms">
-                                        check_circle
-                                    </span>
+                                    <CheckCircle2 size={16} className="ms mr-1" />
                                     Resolve &amp; Close
                                 </button>
                             </div>

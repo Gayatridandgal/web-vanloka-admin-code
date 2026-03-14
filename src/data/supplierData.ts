@@ -6,6 +6,8 @@ export interface SupplierDevice {
     type: 'AIS140' | 'Basic' | 'OBD';
     status: 'In Stock' | 'Assigned' | 'Faulty';
     addedDate: string;
+    assignedOrg?: string;
+    orgType?: string;
 }
 
 export interface Supplier {
@@ -30,11 +32,13 @@ export const DUMMY_SUPPLIERS: Supplier[] = [
         status: 'Active',
         devices: Array.from({ length: 10 }).map((_, i) => ({
             id: `DEV-100${i}`,
-            imei: `86420104000${100+i}`,
-            model: 'Aqua G2',
+            imei: i === 0 ? '86420104000100' : `86420104000${100+i}`,
+            model: i === 0 ? 'Aqua G2' : 'Aqua G2',
             type: 'AIS140',
-            status: i % 3 === 0 ? 'Assigned' : 'In Stock',
-            addedDate: 'Mar 01, 2026'
+            status: i === 0 ? 'Assigned' : (i % 3 === 0 ? 'Assigned' : 'In Stock'),
+            addedDate: 'Mar 01, 2026',
+            assignedOrg: i === 0 ? 'BHARAT_MOTORS' : (i % 3 === 0 ? 'City Logistics' : undefined),
+            orgType: i === 0 ? 'MDS' : (i % 3 === 0 ? 'Vendor' : undefined)
         }))
     },
     {

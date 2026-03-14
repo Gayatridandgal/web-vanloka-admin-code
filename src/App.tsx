@@ -55,11 +55,37 @@ interface AdminLayoutProps {
     children: React.ReactNode;
 }
 
+import { Menu } from 'lucide-react';
+
 function AdminLayout({ user, modal, openModal, closeModal, onLogout, children }: AdminLayoutProps) {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
         <div className="admin-wrap">
-            <Sidebar onLogout={onLogout} user={user} />
-            <div className="page">{children}</div>
+            {/* Mobile overlay */}
+            {mobileMenuOpen && (
+                <div 
+                    className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 md:hidden"
+                    onClick={() => setMobileMenuOpen(false)}
+                />
+            )}
+            <Sidebar 
+                onLogout={onLogout} 
+                user={user} 
+                isOpen={mobileMenuOpen} 
+                onClose={() => setMobileMenuOpen(false)} 
+            />
+            <div className="page relative">
+                {/* Mobile hamburger - absolute positioned on pages that don't have their own */}
+                <button 
+                    onClick={() => setMobileMenuOpen(true)}
+                    className="md:hidden absolute top-[13px] right-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                    aria-label="Open Menu"
+                >
+                    <Menu size={18} strokeWidth={2.5} />
+                </button>
+                {children}
+            </div>
             <AllModals active={modal} close={closeModal} goto={openModal} />
         </div>
     );

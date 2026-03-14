@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Radio, X, RadioReceiver, Plus, Search, SearchX, Settings2, BatteryWarning, Power, MapPin, Eye, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -77,7 +77,7 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                             fontSize: 18,
                             fontWeight: 900,
                         }}>
-                             <span className="material-symbols-outlined" style={{ fontSize: 24 }}>radio</span>
+                             <RadioReceiver size={24} />
                         </div>
                         <div>
                             <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{beacon.id}</div>
@@ -95,7 +95,7 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <span className="material-symbols-outlined" style={{ color: 'white', fontSize: 18 }}>close</span>
+                        <X color="white" size={18} />
                     </button>
                 </div>
 
@@ -197,9 +197,7 @@ export const BeaconPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            radio
-                        </span>
+                        <Radio size={18} className="ms mr-2" />
                         Beacon Devices
                     </div>
                     <div className="breadcrumb">
@@ -211,7 +209,7 @@ export const BeaconPage = () => {
                         className="btn btn-primary"
                         onClick={() => navigate('/masters/beacon-devices/create')}
                     >
-                        <span className="material-symbols-outlined ms">add</span> Add Beacon
+                        <Plus size={18} className="ms mr-1" /> Add Beacon
                     </button>
                 </div>
             </div>
@@ -228,9 +226,10 @@ export const BeaconPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <span className="material-symbols-outlined ms" style={{ color: s.ic }}>
-                                    {s.icon}
-                                </span>
+                                {s.icon === 'radio' && <RadioReceiver size={18} color={s.ic} />}
+                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
+                                {s.icon === 'battery_alert' && <BatteryWarning size={18} color={s.ic} />}
+                                {s.icon === 'power_settings_new' && <Power size={18} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -244,20 +243,17 @@ export const BeaconPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
                             style={{
                                 position: 'absolute',
                                 left: 10,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 18,
                                 color: 'var(--muted)',
                                 pointerEvents: 'none',
                             }}
-                        >
-                            search
-                        </span>
+                            size={18}
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -325,17 +321,15 @@ export const BeaconPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No beacons found
                                         {search ? ` matching "${search}"` : ''}
                                         {statusFilter !== 'All' ? ` with status "${statusFilter}"` : ''}
@@ -355,9 +349,7 @@ export const BeaconPage = () => {
                                                         height: 36 
                                                     }}
                                                 >
-                                                    <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                                        sensors
-                                                    </span>
+                                                    <Settings2 size={18} />
                                                 </div>
                                                 <div>
                                                     <div style={{ fontWeight: 800, color: 'var(--text)' }}>{b.id}</div>
@@ -372,9 +364,7 @@ export const BeaconPage = () => {
                                                 {b.assignedTo}
                                             </div>
                                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                                                <span className="material-symbols-outlined" style={{ fontSize: 12, verticalAlign: '-2px', marginRight: 2 }}>
-                                                    place
-                                                </span>
+                                                <MapPin size={12} style={{ verticalAlign: '-2px', marginRight: 2 }} />
                                                 {b.location}
                                             </div>
                                         </td>
@@ -412,17 +402,17 @@ export const BeaconPage = () => {
                                                     title="View Beacon"
                                                     onClick={() => setViewingBeacon(b)}
                                                 >
-                                                    <span className="material-symbols-outlined ms">visibility</span>
+                                                    <Eye size={16} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Beacon"
                                                     onClick={() => navigate('/masters/beacon-devices/create')}
                                                 >
-                                                    <span className="material-symbols-outlined ms">edit</span>
+                                                    <Edit size={16} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Beacon">
-                                                    <span className="material-symbols-outlined ms">delete</span>
+                                                    <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

@@ -1,4 +1,4 @@
-import { ChevronDown, Mail, MapPin, Phone, Plus, Search, Trash2, User, X } from 'lucide-react';
+import { ChevronDown, Mail, MapPin, Phone, Plus, Search, Trash2, User, X, Package, Warehouse, CheckCircle2, MonitorSmartphone, Eye, Edit, Fingerprint } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -48,9 +48,7 @@ export const SupplierPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            inventory_2
-                        </span>
+                        <Package size={20} className="text-primary" style={{ marginRight: 8 }} />
                         Supplier Management
                     </div>
                     <div className="breadcrumb">
@@ -68,9 +66,9 @@ export const SupplierPage = () => {
                 {/* Stat Cards */}
                 <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
                     {[
-                        { label: 'Total Suppliers', val: suppliers.length, color: '#7C3AED', bg: '#F5F3FF', icon: 'warehouse' },
-                        { label: 'Active Suppliers', val: suppliers.filter(s => s.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: 'check_circle' },
-                        { label: 'Total Devices', val: suppliers.reduce((acc, s) => acc + s.devices.length, 0), color: '#2563EB', bg: '#EFF6FF', icon: 'devices' },
+                        { label: 'Total Suppliers', val: suppliers.length, color: '#7C3AED', bg: '#F5F3FF', icon: <Warehouse size={16} /> },
+                        { label: 'Active Suppliers', val: suppliers.filter(s => s.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <CheckCircle2 size={16} /> },
+                        { label: 'Total Devices', val: suppliers.reduce((acc, s) => acc + s.devices.length, 0), color: '#2563EB', bg: '#EFF6FF', icon: <MonitorSmartphone size={16} /> },
                     ].map(s => (
                         <div key={s.label} style={{ 
                             background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
@@ -80,7 +78,7 @@ export const SupplierPage = () => {
                                 width: 32, height: 32, borderRadius: 8, background: s.bg, 
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
                             }}>
-                                <span className="material-symbols-outlined" style={{ color: s.color, fontSize: 16 }}>{s.icon}</span>
+                                <div style={{ color: s.color, display: 'flex' }}>{s.icon}</div>
                             </div>
                             <div>
                                 <div style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em' }}>{s.label}</div>
@@ -135,7 +133,7 @@ export const SupplierPage = () => {
                                         </td>
                                         <td>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#475569', fontSize: 13, fontWeight: 500 }}>
-                                                <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#94A3B8' }}>location_on</span>
+                                                <MapPin size={16} color="#94A3B8" />
                                                 {s.location}
                                             </div>
                                         </td>
@@ -159,7 +157,7 @@ export const SupplierPage = () => {
                                                 onMouseOver={(e) => (e.currentTarget.style.background = '#E0F2FE')}
                                                 onMouseOut={(e) => (e.currentTarget.style.background = '#F0F9FF')}
                                             >
-                                                <span className="material-symbols-outlined" style={{ fontSize: 16 }}>devices</span>
+                                                <MonitorSmartphone size={16} />
                                                 {s.devices.length} Devices
                                             </button>
                                         </td>
@@ -169,13 +167,13 @@ export const SupplierPage = () => {
                                         <td style={{ textAlign: 'right', paddingRight: 24 }}>
                                             <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
                                                 <button className="act-btn act-view" onClick={() => setViewingSupplier(s)} title="View Details">
-                                                    <span className="material-symbols-outlined">visibility</span>
+                                                    <Eye size={16} />
                                                 </button>
                                                 <button className="act-btn act-edit" onClick={() => setEditingSupplier(s)} title="Edit Supplier">
-                                                    <span className="material-symbols-outlined">edit</span>
+                                                    <Edit size={16} />
                                                 </button>
                                                 <button className="act-btn act-delete" onClick={() => setDeletingSupplier(s)} title="Delete Supplier">
-                                                    <span className="material-symbols-outlined">delete</span>
+                                                    <Trash2 size={16} />
                                                 </button>
                                             </div>
                                         </td>
@@ -199,7 +197,7 @@ export const SupplierPage = () => {
                         <div style={{ padding: 32 }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 32 }}>
                                 <div style={{ width: 64, height: 64, borderRadius: 16, background: 'var(--primary-bg)', color: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>
-                                    <span className="material-symbols-outlined" style={{ fontSize: 32 }}>warehouse</span>
+                                    <Warehouse size={32} />
                                 </div>
                                 <div>
                                     <h3 style={{ fontSize: 22, fontWeight: 900, marginBottom: 4 }}>{viewingSupplier.name}</h3>
@@ -212,8 +210,8 @@ export const SupplierPage = () => {
                                     { label: 'Contact Person', val: viewingSupplier.contactPerson, icon: <User size={14} /> },
                                     { label: 'Phone', val: viewingSupplier.phone, icon: <Phone size={14} /> },
                                     { label: 'Email Address', val: viewingSupplier.email, icon: <Mail size={14} /> },
-                                    { label: 'Devices Provided', val: `${viewingSupplier.devices.length} Units`, icon: <span className="material-symbols-outlined" style={{ fontSize: 14 }}>devices</span> },
-                                    { label: 'Supplier ID', val: viewingSupplier.id, icon: <span className="material-symbols-outlined" style={{ fontSize: 14 }}>fingerprint</span> },
+                                    { label: 'Devices Provided', val: `${viewingSupplier.devices.length} Units`, icon: <MonitorSmartphone size={14} /> },
+                                    { label: 'Supplier ID', val: viewingSupplier.id, icon: <Fingerprint size={14} /> },
                                 ].map(item => (
                                     <div key={item.label}>
                                         <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 6 }}>

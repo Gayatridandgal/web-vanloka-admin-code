@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X, Building2, MapPin, CheckCircle2, Contact, Home, FileText, Building, Store, Car, GraduationCap, StickyNote, Trash2, UploadCloud, Download, FileDown, Table, Plus, Search, Eye, Edit } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -164,12 +164,7 @@ const ViewOverlay = ({
                             flexShrink: 0,
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ color: 'white', fontSize: 20 }}
-                        >
-                            close
-                        </span>
+                        <X size={20} color="white" />
                     </button>
                 </div>
 
@@ -188,21 +183,21 @@ const ViewOverlay = ({
                             {
                                 label: 'Type',
                                 value: org.type,
-                                icon: 'business',
+                                icon: Building2,
                                 bg: '#EDE9FE',
                                 ic: '#7C3AED',
                             },
                             {
                                 label: 'City',
                                 value: org.city,
-                                icon: 'location_on',
+                                icon: MapPin,
                                 bg: '#DBEAFE',
                                 ic: '#2563EB',
                             },
                             {
                                 label: 'Status',
                                 value: org.status,
-                                icon: 'check_circle',
+                                icon: CheckCircle2,
                                 bg: '#DCFCE7',
                                 ic: '#059669',
                             },
@@ -216,17 +211,7 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{
-                                        fontSize: 20,
-                                        color: s.ic,
-                                        marginBottom: 4,
-                                        display: 'block',
-                                    }}
-                                >
-                                    {s.icon}
-                                </span>
+                                <s.icon size={20} color={s.ic} style={{ marginBottom: 4, display: 'block', margin: '0 auto' }} />
                                 <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--text)' }}>
                                     {s.value}
                                 </div>
@@ -245,7 +230,7 @@ const ViewOverlay = ({
                     </div>
 
                     {/* Contact */}
-                    <SectionLabel icon="contact_mail" title="Contact Details" />
+                    <SectionLabel icon={Contact} title="Contact Details" />
                     <div
                         style={{
                             display: 'grid',
@@ -260,7 +245,7 @@ const ViewOverlay = ({
                     </div>
 
                     {/* Address */}
-                    <SectionLabel icon="home" title="Address" />
+                    <SectionLabel icon={Home} title="Address" />
                     <div
                         style={{
                             fontSize: 13,
@@ -277,7 +262,7 @@ const ViewOverlay = ({
                     </div>
 
                     {/* Statutory */}
-                    <SectionLabel icon="description" title="Statutory Details" />
+                    <SectionLabel icon={FileText} title="Statutory Details" />
                     <div
                         style={{
                             display: 'grid',
@@ -293,7 +278,7 @@ const ViewOverlay = ({
                     {/* Type-specific details */}
                     {org.type === 'Office' && (
                         <>
-                            <SectionLabel icon="apartment" title="Office Details" />
+                            <SectionLabel icon={Building} title="Office Details" />
                             <div
                                 style={{
                                     display: 'grid',
@@ -314,7 +299,7 @@ const ViewOverlay = ({
 
                     {org.type === 'Vendor' && (
                         <>
-                            <SectionLabel icon="store" title="Vendor Details" />
+                            <SectionLabel icon={Store} title="Vendor Details" />
                             <div
                                 style={{
                                     display: 'grid',
@@ -349,7 +334,7 @@ const ViewOverlay = ({
 
                     {org.type === 'Motor Driving School' && (
                         <>
-                            <SectionLabel icon="directions_car" title="MDS Details" />
+                            <SectionLabel icon={Car} title="MDS Details" />
                             <div
                                 style={{
                                     display: 'grid',
@@ -384,7 +369,7 @@ const ViewOverlay = ({
 
                     {org.type === 'Institute' && (
                         <>
-                            <SectionLabel icon="school" title="Institute Details" />
+                            <SectionLabel icon={GraduationCap} title="Institute Details" />
                             <div
                                 style={{
                                     display: 'grid',
@@ -422,7 +407,7 @@ const ViewOverlay = ({
                     {/* Remarks */}
                     {org.remarks && (
                         <>
-                            <SectionLabel icon="notes" title="Remarks" />
+                            <SectionLabel icon={StickyNote} title="Remarks" />
                             <div
                                 style={{
                                     fontSize: 13,
@@ -445,7 +430,7 @@ const ViewOverlay = ({
 };
 
 /* tiny helper for the overlay's section headers */
-const SectionLabel = ({ icon, title }: { icon: string; title: string }) => (
+const SectionLabel = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             fontSize: 11,
@@ -459,9 +444,7 @@ const SectionLabel = ({ icon, title }: { icon: string; title: string }) => (
             gap: 6,
         }}
     >
-        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-            {icon}
-        </span>
+        <Icon size={16} />
         {title}
     </div>
 );
@@ -515,12 +498,7 @@ const DeleteOverlay = ({
                     margin: '0 auto 20px',
                 }}
             >
-                <span
-                    className="material-symbols-outlined"
-                    style={{ fontSize: 36, color: '#DC2626' }}
-                >
-                    delete_forever
-                </span>
+                <Trash2 size={36} color="#DC2626" />
             </div>
             <div
                 style={{
@@ -590,7 +568,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <span className="material-symbols-outlined ms">delete</span>
+                    <Trash2 size={16} className="ms mr-1" />
                     Delete
                 </button>
             </div>
@@ -702,12 +680,7 @@ const ImportOverlay = ({
                             justifyContent: 'center',
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: 17, color: '#64748B' }}
-                        >
-                            close
-                        </span>
+                        <X size={17} color="#64748B" />
                     </button>
                 </div>
                 <div style={{ padding: '22px 24px' }}>
@@ -734,17 +707,7 @@ const ImportOverlay = ({
                                 if (e.target.files?.[0]) handleFile(e.target.files[0]);
                             }}
                         />
-                        <span
-                            className="material-symbols-outlined"
-                            style={{
-                                fontSize: 36,
-                                color: 'var(--primary)',
-                                display: 'block',
-                                marginBottom: 8,
-                            }}
-                        >
-                            cloud_upload
-                        </span>
+                        <UploadCloud size={36} color="var(--primary)" style={{ display: 'block', marginBottom: 8, margin: '0 auto' }} />
                         {fileName ? (
                             <>
                                 <div
@@ -996,9 +959,7 @@ export const OrganisationPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            corporate_fare
-                        </span>
+                        <Building2 size={18} className="ms mr-2" />
                         Organisation Management
                     </div>
                     <div className="breadcrumb">
@@ -1007,14 +968,14 @@ export const OrganisationPage = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
                     <button className="btn btn-secondary" onClick={() => setShowImport(true)}>
-                        <span className="material-symbols-outlined ms">upload</span> Import
+                        <UploadCloud size={16} className="ms mr-1" /> Import
                     </button>
                     <div ref={exportRef} style={{ position: 'relative' }}>
                         <button
                             className="btn btn-secondary"
                             onClick={() => setShowExport(!showExport)}
                         >
-                            <span className="material-symbols-outlined ms">download</span> Export{' '}
+                            <Download size={16} className="ms mr-1" /> Export{' '}
                             <ChevronDown size={13} />
                         </button>
                         {showExport && (
@@ -1044,12 +1005,7 @@ export const OrganisationPage = () => {
                                     }}
                                     onClick={exportPdf}
                                 >
-                                    <span
-                                        className="material-symbols-outlined"
-                                        style={{ fontSize: 16, color: '#DC2626' }}
-                                    >
-                                        picture_as_pdf
-                                    </span>
+                                    <FileDown size={16} color="#DC2626" />
                                     Export as PDF
                                 </div>
                                 <div
@@ -1064,12 +1020,7 @@ export const OrganisationPage = () => {
                                     }}
                                     onClick={exportXlsx}
                                 >
-                                    <span
-                                        className="material-symbols-outlined"
-                                        style={{ fontSize: 16, color: '#059669' }}
-                                    >
-                                        table_chart
-                                    </span>
+                                    <Table size={16} color="#059669" />
                                     Export as Excel
                                 </div>
                             </div>
@@ -1079,7 +1030,7 @@ export const OrganisationPage = () => {
                         className="btn btn-primary"
                         onClick={() => navigate('/organisation/create')}
                     >
-                        <span className="material-symbols-outlined ms">add</span> Add Organisation
+                        <Plus size={16} className="ms mr-1" /> Add Organisation
                     </button>
                 </div>
             </div>
@@ -1127,18 +1078,10 @@ export const OrganisationPage = () => {
                                         flexShrink: 0,
                                     }}
                                 >
-                                    <span
-                                        className="material-symbols-outlined"
-                                        style={{ fontSize: 22, color: tc.color }}
-                                    >
-                                        {t === 'Office'
-                                            ? 'apartment'
-                                            : t === 'Vendor'
-                                              ? 'store'
-                                              : t === 'Motor Driving School'
-                                                ? 'directions_car'
-                                                : 'school'}
-                                    </span>
+                                    {t === 'Office' && <Building size={22} color={tc.color} />}
+                                    {t === 'Vendor' && <Store size={22} color={tc.color} />}
+                                    {t === 'Motor Driving School' && <Car size={22} color={tc.color} />}
+                                    {t === 'Institute' && <GraduationCap size={22} color={tc.color} />}
                                 </div>
                                 <div>
                                     <div
@@ -1176,19 +1119,16 @@ export const OrganisationPage = () => {
                     }}
                 >
                     <div style={{ position: 'relative', flex: '1 1 220px', maxWidth: 340 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
+                            size={17}
+                            color="#94A3B8"
                             style={{
                                 position: 'absolute',
                                 left: 12,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 17,
-                                color: '#94A3B8',
                             }}
-                        >
-                            search
-                        </span>
+                        />
                         <input
                             className="form-input"
                             style={{
@@ -1438,12 +1378,7 @@ export const OrganisationPage = () => {
                                                         onClick={() => setViewIdx(realIdx)}
                                                         title="View"
                                                     >
-                                                        <span
-                                                            className="material-symbols-outlined"
-                                                            style={{ fontSize: 15 }}
-                                                        >
-                                                            visibility
-                                                        </span>
+                                                        <Eye size={15} />
                                                     </button>
                                                     <button
                                                         className="btn btn-secondary"
@@ -1458,12 +1393,7 @@ export const OrganisationPage = () => {
                                                         }
                                                         title="Edit"
                                                     >
-                                                        <span
-                                                            className="material-symbols-outlined"
-                                                            style={{ fontSize: 15 }}
-                                                        >
-                                                            edit
-                                                        </span>
+                                                        <Edit size={15} />
                                                     </button>
                                                     <button
                                                         className="btn"
@@ -1477,12 +1407,7 @@ export const OrganisationPage = () => {
                                                         onClick={() => setDelIdx(realIdx)}
                                                         title="Delete"
                                                     >
-                                                        <span
-                                                            className="material-symbols-outlined"
-                                                            style={{ fontSize: 15 }}
-                                                        >
-                                                            delete
-                                                        </span>
+                                                        <Trash2 size={15} />
                                                     </button>
                                                 </div>
                                             </td>

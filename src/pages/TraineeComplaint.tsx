@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Flag, CheckCircle2, ArrowLeft, Send, MailCheck, Search } from 'lucide-react';
 
 /* ── Types ─────────────────────────────────── */
 interface ComplaintForm {
@@ -123,9 +124,7 @@ export const TraineeComplaint = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                flag
-                            </span>
+                            <Flag size={18} className="text-primary" />
                             Submit a Complaint
                         </div>
                         <div className="breadcrumb">
@@ -173,12 +172,7 @@ export const TraineeComplaint = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span
-                                className="material-symbols-outlined"
-                                style={{ fontSize: 44, color: '#059669' }}
-                            >
-                                check_circle
-                            </span>
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -257,7 +251,7 @@ export const TraineeComplaint = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/feedbacks')}
                             >
-                                <span className="material-symbols-outlined ms">arrow_back</span>{' '}
+                                <ArrowLeft size={16} />{' '}
                                 Back to Feedbacks
                             </button>
                         </div>
@@ -274,9 +268,7 @@ export const TraineeComplaint = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            flag
-                        </span>
+                        <Flag size={18} className="text-primary" />
                         Submit a Complaint
                     </div>
                     <div className="breadcrumb">
@@ -300,7 +292,7 @@ export const TraineeComplaint = () => {
                     onClick={() => navigate('/feedbacks')}
                     style={{ flexShrink: 0 }}
                 >
-                    <span className="material-symbols-outlined ms">arrow_back</span> Back to List
+                    <ArrowLeft size={18} /> Back to List
                 </button>
             </div>
 
@@ -338,12 +330,7 @@ export const TraineeComplaint = () => {
                                     alignItems: 'center',
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 22, color: '#64748B' }}
-                                >
-                                    arrow_back
-                                </span>
+                                <ArrowLeft size={22} color="#64748B" />
                             </button>
                             <div>
                                 <div
@@ -543,7 +530,7 @@ export const TraineeComplaint = () => {
                                     onClick={handleSubmit}
                                     style={{ minWidth: 160 }}
                                 >
-                                    <span className="material-symbols-outlined ms">send</span>
+                                    <Send size={16} />
                                     Submit Complaint
                                 </button>
                             </div>
@@ -625,12 +612,9 @@ export const TraineeComplaint = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
-                                            style={{ fontSize: 18, color: item.color }}
-                                        >
-                                            {item.icon}
-                                        </span>
+                                        {item.icon === 'mark_email_read' && <MailCheck size={18} color={item.color} />}
+                                        {item.icon === 'manage_search' && <Search size={18} color={item.color} />}
+                                        {item.icon === 'check_circle' && <CheckCircle2 size={18} color={item.color} />}
                                     </div>
                                     <div>
                                         <div

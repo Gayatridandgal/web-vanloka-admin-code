@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL_STAFF } from '../data/staffData';
+import { Users, CheckCircle2, ArrowLeft, User, Camera, Briefcase, Home, AlertTriangle, MapPin, Landmark, UploadCloud, Shield, Save } from 'lucide-react';
+
 
 /* ── Types ─────────────────────────────────────── */
 interface Form {
@@ -116,7 +118,7 @@ const STATES = [
 const ROLES = ['Manager', 'Coordinator', 'Fleet Operator', 'Support'];
 
 /* ── Tiny helpers ──────────────────────────────── */
-const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -127,12 +129,7 @@ const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
             background: 'var(--surface)',
         }}
     >
-        <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 18, color: 'var(--primary)' }}
-        >
-            {icon}
-        </span>
+        <Icon size={18} color="var(--primary)" />
         <span
             style={{
                 fontSize: 11,
@@ -297,9 +294,7 @@ export const StaffCreate = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                group
-                            </span>
+                            <Users size={18} className="ms mr-2" />
                             Staff Management
                         </div>
                         <div className="breadcrumb">
@@ -336,12 +331,7 @@ export const StaffCreate = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span
-                                className="material-symbols-outlined"
-                                style={{ fontSize: 44, color: '#059669' }}
-                            >
-                                check_circle
-                            </span>
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -393,7 +383,7 @@ export const StaffCreate = () => {
                                 Add Another
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/staff')}>
-                                <span className="material-symbols-outlined ms">arrow_back</span>{' '}
+                                <ArrowLeft size={16} className="ms mr-1" />{' '}
                                 Back to Staff List
                             </button>
                         </div>
@@ -412,9 +402,7 @@ export const StaffCreate = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            group
-                        </span>
+                        <Users size={18} className="ms mr-2" />
                         {isEdit ? 'Edit Employee' : 'Add New Employee'}
                     </div>
                     <div className="breadcrumb">
@@ -433,7 +421,7 @@ export const StaffCreate = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-secondary" onClick={() => navigate('/staff')}>
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        <ArrowLeft size={18} className="ms mr-1" />
                         Back
                     </button>
                 </div>
@@ -446,7 +434,7 @@ export const StaffCreate = () => {
                 <div style={{ maxWidth: 860, width: '100%', margin: '0 auto' }}>
                     {/* ── BASIC INFORMATION ── */}
                     <Card>
-                        <SectionHeader icon="person" title="Basic Information" />
+                        <SectionHeader icon={User} title="Basic Information" />
                         <Body>
                             <div style={{ display: 'flex', gap: 24 }}>
                                 {/* Photo */}
@@ -480,12 +468,7 @@ export const StaffCreate = () => {
                                             />
                                         ) : (
                                             <>
-                                                <span
-                                                    className="material-symbols-outlined"
-                                                    style={{ fontSize: 28, color: '#CBD5E1' }}
-                                                >
-                                                    add_a_photo
-                                                </span>
+                                                <Camera size={28} color="#CBD5E1" />
                                                 <span
                                                     style={{
                                                         fontSize: 9,
@@ -667,7 +650,7 @@ export const StaffCreate = () => {
 
                     {/* ── PROFESSIONAL INFO ── */}
                     <Card>
-                        <SectionHeader icon="work" title="Professional Info" />
+                        <SectionHeader icon={Briefcase} title="Professional Info" />
                         <Body>
                             <Grid cols="1fr 1fr">
                                 <div>
@@ -735,7 +718,7 @@ export const StaffCreate = () => {
 
                     {/* ── ADDRESS DETAILS ── */}
                     <Card>
-                        <SectionHeader icon="home" title="Address Details" />
+                        <SectionHeader icon={Home} title="Address Details" />
                         <Body>
                             <Grid cols="1fr 1fr">
                                 <div data-err={errs.address1 ? '1' : undefined}>
@@ -865,12 +848,7 @@ export const StaffCreate = () => {
                                     gap: 8,
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 16, color: '#DC2626' }}
-                                >
-                                    emergency
-                                </span>
+                                <AlertTriangle size={16} color="#DC2626" />
                                 <span
                                     style={{
                                         fontSize: 11,
@@ -947,12 +925,7 @@ export const StaffCreate = () => {
                                     gap: 8,
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 16, color: '#2563EB' }}
-                                >
-                                    location_on
-                                </span>
+                                <MapPin size={16} color="#2563EB" />
                                 <span
                                     style={{
                                         fontSize: 11,
@@ -1001,7 +974,7 @@ export const StaffCreate = () => {
 
                     {/* ── BANK DETAILS ── */}
                     <Card>
-                        <SectionHeader icon="account_balance" title="Bank Details" />
+                        <SectionHeader icon={Landmark} title="Bank Details" />
                         <Body>
                             <Grid cols="1fr 1fr 1fr 1fr">
                                 {[
@@ -1043,7 +1016,7 @@ export const StaffCreate = () => {
 
                     {/* ── DOCUMENT UPLOADS ── */}
                     <Card>
-                        <SectionHeader icon="upload_file" title="Document Uploads" />
+                        <SectionHeader icon={UploadCloud} title="Document Uploads" />
                         <Body>
                             <Grid cols="1fr 1fr 1fr">
                                 {(
@@ -1082,15 +1055,7 @@ export const StaffCreate = () => {
                                                 } as React.CSSProperties
                                             }
                                         >
-                                            <span
-                                                className="material-symbols-outlined"
-                                                style={{
-                                                    fontSize: 26,
-                                                    color: form[key] ? 'var(--primary)' : '#CBD5E1',
-                                                }}
-                                            >
-                                                cloud_upload
-                                            </span>
+                                            <UploadCloud size={26} color={form[key] ? 'var(--primary)' : '#CBD5E1'} />
                                             <span
                                                 style={{
                                                     fontSize: 10,
@@ -1121,7 +1086,7 @@ export const StaffCreate = () => {
 
                     {/* ── SYSTEM ROLES & STATUS ── */}
                     <Card>
-                        <SectionHeader icon="shield_person" title="System Roles & Status" />
+                        <SectionHeader icon={Shield} title="System Roles & Status" />
                         <Body>
                             <Grid cols="1fr 1fr">
                                 {/* Account Status */}
@@ -1235,7 +1200,7 @@ export const StaffCreate = () => {
                             onClick={handleSave}
                             style={{ minWidth: 200 }}
                         >
-                            <span className="material-symbols-outlined ms">save</span>{' '}
+                            <Save size={16} className="ms mr-1" />{' '}
                             {isEdit ? 'UPDATE EMPLOYEE' : 'SAVE EMPLOYEE RECORD'}
                         </button>
                     </div>

@@ -1,3 +1,4 @@
+@import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
@@ -1261,4 +1262,56 @@ input:checked + .slider:before {
 .leaflet-container {
     height: 100% !important;
     width: 100% !important;
+}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE DESIGN SYSTEM
+════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    /* Break 5-column grid on dashboard to wrapping cols */
+    .page-body > div[style*="grid-template-columns: 1fr 1fr 1fr 1fr 1fr"] {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+    /* Break map and vehicle panel side-by-side */
+    .page-body > div[style*="display: flex; gap: 14px; flex: 1"] {
+        flex-direction: column !important;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Sidebar slide-in mechanics */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: -280px;
+        width: 260px;
+        z-index: 50;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: none;
+    }
+    .sidebar.open {
+        left: 0;
+        box-shadow: 4px 0 32px rgba(0,0,0,0.15);
+    }
+    
+    /* Give space to the mobile hamburger */
+    .page-header {
+        padding-left: 56px;
+    }
+
+    /* Wrap dashboard specific UI */
+    .page-body > div[style*="grid-template-columns: 1fr 1fr 1fr 1fr 1fr"] {
+        grid-template-columns: 1fr 1fr !important;
+    }
+    .vehicle-select-panel {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-body > div[style*="grid-template-columns: 1fr 1fr 1fr 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
 }

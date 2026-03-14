@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pagination } from '../ui/index';
+import { ShieldCheck, X, Plus, Search, SearchX, Eye, Edit, Trash2, Users } from 'lucide-react';
 
 type RoleInfo = {
     id: string;
@@ -81,7 +82,7 @@ const ViewOverlay = ({ role, onClose }: { role: RoleInfo; onClose: () => void })
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <span className="material-symbols-outlined" style={{ color: 'white', fontSize: 18 }}>close</span>
+                        <X size={18} color="white" />
                     </button>
                 </div>
 
@@ -172,9 +173,7 @@ export const RolesPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            shield_person
-                        </span>
+                        <ShieldCheck size={20} className="text-primary" style={{ marginRight: 8 }} />
                         Roles & Permissions
                     </div>
                     <div className="breadcrumb">
@@ -186,7 +185,7 @@ export const RolesPage = () => {
                         className="btn btn-primary"
                         onClick={() => navigate('/roles-permissions/create')}
                     >
-                        <span className="material-symbols-outlined ms">add</span> Add New Role
+                        <Plus size={18} className="ms mr-1" /> Add New Role
                     </button>
                 </div>
             </div>
@@ -197,20 +196,17 @@ export const RolesPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
+                            size={18}
                             style={{
                                 position: 'absolute',
                                 left: 10,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 18,
                                 color: 'var(--muted)',
                                 pointerEvents: 'none',
                             }}
-                        >
-                            search
-                        </span>
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -249,17 +245,15 @@ export const RolesPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No roles found matching "{search}"
                                     </td>
                                 </tr>
@@ -292,7 +286,7 @@ export const RolesPage = () => {
                                                 fontWeight: 800,
                                                 color: '#475569'
                                             }}>
-                                                <span className="material-symbols-outlined" style={{ fontSize: 14 }}>group</span>
+                                                <Users size={14} />
                                                 {r.usersCount}
                                             </div>
                                         </td>
@@ -318,17 +312,17 @@ export const RolesPage = () => {
                                                     title="View Role"
                                                     onClick={() => setViewingRole(r)}
                                                 >
-                                                    <span className="material-symbols-outlined ms">visibility</span>
+                                                    <Eye size={16} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Role"
                                                     onClick={() => navigate('/roles-permissions/create')}
                                                 >
-                                                    <span className="material-symbols-outlined ms">edit</span>
+                                                    <Edit size={16} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Role">
-                                                    <span className="material-symbols-outlined ms">delete</span>
+                                                    <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

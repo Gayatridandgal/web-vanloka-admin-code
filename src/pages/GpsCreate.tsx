@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Map, CheckCircle2, ArrowLeft, Info, Cpu, CarFront, Save } from 'lucide-react';
 
 /* ── Tiny Helpers (matching StaffCreate & BeaconCreate) ── */
 const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string, highlight?: boolean }) => (
@@ -13,12 +14,9 @@ const SectionHeader = ({ icon, title, highlight }: { icon: string; title: string
             background: highlight ? 'var(--highlight-blue)' : 'var(--surface)',
         }}
     >
-        <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 18, color: highlight ? '#2563EB' : 'var(--primary)' }}
-        >
-            {icon}
-        </span>
+        {icon === 'info' && <Info size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
+        {icon === 'memory' && <Cpu size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
+        {icon === 'directions_car' && <CarFront size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />}
         <span
             style={{
                 fontSize: 11,
@@ -123,7 +121,7 @@ export const GpsCreatePage = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>map</span>
+                            <Map size={18} className="ms mr-2" />
                             GPS Devices
                         </div>
                         <div className="breadcrumb">
@@ -156,9 +154,7 @@ export const GpsCreatePage = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: 44, color: '#059669' }}>
-                                check_circle
-                            </span>
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
                             GPS Tracker Created Successfully
@@ -177,7 +173,7 @@ export const GpsCreatePage = () => {
                                 Add Another GPS
                             </button>
                             <button className="btn btn-primary" onClick={() => navigate('/masters/gps-devices')}>
-                                <span className="material-symbols-outlined ms">arrow_back</span> Back to List
+                                <ArrowLeft size={16} className="ms mr-1" /> Back to List
                             </button>
                         </div>
                     </div>
@@ -192,7 +188,7 @@ export const GpsCreatePage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>map</span>
+                        <Map size={18} className="ms mr-2" />
                         Add New GPS Device
                     </div>
                     <div className="breadcrumb">
@@ -201,7 +197,7 @@ export const GpsCreatePage = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-secondary" onClick={() => navigate('/masters/gps-devices')}>
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
                 </div>
@@ -349,7 +345,7 @@ export const GpsCreatePage = () => {
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
-                            <span className="material-symbols-outlined ms">save</span> Save GPS
+                            <Save size={16} className="ms mr-1" /> Save GPS
                         </button>
                     </div>
 

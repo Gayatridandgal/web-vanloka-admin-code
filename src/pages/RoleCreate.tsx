@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Info, Key, CheckCircle2, ArrowLeft, ShieldCheck, Save } from 'lucide-react';
 
 /* ── Tiny Helpers ──────────────────────────────── */
 const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
@@ -13,12 +14,8 @@ const SectionHeader = ({ icon, title }: { icon: string; title: string }) => (
             background: 'var(--surface)',
         }}
     >
-        <span
-            className="material-symbols-outlined"
-            style={{ fontSize: 18, color: 'var(--primary)' }}
-        >
-            {icon}
-        </span>
+        {icon === 'info' && <Info size={18} color="var(--primary)" />}
+        {icon === 'key' && <Key size={18} color="var(--primary)" />}
         <span
             style={{
                 fontSize: 11,
@@ -134,12 +131,7 @@ export const RoleCreatePage = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                            <span
-                                className="material-symbols-outlined ms"
-                                style={{ fontSize: 18 }}
-                            >
-                                shield_person
-                            </span>
+                                <ShieldCheck size={18} className="ms" />
                             Roles & Permissions
                         </div>
                         <div className="breadcrumb">
@@ -175,12 +167,7 @@ export const RoleCreatePage = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                            <span
-                                className="material-symbols-outlined"
-                                style={{ fontSize: 44, color: '#059669' }}
-                            >
-                                check_circle
-                            </span>
+                                <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -210,7 +197,7 @@ export const RoleCreatePage = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/roles-permissions')}
                             >
-                                <span className="material-symbols-outlined ms">arrow_back</span>{' '}
+                                <ArrowLeft size={16} className="ms mr-1" />{' '}
                                 Back to Roles
                             </button>
                         </div>
@@ -227,9 +214,7 @@ export const RoleCreatePage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            shield_person
-                        </span>
+                        <ShieldCheck size={18} className="ms" />
                         Add New Role
                     </div>
                     <div className="breadcrumb">
@@ -248,7 +233,7 @@ export const RoleCreatePage = () => {
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
                     <button className="btn btn-secondary" onClick={() => navigate('/roles-permissions')}>
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>arrow_back</span>
+                        <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
                 </div>
@@ -302,12 +287,7 @@ export const RoleCreatePage = () => {
                             background: 'var(--surface)',
                         }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{ fontSize: 18, color: 'var(--primary)' }}
-                                >
-                                    key
-                                </span>
+                            <Key size={18} color="var(--primary)" />
                                 <span
                                     style={{
                                         fontSize: 11,
@@ -394,7 +374,7 @@ export const RoleCreatePage = () => {
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
-                            <span className="material-symbols-outlined ms">save</span> Save Role
+                            <Save size={18} className="ms mr-1" /> Save Role
                         </button>
                     </div>
 

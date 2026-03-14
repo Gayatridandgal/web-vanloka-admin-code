@@ -1,4 +1,4 @@
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, Youtube, List, CheckCircle2, Timer, Edit, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -27,9 +27,7 @@ export const PlanPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            subscriptions
-                        </span>
+                        <Youtube size={18} className="ms mr-2" />
                         Plan Management
                     </div>
                     <div className="breadcrumb">
@@ -59,7 +57,9 @@ export const PlanPage = () => {
                                 width: 32, height: 32, borderRadius: 8, background: s.bg, 
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
                             }}>
-                                <span className="material-symbols-outlined" style={{ color: s.color, fontSize: 16 }}>{s.icon}</span>
+                                {s.icon === 'list_alt' && <List size={16} color={s.color} />}
+                                {s.icon === 'check_circle' && <CheckCircle2 size={16} color={s.color} />}
+                                {s.icon === 'timer' && <Timer size={16} color={s.color} />}
                             </div>
                             <div>
                                 <div style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em' }}>{s.label}</div>
@@ -125,8 +125,8 @@ export const PlanPage = () => {
                                         </td>
                                         <td style={{ textAlign: 'right', paddingRight: 20 }}>
                                             <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
-                                                <button className="act-btn act-edit"><span className="material-symbols-outlined">edit</span></button>
-                                                <button className="act-btn act-delete"><span className="material-symbols-outlined">delete</span></button>
+                                                <button className="act-btn act-edit"><Edit size={16} /></button>
+                                                <button className="act-btn act-delete"><Trash2 size={16} /></button>
                                             </div>
                                         </td>
                                     </tr>

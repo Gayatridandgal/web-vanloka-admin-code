@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, X, LayoutGrid, Flag, Shield, User, MessageSquare, AlertCircle, Trash2, Download, Star, CheckCircle2, Search, SearchX, Eye, Reply } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -155,12 +155,7 @@ const ViewOverlay = ({
                             flexShrink: 0,
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ color: 'white', fontSize: 20 }}
-                        >
-                            close
-                        </span>
+                        <X color="white" size={20} />
                     </button>
                 </div>
 
@@ -179,14 +174,14 @@ const ViewOverlay = ({
                             {
                                 label: 'Category',
                                 value: entry.category,
-                                icon: 'category',
+                                icon: LayoutGrid,
                                 bg: '#EDE9FE',
                                 ic: '#7C3AED',
                             },
                             {
                                 label: 'Priority',
                                 value: entry.priority,
-                                icon: 'flag',
+                                icon: Flag,
                                 bg:
                                     entry.priority === 'Critical'
                                         ? '#FEE2E2'
@@ -210,7 +205,7 @@ const ViewOverlay = ({
                             {
                                 label: 'Role',
                                 value: entry.role,
-                                icon: 'badge',
+                                icon: Shield,
                                 bg: '#DCFCE7',
                                 ic: '#059669',
                             },
@@ -224,17 +219,22 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <span
-                                    className="material-symbols-outlined"
-                                    style={{
-                                        fontSize: 20,
-                                        color: s.ic,
-                                        marginBottom: 4,
-                                        display: 'block',
-                                    }}
-                                >
-                                    {s.icon}
-                                </span>
+                                    {s.icon === LayoutGrid && <LayoutGrid size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
+                                    {s.icon === Flag && <Flag size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
+                                    {s.icon === Shield && <Shield size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
+                                    {s.icon !== LayoutGrid && s.icon !== Flag && s.icon !== Shield && (
+                                        <span
+                                            className="material-symbols-outlined"
+                                            style={{
+                                                fontSize: 20,
+                                                color: s.ic,
+                                                marginBottom: 4,
+                                                display: 'block',
+                                            }}
+                                        >
+                                            {s.icon as any}
+                                        </span>
+                                    )}
                                 <div
                                     style={{
                                         fontSize: 12,
@@ -275,9 +275,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            person
-                        </span>
+                        <User size={16} />
                         Contact Info
                     </div>
                     <div
@@ -324,9 +322,7 @@ const ViewOverlay = ({
                             gap: 6,
                         }}
                     >
-                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-                            {isComplaint ? 'report' : 'comment'}
-                        </span>
+                        {isComplaint ? <AlertCircle size={16} /> : <MessageSquare size={16} />}
                         {isComplaint ? 'Complaint Details' : 'Feedback Comment'}
                     </div>
                     <div
@@ -398,12 +394,7 @@ const DeleteOverlay = ({
                     margin: '0 auto 20px',
                 }}
             >
-                <span
-                    className="material-symbols-outlined"
-                    style={{ fontSize: 36, color: '#DC2626' }}
-                >
-                    delete_forever
-                </span>
+                <Trash2 size={36} color="#DC2626" />
             </div>
             <div
                 style={{
@@ -476,7 +467,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <span className="material-symbols-outlined ms">delete</span>
+                    <Trash2 size={16} className="ms mr-1" />
                     Delete
                 </button>
             </div>
@@ -552,12 +543,7 @@ const ReplyOverlay = ({
                             justifyContent: 'center',
                         }}
                     >
-                        <span
-                            className="material-symbols-outlined"
-                            style={{ fontSize: 18, color: '#64748B' }}
-                        >
-                            close
-                        </span>
+                        <X size={18} color="#64748B" />
                     </button>
                 </div>
 
@@ -708,9 +694,7 @@ export const FeedbacksPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            chat_bubble
-                        </span>
+                        <MessageSquare size={18} className="ms mr-2" />
                         Feedbacks &amp; Complaints
                     </div>
                     <div className="breadcrumb">
@@ -719,7 +703,7 @@ export const FeedbacksPage = () => {
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-secondary">
-                        <span className="material-symbols-outlined ms">download</span>
+                        <Download size={16} className="ms mr-1" />
                         Export
                     </button>
                     {/* <button
@@ -739,7 +723,7 @@ export const FeedbacksPage = () => {
                         {
                             bg: '#FEF3C7',
                             ic: '#D97706',
-                            icon: 'star',
+                            icon: Star,
                             label: 'Average Rating',
                             val: String(avgRating),
                             trend: 'From feedbacks',
@@ -748,7 +732,7 @@ export const FeedbacksPage = () => {
                         {
                             bg: '#EDE9FE',
                             ic: '#7C3AED',
-                            icon: 'chat_bubble',
+                            icon: MessageSquare,
                             label: 'Total Submissions',
                             val: String(totalEntries),
                             trend: `${feedbackCount} feedbacks`,
@@ -757,7 +741,7 @@ export const FeedbacksPage = () => {
                         {
                             bg: '#FEE2E2',
                             ic: '#DC2626',
-                            icon: 'flag',
+                            icon: Flag,
                             label: 'Open Complaints',
                             val: String(openComplaints).padStart(2, '0'),
                             trend: 'Requires action',
@@ -766,7 +750,7 @@ export const FeedbacksPage = () => {
                         {
                             bg: '#DCFCE7',
                             ic: '#059669',
-                            icon: 'check_circle',
+                            icon: CheckCircle2,
                             label: 'Resolved',
                             val: String(resolvedCount),
                             trend: '',
@@ -775,12 +759,10 @@ export const FeedbacksPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <span
-                                    className="material-symbols-outlined ms"
-                                    style={{ color: s.ic }}
-                                >
-                                    {s.icon}
-                                </span>
+                                    {s.icon === Star && <Star size={24} color={s.ic} />}
+                                    {s.icon === MessageSquare && <MessageSquare size={24} color={s.ic} />}
+                                    {s.icon === Flag && <Flag size={24} color={s.ic} />}
+                                    {s.icon === CheckCircle2 && <CheckCircle2 size={24} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -795,20 +777,17 @@ export const FeedbacksPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
                             style={{
                                 position: 'absolute',
                                 left: 10,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 18,
                                 color: 'var(--muted)',
                                 pointerEvents: 'none',
                             }}
-                        >
-                            search
-                        </span>
+                            size={18}
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -916,17 +895,15 @@ export const FeedbacksPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No{' '}
                                         {activeTab === 'all'
                                             ? 'entries'
@@ -1065,9 +1042,7 @@ export const FeedbacksPage = () => {
                                                                 })
                                                             }
                                                         >
-                                                            <span className="material-symbols-outlined ms">
-                                                                visibility
-                                                            </span>
+                                                            <Eye size={16} className="ms" />
                                                         </button>
                                                         {e.status !== 'Resolved' &&
                                                             e.status !== 'Dismissed' && (
@@ -1080,9 +1055,7 @@ export const FeedbacksPage = () => {
                                                                         )
                                                                     }
                                                                 >
-                                                                    <span className="material-symbols-outlined ms">
-                                                                        check_circle
-                                                                    </span>
+                                                                    <CheckCircle2 size={16} className="ms" />
                                                                 </button>
                                                             )}
                                                         <button
@@ -1090,9 +1063,7 @@ export const FeedbacksPage = () => {
                                                             title="Delete"
                                                             onClick={() => setDeleteEntry(e)}
                                                         >
-                                                            <span className="material-symbols-outlined ms">
-                                                                delete
-                                                            </span>
+                                                            <Trash2 size={16} className="ms" />
                                                         </button>
                                                     </div>
                                                 ) : (
@@ -1107,9 +1078,7 @@ export const FeedbacksPage = () => {
                                                                 })
                                                             }
                                                         >
-                                                            <span className="material-symbols-outlined ms">
-                                                                visibility
-                                                            </span>
+                                                            <Eye size={16} className="ms" />
                                                         </button>
                                                         <button
                                                             className="act-btn"
@@ -1117,18 +1086,14 @@ export const FeedbacksPage = () => {
                                                             title="Reply"
                                                             onClick={() => setReplyEntry(e)}
                                                         >
-                                                            <span className="material-symbols-outlined ms">
-                                                                reply
-                                                            </span>
+                                                            <Reply size={16} className="ms" />
                                                         </button>
                                                         <button
                                                             className="act-btn act-delete"
                                                             title="Delete"
                                                             onClick={() => setDeleteEntry(e)}
                                                         >
-                                                            <span className="material-symbols-outlined ms">
-                                                                delete
-                                                            </span>
+                                                            <Trash2 size={16} className="ms" />
                                                         </button>
                                                     </div>
                                                 )}

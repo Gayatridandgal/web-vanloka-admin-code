@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Map, X, Crosshair, MapPin, Plus, CheckCircle2, SignalHigh, Search, SearchX, Eye, Edit, Trash2, PowerOff } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -78,7 +78,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                             fontSize: 18,
                             fontWeight: 900,
                         }}>
-                             <span className="material-symbols-outlined" style={{ fontSize: 24 }}>my_location</span>
+                             <Crosshair size={24} />
                         </div>
                         <div>
                             <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{gps.id}</div>
@@ -96,7 +96,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <span className="material-symbols-outlined" style={{ color: 'white', fontSize: 18 }}>close</span>
+                        <X color="white" size={18} />
                     </button>
                 </div>
 
@@ -156,7 +156,7 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                     <div style={{ marginBottom: 24 }}>
                         <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Current Location</div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
-                            <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: '-3px', marginRight: 6, color: 'var(--primary)' }}>explore</span>
+                            <MapPin size={16} color="var(--primary)" style={{ verticalAlign: '-3px', marginRight: 6 }} />
                             {gps.location}
                         </div>
                     </div>
@@ -206,9 +206,7 @@ export const GpsPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            map
-                        </span>
+                        <Map size={18} className="ms mr-2" />
                         GPS Devices
                     </div>
                     <div className="breadcrumb">
@@ -220,7 +218,7 @@ export const GpsPage = () => {
                         className="btn btn-primary"
                         onClick={() => navigate('/masters/gps-devices/create')}
                     >
-                        <span className="material-symbols-outlined ms">add</span> Add GPS Device
+                        <Plus size={18} className="ms mr-1" /> Add GPS Device
                     </button>
                 </div>
             </div>
@@ -237,9 +235,10 @@ export const GpsPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <span className="material-symbols-outlined ms" style={{ color: s.ic }}>
-                                    {s.icon}
-                                </span>
+                                {s.icon === 'map' && <Map size={18} color={s.ic} />}
+                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
+                                {s.icon === 'signal_cellular_connected_no_internet_4_bar' && <SignalHigh size={18} color={s.ic} />}
+                                {s.icon === 'gps_off' && <PowerOff size={18} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -253,20 +252,17 @@ export const GpsPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
                             style={{
                                 position: 'absolute',
                                 left: 10,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 18,
                                 color: 'var(--muted)',
                                 pointerEvents: 'none',
                             }}
-                        >
-                            search
-                        </span>
+                            size={18}
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -334,17 +330,15 @@ export const GpsPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No GPS devices found
                                         {search ? ` matching "${search}"` : ''}
                                         {statusFilter !== 'All' ? ` with status "${statusFilter}"` : ''}
@@ -364,9 +358,7 @@ export const GpsPage = () => {
                                                         height: 36 
                                                     }}
                                                 >
-                                                    <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                                                        my_location
-                                                    </span>
+                                                    <Crosshair size={18} />
                                                 </div>
                                                 <div>
                                                     <div style={{ fontWeight: 800, color: 'var(--text)' }}>{g.id}</div>
@@ -381,9 +373,7 @@ export const GpsPage = () => {
                                                 {g.assignedTo}
                                             </div>
                                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                                                <span className="material-symbols-outlined" style={{ fontSize: 12, verticalAlign: '-2px', marginRight: 2 }}>
-                                                    explore
-                                                </span>
+                                                <MapPin size={12} style={{ verticalAlign: '-2px', marginRight: 2 }} />
                                                 {g.location}
                                             </div>
                                         </td>
@@ -421,17 +411,17 @@ export const GpsPage = () => {
                                                     title="View GPS Device"
                                                     onClick={() => setViewingGps(g)}
                                                 >
-                                                    <span className="material-symbols-outlined ms">visibility</span>
+                                                    <Eye size={16} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit GPS Device"
                                                     onClick={() => navigate('/masters/gps-devices/create')}
                                                 >
-                                                    <span className="material-symbols-outlined ms">edit</span>
+                                                    <Edit size={16} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete GPS Device">
-                                                    <span className="material-symbols-outlined ms">delete</span>
+                                                    <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

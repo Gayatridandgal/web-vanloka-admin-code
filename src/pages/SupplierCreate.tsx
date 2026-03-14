@@ -1,4 +1,4 @@
-import { ArrowLeft, CheckCircle2, ChevronDown, Mail, Phone, User } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ChevronDown, Mail, Phone, User, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,7 +65,7 @@ export const SupplierCreatePage = () => {
                             <div className="form-group">
                                 <label className="form-label">Location*</label>
                                 <div className="form-input-icon">
-                                    <span className="material-symbols-outlined ms">location_on</span>
+                                    <MapPin size={18} className="ms text-slate-400" />
                                     <input required type="text" className="form-input" placeholder="e.g. Bangalore, India" value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} />
                                 </div>
                             </div>

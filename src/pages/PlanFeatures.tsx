@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, CreditCard, X, Plus, Search, SearchX, Eye, Edit, Trash2, CheckCircle2, Grid } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -59,7 +59,7 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
                             fontSize: 18,
                             fontWeight: 900,
                         }}>
-                             <span className="material-symbols-outlined" style={{ fontSize: 24 }}>credit_card</span>
+                             <CreditCard size={24} color="white" />
                         </div>
                         <div>
                             <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{feature.name}</div>
@@ -77,7 +77,7 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>
-                        <span className="material-symbols-outlined" style={{ color: 'white', fontSize: 18 }}>close</span>
+                        <X size={18} color="white" />
                     </button>
                 </div>
 
@@ -165,9 +165,7 @@ export const PlanFeaturesPage = () => {
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <span className="material-symbols-outlined ms" style={{ fontSize: 18 }}>
-                            credit_card
-                        </span>
+                        <CreditCard size={18} className="ms mr-2" />
                         Plan Features
                     </div>
                     <div className="breadcrumb">
@@ -179,7 +177,7 @@ export const PlanFeaturesPage = () => {
                         className="btn btn-primary"
                         onClick={() => navigate('/masters/plan-features/create')}
                     >
-                        <span className="material-symbols-outlined ms">add</span> Add New Feature
+                        <Plus size={18} className="ms mr-1" /> Add New Feature
                     </button>
                 </div>
             </div>
@@ -195,9 +193,9 @@ export const PlanFeaturesPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <span className="material-symbols-outlined ms" style={{ color: s.ic }}>
-                                    {s.icon}
-                                </span>
+                                {s.icon === 'credit_card' && <CreditCard size={20} color={s.ic} />}
+                                {s.icon === 'verified' && <CheckCircle2 size={20} color={s.ic} />}
+                                {s.icon === 'category' && <Grid size={20} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -211,20 +209,17 @@ export const PlanFeaturesPage = () => {
                 <div className="filter-bar">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
-                        <span
-                            className="material-symbols-outlined"
+                        <Search
+                            size={18}
                             style={{
                                 position: 'absolute',
                                 left: 10,
                                 top: '50%',
                                 transform: 'translateY(-50%)',
-                                fontSize: 18,
                                 color: 'var(--muted)',
                                 pointerEvents: 'none',
                             }}
-                        >
-                            search
-                        </span>
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -292,17 +287,15 @@ export const PlanFeaturesPage = () => {
                                             fontWeight: 600,
                                         }}
                                     >
-                                        <span
-                                            className="material-symbols-outlined"
+                                        <SearchX
+                                            size={40}
+                                            color="#CBD5E1"
                                             style={{
-                                                fontSize: 40,
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                color: '#CBD5E1',
+                                                margin: '0 auto'
                                             }}
-                                        >
-                                            search_off
-                                        </span>
+                                        />
                                         No plan features found
                                     </td>
                                 </tr>
@@ -354,17 +347,17 @@ export const PlanFeaturesPage = () => {
                                                     title="View Feature"
                                                     onClick={() => setViewingFeature(f)}
                                                 >
-                                                    <span className="material-symbols-outlined ms">visibility</span>
+                                                    <Eye size={16} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Feature"
                                                     onClick={() => navigate('/masters/plan-features/create')}
                                                 >
-                                                    <span className="material-symbols-outlined ms">edit</span>
+                                                    <Edit size={16} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Feature">
-                                                    <span className="material-symbols-outlined ms">delete</span>
+                                                    <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

@@ -12,6 +12,10 @@ import {
     Smartphone,
     Users,
     Warehouse,
+    CarFront,
+    LogOut,
+    ChevronDown,
+    X,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -54,9 +58,11 @@ const navItems: NavItem[] = [
 interface Props {
     onLogout: () => void;
     user: UserInfo;
+    isOpen?: boolean;
+    onClose?: () => void;
 }
 
-export const Sidebar = ({ onLogout, user }: Props) => {
+export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
     const navigate = useNavigate();
     const { pathname } = useLocation();
     const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
@@ -68,17 +74,26 @@ export const Sidebar = ({ onLogout, user }: Props) => {
         pathname === path || pathname.startsWith(path + '/');
 
     return (
-        <aside className="sidebar">
+        <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
             {/* ── Brand ── */}
             <div className="sidebar-brand">
-                <div className="sidebar-brand-inner">
-                    <div className="brand-icon">
-                        <span className="material-symbols-outlined ms">local_shipping</span>
+                <div className="sidebar-brand-inner" style={{ justifyContent: 'space-between', width: '100%' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <div className="brand-icon">
+                            <CarFront size={20} color="white" />
+                        </div>
+                        <div>
+                            <div className="brand-name">VANLOKA</div>
+                            <div className="brand-sub">Admin Panel</div>
+                        </div>
                     </div>
-                    <div>
-                        <div className="brand-name">VANLOKA</div>
-                        <div className="brand-sub">Admin Panel</div>
-                    </div>
+                    {/* Mobile close button */}
+                    <button 
+                        className="md:hidden flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                        onClick={onClose}
+                    >
+                        <X size={18} />
+                    </button>
                 </div>
             </div>
 
@@ -111,18 +126,15 @@ export const Sidebar = ({ onLogout, user }: Props) => {
                                         {item.icon}
                                         {item.label}
                                     </span>
-                                    <span
-                                        className="material-symbols-outlined"
+                                    <ChevronDown
+                                        size={16}
                                         style={{
-                                            fontSize: 16,
                                             transition: 'transform .2s',
                                             transform: isExpanded
                                                 ? 'rotate(180deg)'
                                                 : 'rotate(0)',
                                         }}
-                                    >
-                                        expand_more
-                                    </span>
+                                    />
                                 </div>
                                 {isExpanded && (
                                     <div style={{ paddingLeft: 18 }}>
@@ -194,12 +206,11 @@ export const Sidebar = ({ onLogout, user }: Props) => {
                             {user.email}
                         </div>
                     </div>
-                    <span
-                        className="material-symbols-outlined ms"
-                        style={{ fontSize: 17, color: 'var(--muted)', flexShrink: 0 }}
-                    >
-                        logout
-                    </span>
+                    <LogOut
+                        size={17}
+                        color="var(--muted)"
+                        style={{ flexShrink: 0 }}
+                    />
                 </div>
             </div>
         </aside>
