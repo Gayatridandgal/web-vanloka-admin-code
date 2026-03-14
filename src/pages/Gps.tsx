@@ -249,7 +249,7 @@ export const GpsPage = () => {
                 </div>
 
                 {/* ── Search + filter bar ── */}
-                <div className="filter-bar">
+                <div className="filter-bar" style={{ flexWrap: 'wrap' }}>
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
                         <Search
@@ -305,8 +305,8 @@ export const GpsPage = () => {
                 </div>
 
                 {/* ── TABLE WRAPPER ── */}
-                <div className="table-card">
-                    <table className="data-table">
+                <div className="table-card table-scroll-wrapper">
+                    <table className="data-table" style={{ minWidth: '800px' }}>
                         <thead>
                             <tr>
                                 <th>GPS DETAILS</th>

@@ -88,7 +88,7 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                         </div>
                     </div>
                     {/* Mobile close button */}
-                    <button 
+                    <button
                         className="md:hidden flex items-center justify-center p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
                         onClick={onClose}
                     >

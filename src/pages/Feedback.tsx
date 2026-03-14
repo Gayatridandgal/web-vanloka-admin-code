@@ -65,26 +65,14 @@ const ViewOverlay = ({
             onClick={onClose}
         >
             <div
-                style={{
-                    background: 'white',
-                    borderRadius: 16,
-                    width: '100%',
-                    maxWidth: 620,
-                    maxHeight: '90vh',
-                    overflow: 'auto',
-                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
-                }}
+                className="bg-white rounded-2xl w-full max-w-[620px] max-h-[90vh] overflow-y-auto shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
                 <div
+                    className="p-6 sm:p-8 rounded-t-2xl flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5"
                     style={{
                         background: `linear-gradient(135deg, ${gradientStart} 0%, ${gradientEnd} 100%)`,
-                        padding: '28px 28px 24px',
-                        borderRadius: '16px 16px 0 0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 18,
                     }}
                 >
                     <div
@@ -104,32 +92,12 @@ const ViewOverlay = ({
                     >
                         {getInitials(entry.name)}
                     </div>
-                    <div style={{ flex: 1 }}>
-                        <div
-                            style={{
-                                fontSize: 18,
-                                fontWeight: 900,
-                                color: 'white',
-                                marginBottom: 4,
-                            }}
-                        >
+                    <div className="flex-1 text-center sm:text-left">
+                        <div className="text-lg sm:text-xl font-black text-white mb-1">
                             {entry.name}
                         </div>
-                        <div
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 10,
-                                flexWrap: 'wrap',
-                            }}
-                        >
-                            <span
-                                style={{
-                                    fontSize: 12,
-                                    color: 'rgba(255,255,255,.7)',
-                                    fontWeight: 600,
-                                }}
-                            >
+                        <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
+                            <span className="text-xs text-white/70 font-bold">
                                 #{entry.id}
                             </span>
                             <Badge variant={isComplaint ? 'red' : 'green'}>
@@ -160,16 +128,9 @@ const ViewOverlay = ({
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: '24px 28px' }}>
+                <div className="p-6 sm:p-8">
                     {/* Quick stats */}
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr 1fr',
-                            gap: 12,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
                         {[
                             {
                                 label: 'Category',
@@ -278,14 +239,7 @@ const ViewOverlay = ({
                         <User size={16} />
                         Contact Info
                     </div>
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: 16,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8"> toxicology: feedback-responsive-field-grid
                         <Field label="Email" value={entry.email} />
                         <Field label="Phone" value={entry.phone} />
                         <Field label="Date Submitted" value={entry.date} />
@@ -503,13 +457,7 @@ const ReplyOverlay = ({
             onClick={onCancel}
         >
             <div
-                style={{
-                    background: 'white',
-                    borderRadius: 16,
-                    width: '100%',
-                    maxWidth: 480,
-                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
-                }}
+                className="bg-white rounded-2xl w-full max-w-[480px] shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 <div
@@ -716,9 +664,9 @@ export const FeedbacksPage = () => {
                 </div>
             </div>
 
-            <div className="page-body">
+            <div className="page-body p-4 sm:p-6 lg:p-8">
                 {/* ── Stat cards ── */}
-                <div className="stat-grid stat-grid-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
                     {[
                         {
                             bg: '#FEF3C7',
@@ -774,7 +722,8 @@ export const FeedbacksPage = () => {
                 </div>
 
                 {/* ── Filter bar ── */}
-                <div className="filter-bar">
+                {/* ── Filter bar ── */}
+                <div className="bg-white p-4 rounded-xl border border-slate-200 mb-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center">
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
                         <Search
@@ -812,63 +761,51 @@ export const FeedbacksPage = () => {
                         </>
                     )}
 
-                    {/* Status filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
-                        <select
-                            className="form-select"
-                            style={{ width: 140, paddingRight: 32 }}
-                            value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value)}
-                        >
-                            <option value="All">All Status</option>
-                            <option value="Open">Open</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Resolved">Resolved</option>
-                            <option value="Dismissed">Dismissed</option>
-                        </select>
-                        <ChevronDown
-                            size={16}
-                            style={{
-                                position: 'absolute',
-                                right: 10,
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                color: 'var(--muted)',
-                                pointerEvents: 'none',
-                            }}
-                        />
-                    </div>
-                    {/* Priority filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
-                        <select
-                            className="form-select"
-                            style={{ width: 130, paddingRight: 32 }}
-                            value={priorityFilter}
-                            onChange={(e) => setPriorityFilter(e.target.value)}
-                        >
-                            <option value="All">All Priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                            <option value="Critical">Critical</option>
-                        </select>
-                        <ChevronDown
-                            size={16}
-                            style={{
-                                position: 'absolute',
-                                right: 10,
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                                color: 'var(--muted)',
-                                pointerEvents: 'none',
-                            }}
-                        />
+                    <div className="flex flex-wrap gap-4 items-center">
+                        {/* Status filter */}
+                        <div className="relative flex-1 md:flex-none md:min-w-[140px]">
+                            <select
+                                className="form-select w-full"
+                                style={{ paddingRight: 32 }}
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value)}
+                            >
+                                <option value="All">All Status</option>
+                                <option value="Open">Open</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                                <option value="Dismissed">Dismissed</option>
+                            </select>
+                            <ChevronDown
+                                size={16}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                            />
+                        </div>
+                        {/* Priority filter */}
+                        <div className="relative flex-1 md:flex-none md:min-w-[130px]">
+                            <select
+                                className="form-select w-full"
+                                style={{ paddingRight: 32 }}
+                                value={priorityFilter}
+                                onChange={(e) => setPriorityFilter(e.target.value)}
+                            >
+                                <option value="All">All Priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                                <option value="Critical">Critical</option>
+                            </select>
+                            <ChevronDown
+                                size={16}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* ── Table ── */}
-                <div className="table-card">
-                    <table className="data-table" style={{ tableLayout: 'fixed', width: '100%' }}>
+                <div className="table-card overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
+                    <table className="data-table !min-w-[1000px] !w-full" style={{ tableLayout: 'fixed' }}>
                         <thead>
                             <tr>
                                 <th style={{ width: '14%' }}>Reviewer</th>
@@ -1104,13 +1041,13 @@ export const FeedbacksPage = () => {
                             )}
                         </tbody>
                     </table>
+                </div>
                     <Pagination
                         info={`Showing ${filtered.length} of ${entries.length} entries`}
                         pages={[1, 2, 3]}
                         current={1}
                     />
                 </div>
-            </div>
 
             {/* ── View overlay ── */}
             {viewEntry && (

@@ -97,14 +97,7 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ type: 'spring', duration: 0.5, bounce: 0.3 }}
-                style={{
-                    background: 'white',
-                    borderRadius: 20,
-                    width: '100%',
-                    maxWidth: 600,
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                    overflow: 'hidden',
-                }}
+                className="bg-white rounded-2xl w-full max-w-[600px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Dynamic Header */}
@@ -113,73 +106,66 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         background: isGood
                             ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
                             : record.score === 'Moderate'
-                              ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
-                              : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
-                        padding: '32px 32px 28px',
-                        position: 'relative',
+                                ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+                                : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20 }}>
-                        <div
-                            style={{
-                                width: 64,
-                                height: 64,
-                                borderRadius: 16,
-                                background: 'rgba(255,255,255,0.2)',
-                                backdropFilter: 'blur(10px)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                color: 'white',
-                                flexShrink: 0,
-                                boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.3)',
-                            }}
-                        >
-                            <Car size={32} strokeWidth={1.5} />
-                        </div>
-                        <div style={{ flex: 1 }}>
-                            <h2
-                                style={{
-                                    fontSize: 22,
-                                    fontWeight: 900,
-                                    color: 'white',
-                                    margin: '0 0 6px 0',
-                                }}
-                            >
-                                Vehicle Performance Report
-                            </h2>
+                    <div className="p-6 sm:p-8 relative">
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
                             <div
                                 style={{
+                                    width: 64,
+                                    height: 64,
+                                    borderRadius: 16,
+                                    background: 'rgba(255,255,255,0.2)',
+                                    backdropFilter: 'blur(10px)',
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: 12,
-                                    flexWrap: 'wrap',
+                                    justifyContent: 'center',
+                                    color: 'white',
+                                    flexShrink: 0,
+                                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.3)',
                                 }}
                             >
-                                <span
+                                <Car size={32} strokeWidth={1.5} />
+                            </div>
+                            <div style={{ flex: 1 }}>
+                                <h2
                                     style={{
-                                        fontSize: 16,
-                                        color: 'rgba(255,255,255,0.9)',
-                                        fontWeight: 800,
+                                        fontSize: 22,
+                                        fontWeight: 900,
+                                        color: 'white',
+                                        margin: '0 0 6px 0',
                                     }}
                                 >
-                                    {record.id}
-                                </span>
-                                <Badge variant={scoreVariant(record.score)}>{record.score}</Badge>
+                                    Vehicle Performance Report
+                                </h2>
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 12,
+                                        flexWrap: 'wrap',
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            fontSize: 16,
+                                            color: 'rgba(255,255,255,0.9)',
+                                            fontWeight: 800,
+                                        }}
+                                    >
+                                        {record.id}
+                                    </span>
+                                    <Badge variant={scoreVariant(record.score)}>{record.score}</Badge>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div style={{ padding: '32px' }}>
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: 24,
-                            marginBottom: 32,
-                        }}
-                    >
+                <div className="p-6 sm:p-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
                         <div
                             style={{
                                 background: '#F8FAFC',
@@ -398,7 +384,7 @@ export const ReportsPage = () => {
                 </div>
             </div>
 
-            <div className="page-body" style={{ padding: '24px 32px', background: '#F8FAFC' }}>
+            <div className="page-body p-4 sm:p-6 lg:p-8 !bg-[#F8FAFC]">
                 <motion.div variants={containerVariants} initial="hidden" animate="show">
                     {/* ── STATS ROW ── */}
                     <div
@@ -533,14 +519,7 @@ export const ReportsPage = () => {
                     </div>
 
                     {/* ── CHARTS ROW ── */}
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-                            gap: 20,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
                         {/* Area Chart: Revenue vs Costs */}
                         <motion.div
                             variants={itemVariants}
@@ -801,7 +780,7 @@ export const ReportsPage = () => {
                     {/* ── DATA TABLE SECTION ── */}
                     <motion.div
                         variants={itemVariants}
-                        className="table-card"
+                        className="table-card table-scroll-wrapper"
                         style={{
                             borderRadius: 16,
                             border: '1px solid #E2E8F0',
@@ -889,14 +868,13 @@ export const ReportsPage = () => {
                             </div>
                         </div>
 
-                        <table
-                            className="data-table"
-                            style={{
-                                tableLayout: 'fixed',
-                                width: '100%',
-                                background: 'white',
-                            }}
-                        >
+                        <div className="overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
+                            <table
+                                className="data-table !min-w-[1000px] !w-full !bg-white"
+                                style={{ 
+                                    tableLayout: 'fixed',
+                                }}
+                            >
                             <thead style={{ background: '#F8FAFC' }}>
                                 <tr>
                                     <th
@@ -1167,7 +1145,8 @@ export const ReportsPage = () => {
                                 )}
                             </tbody>
                         </table>
-                        <div style={{ background: 'white' }}>
+                    </div>
+                    <div style={{ background: 'white' }}>
                             <Pagination
                                 info={`Showing ${filtered.length} of ${records.length} performance records`}
                                 pages={[1, 2, 3]}

@@ -996,14 +996,7 @@ export const OrganisationPage = () => {
             {/* ═══ PAGE BODY ═══ */}
             <div className="page-body">
                 {/* Summary cards */}
-                <div
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(4, 1fr)',
-                        gap: 16,
-                        marginBottom: 20,
-                    }}
-                >
+                <div className="org-type-grid">
                     {ORG_TYPES.map((t) => {
                         const tc = orgTypeColor(t);
                         return (
@@ -1146,15 +1139,7 @@ export const OrganisationPage = () => {
                 </div>
 
                 {/* Table */}
-                <div
-                    style={{
-                        background: 'white',
-                        border: '1.5px solid var(--border)',
-                        borderRadius: 12,
-                        overflow: 'hidden',
-                        marginBottom: 16,
-                    }}
-                >
+                <div className="table-scroll-wrapper">
                     <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <thead>
                             <tr

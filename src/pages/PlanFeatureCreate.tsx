@@ -49,8 +49,8 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '24px 26px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, cols = 2 }: { children: React.ReactNode; cols?: number }) => (
-    <div className={cols === 2 ? "grid-cols-responsive-2" : "grid-cols-responsive-3"} style={{ gap: 20 }}>
+const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
+    <div className={className} style={{ gap: 20 }}>
         {children}
     </div>
 );
@@ -201,7 +201,7 @@ export const PlanFeatureCreatePage = () => {
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
-                            <Grid cols={2}>
+                            <Grid className="grid-cols-responsive-2">
                                 <div>
                                     <Label>Feature Name *</Label>
                                     <input

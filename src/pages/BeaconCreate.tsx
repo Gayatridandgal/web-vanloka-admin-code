@@ -49,8 +49,8 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '24px 26px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, cols = 2 }: { children: React.ReactNode; cols?: number }) => (
-    <div className={cols === 2 ? "grid-cols-responsive-2" : "grid-cols-responsive-3"} style={{ gap: 20 }}>
+const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
+    <div className={className} style={{ gap: 20 }}>
         {children}
     </div>
 );
@@ -206,7 +206,7 @@ export const BeaconCreatePage = () => {
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
-                            <Grid>
+                            <Grid className="grid-cols-responsive-2">
                                 <div>
                                     <Label>Beacon ID / Name *</Label>
                                     <input
@@ -243,7 +243,7 @@ export const BeaconCreatePage = () => {
                     <Card>
                         <SectionHeader icon={Cpu} title="Hardware Details" />
                         <Body>
-                            <Grid>
+                            <Grid className="grid-cols-responsive-2">
                                 <div>
                                     <Label>Battery Level (%)</Label>
                                     <input
@@ -275,7 +275,7 @@ export const BeaconCreatePage = () => {
                     <Card>
                         <SectionHeader icon={ClipboardList} title="Assignment & Status" />
                         <Body>
-                            <Grid cols={3}>
+                            <Grid className="grid-cols-responsive-3">
                                 <div>
                                     <Label>Assigned To</Label>
                                     <select

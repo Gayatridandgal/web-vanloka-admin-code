@@ -1419,3 +1419,142 @@ input:checked + .slider:before {
         padding-left: 64px;
     }
 }
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – PAGE HEADER
+   ════════════════════════════════════════════ */
+
+/* Allow page-header to grow when buttons wrap */
+@media (max-width: 640px) {
+    .page-header {
+        height: auto;
+        min-height: 62px;
+        flex-wrap: wrap;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 8px;
+    }
+    .page-header > div:last-child {
+        flex-wrap: wrap;
+    }
+    /* Reduce button text / icon gap so buttons fit */
+    .page-header .btn {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – DASHBOARD
+   ════════════════════════════════════════════ */
+
+/* On mobile stack map + vehicle panel vertically */
+@media (max-width: 768px) {
+    .vehicle-select-panel {
+        width: 100% !important;
+        min-width: unset !important;
+        flex-shrink: unset !important;
+    }
+    /* Map should not force a fixed min-height on very small screens */
+    .map-container {
+        min-height: 300px !important;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – ORGANISATION LIST
+   ════════════════════════════════════════════ */
+
+/* Org-type summary cards: 4 → 2 → 1 column */
+.org-type-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 1024px) {
+    .org-type-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .org-type-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+}
+
+/* Make the organisation table container scroll horizontally on small screens */
+.table-scroll-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: white;
+    margin-bottom: 16px;
+}
+.table-scroll-wrapper table {
+    min-width: 640px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Hide less-important table columns on narrow screens */
+@media (max-width: 640px) {
+    .table-col-hide-sm {
+        display: none;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – ORGANISATION CREATE
+   ════════════════════════════════════════════ */
+
+/* Responsive form grid used inside OrganisationCreate card bodies */
+.form-grid {
+    display: grid;
+    gap: 16px;
+}
+.form-grid-2 { grid-template-columns: repeat(2, 1fr); }
+.form-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.form-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+    .form-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .form-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .form-grid-2,
+    .form-grid-3,
+    .form-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    /* Org type selection cards: 2 column on mobile */
+    .org-type-selector-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    /* Success/confirmation card padding */
+    .page-body > div[style*="padding: 52px"] {
+        padding: 28px 20px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .org-type-selector-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – PAGE BODY PADDING
+   ════════════════════════════════════════════ */
+@media (max-width: 640px) {
+    .page-body {
+        padding: 14px;
+        gap: 12px;
+    }
+}
+

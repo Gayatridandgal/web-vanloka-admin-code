@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { 
     Building2, 
@@ -459,14 +459,6 @@ export const OrganisationCreate = () => {
                 setErrs((v) => ({ ...v, [key]: undefined }));
             };
 
-    const toggleCourse = (list: 'mdsCourses' | 'instituteCourses', course: string) =>
-        setForm((v) => ({
-            ...v,
-            [list]: (v[list] as string[]).includes(course)
-                ? (v[list] as string[]).filter((c) => c !== course)
-                : [...(v[list] as string[]), course],
-        }));
-
     const handleConsent = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.target.checked;
         setForm((v) => ({
@@ -803,9 +795,9 @@ export const OrganisationCreate = () => {
                         </p>
                     </div>
 
-                    <div style={{
+                    <div className="org-type-selector-grid" style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
                         gap: 24,
                         maxWidth: 1000,
                         width: '100%',
@@ -1035,7 +1027,7 @@ export const OrganisationCreate = () => {
                                         <input className="form-input" placeholder="ABCD12345E" value={form.tanNumber} onChange={f('tanNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
                                     </div>
                                 </Grid>
-                                <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div data-err={errs.email ? '1' : undefined}>
                                         <Label>organisation Email*</Label>
                                         <input type="email" className="form-input" placeholder="org@example.com" value={form.email} onChange={f('email')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.email ? '#DC2626' : undefined }} />
@@ -1318,7 +1310,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.vendorType} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
                                             <input className="form-input" placeholder="Primary Contact" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
@@ -1334,7 +1326,7 @@ export const OrganisationCreate = () => {
                                             <input className="form-input" placeholder="email@example.com" value={form.primaryContactEmail} onChange={f('primaryContactEmail')} style={{ width: '100%', boxSizing: 'border-box' }} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
                                             <input className="form-input" placeholder="Escalation Contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
@@ -1658,7 +1650,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.email} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
                                             <input className="form-input" placeholder="Escalation Contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
@@ -1670,7 +1662,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.emergencyContactNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Office Address Line 1 *</Label>
                                             <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
@@ -1732,7 +1724,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.numStudentsEnrolled} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                         <div data-err={errs.numGPSDevicesAssignedMds ? '1' : undefined}>
                                             <Label>Number of GPS Devices Assigned *</Label>
                                             <input type="number" className="form-input" placeholder="0" value={form.numGPSDevicesAssignedMds} onChange={f('numGPSDevicesAssignedMds')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numGPSDevicesAssignedMds ? '#DC2626' : undefined }} />
@@ -1753,7 +1745,7 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.subscriptionPlan} />
                                         </div>
                                     </Grid>
-                                    <Grid cols="1fr 1fr" style={{ marginTop: 16 }}>
+                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
                                         <div>
                                             <Label>Safety Officer Name (Optional)</Label>
                                             <input className="form-input" placeholder="Name" value={form.safetyOfficerName} onChange={f('safetyOfficerName')} style={{ width: '100%', boxSizing: 'border-box' }} />
@@ -2043,7 +2035,7 @@ export const OrganisationCreate = () => {
                                 </div>
                             )}
 
-                            <Grid cols="1fr 1fr 1fr">
+                            <Grid className="grid-cols-responsive-3">
                                 {(form.orgType === 'Institute' ? [
                                     { label: 'PAN Card *', key: 'panCard' },
                                     { label: 'Registration Certificate *', key: 'registrationCert' },
