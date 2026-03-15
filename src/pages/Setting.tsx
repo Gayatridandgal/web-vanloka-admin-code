@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     X, User, Edit2, CheckCircle2,
     Mail, MessageSquare, Bell,
-    Shield, Lock, Eye, EyeOff, Menu,
-    Smartphone, Zap
+    Shield, Lock, Eye, EyeOff,
+    Smartphone
 } from 'lucide-react';
 import './Setting.css';
 
@@ -22,7 +22,7 @@ function Toast({ msg, ok, onClose }: { msg: string; ok: boolean; onClose: () => 
             initial={{ opacity: 0, y: -8, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
-            className={`toast ${ok ? 'toast-ok' : 'toast-err'}`}
+            className={`s-toast ${ok ? 'toast-ok' : 'toast-err'}`}
         >
             {ok ? <CheckCircle2 size={16} /> : <X size={16} />}
             <span className="flex-1">{msg}</span>
@@ -31,7 +31,7 @@ function Toast({ msg, ok, onClose }: { msg: string; ok: boolean; onClose: () => 
     );
 }
 
-/* ─── Field ──────────────────────────────── */
+/* ─── Field (read-only) ───────────────────── */
 function Field({ label, value }: { label: string; value: string }) {
     return (
         <div className="field-block">
@@ -44,13 +44,13 @@ function Field({ label, value }: { label: string; value: string }) {
 /* ─── SectionCard ────────────────────────── */
 function SectionCard({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) {
     return (
-        <motion.div layout className="section-card">
+        <div className="section-card">
             <div className="section-header">
                 <span className="section-icon">{icon}</span>
                 <h2 className="section-title">{title}</h2>
             </div>
             <div className="section-body">{children}</div>
-        </motion.div>
+        </div>
     );
 }
 
@@ -59,7 +59,6 @@ function SectionCard({ title, icon, children }: { title: string; icon: React.Rea
 ════════════════════════════════════════════ */
 export const SettingsPage: React.FC = () => {
     const [activeTab, setActiveTab] = useState<'profile' | 'security' | 'notifications'>('profile');
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     /* ── Profile ── */
     const [profile, setProfile] = useState<ProfileForm>({
@@ -132,7 +131,7 @@ export const SettingsPage: React.FC = () => {
 
     const initials = profile.fullName.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 
-    /* ── PwInput sub-component ── */
+    /* ── PwInput ── */
     function PwInput({ field, label, placeholder }: { field: keyof PwForm; label: string; placeholder: string }) {
         const mismatch = field === 'confirm' && pw.next && pw.confirm && pw.next !== pw.confirm;
         return (
@@ -156,13 +155,13 @@ export const SettingsPage: React.FC = () => {
         );
     }
 
-    /* ── NotifToggle sub-component ── */
+    /* ── NotifToggle ── */
     function NotifToggle({ label, desc, icon, field }: { label: string; desc: string; icon: React.ReactNode; field: keyof NotifPrefs }) {
         const val = notifDraft[field];
         return (
             <div className={`notif-toggle ${val ? 'notif-toggle-on' : 'notif-toggle-off'}`}>
                 <div className="notif-left">
-                    <div className={`notif-icon ${val ? 'notif-icon-on' : 'notif-icon-off'}`}>{icon}</div>
+                    <div className={`notif-icon-wrap ${val ? 'notif-icon-on' : 'notif-icon-off'}`}>{icon}</div>
                     <div>
                         <p className="notif-name">{label}</p>
                         <p className="notif-desc">{desc}</p>
@@ -177,293 +176,226 @@ export const SettingsPage: React.FC = () => {
         );
     }
 
-    const navItems = [
-        { id: 'profile', label: 'Profile', icon: <User size={17} /> },
-        { id: 'security', label: 'Security', icon: <Shield size={17} /> },
-        { id: 'notifications', label: 'Notifications', icon: <Bell size={17} /> },
-    ];
+    const tabs = [
+        { id: 'profile', label: 'Profile', icon: <User size={15} /> },
+        { id: 'security', label: 'Security', icon: <Shield size={15} /> },
+        { id: 'notifications', label: 'Notifications', icon: <Bell size={15} /> },
+    ] as const;
 
     return (
-        <div className="settings-root">
-            <AnimatePresence>
-                {mobileMenuOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                        className="mobile-overlay"
-                        onClick={() => setMobileMenuOpen(false)}
-                    />
-                )}
-            </AnimatePresence>
+        <div className="settings-page">
 
-            {/* Mobile Sidebar */}
-            <div className={`mobile-sidebar ${mobileMenuOpen ? 'mobile-sidebar-open' : ''}`}>
-                <div className="mobile-sidebar-header">
-                    <div className="sidebar-brand">
-                        <div className="brand-icon"><Shield size={18} /></div>
-                        <span className="brand-name">Settings</span>
-                    </div>
-                    <button onClick={() => setMobileMenuOpen(false)} className="sidebar-close"><X size={19} /></button>
-                </div>
-                <nav className="sidebar-nav">
-                    {navItems.map(item => (
-                        <button key={item.id}
-                            onClick={() => { setActiveTab(item.id as any); setMobileMenuOpen(false); }}
-                            className={`nav-item ${activeTab === item.id ? 'nav-item-active' : 'nav-item-inactive'}`}>
-                            {item.icon}
-                            {item.label}
-                            {activeTab === item.id && <span className="nav-dot" />}
-                        </button>
-                    ))}
-                </nav>
+            {/* ── Page Header ── */}
+            <div className="page-header">
+                <h1 className="page-title">Settings</h1>
+                <p className="page-sub">Manage your profile, security and notification preferences</p>
             </div>
 
-            <div className="layout-shell">
-                {/* Header */}
-                <header className="top-bar">
-                    <div className="top-bar-left">
-                        <button onClick={() => setMobileMenuOpen(true)} className="hamburger lg:hidden" aria-label="Open menu">
-                            <Menu size={20} />
-                        </button>
-                        <div className="top-bar-brand">
-                            <div className="top-brand-icon"><Shield size={18} /></div>
-                            <div>
-                                <h1 className="top-title">Account Settings</h1>
-                                <p className="top-sub">Manage your profile, security & notifications</p>
+            {/* ── Tab Bar ── */}
+            <div className="tab-bar">
+                {tabs.map(tab => (
+                    <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id)}
+                        className={`tab-btn ${activeTab === tab.id ? 'tab-active' : 'tab-inactive'}`}
+                    >
+                        {tab.icon}
+                        <span className="tab-label">{tab.label}</span>
+                        {activeTab === tab.id && (
+                            <motion.div layoutId="tab-underline" className="tab-underline" />
+                        )}
+                    </button>
+                ))}
+            </div>
+
+            {/* ── Tab Content ── */}
+            <div className="tab-content">
+
+                {/* PROFILE */}
+                {activeTab === 'profile' && (
+                    <motion.div key="profile" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
+                        <div className="profile-card">
+                            <div className="profile-body">
+                                <div className="profile-top-row">
+                                    <div className="profile-id">
+                                        <div className="avatar">{initials}</div>
+                                        <div className="profile-meta">
+                                            <h3 className="profile-name">{profile.fullName}</h3>
+                                            <p className="profile-role"><span className="role-dot" />System Administrator</p>
+                                        </div>
+                                    </div>
+                                    {!editingProfile ? (
+                                        <button onClick={openProfileEdit} className="btn-primary">
+                                            <Edit2 size={14} /> Edit Profile
+                                        </button>
+                                    ) : (
+                                        <button onClick={() => setEditingProfile(false)} className="btn-ghost">
+                                            <X size={14} /> Discard
+                                        </button>
+                                    )}
+                                </div>
+
+                                {!editingProfile ? (
+                                    <div className="fields-grid">
+                                        <Field label="Email Address" value={profile.email} />
+                                        <Field label="Phone Number" value={profile.phone} />
+                                        <Field label="Timezone" value={profile.timezone} />
+                                    </div>
+                                ) : (
+                                    <form onSubmit={saveProfile} className="edit-form">
+                                        <div className="edit-grid">
+                                            <div className="input-group">
+                                                <label className="input-label">Full Name</label>
+                                                <input type="text" value={profileDraft.fullName}
+                                                    onChange={e => setProfileDraft(p => ({ ...p, fullName: e.target.value }))}
+                                                    className="s-input" />
+                                            </div>
+                                            <div className="input-group">
+                                                <label className="input-label">Email Address</label>
+                                                <input type="email" value={profileDraft.email}
+                                                    onChange={e => setProfileDraft(p => ({ ...p, email: e.target.value }))}
+                                                    className="s-input" />
+                                            </div>
+                                            <div className="input-group">
+                                                <label className="input-label">Phone Number</label>
+                                                <input type="tel" value={profileDraft.phone}
+                                                    onChange={e => setProfileDraft(p => ({ ...p, phone: e.target.value }))}
+                                                    className="s-input" />
+                                            </div>
+                                            <div className="input-group">
+                                                <label className="input-label">Timezone</label>
+                                                <select value={profileDraft.timezone}
+                                                    onChange={e => setProfileDraft(p => ({ ...p, timezone: e.target.value }))}
+                                                    className="s-input">
+                                                    {TIMEZONES.map(tz => <option key={tz}>{tz}</option>)}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="form-actions">
+                                            <button type="submit" className="btn-primary">Save Changes</button>
+                                        </div>
+                                    </form>
+                                )}
                             </div>
                         </div>
-                    </div>
-                    <div className="top-bar-right">
-                        <div className="email-chip">
-                            <span className="email-dot" />
-                            <span className="email-text">{profile.email}</span>
-                        </div>
-                    </div>
-                </header>
+                        <AnimatePresence>
+                            {profileMsg && <Toast msg={profileMsg.text} ok={profileMsg.ok} onClose={() => setProfileMsg(null)} />}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
 
-                <div className="content-row">
-                    {/* Sidebar */}
-                    <aside className="desktop-sidebar">
-                        <p className="nav-section-label">Options</p>
-                        <nav className="sidebar-nav">
-                            {navItems.map(item => (
-                                <button key={item.id}
-                                    onClick={() => setActiveTab(item.id as any)}
-                                    className={`nav-item ${activeTab === item.id ? 'nav-item-active' : 'nav-item-inactive'}`}>
-                                    <span className={activeTab === item.id ? 'icon-active' : 'icon-inactive'}>{item.icon}</span>
-                                    {item.label}
-                                    {activeTab === item.id && (
-                                        <motion.span layoutId="nav-bar" className="nav-bar" />
-                                    )}
-                                </button>
-                            ))}
-                        </nav>
+                {/* SECURITY */}
+                {activeTab === 'security' && (
+                    <motion.div key="security" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
+                        <SectionCard title="Password & Security" icon={<Lock size={15} />}>
+                            <div className="pw-header-row">
+                                <div>
+                                    <h4 className="card-heading">Change Account Password</h4>
+                                    <p className="card-sub">Use at least 8 characters with numbers and symbols.</p>
+                                </div>
+                                {!editingPw && (
+                                    <button onClick={openPwEdit} className="btn-primary">Update Password</button>
+                                )}
+                            </div>
 
-                        <div className="sidebar-promo">
-                            <div className="promo-icon"><Zap size={16} /></div>
-                            <h4 className="promo-title">v2.4 Released</h4>
-                            <p className="promo-body">Enhanced security protocols and performance improvements.</p>
-                            <button className="promo-btn">View Changelog</button>
-                        </div>
-                    </aside>
-
-                    {/* Main */}
-                    <main className="main-content">
-                        <div className="content-inner">
-
-                            {/* ── PROFILE TAB ── */}
-                            {activeTab === 'profile' && (
-                                <motion.div key="profile" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
-                                    <div className="profile-card">
-                                        <div className="profile-banner">
-                                            <div className="banner-pattern" />
-                                        </div>
-                                        <div className="profile-body">
-                                            <div className="profile-top-row">
-                                                <div className="profile-id">
-                                                    <div className="avatar">{initials}</div>
-                                                    <div className="profile-meta">
-                                                        <h3 className="profile-name">{profile.fullName}</h3>
-                                                        <p className="profile-role">
-                                                            <span className="role-dot" />
-                                                            System Administrator
-                                                        </p>
+                            {editingPw && (
+                                <form onSubmit={savePw} className="pw-form">
+                                    <div className="pw-grid">
+                                        <PwInput field="current" label="Current Password" placeholder="••••••••" />
+                                        <div className="pw-right-col">
+                                            <PwInput field="next" label="New Password" placeholder="••••••••" />
+                                            {pw.next && (
+                                                <div className="strength-bar-wrap">
+                                                    <div className="strength-meta">
+                                                        <span className="strength-label-text">Password Strength</span>
+                                                        <span className="strength-value" style={{ color: strengthColor }}>{strengthLabel}</span>
+                                                    </div>
+                                                    <div className="strength-bars">
+                                                        {[1, 2, 3, 4].map(i => (
+                                                            <div key={i} className="strength-seg"
+                                                                style={{ background: i <= strength ? strengthColor : '#e5e7eb' }} />
+                                                        ))}
                                                     </div>
                                                 </div>
-                                                <div>
-                                                    {!editingProfile ? (
-                                                        <button onClick={openProfileEdit} className="btn-primary">
-                                                            <Edit2 size={14} /> Edit Profile
-                                                        </button>
-                                                    ) : (
-                                                        <button onClick={() => setEditingProfile(false)} className="btn-ghost">
-                                                            <X size={14} /> Discard
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            {!editingProfile ? (
-                                                <div className="fields-grid">
-                                                    <Field label="Email Address" value={profile.email} />
-                                                    <Field label="Phone Number" value={profile.phone} />
-                                                    <Field label="Timezone" value={profile.timezone} />
-                                                </div>
-                                            ) : (
-                                                <form onSubmit={saveProfile} className="edit-form">
-                                                    <div className="edit-grid">
-                                                        <div className="input-group">
-                                                            <label className="input-label">Full Name</label>
-                                                            <input type="text" value={profileDraft.fullName}
-                                                                onChange={e => setProfileDraft(p => ({ ...p, fullName: e.target.value }))}
-                                                                className="s-input" />
-                                                        </div>
-                                                        <div className="input-group">
-                                                            <label className="input-label">Email Address</label>
-                                                            <input type="email" value={profileDraft.email}
-                                                                onChange={e => setProfileDraft(p => ({ ...p, email: e.target.value }))}
-                                                                className="s-input" />
-                                                        </div>
-                                                        <div className="input-group">
-                                                            <label className="input-label">Phone Number</label>
-                                                            <input type="tel" value={profileDraft.phone}
-                                                                onChange={e => setProfileDraft(p => ({ ...p, phone: e.target.value }))}
-                                                                className="s-input" />
-                                                        </div>
-                                                        <div className="input-group">
-                                                            <label className="input-label">Timezone</label>
-                                                            <select value={profileDraft.timezone}
-                                                                onChange={e => setProfileDraft(p => ({ ...p, timezone: e.target.value }))}
-                                                                className="s-input">
-                                                                {TIMEZONES.map(tz => <option key={tz}>{tz}</option>)}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div className="form-actions">
-                                                        <button type="submit" className="btn-primary">Save Changes</button>
-                                                    </div>
-                                                </form>
                                             )}
+                                            <PwInput field="confirm" label="Confirm New Password" placeholder="••••••••" />
                                         </div>
                                     </div>
-                                    <AnimatePresence>
-                                        {profileMsg && <Toast msg={profileMsg.text} ok={profileMsg.ok} onClose={() => setProfileMsg(null)} />}
-                                    </AnimatePresence>
-                                </motion.div>
-                            )}
-
-                            {/* ── SECURITY TAB ── */}
-                            {activeTab === 'security' && (
-                                <motion.div key="security" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
-                                    <SectionCard title="Password & Security" icon={<Lock size={15} />}>
-                                        <div className="pw-header-row">
-                                            <div>
-                                                <h4 className="card-heading">Change Account Password</h4>
-                                                <p className="card-sub">Use a strong password with at least 8 characters, numbers, and symbols.</p>
-                                            </div>
-                                            {!editingPw && (
-                                                <button onClick={openPwEdit} className="btn-primary">Update Password</button>
-                                            )}
-                                        </div>
-
-                                        {editingPw && (
-                                            <form onSubmit={savePw} className="pw-form">
-                                                <div className="pw-grid">
-                                                    <PwInput field="current" label="Current Password" placeholder="••••••••" />
-                                                    <div className="space-y-5">
-                                                        <PwInput field="next" label="New Password" placeholder="••••••••" />
-                                                        {pw.next && (
-                                                            <div className="strength-bar-wrap">
-                                                                <div className="strength-meta">
-                                                                    <span className="strength-label-text">Password Strength</span>
-                                                                    <span className="strength-value" style={{ color: strengthColor }}>{strengthLabel}</span>
-                                                                </div>
-                                                                <div className="strength-bars">
-                                                                    {[1, 2, 3, 4].map(i => (
-                                                                        <div key={i} className="strength-seg"
-                                                                            style={{ background: i <= strength ? strengthColor : 'var(--gray-200)' }} />
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                        <PwInput field="confirm" label="Confirm New Password" placeholder="••••••••" />
-                                                    </div>
-                                                </div>
-                                                <div className="form-actions gap-3">
-                                                    <button type="button" onClick={cancelPwEdit} className="btn-ghost">Cancel</button>
-                                                    <button type="submit" className="btn-primary">Save Password</button>
-                                                </div>
-                                            </form>
-                                        )}
-                                        <AnimatePresence>
-                                            {pwMsg && <Toast msg={pwMsg.text} ok={pwMsg.ok} onClose={() => setPwMsg(null)} />}
-                                        </AnimatePresence>
-                                    </SectionCard>
-
-                                    <div className="tfa-banner">
-                                        <div className="tfa-icon"><Shield size={19} /></div>
-                                        <div>
-                                            <h5 className="tfa-title">Two-Factor Authentication</h5>
-                                            <p className="tfa-body">Add an extra security layer using an authenticator app like Google Authenticator or Authy.</p>
-                                            <button className="tfa-link">Configure 2FA →</button>
-                                        </div>
+                                    <div className="form-actions gap-3">
+                                        <button type="button" onClick={cancelPwEdit} className="btn-ghost">Cancel</button>
+                                        <button type="submit" className="btn-primary">Save Password</button>
                                     </div>
-                                </motion.div>
+                                </form>
                             )}
 
-                            {/* ── NOTIFICATIONS TAB ── */}
-                            {activeTab === 'notifications' && (
-                                <motion.div key="notifications" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
-                                    <SectionCard title="Notification Preferences" icon={<Bell size={15} />}>
-                                        <div className="notif-header-row">
-                                            <p className="card-sub">Control how and when you receive alerts and reports.</p>
-                                            {!editingNotifs && (
-                                                <button onClick={openNotifEdit} className="btn-outline">
-                                                    <Edit2 size={13} /> Configure
-                                                </button>
-                                            )}
-                                        </div>
+                            <AnimatePresence>
+                                {pwMsg && <Toast msg={pwMsg.text} ok={pwMsg.ok} onClose={() => setPwMsg(null)} />}
+                            </AnimatePresence>
+                        </SectionCard>
 
-                                        {!editingNotifs ? (
-                                            <div className="notif-status-grid">
-                                                {[
-                                                    { label: 'Email Alerts', icon: <Mail size={16} />, key: 'emailAlerts' as keyof NotifPrefs },
-                                                    { label: 'SMS Alerts', icon: <MessageSquare size={16} />, key: 'smsAlerts' as keyof NotifPrefs },
-                                                    { label: 'Push Notifications', icon: <Bell size={16} />, key: 'pushNotifs' as keyof NotifPrefs },
-                                                    { label: 'Weekly Report', icon: <Smartphone size={16} />, key: 'weeklyReport' as keyof NotifPrefs },
-                                                ].map(item => (
-                                                    <div key={item.key} className={`status-chip ${notifs[item.key] ? 'chip-on' : 'chip-off'}`}>
-                                                        <span className={notifs[item.key] ? 'chip-icon-on' : 'chip-icon-off'}>{item.icon}</span>
-                                                        <span className="chip-label">{item.label}</span>
-                                                        <span className={`chip-badge ${notifs[item.key] ? 'badge-on' : 'badge-off'}`}>
-                                                            {notifs[item.key] ? 'ON' : 'OFF'}
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        ) : (
-                                            <form onSubmit={saveNotifs} className="notif-edit-form">
-                                                <div className="notif-toggles">
-                                                    <NotifToggle label="Email Summaries" desc="Daily digest delivered to your inbox" icon={<Mail size={16} />} field="emailAlerts" />
-                                                    <NotifToggle label="SMS Alerts" desc="Critical alerts sent to your mobile" icon={<MessageSquare size={16} />} field="smsAlerts" />
-                                                    <NotifToggle label="Push Notifications" desc="In-app and browser push notifications" icon={<Bell size={16} />} field="pushNotifs" />
-                                                    <NotifToggle label="Weekly Report" desc="Summary of activity every Monday" icon={<Smartphone size={16} />} field="weeklyReport" />
-                                                </div>
-                                                <div className="form-actions gap-3">
-                                                    <button type="button" onClick={cancelNotifEdit} className="btn-ghost">Cancel</button>
-                                                    <button type="submit" className="btn-primary">Save Preferences</button>
-                                                </div>
-                                            </form>
-                                        )}
-                                    </SectionCard>
-                                    <AnimatePresence>
-                                        {notifMsg && <Toast msg={notifMsg.text} ok={notifMsg.ok} onClose={() => setNotifMsg(null)} />}
-                                    </AnimatePresence>
-                                </motion.div>
-                            )}
-
+                        <div className="tfa-banner">
+                            <div className="tfa-icon"><Shield size={19} /></div>
+                            <div>
+                                <h5 className="tfa-title">Two-Factor Authentication</h5>
+                                <p className="tfa-body">Add an extra security layer using Google Authenticator or Authy.</p>
+                                <button className="tfa-link">Configure 2FA →</button>
+                            </div>
                         </div>
-                    </main>
-                </div>
+                    </motion.div>
+                )}
+
+                {/* NOTIFICATIONS */}
+                {activeTab === 'notifications' && (
+                    <motion.div key="notifications" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="tab-pane">
+                        <SectionCard title="Notification Preferences" icon={<Bell size={15} />}>
+                            <div className="notif-header-row">
+                                <p className="card-sub">Control how and when you receive alerts and reports.</p>
+                                {!editingNotifs && (
+                                    <button onClick={openNotifEdit} className="btn-outline">
+                                        <Edit2 size={13} /> Configure
+                                    </button>
+                                )}
+                            </div>
+
+                            {!editingNotifs ? (
+                                <div className="notif-status-grid">
+                                    {([
+                                        { label: 'Email Alerts', icon: <Mail size={16} />, key: 'emailAlerts' },
+                                        { label: 'SMS Alerts', icon: <MessageSquare size={16} />, key: 'smsAlerts' },
+                                        { label: 'Push Notifications', icon: <Bell size={16} />, key: 'pushNotifs' },
+                                        { label: 'Weekly Report', icon: <Smartphone size={16} />, key: 'weeklyReport' },
+                                    ] as { label: string; icon: React.ReactNode; key: keyof NotifPrefs }[]).map(item => (
+                                        <div key={item.key} className={`status-chip ${notifs[item.key] ? 'chip-on' : 'chip-off'}`}>
+                                            <span className={notifs[item.key] ? 'chip-icon-on' : 'chip-icon-off'}>{item.icon}</span>
+                                            <span className="chip-label">{item.label}</span>
+                                            <span className={`chip-badge ${notifs[item.key] ? 'badge-on' : 'badge-off'}`}>
+                                                {notifs[item.key] ? 'ON' : 'OFF'}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <form onSubmit={saveNotifs} className="notif-edit-form">
+                                    <div className="notif-toggles">
+                                        <NotifToggle label="Email Summaries" desc="Daily digest to your inbox" icon={<Mail size={16} />} field="emailAlerts" />
+                                        <NotifToggle label="SMS Alerts" desc="Critical alerts to your mobile" icon={<MessageSquare size={16} />} field="smsAlerts" />
+                                        <NotifToggle label="Push Notifications" desc="In-app and browser notifications" icon={<Bell size={16} />} field="pushNotifs" />
+                                        <NotifToggle label="Weekly Report" desc="Activity summary every Monday" icon={<Smartphone size={16} />} field="weeklyReport" />
+                                    </div>
+                                    <div className="form-actions gap-3">
+                                        <button type="button" onClick={cancelNotifEdit} className="btn-ghost">Cancel</button>
+                                        <button type="submit" className="btn-primary">Save Preferences</button>
+                                    </div>
+                                </form>
+                            )}
+                        </SectionCard>
+
+                        <AnimatePresence>
+                            {notifMsg && <Toast msg={notifMsg.text} ok={notifMsg.ok} onClose={() => setNotifMsg(null)} />}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
+
             </div>
         </div>
     );
