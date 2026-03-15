@@ -28,9 +28,9 @@ export const SupplierCreatePage = () => {
                     </div>
                     <h2 style={{ fontSize: 24, fontWeight: 900, color: '#1E293B', marginBottom: 12 }}>Supplier Registered!</h2>
                     <p style={{ color: '#64748B', lineHeight: 1.6, marginBottom: 32 }}>The new supplier has been successfully added to your management list.</p>
-                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                        <button className="btn btn-secondary" onClick={() => setIsSuccess(false)}>Add Another</button>
-                        <button className="btn btn-primary" onClick={() => navigate('/suppliers')}>Back to Suppliers</button>
+                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
+                        <button className="btn btn-secondary w-full sm:w-auto" onClick={() => setIsSuccess(false)}>Add Another</button>
+                        <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/suppliers')}>Back to Suppliers</button>
                     </div>
                 </div>
             </div>
@@ -40,11 +40,11 @@ export const SupplierCreatePage = () => {
     return (
         <form onSubmit={handleSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                    <button type="button" className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
+                    <button type="button" className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
                         <ArrowLeft size={18} /> Back
                     </button>
-                    <div>
+                    <div className="text-center sm:text-left">
                         <div className="page-title">Register New Supplier</div>
                         <div className="breadcrumb">Supplier Management <span>/</span> Create</div>
                     </div>
@@ -57,7 +57,7 @@ export const SupplierCreatePage = () => {
                     {/* Basic Info */}
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', padding: 24 }}>
                         <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)', marginBottom: 20 }}>Basic Information</h3>
-                        <div className="form-grid form-grid-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                             <div className="form-group">
                                 <label className="form-label">Supplier Name*</label>
                                 <input required type="text" className="form-input" placeholder="e.g. iTriangle" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
@@ -85,7 +85,7 @@ export const SupplierCreatePage = () => {
                     {/* Contact Person */}
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', padding: 24 }}>
                         <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)', marginBottom: 20 }}>Contact Person</h3>
-                        <div className="form-grid form-grid-2">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
                             <div className="form-group">
                                 <label className="form-label">Full Name*</label>
                                 <div style={{ position: 'relative' }}>
@@ -112,9 +112,9 @@ export const SupplierCreatePage = () => {
                 </div>
             </div>
 
-            <div style={{ padding: '20px 24px', background: 'white', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-                <button type="button" className="btn btn-secondary" onClick={() => navigate('/suppliers')}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Register Supplier</button>
+            <div style={{ padding: '20px 24px', background: 'white', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: 12, flexDirection: 'column' }} className="sm:flex-row">
+                <button type="button" className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/suppliers')}>Cancel</button>
+                <button type="submit" className="btn btn-primary w-full sm:w-auto">Register Supplier</button>
             </div>
         </form>
     );

@@ -56,9 +56,9 @@ export const PlanCreatePage = () => {
                     </div>
                     <h2 style={{ fontSize: 24, fontWeight: 900, color: '#1E293B', marginBottom: 12 }}>Plan Created!</h2>
                     <p style={{ color: '#64748B', lineHeight: 1.6, marginBottom: 32 }}>The new subscription plan has been registered successfully and is now active.</p>
-                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                        <button className="btn btn-secondary" onClick={() => setIsSuccess(false)}>Add Another</button>
-                        <button className="btn btn-primary" onClick={() => navigate('/plan')}>Go to Plans</button>
+                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
+                        <button className="btn btn-secondary w-full sm:w-auto" onClick={() => setIsSuccess(false)}>Add Another</button>
+                        <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/plan')}>Go to Plans</button>
                     </div>
                 </div>
             </div>
@@ -69,11 +69,11 @@ export const PlanCreatePage = () => {
         <form onSubmit={handleSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             {/* Header */}
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                    <button type="button" className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => navigate('/plan')}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
+                    <button type="button" className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/plan')}>
                         <ArrowLeft size={18} /> Back
                     </button>
-                    <div>
+                    <div className="text-center sm:text-left">
                         <div className="page-title">Create New Plan</div>
                         <div className="breadcrumb">Plan Management <span>/</span> Create</div>
                     </div>
@@ -87,12 +87,12 @@ export const PlanCreatePage = () => {
                     {/* Pricing Strategy */}
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', padding: 24 }}>
                         <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)', marginBottom: 20 }}>Pricing Strategy</h3>
-                        <div className="form-grid form-grid-2">
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Monthly Price (₹)</label>
                                 <input type="number" className="form-input" value={planData.monthlyPrice} onChange={e => setPlanData({...planData, monthlyPrice: Number(e.target.value)})} />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Yearly Price (₹)</label>
                                 <input type="number" className="form-input" value={planData.yearlyPrice} onChange={e => setPlanData({...planData, yearlyPrice: Number(e.target.value)})} />
                             </div>
@@ -102,12 +102,12 @@ export const PlanCreatePage = () => {
                     {/* Plan Details */}
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', padding: 24 }}>
                         <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)', marginBottom: 20 }}>Plan Details</h3>
-                        <div className="form-grid form-grid-2">
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Plan Name*</label>
                                 <input required type="text" className="form-input" placeholder="e.g. Pro, Enterprise" value={planData.name} onChange={e => setPlanData({...planData, name: e.target.value})} />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Type *</label>
                                 <div style={{ position: 'relative' }}>
                                     <select required className="form-select" value={planData.type} onChange={e => setPlanData({...planData, type: e.target.value})}>
@@ -124,22 +124,22 @@ export const PlanCreatePage = () => {
                         </div>
 
                         {/* Resource Inclusions */}
-                        <div className="form-grid form-grid-2" style={{ marginTop: 12 }}>
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4" style={{ marginTop: 12 }}>
+                            <div className="form-group mb-0">
                                 <label className="form-label">Vehicles Included</label>
                                 <input type="text" className="form-input" placeholder="e.g. Up to 15" value={planData.vehiclesIncluded} onChange={e => setPlanData({...planData, vehiclesIncluded: e.target.value})} />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Beacons Included</label>
                                 <input type="text" className="form-input" placeholder="e.g. 150 free" value={planData.beaconsIncluded} onChange={e => setPlanData({...planData, beaconsIncluded: e.target.value})} />
                             </div>
                         </div>
-                        <div className="form-grid form-grid-2" style={{ marginTop: 12 }}>
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4" style={{ marginTop: 12 }}>
+                            <div className="form-group mb-0">
                                 <label className="form-label">GPS Devices Included</label>
                                 <input type="text" className="form-input" placeholder="e.g. 5 free" value={planData.gpsIncluded} onChange={e => setPlanData({...planData, gpsIncluded: e.target.value})} />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Support Level</label>
                                 <div style={{ position: 'relative' }}>
                                     <select className="form-select" value={planData.support} onChange={e => setPlanData({...planData, support: e.target.value})}>
@@ -152,8 +152,8 @@ export const PlanCreatePage = () => {
                             </div>
                         </div>
 
-                        <div className="form-grid form-grid-2" style={{ marginTop: 12 }}>
-                            <div className="form-group">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4" style={{ marginTop: 12 }}>
+                            <div className="form-group mb-0">
                                 <label className="form-label">Status *</label>
                                 <div style={{ position: 'relative' }}>
                                     <select required className="form-select" value={planData.status} onChange={e => setPlanData({...planData, status: e.target.value as any})}>
@@ -163,7 +163,7 @@ export const PlanCreatePage = () => {
                                     <ChevronDown size={16} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--muted)' }} />
                                 </div>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-0">
                                 <label className="form-label">Trial Period (Days)</label>
                                 <input type="number" className="form-input" value={planData.trialPeriod} onChange={e => setPlanData({...planData, trialPeriod: Number(e.target.value)})} />
                             </div>
@@ -182,9 +182,9 @@ export const PlanCreatePage = () => {
 
                     {/* Plan Features */}
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', padding: 24 }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-                            <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)' }}>Plan Features</h3>
-                            <button type="button" className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: 11 }} onClick={handleAddFeature}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, flexDirection: 'column', gap: 12 }} className="sm:flex-row">
+                            <h3 style={{ fontSize: 14, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--primary)', margin: 0 }}>Plan Features</h3>
+                            <button type="button" className="btn btn-secondary w-full sm:w-auto" style={{ padding: '6px 12px', fontSize: 11 }} onClick={handleAddFeature}>
                                 <Plus size={14} /> Add Feature
                             </button>
                         </div>
@@ -232,9 +232,9 @@ export const PlanCreatePage = () => {
             </div>
 
             {/* Footer */}
-            <div style={{ padding: '20px 24px', background: 'white', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-                <button type="button" className="btn btn-secondary" onClick={() => navigate('/plan')}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Save Plan</button>
+            <div style={{ padding: '20px 24px', background: 'white', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', gap: 12, flexDirection: 'column' }} className="sm:flex-row">
+                <button type="button" className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/plan')}>Cancel</button>
+                <button type="submit" className="btn btn-primary w-full sm:w-auto">Save Plan</button>
             </div>
         </form>
     );

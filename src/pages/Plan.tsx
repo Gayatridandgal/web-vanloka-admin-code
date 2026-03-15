@@ -23,24 +23,24 @@ const ViewOverlay = ({ plan, onClose }: { plan: Plan; onClose: () => void }) => 
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)', padding: '24px 32px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                <div style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)', padding: '24px 20px' }} className="sm:p-8">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexDirection: 'column', gap: 16 }} className="sm:flex-row sm:items-center">
                         <div style={{ color: 'white' }}>
-                            <h2 style={{ fontSize: 24, fontWeight: 900, margin: 0, marginBottom: 4 }}>{plan.name}</h2>
+                            <h2 style={{ fontSize: 20, fontWeight: 900, margin: 0, marginBottom: 4 }} className="sm:text-2xl">{plan.name}</h2>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <span style={{ opacity: 0.9, fontWeight: 600 }}>{plan.id}</span>
+                                <span style={{ opacity: 0.9, fontWeight: 600, fontSize: 13 }}>{plan.id}</span>
                                 <Badge variant={plan.status === 'Active' ? 'green' : 'slate'}>{plan.status}</Badge>
                             </div>
                         </div>
-                        <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: 8, padding: 8, color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: 8, padding: 8, color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 16, top: 24 }} className="sm:static">
                             <X size={20} />
                         </button>
                     </div>
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: 32, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 16, marginBottom: 32 }}>
+                <div style={{ padding: 20, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }} className="sm:p-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
                             <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>Plan Type</div>
                             <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{plan.type}</div>
@@ -61,7 +61,7 @@ const ViewOverlay = ({ plan, onClose }: { plan: Plan; onClose: () => void }) => 
 
                     <div style={{ marginBottom: 24 }}>
                         <h3 style={{ fontSize: 14, fontWeight: 800, color: '#1E293B', marginBottom: 16, borderBottom: '1px solid #E2E8F0', paddingBottom: 8 }}>Included Resources</h3>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                                 <div style={{ width: 40, height: 40, borderRadius: 10, background: '#EFF6FF', color: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <Package size={20} />
@@ -142,7 +142,7 @@ export const PlanPage = () => {
 
             <div className="page-body">
                 {/* Stat Cards */}
-                <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                <div style={{ display: 'flex', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
                     {[
                         { label: 'Total Plans', val: INITIAL_PLANS.length, color: '#7C3AED', bg: '#F5F3FF', icon: 'list_alt' },
                         { label: 'Active Plans', val: INITIAL_PLANS.filter(p => p.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: 'check_circle' },
@@ -150,7 +150,7 @@ export const PlanPage = () => {
                     ].map(s => (
                         <div key={s.label} style={{ 
                             background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
-                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '0 1 180px' 
+                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 180px' 
                         }}>
                              <div style={{ 
                                 width: 32, height: 32, borderRadius: 8, background: s.bg, 
@@ -179,11 +179,13 @@ export const PlanPage = () => {
                             onChange={e => setSearch(e.target.value)}
                         />
                     </div>
-                    <select className="form-select" style={{ width: 160 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-                        <option value="All">All Status</option>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
-                    </select>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[160px]">
+                        <select className="form-select" style={{ width: '100%' }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                            <option value="All">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div className="table-card table-scroll-wrapper" style={{ border: 'none', background: 'transparent' }}>

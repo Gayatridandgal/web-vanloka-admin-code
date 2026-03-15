@@ -49,8 +49,8 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '24px 26px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
-    <div className={className} style={{ gap: 20 }}>
+const Grid = ({ children }: { children: React.ReactNode }) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         {children}
     </div>
 );
@@ -152,9 +152,9 @@ export const PlanFeatureCreatePage = () => {
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
                             <strong>{form.name}</strong> has been registered in the subscription system with code: <code>{form.code.toUpperCase()}</code>.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
                             <button
-                                className="btn btn-secondary"
+                                className="btn btn-secondary w-full sm:w-auto"
                                 onClick={() => {
                                     setForm({ name: '', code: '', category: 'Tracking', description: '', status: 'Active' });
                                     setSaved(false);
@@ -162,7 +162,7 @@ export const PlanFeatureCreatePage = () => {
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary" onClick={() => navigate('/masters/plan-features')}>
+                            <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
                                 <ArrowLeft size={16} className="ms mr-1" /> Back to List
                             </button>
                         </div>
@@ -176,21 +176,15 @@ export const PlanFeatureCreatePage = () => {
     return (
         <>
             <div className="page-header">
-                <div>
-                    <div className="page-title">
-                        <CreditCard size={18} className="ms" />
-                        Add New Plan Feature
-                    </div>
-                    <div className="breadcrumb">
-                        Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span> Add
-                    </div>
-                </div>
-                {/* Header Actions: Back Button Only */}
-                <div style={{ display: 'flex', gap: 12 }}>
-                    <button className="btn btn-secondary" onClick={() => navigate('/masters/plan-features')}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
+                    <button className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
+                    <div className="text-center sm:text-left">
+                        <div className="page-title">Add New Plan Feature</div>
+                        <div className="breadcrumb">Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span> Add</div>
+                    </div>
                 </div>
             </div>
 
@@ -201,7 +195,7 @@ export const PlanFeatureCreatePage = () => {
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" highlight />
                         <Body>
-                            <Grid className="grid-cols-responsive-2">
+                            <Grid>
                                 <div>
                                     <Label>Feature Name *</Label>
                                     <input
@@ -284,11 +278,11 @@ export const PlanFeatureCreatePage = () => {
                     </Card>
 
                     {/* Footer Actions: Cancel and Save */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40 }}>
-                        <button className="btn btn-secondary" onClick={() => navigate('/masters/plan-features')}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40, flexDirection: 'column' }} className="sm:flex-row mb-8 sm:mb-0">
+                        <button className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
                             Cancel
                         </button>
-                        <button className="btn btn-primary" onClick={handleSave}>
+                        <button className="btn btn-primary w-full sm:w-auto" onClick={handleSave}>
                             <Save size={18} className="ms mr-1" /> Save Feature
                         </button>
                     </div>

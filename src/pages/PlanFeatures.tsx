@@ -96,7 +96,7 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
                         <div>
                             <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Category</div>
                             <div style={{ 
@@ -185,13 +185,13 @@ export const PlanFeaturesPage = () => {
             {/* ── BODY ── */}
             <div className="page-body">
                 {/* ── Stat cards ── */}
-                <div className="stat-grid stat-grid-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     {[
                         { bg: '#EDE9FE', ic: '#7C3AED', icon: 'credit_card', label: 'Total Features', val: String(totalCount) },
                         { bg: '#DCFCE7', ic: '#059669', icon: 'verified', label: 'Active Features', val: String(activeCount) },
                         { bg: '#EFF6FF', ic: '#2563EB', icon: 'category', label: 'Service Categories', val: String(categoriesCount) },
                     ].map((s) => (
-                        <div key={s.label} className="stat-card">
+                        <div key={s.label} className="stat-card" style={{ margin: 0 }}>
                             <div className="stat-icon" style={{ background: s.bg }}>
                                 {s.icon === 'credit_card' && <CreditCard size={20} color={s.ic} />}
                                 {s.icon === 'verified' && <CheckCircle2 size={20} color={s.ic} />}
@@ -232,10 +232,10 @@ export const PlanFeaturesPage = () => {
                         />
                     </div>
                     {/* Category filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[180px]">
                         <select
                             className="form-select"
-                            style={{ width: 180, paddingRight: 32 }}
+                            style={{ width: '100%', paddingRight: 32 }}
                             value={categoryFilter}
                             onChange={(e) => {
                                 setCategoryFilter(e.target.value);

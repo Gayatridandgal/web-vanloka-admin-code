@@ -33,11 +33,11 @@ export const SupplierDeviceDetails = () => {
     return (
         <>
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                    <button className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
+                    <button className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
                         <ArrowLeft size={18} /> Back
                     </button>
-                    <div>
+                    <div className="text-center sm:text-left">
                         <div className="page-title">{supplier.name} - Devices</div>
                         <div className="breadcrumb">Suppliers <span>/</span> {supplier.name} <span>/</span> Devices</div>
                     </div>

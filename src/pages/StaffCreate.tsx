@@ -161,8 +161,8 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ cols, children }: { cols: string; children: React.ReactNode }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 16 }}>{children}</div>
+const Grid = ({ cols, children, className = "" }: { cols: string; children: React.ReactNode; className?: string }) => (
+    <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 16 }} className={className}>{children}</div>
 );
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -312,12 +312,13 @@ export const StaffCreate = () => {
                             background: 'white',
                             borderRadius: 20,
                             border: '1.5px solid var(--border)',
-                            padding: '52px 60px',
+                            padding: '40px 24px',
                             textAlign: 'center',
                             maxWidth: 480,
                             width: '100%',
                             boxShadow: '0 8px 40px rgba(5,150,105,.08)',
                         }}
+                        className="md:p-[52px_60px]"
                     >
                         <div
                             style={{
@@ -371,9 +372,9 @@ export const StaffCreate = () => {
                                 </>
                             )}
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
                             <button
-                                className="btn btn-secondary"
+                                className="btn btn-secondary w-full sm:w-auto"
                                 onClick={() => {
                                     setForm(INIT);
                                     setSaved(false);
@@ -382,7 +383,7 @@ export const StaffCreate = () => {
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary" onClick={() => navigate('/staff')}>
+                            <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/staff')}>
                                 <ArrowLeft size={16} className="ms mr-1" />{' '}
                                 Back to Staff List
                             </button>
@@ -436,7 +437,7 @@ export const StaffCreate = () => {
                     <Card>
                         <SectionHeader icon={User} title="Basic Information" />
                         <Body>
-                            <div style={{ display: 'flex', gap: 24 }}>
+                            <div style={{ display: 'flex', gap: 24, flexDirection: 'column' }} className="md:flex-row">
                                 {/* Photo */}
                                 <div style={{ flexShrink: 0 }}>
                                     <Label>Profile Photo</Label>
@@ -500,33 +501,39 @@ export const StaffCreate = () => {
                                     >
                                         JPG, PNG (Max 2MB)
                                     </div>
-                                    <label
+                                    <div
                                         style={{
-                                            display: 'block',
-                                            textAlign: 'center',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
                                             marginTop: 6,
-                                            cursor: 'pointer',
                                         }}
                                     >
-                                        <span
+                                        <label
                                             style={{
-                                                fontSize: 10,
-                                                fontWeight: 700,
-                                                color: 'var(--primary)',
-                                                border: '1px solid var(--primary)',
-                                                borderRadius: 6,
-                                                padding: '3px 10px',
+                                                cursor: 'pointer',
                                             }}
                                         >
-                                            Choose File
-                                        </span>
-                                        <input
-                                            type="file"
-                                            accept=".jpg,.jpeg,.png"
-                                            style={{ display: 'none' }}
-                                            onChange={handlePhoto}
-                                        />
-                                    </label>
+                                            <span
+                                                style={{
+                                                    fontSize: 10,
+                                                    fontWeight: 700,
+                                                    color: 'var(--primary)',
+                                                    border: '1px solid var(--primary)',
+                                                    borderRadius: 6,
+                                                    padding: '3px 10px',
+                                                }}
+                                            >
+                                                Choose File
+                                            </span>
+                                            <input
+                                                type="file"
+                                                accept=".jpg,.jpeg,.png"
+                                                style={{ display: 'none' }}
+                                                onChange={handlePhoto}
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
 
                                 {/* Fields */}
@@ -534,9 +541,9 @@ export const StaffCreate = () => {
                                     style={{
                                         flex: 1,
                                         display: 'grid',
-                                        gridTemplateColumns: '1fr 1fr 1fr',
                                         gap: 14,
                                     }}
+                                    className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
                                 >
                                     <div>
                                         <Label>Employee ID</Label>
@@ -652,7 +659,7 @@ export const StaffCreate = () => {
                     <Card>
                         <SectionHeader icon={Briefcase} title="Professional Info" />
                         <Body>
-                            <Grid cols="1fr 1fr">
+                            <Grid cols="1fr 1fr" className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
                                 <div>
                                     <Label>Employment Type</Label>
                                     <select
@@ -720,7 +727,7 @@ export const StaffCreate = () => {
                     <Card>
                         <SectionHeader icon={Home} title="Address Details" />
                         <Body>
-                            <Grid cols="1fr 1fr">
+                            <Grid cols="1fr 1fr" className="grid-cols-1 sm:grid-cols-2">
                                 <div data-err={errs.address1 ? '1' : undefined}>
                                     <Label>Address Line 1</Label>
                                     <input

@@ -64,7 +64,7 @@ export const SupplierPage = () => {
 
             <div className="page-body">
                 {/* Stat Cards */}
-                <div style={{ display: 'flex', gap: 12, marginBottom: 8 }}>
+                <div style={{ display: 'flex', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
                     {[
                         { label: 'Total Suppliers', val: suppliers.length, color: '#7C3AED', bg: '#F5F3FF', icon: <Warehouse size={16} /> },
                         { label: 'Active Suppliers', val: suppliers.filter(s => s.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <CheckCircle2 size={16} /> },
@@ -72,7 +72,7 @@ export const SupplierPage = () => {
                     ].map(s => (
                         <div key={s.label} style={{ 
                             background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
-                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '0 1 200px' 
+                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 200px' 
                         }}>
                              <div style={{ 
                                 width: 32, height: 32, borderRadius: 8, background: s.bg, 
@@ -99,8 +99,8 @@ export const SupplierPage = () => {
                             onChange={e => setSearch(e.target.value)}
                         />
                     </div>
-                    <div style={{ position: 'relative' }}>
-                        <select className="form-select" style={{ width: 160, paddingRight: 32 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[160px]">
+                        <select className="form-select" style={{ width: '100%', paddingRight: 32 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
                             <option value="All">All Status</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -204,7 +204,7 @@ export const SupplierPage = () => {
                                     <Badge variant={viewingSupplier.status === 'Active' ? 'green' : 'slate'}>{viewingSupplier.status}</Badge>
                                 </div>
                             </div>
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+                            <div style={{ display: 'grid', gap: 24 }} className="grid-cols-1 sm:grid-cols-2">
                                 {[
                                     { label: 'Location', val: viewingSupplier.location, icon: <MapPin size={14} /> },
                                     { label: 'Contact Person', val: viewingSupplier.contactPerson, icon: <User size={14} /> },
@@ -222,9 +222,9 @@ export const SupplierPage = () => {
                                 ))}
                             </div>
                         </div>
-                        <div style={{ padding: '20px 32px', background: '#F8FAFC', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-                            <button className="btn btn-secondary" onClick={() => navigate(`/suppliers/${viewingSupplier.id}/devices`)}>Manage Devices</button>
-                            <button className="btn btn-primary" onClick={() => setViewingSupplier(null)}>Close</button>
+                        <div style={{ padding: '20px 32px', background: '#F8FAFC', display: 'flex', justifyContent: 'flex-end', gap: 12, flexDirection: 'column' }} className="sm:flex-row">
+                            <button className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate(`/suppliers/${viewingSupplier.id}/devices`)}>Manage Devices</button>
+                            <button className="btn btn-primary w-full sm:w-auto" onClick={() => setViewingSupplier(null)}>Close</button>
                         </div>
                     </div>
                 </div>
@@ -243,22 +243,22 @@ export const SupplierPage = () => {
                                 <label className="form-label">Supplier Name</label>
                                 <input required className="form-input" value={editingSupplier.name} onChange={e => setEditingSupplier({...editingSupplier, name: e.target.value})} />
                             </div>
-                            <div className="form-grid form-grid-2">
-                                <div className="form-group">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
+                                <div className="form-group mb-0">
                                     <label className="form-label">Location</label>
                                     <input required className="form-input" value={editingSupplier.location} onChange={e => setEditingSupplier({...editingSupplier, location: e.target.value})} />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group mb-0">
                                     <label className="form-label">Contact Person</label>
                                     <input required className="form-input" value={editingSupplier.contactPerson} onChange={e => setEditingSupplier({...editingSupplier, contactPerson: e.target.value})} />
                                 </div>
                             </div>
-                            <div className="form-grid form-grid-2">
-                                <div className="form-group">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-5">
+                                <div className="form-group mb-0">
                                     <label className="form-label">Email Address</label>
                                     <input required type="email" className="form-input" value={editingSupplier.email} onChange={e => setEditingSupplier({...editingSupplier, email: e.target.value})} />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group mb-0">
                                     <label className="form-label">Phone Number</label>
                                     <input required className="form-input" value={editingSupplier.phone} onChange={e => setEditingSupplier({...editingSupplier, phone: e.target.value})} />
                                 </div>
@@ -271,9 +271,9 @@ export const SupplierPage = () => {
                                 </select>
                             </div>
                         </div>
-                        <div style={{ padding: '20px 32px', background: '#F8FAFC', display: 'flex', justifyContent: 'flex-end', gap: 12 }}>
-                            <button type="button" className="btn btn-secondary" onClick={() => setEditingSupplier(null)}>Cancel</button>
-                            <button type="submit" className="btn btn-primary">Update Supplier</button>
+                        <div style={{ padding: '20px 32px', background: '#F8FAFC', display: 'flex', justifyContent: 'flex-end', gap: 12, flexDirection: 'column' }} className="sm:flex-row">
+                            <button type="button" className="btn btn-secondary w-full sm:w-auto" onClick={() => setEditingSupplier(null)}>Cancel</button>
+                            <button type="submit" className="btn btn-primary w-full sm:w-auto">Update Supplier</button>
                         </div>
                     </form>
                 </div>
@@ -288,9 +288,9 @@ export const SupplierPage = () => {
                         </div>
                         <h2 style={{ fontSize: 20, fontWeight: 900, color: 'var(--text)', marginBottom: 12 }}>Delete Supplier?</h2>
                         <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 32 }}>Are you sure you want to remove <strong>{deletingSupplier.name}</strong>? All associated device records will remain but the link will be detached.</p>
-                        <div style={{ display: 'flex', gap: 12 }}>
-                            <button className="btn btn-secondary" style={{ flex: 1 }} onClick={() => setDeletingSupplier(null)}>Cancel</button>
-                            <button className="btn btn-primary" style={{ flex: 1, background: '#EF4444', borderColor: '#EF4444' }} onClick={handleDeleteSupplier}>Yes, Remove</button>
+                        <div style={{ display: 'flex', gap: 12, flexDirection: 'column' }} className="sm:flex-row">
+                            <button className="btn btn-secondary w-full sm:w-auto" style={{ flex: 1 }} onClick={() => setDeletingSupplier(null)}>Cancel</button>
+                            <button className="btn btn-primary w-full sm:w-auto" style={{ flex: 1, background: '#EF4444', borderColor: '#EF4444' }} onClick={handleDeleteSupplier}>Yes, Remove</button>
                         </div>
                     </div>
                 </div>

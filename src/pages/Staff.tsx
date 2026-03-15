@@ -78,12 +78,15 @@ const ViewOverlay = ({
                 <div
                     style={{
                         background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)',
-                        padding: '28px 28px 24px',
+                        padding: '24px',
                         borderRadius: '16px 16px 0 0',
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
-                        gap: 18,
+                        textAlign: 'center',
+                        gap: 16,
                     }}
+                    className="md:flex-row md:text-left md:items-center md:gap-[18px]"
                 >
                     <div
                         style={{
@@ -120,7 +123,9 @@ const ViewOverlay = ({
                                 alignItems: 'center',
                                 gap: 10,
                                 flexWrap: 'wrap',
+                                justifyContent: 'center',
                             }}
+                            className="md:justify-start"
                         >
                             <span
                                 style={{
@@ -147,7 +152,11 @@ const ViewOverlay = ({
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexShrink: 0,
+                            position: 'absolute',
+                            top: 20,
+                            right: 20,
                         }}
+                        className="md:static md:mt-0"
                     >
                         <X size={20} color="white" />
                     </button>
@@ -159,10 +168,10 @@ const ViewOverlay = ({
                     <div
                         style={{
                             display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr',
                             gap: 12,
                             marginBottom: 24,
                         }}
+                        className="grid-cols-1 md:grid-cols-3"
                     >
                         {[
                             {
@@ -242,10 +251,10 @@ const ViewOverlay = ({
                     <div
                         style={{
                             display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr',
                             gap: 16,
                             marginBottom: 24,
                         }}
+                        className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
                     >
                         <Field label="Designation" value={staff.designation} />
                         <Field label="Gender" value={staff.gender} />
@@ -272,10 +281,10 @@ const ViewOverlay = ({
                     <div
                         style={{
                             display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
                             gap: 16,
                             marginBottom: 24,
                         }}
+                        className="grid-cols-1 sm:grid-cols-2"
                     >
                         <Field label="Email" value={staff.email} />
                         <Field label="Phone" value={staff.phone} />
@@ -333,10 +342,10 @@ const ViewOverlay = ({
                     <div
                         style={{
                             display: 'grid',
-                            gridTemplateColumns: '1fr 1fr 1fr',
                             gap: 16,
                             marginBottom: staff.remarks ? 24 : 0,
                         }}
+                        className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
                     >
                         <Field label="Bank" value={staff.bankName} />
                         <Field label="Account No." value={staff.accountNumber} />
@@ -487,12 +496,12 @@ const DeleteOverlay = ({
                     permanently removed.
                 </span>
             </div>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                <button className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
+                <button className="btn btn-secondary w-full sm:w-auto" onClick={onCancel} style={{ minWidth: 120 }}>
                     Cancel
                 </button>
                 <button
-                    className="btn"
+                    className="btn w-full sm:w-auto"
                     onClick={onConfirm}
                     style={{
                         minWidth: 120,
@@ -760,13 +769,15 @@ const ImportOverlay = ({
                         display: 'flex',
                         gap: 10,
                         justifyContent: 'flex-end',
+                        flexDirection: 'column',
                     }}
+                    className="sm:flex-row"
                 >
-                    <button className="btn btn-secondary" onClick={onClose}>
+                    <button className="btn btn-secondary w-full sm:w-auto" onClick={onClose}>
                         Cancel
                     </button>
                     <button
-                        className="btn btn-success"
+                        className="btn btn-success w-full sm:w-auto"
                         disabled={parsedRows.length === 0}
                         style={{ opacity: parsedRows.length === 0 ? 0.5 : 1 }}
                         onClick={() => {
@@ -885,7 +896,7 @@ const ExportOverlay = ({
                     }}
                 >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                        <FileDown size={24} color="white" />
+                        <FileDown size={24} color="white" className="hidden sm:block" />
                         <div>
                             <div style={{ fontSize: 16, fontWeight: 900, color: 'white' }}>
                                 {overlayTitle}
@@ -897,7 +908,7 @@ const ExportOverlay = ({
                                     fontWeight: 600,
                                 }}
                             >
-                                Customize branding &amp; preview before downloading
+                                Customize branding &amp; preview
                             </div>
                         </div>
                     </div>
@@ -921,7 +932,7 @@ const ExportOverlay = ({
 
                 {/* Body */}
                 <div style={{ padding: '24px 28px' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                    <div style={{ display: 'grid', gap: 20 }} className="grid-cols-1 lg:grid-cols-2">
                         {/* LEFT: Branding options */}
                         <div>
                             <div
@@ -1644,10 +1655,10 @@ export const StaffPage = () => {
                         />
                     </div>
                     {/* Role filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[150px]">
                         <select
                             className="form-select"
-                            style={{ width: 150, paddingRight: 32 }}
+                            style={{ width: '100%', paddingRight: 32 }}
                             value={roleFilter}
                             onChange={(e) => setRoleFilter(e.target.value)}
                         >
@@ -1670,10 +1681,10 @@ export const StaffPage = () => {
                         />
                     </div>
                     {/* Status filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[140px]">
                         <select
                             className="form-select"
-                            style={{ width: 140, paddingRight: 32 }}
+                            style={{ width: '100%', paddingRight: 32 }}
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
                         >
