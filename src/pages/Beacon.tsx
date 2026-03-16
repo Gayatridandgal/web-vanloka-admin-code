@@ -1,4 +1,19 @@
-import { ChevronDown, Radio, X, RadioReceiver, Plus, Search, SearchX, Settings2, BatteryWarning, MapPin, Eye, Edit, Trash2, CheckCircle2 } from 'lucide-react';
+import {
+    ChevronDown,
+    Radio,
+    X,
+    RadioReceiver,
+    Plus,
+    Search,
+    SearchX,
+    Settings2,
+    BatteryWarning,
+    MapPin,
+    Eye,
+    Edit,
+    Trash2,
+    CheckCircle2,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -16,85 +31,151 @@ interface Beacon {
 }
 
 const DUMMY_BEACONS: Beacon[] = [
-    { id: 'BCN-001', macAddress: '00:1A:2B:3C:4D:5E', assignedTo: 'Student Bus A', location: 'Gate 1', batteryLevel: 98, status: 'Active', lastPing: '2 mins ago' },
-    { id: 'BCN-002', macAddress: '00:1A:2B:3C:4D:5F', assignedTo: 'Unassigned', location: 'Storage', batteryLevel: 100, status: 'Inactive', lastPing: '1 day ago' },
-    { id: 'BCN-003', macAddress: '00:1A:2B:3C:4D:60', assignedTo: 'Staff Van C', location: 'Parking B', batteryLevel: 15, status: 'Active', lastPing: '5 mins ago' },
-    { id: 'BCN-004', macAddress: '00:1A:2B:3C:4D:61', assignedTo: 'Visitor Pass 1', location: 'Reception', batteryLevel: 45, status: 'Maintenance', lastPing: '2 hrs ago' },
-    { id: 'BCN-005', macAddress: '00:1A:2B:3C:4D:62', assignedTo: 'Student Bus B', location: 'Gate 2', batteryLevel: 82, status: 'Active', lastPing: '1 min ago' },
+    {
+        id: 'BCN-001',
+        macAddress: '00:1A:2B:3C:4D:5E',
+        assignedTo: 'Student Bus A',
+        location: 'Gate 1',
+        batteryLevel: 98,
+        status: 'Active',
+        lastPing: '2 mins ago',
+    },
+    {
+        id: 'BCN-002',
+        macAddress: '00:1A:2B:3C:4D:5F',
+        assignedTo: 'Unassigned',
+        location: 'Storage',
+        batteryLevel: 100,
+        status: 'Inactive',
+        lastPing: '1 day ago',
+    },
+    {
+        id: 'BCN-003',
+        macAddress: '00:1A:2B:3C:4D:60',
+        assignedTo: 'Staff Van C',
+        location: 'Parking B',
+        batteryLevel: 15,
+        status: 'Active',
+        lastPing: '5 mins ago',
+    },
+    {
+        id: 'BCN-004',
+        macAddress: '00:1A:2B:3C:4D:61',
+        assignedTo: 'Visitor Pass 1',
+        location: 'Reception',
+        batteryLevel: 45,
+        status: 'Maintenance',
+        lastPing: '2 hrs ago',
+    },
+    {
+        id: 'BCN-005',
+        macAddress: '00:1A:2B:3C:4D:62',
+        assignedTo: 'Student Bus B',
+        location: 'Gate 2',
+        batteryLevel: 82,
+        status: 'Active',
+        lastPing: '1 min ago',
+    },
 ];
 
 const getStatusVariant = (status: BeaconStatus) => {
     switch (status) {
-        case 'Active': return 'green';
-        case 'Inactive': return 'slate';
-        case 'Maintenance': return 'amber';
-        default: return 'blue';
+        case 'Active':
+            return 'green';
+        case 'Inactive':
+            return 'slate';
+        case 'Maintenance':
+            return 'amber';
+        default:
+            return 'blue';
     }
 };
-
 
 /* ── VIEW DETAIL OVERLAY ── */
 const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void }) => {
     return (
-        <div style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0,0,0,.45)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: window.innerWidth < 640 ? 12 : 24,
-        }} onClick={onClose}>
-            <div style={{
-                background: 'white',
-                borderRadius: 16,
-                width: '100%',
-                maxWidth: 480,
-                maxHeight: 'calc(100vh - 40px)',
-                overflow: 'auto',
-                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
-            }} onClick={e => e.stopPropagation()}>
+        <div
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1000,
+                background: 'rgba(0,0,0,.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: window.innerWidth < 640 ? 12 : 24,
+            }}
+            onClick={onClose}
+        >
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    width: '100%',
+                    maxWidth: 480,
+                    maxHeight: 'calc(100vh - 40px)',
+                    overflow: 'auto',
+                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            >
                 {/* Header */}
-                <div style={{
-                    background: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)',
-                    padding: '24px 28px',
-                    borderRadius: '16px 16px 0 0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
+                <div
+                    style={{
+                        background: 'linear-gradient(135deg, #0369A1 0%, #075985 100%)',
+                        padding: '24px 28px',
+                        borderRadius: '16px 16px 0 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <div style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            background: 'rgba(255,255,255,.2)',
+                        <div
+                            style={{
+                                width: 48,
+                                height: 48,
+                                borderRadius: '50%',
+                                background: 'rgba(255,255,255,.2)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: 18,
+                                fontWeight: 900,
+                            }}
+                        >
+                            <RadioReceiver size={24} />
+                        </div>
+                        <div>
+                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>
+                                {beacon.id}
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 12,
+                                    color: 'rgba(255,255,255,.8)',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                Beacon Details
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        style={{
+                            background: 'rgba(255,255,255,.1)',
+                            border: 'none',
+                            borderRadius: 8,
+                            width: 32,
+                            height: 32,
+                            cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: 'white',
-                            fontSize: 18,
-                            fontWeight: 900,
-                        }}>
-                             <RadioReceiver size={24} />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{beacon.id}</div>
-                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', fontWeight: 600 }}>Beacon Details</div>
-                        </div>
-                    </div>
-                    <button onClick={onClose} style={{
-                        background: 'rgba(255,255,255,.1)',
-                        border: 'none',
-                        borderRadius: 8,
-                        width: 32,
-                        height: 32,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
+                        }}
+                    >
                         <X color="white" size={18} />
                     </button>
                 </div>
@@ -103,43 +184,119 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                 <div style={{ padding: '28px' }}>
                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>MAC Address</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{beacon.macAddress}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                MAC Address
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: 700,
+                                    color: 'var(--text)',
+                                    fontFamily: 'monospace',
+                                }}
+                            >
+                                {beacon.macAddress}
+                            </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Status</div>
-                             <Badge variant={getStatusVariant(beacon.status)}>
-                                {beacon.status}
-                            </Badge>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Status
+                            </div>
+                            <Badge variant={getStatusVariant(beacon.status)}>{beacon.status}</Badge>
                         </div>
                     </div>
 
                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Assigned To</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{beacon.assignedTo}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Assigned To
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {beacon.assignedTo}
+                            </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Location</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{beacon.location}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Location
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {beacon.location}
+                            </div>
                         </div>
                     </div>
 
-                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Battery Level</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Battery Level
+                            </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <div style={{ 
-                                    width: 48, height: 8, 
-                                    background: '#E2E8F0', 
-                                    borderRadius: 10,
-                                    overflow: 'hidden'
-                                }}>
-                                    <div style={{ 
-                                        height: '100%', 
-                                        width: `${beacon.batteryLevel}%`,
-                                        background: beacon.batteryLevel > 50 ? '#10B981' : beacon.batteryLevel > 20 ? '#F59E0B' : '#EF4444' 
-                                    }} />
+                                <div
+                                    style={{
+                                        width: 48,
+                                        height: 8,
+                                        background: '#E2E8F0',
+                                        borderRadius: 10,
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            height: '100%',
+                                            width: `${beacon.batteryLevel}%`,
+                                            background:
+                                                beacon.batteryLevel > 50
+                                                    ? '#10B981'
+                                                    : beacon.batteryLevel > 20
+                                                      ? '#F59E0B'
+                                                      : '#EF4444',
+                                        }}
+                                    />
                                 </div>
                                 <span style={{ fontSize: 14, fontWeight: 800, color: '#475569' }}>
                                     {beacon.batteryLevel}%
@@ -147,15 +304,42 @@ const ViewOverlay = ({ beacon, onClose }: { beacon: Beacon; onClose: () => void 
                             </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Last Ping</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{beacon.lastPing}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Last Ping
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {beacon.lastPing}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Footer */}
-                <div style={{ padding: '20px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', background: 'var(--surface)' }}>
-                    <button className="btn btn-secondary" onClick={onClose} style={{ fontWeight: 800 }}>Close Overview</button>
+                <div
+                    style={{
+                        padding: '20px 28px',
+                        borderTop: '1px solid var(--border)',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        background: 'var(--surface)',
+                    }}
+                >
+                    <button
+                        className="btn btn-secondary"
+                        onClick={onClose}
+                        style={{ fontWeight: 800 }}
+                    >
+                        Close Overview
+                    </button>
                 </div>
             </div>
         </div>
@@ -187,18 +371,20 @@ export const BeaconPage = () => {
 
     // Stats
     const totalCount = DUMMY_BEACONS.length;
-    const activeCount = DUMMY_BEACONS.filter(b => b.status === 'Active').length;
-    const lowBatteryCount = DUMMY_BEACONS.filter(b => b.batteryLevel < 20).length;
-    const maintenanceCount = DUMMY_BEACONS.filter(b => b.status === 'Maintenance').length;
+    const activeCount = DUMMY_BEACONS.filter((b) => b.status === 'Active').length;
+    const lowBatteryCount = DUMMY_BEACONS.filter((b) => b.batteryLevel < 20).length;
+    const maintenanceCount = DUMMY_BEACONS.filter((b) => b.status === 'Maintenance').length;
 
     return (
         <>
             {/* ── HEADER ── */}
             <div className="page-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <button 
+                    <button
                         className="md:hidden p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"
-                        onClick={() => {/* This will be handled by App.tsx logic */}}
+                        onClick={() => {
+                            /* This will be handled by App.tsx logic */
+                        }}
                     >
                         {/* The sidebar toggle is in AdminLayout, but we can add a placeholder or rely on layout */}
                     </button>
@@ -227,16 +413,48 @@ export const BeaconPage = () => {
                 {/* ── Stat cards ── */}
                 <div className="stat-grid stat-grid-4">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: 'radio', label: 'Total Beacons', val: String(totalCount), tc: '' },
-                        { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
-                        { bg: '#FEE2E2', ic: '#DC2626', icon: 'battery_alert', label: 'Low Battery', val: String(lowBatteryCount), tc: 'trend-down' },
-                        { bg: '#FEF3C7', ic: '#D97706', icon: 'maintenance', label: 'Maintenance', val: String(maintenanceCount), tc: '' },
+                        {
+                            bg: '#EDE9FE',
+                            ic: '#7C3AED',
+                            icon: 'radio',
+                            label: 'Total Beacons',
+                            val: String(totalCount),
+                            tc: '',
+                        },
+                        {
+                            bg: '#DCFCE7',
+                            ic: '#059669',
+                            icon: 'check_circle',
+                            label: 'Active',
+                            val: String(activeCount),
+                            tc: '',
+                        },
+                        {
+                            bg: '#FEE2E2',
+                            ic: '#DC2626',
+                            icon: 'battery_alert',
+                            label: 'Low Battery',
+                            val: String(lowBatteryCount),
+                            tc: 'trend-down',
+                        },
+                        {
+                            bg: '#FEF3C7',
+                            ic: '#D97706',
+                            icon: 'maintenance',
+                            label: 'Maintenance',
+                            val: String(maintenanceCount),
+                            tc: '',
+                        },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
                                 {s.icon === 'radio' && <RadioReceiver size={18} color={s.ic} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
-                                {s.icon === 'battery_alert' && <BatteryWarning size={18} color={s.ic} />}
+                                {s.icon === 'check_circle' && (
+                                    <CheckCircle2 size={18} color={s.ic} />
+                                )}
+                                {s.icon === 'battery_alert' && (
+                                    <BatteryWarning size={18} color={s.ic} />
+                                )}
                                 {s.icon === 'maintenance' && <Settings2 size={18} color={s.ic} />}
                             </div>
                             <div>
@@ -335,62 +553,117 @@ export const BeaconPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No beacons found
                                         {search ? ` matching "${search}"` : ''}
-                                        {statusFilter !== 'All' ? ` with status "${statusFilter}"` : ''}
+                                        {statusFilter !== 'All'
+                                            ? ` with status "${statusFilter}"`
+                                            : ''}
                                     </td>
                                 </tr>
                             ) : (
                                 paginated.map((b) => (
                                     <tr key={b.id}>
                                         <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                                                <div 
-                                                    className="avatar" 
-                                                    style={{ 
-                                                        background: '#EFF6FF', 
-                                                        color: '#2563EB', 
-                                                        width: 36, 
-                                                        height: 36 
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 9,
+                                                }}
+                                            >
+                                                <div
+                                                    className="avatar"
+                                                    style={{
+                                                        background: '#EFF6FF',
+                                                        color: '#2563EB',
+                                                        width: 36,
+                                                        height: 36,
                                                     }}
                                                 >
                                                     <Settings2 size={18} />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontWeight: 800, color: 'var(--text)' }}>{b.id}</div>
-                                                    <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'monospace' }}>
+                                                    <div
+                                                        style={{
+                                                            fontWeight: 800,
+                                                            color: 'var(--text)',
+                                                        }}
+                                                    >
+                                                        {b.id}
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            fontSize: 11,
+                                                            color: 'var(--muted)',
+                                                            fontFamily: 'monospace',
+                                                        }}
+                                                    >
                                                         {b.macAddress}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
+                                            <div
+                                                style={{
+                                                    fontSize: 13,
+                                                    fontWeight: 600,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
                                                 {b.assignedTo}
                                             </div>
                                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                                                <MapPin size={12} style={{ verticalAlign: '-2px', marginRight: 2 }} />
+                                                <MapPin
+                                                    size={12}
+                                                    style={{
+                                                        verticalAlign: '-2px',
+                                                        marginRight: 2,
+                                                    }}
+                                                />
                                                 {b.location}
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                                <div style={{ 
-                                                    width: 40, height: 6, 
-                                                    background: '#E2E8F0', 
-                                                    borderRadius: 10,
-                                                    overflow: 'hidden'
-                                                }}>
-                                                    <div style={{ 
-                                                        height: '100%', 
-                                                        width: `${b.batteryLevel}%`,
-                                                        background: b.batteryLevel > 50 ? '#10B981' : b.batteryLevel > 20 ? '#F59E0B' : '#EF4444' 
-                                                    }} />
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 6,
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        width: 40,
+                                                        height: 6,
+                                                        background: '#E2E8F0',
+                                                        borderRadius: 10,
+                                                        overflow: 'hidden',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            height: '100%',
+                                                            width: `${b.batteryLevel}%`,
+                                                            background:
+                                                                b.batteryLevel > 50
+                                                                    ? '#10B981'
+                                                                    : b.batteryLevel > 20
+                                                                      ? '#F59E0B'
+                                                                      : '#EF4444',
+                                                        }}
+                                                    />
                                                 </div>
-                                                <span style={{ fontSize: 12, fontWeight: 700, color: '#475569' }}>
+                                                <span
+                                                    style={{
+                                                        fontSize: 12,
+                                                        fontWeight: 700,
+                                                        color: '#475569',
+                                                    }}
+                                                >
                                                     {b.batteryLevel}%
                                                 </span>
                                             </div>
@@ -405,21 +678,26 @@ export const BeaconPage = () => {
                                         </td>
                                         <td>
                                             <div className="actions-col">
-                                                <button 
+                                                <button
                                                     className="act-btn act-view"
                                                     title="View Beacon"
                                                     onClick={() => setViewingBeacon(b)}
                                                 >
                                                     <Eye size={16} className="ms" />
                                                 </button>
-                                                <button 
+                                                <button
                                                     className="act-btn act-edit"
                                                     title="Edit Beacon"
-                                                    onClick={() => navigate('/masters/beacon-devices/create')}
+                                                    onClick={() =>
+                                                        navigate('/masters/beacon-devices/create')
+                                                    }
                                                 >
                                                     <Edit size={16} className="ms" />
                                                 </button>
-                                                <button className="act-btn act-delete" title="Delete Beacon">
+                                                <button
+                                                    className="act-btn act-delete"
+                                                    title="Delete Beacon"
+                                                >
                                                     <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
@@ -432,21 +710,14 @@ export const BeaconPage = () => {
 
                     {/* ── PAGINATION ── */}
                     {pages > 0 && (
-                        <Pagination
-                            current={safePage}
-                            total={pages}
-                            onChange={(p) => setPage(p)}
-                        />
+                        <Pagination current={safePage} total={pages} onChange={(p) => setPage(p)} />
                     )}
                 </div>
             </div>
 
             {/* View Overlay */}
             {viewingBeacon && (
-                <ViewOverlay 
-                    beacon={viewingBeacon} 
-                    onClose={() => setViewingBeacon(null)} 
-                />
+                <ViewOverlay beacon={viewingBeacon} onClose={() => setViewingBeacon(null)} />
             )}
         </>
     );

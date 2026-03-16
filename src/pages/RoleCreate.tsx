@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Info, Key, CheckCircle2, ArrowLeft, ShieldCheck, Save } from 'lucide-react';
 
 /* ── Tiny Helpers ──────────────────────────────── */
-const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -130,7 +130,7 @@ export const RoleCreatePage = () => {
                 <div className="page-header">
                     <div>
                         <div className="page-title">
-                                <ShieldCheck size={18} className="ms" />
+                            <ShieldCheck size={18} className="ms" />
                             Roles & Permissions
                         </div>
                         <div className="breadcrumb">
@@ -166,7 +166,7 @@ export const RoleCreatePage = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                                <CheckCircle2 size={44} color="#059669" />
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -179,7 +179,8 @@ export const RoleCreatePage = () => {
                             Role Created Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.roleName}</strong> has been added with {selectedPerms.size} permissions.
+                            <strong>{form.roleName}</strong> has been added with{' '}
+                            {selectedPerms.size} permissions.
                         </div>
                         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
                             <button
@@ -196,8 +197,7 @@ export const RoleCreatePage = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/roles-permissions')}
                             >
-                                <ArrowLeft size={16} className="ms" />{' '}
-                                Back to Roles
+                                <ArrowLeft size={16} className="ms" /> Back to Roles
                             </button>
                         </div>
                     </div>
@@ -231,7 +231,10 @@ export const RoleCreatePage = () => {
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
-                    <button className="btn btn-secondary" onClick={() => navigate('/roles-permissions')}>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/roles-permissions')}
+                    >
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
@@ -251,7 +254,10 @@ export const RoleCreatePage = () => {
                                     placeholder="e.g. CONTENT MANAGER"
                                     value={form.roleName}
                                     onChange={(e) => {
-                                        setForm((v) => ({ ...v, roleName: e.target.value.toUpperCase() }));
+                                        setForm((v) => ({
+                                            ...v,
+                                            roleName: e.target.value.toUpperCase(),
+                                        }));
                                         setErrs({});
                                     }}
                                     style={{
@@ -268,25 +274,33 @@ export const RoleCreatePage = () => {
                                     className="form-input"
                                     placeholder="Describe the role responsibilities..."
                                     value={form.description}
-                                    onChange={(e) => setForm((v) => ({ ...v, description: e.target.value }))}
+                                    onChange={(e) =>
+                                        setForm((v) => ({ ...v, description: e.target.value }))
+                                    }
                                     rows={3}
-                                    style={{ width: '100%', boxSizing: 'border-box', resize: 'vertical' }}
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        resize: 'vertical',
+                                    }}
                                 />
                             </div>
                         </Body>
                     </Card>
 
                     <Card>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: '12px 20px',
-                            borderBottom: '1.5px solid var(--border)',
-                            background: 'var(--surface)',
-                        }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '12px 20px',
+                                borderBottom: '1.5px solid var(--border)',
+                                background: 'var(--surface)',
+                            }}
+                        >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                            <Key size={18} color="var(--primary)" />
+                                <Key size={18} color="var(--primary)" />
                                 <span
                                     style={{
                                         fontSize: 11,
@@ -298,17 +312,19 @@ export const RoleCreatePage = () => {
                                     Permissions
                                 </span>
                             </div>
-                            
-                            <label style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 8,
-                                cursor: 'pointer',
-                                fontSize: 12,
-                                fontWeight: 800,
-                                color: 'var(--primary)',
-                                userSelect: 'none'
-                            }}>
+
+                            <label
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 8,
+                                    cursor: 'pointer',
+                                    fontSize: 12,
+                                    fontWeight: 800,
+                                    color: 'var(--primary)',
+                                    userSelect: 'none',
+                                }}
+                            >
                                 <input
                                     type="checkbox"
                                     checked={isAllSelected}
@@ -317,31 +333,38 @@ export const RoleCreatePage = () => {
                                         width: 16,
                                         height: 16,
                                         cursor: 'pointer',
-                                        accentColor: 'var(--primary)'
+                                        accentColor: 'var(--primary)',
                                     }}
                                 />
                                 {isAllSelected ? 'DESELECT ALL' : 'SELECT ALL'}
                             </label>
                         </div>
                         <Body>
-                            <div style={{ 
-                                display: 'grid', 
-                                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', 
-                                gap: 16 
-                            }}>
-                                {PERMISSIONS.map(p => (
-                                    <label key={p} style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 10,
-                                        padding: '12px 16px',
-                                        borderRadius: 8,
-                                        border: `1px solid ${selectedPerms.has(p) ? 'var(--primary)' : 'var(--border)'}`,
-                                        background: selectedPerms.has(p) ? 'var(--surface)' : 'white',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s',
-                                        userSelect: 'none'
-                                    }}>
+                            <div
+                                style={{
+                                    display: 'grid',
+                                    gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                                    gap: 16,
+                                }}
+                            >
+                                {PERMISSIONS.map((p) => (
+                                    <label
+                                        key={p}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 10,
+                                            padding: '12px 16px',
+                                            borderRadius: 8,
+                                            border: `1px solid ${selectedPerms.has(p) ? 'var(--primary)' : 'var(--border)'}`,
+                                            background: selectedPerms.has(p)
+                                                ? 'var(--surface)'
+                                                : 'white',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.2s',
+                                            userSelect: 'none',
+                                        }}
+                                    >
                                         <input
                                             type="checkbox"
                                             checked={selectedPerms.has(p)}
@@ -351,14 +374,18 @@ export const RoleCreatePage = () => {
                                                 height: 16,
                                                 cursor: 'pointer',
                                                 accentColor: 'var(--primary)',
-                                                flexShrink: 0
+                                                flexShrink: 0,
                                             }}
                                         />
-                                        <span style={{ 
-                                            fontSize: 12, 
-                                            fontWeight: 700, 
-                                            color: selectedPerms.has(p) ? 'var(--primary)' : 'var(--text)' 
-                                        }}>
+                                        <span
+                                            style={{
+                                                fontSize: 12,
+                                                fontWeight: 700,
+                                                color: selectedPerms.has(p)
+                                                    ? 'var(--primary)'
+                                                    : 'var(--text)',
+                                            }}
+                                        >
                                             {p}
                                         </span>
                                     </label>
@@ -368,15 +395,25 @@ export const RoleCreatePage = () => {
                     </Card>
 
                     {/* ── FOOTER ACTIONS ── */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40 }}>
-                        <button className="btn btn-secondary" onClick={() => navigate('/roles-permissions')}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                        }}
+                    >
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/roles-permissions')}
+                        >
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
                             <Save size={18} className="ms mr-1" /> Save Role
                         </button>
                     </div>
-
                 </div>
             </div>
         </>

@@ -106,8 +106,8 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         background: isGood
                             ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
                             : record.score === 'Moderate'
-                                ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
-                                : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                              ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+                              : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
                     }}
                 >
                     <div className="p-6 sm:p-8 relative">
@@ -157,7 +157,9 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                                     >
                                         {record.id}
                                     </span>
-                                    <Badge variant={scoreVariant(record.score)}>{record.score}</Badge>
+                                    <Badge variant={scoreVariant(record.score)}>
+                                        {record.score}
+                                    </Badge>
                                 </div>
                             </div>
                         </div>
@@ -871,282 +873,286 @@ export const ReportsPage = () => {
                         <div className="overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
                             <table
                                 className="data-table !min-w-[1000px] !w-full !bg-white"
-                                style={{ 
+                                style={{
                                     tableLayout: 'fixed',
                                 }}
                             >
-                            <thead style={{ background: '#F8FAFC' }}>
-                                <tr>
-                                    <th
-                                        style={{
-                                            width: '14%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Vehicle ID
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '15%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Type
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '14%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Distance
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '12%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Fuel Cost
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '14%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Revenue
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '10%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Idle (h)
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '13%',
-                                            padding: '14px 20px',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Score
-                                    </th>
-                                    <th
-                                        style={{
-                                            width: '8%',
-                                            padding: '14px 20px',
-                                            textAlign: 'center',
-                                            fontWeight: 800,
-                                            color: '#64748B',
-                                            textTransform: 'uppercase',
-                                            fontSize: 11,
-                                            letterSpacing: '.05em',
-                                        }}
-                                    >
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filtered.length === 0 ? (
+                                <thead style={{ background: '#F8FAFC' }}>
                                     <tr>
-                                        <td
-                                            colSpan={8}
+                                        <th
                                             style={{
+                                                width: '14%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Vehicle ID
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '15%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Type
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '14%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Distance
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '12%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Fuel Cost
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '14%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Revenue
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '10%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Idle (h)
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '13%',
+                                                padding: '14px 20px',
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Score
+                                        </th>
+                                        <th
+                                            style={{
+                                                width: '8%',
+                                                padding: '14px 20px',
                                                 textAlign: 'center',
-                                                padding: '60px 0',
-                                                color: 'var(--muted)',
-                                                fontSize: 14,
-                                                fontWeight: 700,
+                                                fontWeight: 800,
+                                                color: '#64748B',
+                                                textTransform: 'uppercase',
+                                                fontSize: 11,
+                                                letterSpacing: '.05em',
                                             }}
                                         >
-                                            <AlertCircle
-                                                size={48}
-                                                color="#CBD5E1"
-                                                style={{ display: 'block', margin: '0 auto 12px' }}
-                                            />
-                                            No records found{search ? ` matching "${search}"` : ''}.
-                                        </td>
+                                            Actions
+                                        </th>
                                     </tr>
-                                ) : (
-                                    filtered.map((r, i) => (
-                                        <motion.tr
-                                            key={r.id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: i * 0.05 }}
-                                            className="hover:bg-[#F8FAFC]"
-                                            style={{
-                                                borderBottom: '1px solid #F1F5F9',
-                                                transition: 'background 0.2s',
-                                            }}
-                                        >
+                                </thead>
+                                <tbody>
+                                    {filtered.length === 0 ? (
+                                        <tr>
                                             <td
+                                                colSpan={8}
                                                 style={{
-                                                    padding: '16px 20px',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap',
-                                                }}
-                                            >
-                                                <span
-                                                    style={{
-                                                        fontSize: 13,
-                                                        fontWeight: 800,
-                                                        color: '#0F172A',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        gap: 8,
-                                                    }}
-                                                >
-                                                    <Car size={16} color="#64748B" />
-                                                    {r.id}
-                                                </span>
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap',
-                                                    fontSize: 13,
-                                                    color: '#475569',
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                {r.type}
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    fontSize: 13,
-                                                    fontWeight: 600,
-                                                    color: '#334155',
-                                                }}
-                                            >
-                                                {r.distance.toLocaleString()} km
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    fontSize: 13,
-                                                    color: '#DC2626',
-                                                    fontWeight: 800,
-                                                }}
-                                            >
-                                                ${r.fuelCost.toFixed(2)}
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    fontSize: 13,
-                                                    color: '#059669',
-                                                    fontWeight: 800,
-                                                }}
-                                            >
-                                                ${r.revenue.toFixed(2)}
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    fontSize: 13,
-                                                    color: '#475569',
-                                                    fontWeight: 600,
-                                                }}
-                                            >
-                                                {r.idleTime.toFixed(1)}
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
-                                                    overflow: 'hidden',
-                                                    textOverflow: 'ellipsis',
-                                                    whiteSpace: 'nowrap',
-                                                }}
-                                            >
-                                                <Badge
-                                                    variant={scoreVariant(r.score)}
-                                                    style={{
-                                                        padding: '4px 10px',
-                                                        borderRadius: 6,
-                                                        fontSize: 11,
-                                                    }}
-                                                >
-                                                    {r.score}
-                                                </Badge>
-                                            </td>
-                                            <td
-                                                style={{
-                                                    padding: '16px 20px',
                                                     textAlign: 'center',
+                                                    padding: '60px 0',
+                                                    color: 'var(--muted)',
+                                                    fontSize: 14,
+                                                    fontWeight: 700,
                                                 }}
                                             >
-                                                <motion.button
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    className="act-btn act-view"
+                                                <AlertCircle
+                                                    size={48}
+                                                    color="#CBD5E1"
                                                     style={{
-                                                        background: '#F1F5F9',
-                                                        width: 32,
-                                                        height: 32,
-                                                        display: 'inline-flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        borderRadius: 8,
-                                                        cursor: 'pointer',
-                                                        border: 'none',
-                                                        color: '#64748B',
+                                                        display: 'block',
+                                                        margin: '0 auto 12px',
                                                     }}
-                                                    title="View Details"
-                                                    onClick={() => setViewRecord(r)}
-                                                >
-                                                    <Eye size={16} strokeWidth={2.5} />
-                                                </motion.button>
+                                                />
+                                                No records found
+                                                {search ? ` matching "${search}"` : ''}.
                                             </td>
-                                        </motion.tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style={{ background: 'white' }}>
+                                        </tr>
+                                    ) : (
+                                        filtered.map((r, i) => (
+                                            <motion.tr
+                                                key={r.id}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: i * 0.05 }}
+                                                className="hover:bg-[#F8FAFC]"
+                                                style={{
+                                                    borderBottom: '1px solid #F1F5F9',
+                                                    transition: 'background 0.2s',
+                                                }}
+                                            >
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        whiteSpace: 'nowrap',
+                                                    }}
+                                                >
+                                                    <span
+                                                        style={{
+                                                            fontSize: 13,
+                                                            fontWeight: 800,
+                                                            color: '#0F172A',
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: 8,
+                                                        }}
+                                                    >
+                                                        <Car size={16} color="#64748B" />
+                                                        {r.id}
+                                                    </span>
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        whiteSpace: 'nowrap',
+                                                        fontSize: 13,
+                                                        color: '#475569',
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {r.type}
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        fontSize: 13,
+                                                        fontWeight: 600,
+                                                        color: '#334155',
+                                                    }}
+                                                >
+                                                    {r.distance.toLocaleString()} km
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        fontSize: 13,
+                                                        color: '#DC2626',
+                                                        fontWeight: 800,
+                                                    }}
+                                                >
+                                                    ${r.fuelCost.toFixed(2)}
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        fontSize: 13,
+                                                        color: '#059669',
+                                                        fontWeight: 800,
+                                                    }}
+                                                >
+                                                    ${r.revenue.toFixed(2)}
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        fontSize: 13,
+                                                        color: '#475569',
+                                                        fontWeight: 600,
+                                                    }}
+                                                >
+                                                    {r.idleTime.toFixed(1)}
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        whiteSpace: 'nowrap',
+                                                    }}
+                                                >
+                                                    <Badge
+                                                        variant={scoreVariant(r.score)}
+                                                        style={{
+                                                            padding: '4px 10px',
+                                                            borderRadius: 6,
+                                                            fontSize: 11,
+                                                        }}
+                                                    >
+                                                        {r.score}
+                                                    </Badge>
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        padding: '16px 20px',
+                                                        textAlign: 'center',
+                                                    }}
+                                                >
+                                                    <motion.button
+                                                        whileHover={{ scale: 1.1 }}
+                                                        whileTap={{ scale: 0.9 }}
+                                                        className="act-btn act-view"
+                                                        style={{
+                                                            background: '#F1F5F9',
+                                                            width: 32,
+                                                            height: 32,
+                                                            display: 'inline-flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
+                                                            borderRadius: 8,
+                                                            cursor: 'pointer',
+                                                            border: 'none',
+                                                            color: '#64748B',
+                                                        }}
+                                                        title="View Details"
+                                                        onClick={() => setViewRecord(r)}
+                                                    >
+                                                        <Eye size={16} strokeWidth={2.5} />
+                                                    </motion.button>
+                                                </td>
+                                            </motion.tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style={{ background: 'white' }}>
                             <Pagination
                                 info={`Showing ${filtered.length} of ${records.length} performance records`}
                                 pages={[1, 2, 3]}

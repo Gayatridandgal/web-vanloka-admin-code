@@ -64,20 +64,20 @@ function AdminLayout({ user, modal, openModal, closeModal, onLogout, children }:
         <div className="admin-wrap">
             {/* Mobile overlay */}
             {mobileMenuOpen && (
-                <div 
+                <div
                     className="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-40 md:hidden animate-in fade-in duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                 />
             )}
-            <Sidebar 
-                onLogout={onLogout} 
-                user={user} 
-                isOpen={mobileMenuOpen} 
-                onClose={() => setMobileMenuOpen(false)} 
+            <Sidebar
+                onLogout={onLogout}
+                user={user}
+                isOpen={mobileMenuOpen}
+                onClose={() => setMobileMenuOpen(false)}
             />
             <div className="page relative">
                 {/* Mobile hamburger - Moved to top-left */}
-                <button 
+                <button
                     onClick={() => setMobileMenuOpen(true)}
                     className="md:hidden absolute top-[13px] left-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
                     aria-label="Open Menu"
@@ -176,28 +176,52 @@ function App() {
                                 <Route path="/staff/create" element={<StaffCreate />} />
                                 {/* ── Masters / Beacons ── */}
                                 <Route path="/masters/beacon-devices" element={<BeaconPage />} />
-                                <Route path="/masters/beacon-devices/create" element={<BeaconCreatePage />} />
+                                <Route
+                                    path="/masters/beacon-devices/create"
+                                    element={<BeaconCreatePage />}
+                                />
                                 {/* ── Masters / GPS ── */}
                                 <Route path="/masters/gps-devices" element={<GpsPage />} />
-                                <Route path="/masters/gps-devices/create" element={<GpsCreatePage />} />
+                                <Route
+                                    path="/masters/gps-devices/create"
+                                    element={<GpsCreatePage />}
+                                />
                                 {/* ── Masters / Plan Features ── */}
-                                <Route path="/masters/plan-features" element={<PlanFeaturesPage />} />
-                                <Route path="/masters/plan-features/create" element={<PlanFeatureCreatePage />} />
+                                <Route
+                                    path="/masters/plan-features"
+                                    element={<PlanFeaturesPage />}
+                                />
+                                <Route
+                                    path="/masters/plan-features/create"
+                                    element={<PlanFeatureCreatePage />}
+                                />
                                 <Route path="/plan" element={<PlanPage />} />
                                 <Route path="/plan/create" element={<PlanCreatePage />} />
                                 {/* ── Supplier management ── */}
                                 <Route path="/suppliers" element={<SupplierPage />} />
                                 <Route path="/suppliers/create" element={<SupplierCreatePage />} />
-                                <Route path="/suppliers/:id/devices" element={<SupplierDeviceDetails />} />
+                                <Route
+                                    path="/suppliers/:id/devices"
+                                    element={<SupplierDeviceDetails />}
+                                />
                                 {/* ── App Users management ── */}
                                 <Route path="/app-users" element={<AppUsersPage />} />
                                 {/* ── Organisation management ── */}
                                 <Route path="/organisation" element={<OrganisationPage />} />
-                                <Route path="/organisation/create" element={<OrganisationCreate />} />
-                                <Route path="/organisation/edit/:id" element={<OrganisationCreate />} />
+                                <Route
+                                    path="/organisation/create"
+                                    element={<OrganisationCreate />}
+                                />
+                                <Route
+                                    path="/organisation/edit/:id"
+                                    element={<OrganisationCreate />}
+                                />
                                 {/* ── Roles & Permissions ── */}
                                 <Route path="/roles-permissions" element={<RolesPage />} />
-                                <Route path="/roles-permissions/create" element={<RoleCreatePage />} />
+                                <Route
+                                    path="/roles-permissions/create"
+                                    element={<RoleCreatePage />}
+                                />
 
                                 {/* ── Feedback resolve full-page form ── */}
                                 <Route path="/feedbacks/resolve" element={<FeedbackResolve />} />

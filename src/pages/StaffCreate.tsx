@@ -1,8 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL_STAFF } from '../data/staffData';
-import { Users, CheckCircle2, ArrowLeft, User, Camera, Briefcase, Home, AlertTriangle, MapPin, Landmark, UploadCloud, Shield, Save } from 'lucide-react';
-
+import {
+    Users,
+    CheckCircle2,
+    ArrowLeft,
+    User,
+    Camera,
+    Briefcase,
+    Home,
+    AlertTriangle,
+    MapPin,
+    Landmark,
+    UploadCloud,
+    Shield,
+    Save,
+} from 'lucide-react';
 
 /* ── Types ─────────────────────────────────────── */
 interface Form {
@@ -161,8 +174,18 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ cols, children, className = "" }: { cols: string; children: React.ReactNode; className?: string }) => (
-    <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 16 }} className={className}>{children}</div>
+const Grid = ({
+    cols,
+    children,
+    className = '',
+}: {
+    cols: string;
+    children: React.ReactNode;
+    className?: string;
+}) => (
+    <div style={{ display: 'grid', gridTemplateColumns: cols, gap: 16 }} className={className}>
+        {children}
+    </div>
 );
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -372,7 +395,15 @@ export const StaffCreate = () => {
                                 </>
                             )}
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: 12,
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                            }}
+                            className="sm:flex-row"
+                        >
                             <button
                                 className="btn btn-secondary w-full sm:w-auto"
                                 onClick={() => {
@@ -383,9 +414,11 @@ export const StaffCreate = () => {
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/staff')}>
-                                <ArrowLeft size={16} className="ms mr-1" />{' '}
-                                Back to Staff List
+                            <button
+                                className="btn btn-primary w-full sm:w-auto"
+                                onClick={() => navigate('/staff')}
+                            >
+                                <ArrowLeft size={16} className="ms mr-1" /> Back to Staff List
                             </button>
                         </div>
                     </div>
@@ -437,7 +470,10 @@ export const StaffCreate = () => {
                     <Card>
                         <SectionHeader icon={User} title="Basic Information" />
                         <Body>
-                            <div style={{ display: 'flex', gap: 24, flexDirection: 'column' }} className="md:flex-row">
+                            <div
+                                style={{ display: 'flex', gap: 24, flexDirection: 'column' }}
+                                className="md:flex-row"
+                            >
                                 {/* Photo */}
                                 <div style={{ flexShrink: 0 }}>
                                     <Label>Profile Photo</Label>
@@ -659,7 +695,10 @@ export const StaffCreate = () => {
                     <Card>
                         <SectionHeader icon={Briefcase} title="Professional Info" />
                         <Body>
-                            <Grid cols="1fr 1fr" className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
+                            <Grid
+                                cols="1fr 1fr"
+                                className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
+                            >
                                 <div>
                                     <Label>Employment Type</Label>
                                     <select
@@ -1062,7 +1101,10 @@ export const StaffCreate = () => {
                                                 } as React.CSSProperties
                                             }
                                         >
-                                            <UploadCloud size={26} color={form[key] ? 'var(--primary)' : '#CBD5E1'} />
+                                            <UploadCloud
+                                                size={26}
+                                                color={form[key] ? 'var(--primary)' : '#CBD5E1'}
+                                            />
                                             <span
                                                 style={{
                                                     fontSize: 10,

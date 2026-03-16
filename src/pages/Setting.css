@@ -38,7 +38,7 @@
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
     --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 4px 16px -2px rgba(0, 0, 0, 0.08);
-    --shadow-indigo: 0 4px 14px -2px rgba(108, 99, 255, 0.30);
+    --shadow-indigo: 0 4px 14px -2px rgba(108, 99, 255, 0.3);
 
     --font: 'DM Sans', system-ui, sans-serif;
     --font-mono: 'DM Mono', monospace;
@@ -238,7 +238,6 @@
     box-shadow: var(--shadow-xs);
     overflow: visible;
 }
-
 
 .profile-body {
     padding: 24px 24px 24px;
@@ -459,7 +458,7 @@
 .s-input:focus {
     border-color: var(--indigo);
     background: var(--white);
-    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.10);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
 }
 
 .s-input.pr-10 {
@@ -471,7 +470,7 @@
 }
 
 .s-input.input-error:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.10);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .eye-btn {

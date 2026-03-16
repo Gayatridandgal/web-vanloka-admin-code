@@ -63,9 +63,7 @@ export const orgTypeIcon = (t: OrgType): string => {
     }
 };
 
-export const orgTypeColor = (
-    t: OrgType
-): { bg: string; color: string; label: string } => {
+export const orgTypeColor = (t: OrgType): { bg: string; color: string; label: string } => {
     switch (t) {
         case 'Office':
             return { bg: '#DBEAFE', color: '#2563EB', label: 'Office' };
@@ -307,7 +305,11 @@ export const INITIAL_ORGANISATIONS: Organisation[] = [
         remarks: 'Government-affiliated institute.',
         affiliatedBody: 'Ministry of Road Transport & Highways',
         accreditationNumber: 'NAAC-A-2023-1045',
-        instituteCourses: ['Road Safety Diploma', 'Advanced Driving Instructor', 'Fleet Management'],
+        instituteCourses: [
+            'Road Safety Diploma',
+            'Advanced Driving Instructor',
+            'Fleet Management',
+        ],
         studentCapacity: 500,
     },
     {

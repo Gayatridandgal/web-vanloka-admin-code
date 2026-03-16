@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
     --primary: #7c3aed;
@@ -1345,7 +1345,7 @@ input:checked + .slider:before {
 .login-left {
     width: 44%;
     min-width: 400px;
-    background: linear-gradient(155deg, #6D28D9 0%, #7C3AED 40%, #4C1D95 100%);
+    background: linear-gradient(155deg, #6d28d9 0%, #7c3aed 40%, #4c1d95 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1358,7 +1358,7 @@ input:checked + .slider:before {
 
 .login-right {
     flex: 1;
-    background: #F7F8FC;
+    background: #f7f8fc;
     display: flex;
     flex-direction: column;
     min-width: 0;
@@ -1411,9 +1411,9 @@ input:checked + .slider:before {
     }
     .sidebar.open {
         left: 0;
-        box-shadow: 4px 0 32px rgba(0,0,0,0.15);
+        box-shadow: 4px 0 32px rgba(0, 0, 0, 0.15);
     }
-    
+
     /* Give space to the mobile hamburger - Left aligned */
     .page-header {
         padding-left: 64px;
@@ -1517,13 +1517,23 @@ input:checked + .slider:before {
     display: grid;
     gap: 16px;
 }
-.form-grid-2 { grid-template-columns: repeat(2, 1fr); }
-.form-grid-3 { grid-template-columns: repeat(3, 1fr); }
-.form-grid-4 { grid-template-columns: repeat(4, 1fr); }
+.form-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+.form-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+.form-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+}
 
 @media (max-width: 1024px) {
-    .form-grid-4 { grid-template-columns: repeat(2, 1fr); }
-    .form-grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .form-grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .form-grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 640px) {
@@ -1537,7 +1547,7 @@ input:checked + .slider:before {
         grid-template-columns: repeat(2, 1fr) !important;
     }
     /* Success/confirmation card padding */
-    .page-body > div[style*="padding: 52px"] {
+    .page-body > div[style*='padding: 52px'] {
         padding: 28px 20px !important;
     }
 }
@@ -1557,4 +1567,3 @@ input:checked + .slider:before {
         gap: 12px;
     }
 }
-

@@ -1,4 +1,18 @@
-import { Plus, Search, Youtube, List, CheckCircle2, Timer, Edit, Trash2, Eye, X, Package, Shield, Activity } from 'lucide-react';
+import {
+    Plus,
+    Search,
+    Youtube,
+    List,
+    CheckCircle2,
+    Timer,
+    Edit,
+    Trash2,
+    Eye,
+    X,
+    Package,
+    Shield,
+    Activity,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,78 +37,284 @@ const ViewOverlay = ({ plan, onClose }: { plan: Plan; onClose: () => void }) => 
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div style={{ background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)', padding: '24px 20px' }} className="sm:p-8">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexDirection: 'column', gap: 16 }} className="sm:flex-row sm:items-center">
+                <div
+                    style={{
+                        background: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+                        padding: '24px 20px',
+                    }}
+                    className="sm:p-8"
+                >
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'flex-start',
+                            flexDirection: 'column',
+                            gap: 16,
+                        }}
+                        className="sm:flex-row sm:items-center"
+                    >
                         <div style={{ color: 'white' }}>
-                            <h2 style={{ fontSize: 20, fontWeight: 900, margin: 0, marginBottom: 4 }} className="sm:text-2xl">{plan.name}</h2>
+                            <h2
+                                style={{
+                                    fontSize: 20,
+                                    fontWeight: 900,
+                                    margin: 0,
+                                    marginBottom: 4,
+                                }}
+                                className="sm:text-2xl"
+                            >
+                                {plan.name}
+                            </h2>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <span style={{ opacity: 0.9, fontWeight: 600, fontSize: 13 }}>{plan.id}</span>
-                                <Badge variant={plan.status === 'Active' ? 'green' : 'slate'}>{plan.status}</Badge>
+                                <span style={{ opacity: 0.9, fontWeight: 600, fontSize: 13 }}>
+                                    {plan.id}
+                                </span>
+                                <Badge variant={plan.status === 'Active' ? 'green' : 'slate'}>
+                                    {plan.status}
+                                </Badge>
                             </div>
                         </div>
-                        <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: 8, padding: 8, color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 16, top: 24 }} className="sm:static">
+                        <button
+                            onClick={onClose}
+                            style={{
+                                background: 'rgba(255,255,255,0.2)',
+                                border: 'none',
+                                borderRadius: 8,
+                                padding: 8,
+                                color: 'white',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'absolute',
+                                right: 16,
+                                top: 24,
+                            }}
+                            className="sm:static"
+                        >
                             <X size={20} />
                         </button>
                     </div>
                 </div>
 
                 {/* Body */}
-                <div style={{ padding: 20, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }} className="sm:p-8">
+                <div
+                    style={{ padding: 20, maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}
+                    className="sm:p-8"
+                >
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                        <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>Plan Type</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{plan.type}</div>
+                        <div
+                            style={{
+                                background: '#F8FAFC',
+                                padding: 16,
+                                borderRadius: 12,
+                                border: '1px solid #E2E8F0',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: 800,
+                                    color: '#64748B',
+                                    textTransform: 'uppercase',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Plan Type
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>
+                                {plan.type}
+                            </div>
                         </div>
-                        <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>Trial Period</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{plan.trialPeriod} Days</div>
+                        <div
+                            style={{
+                                background: '#F8FAFC',
+                                padding: 16,
+                                borderRadius: 12,
+                                border: '1px solid #E2E8F0',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: 800,
+                                    color: '#64748B',
+                                    textTransform: 'uppercase',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Trial Period
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>
+                                {plan.trialPeriod} Days
+                            </div>
                         </div>
-                        <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>Pricing</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>₹{plan.monthlyPrice}/mo or ₹{plan.yearlyPrice}/yr</div>
+                        <div
+                            style={{
+                                background: '#F8FAFC',
+                                padding: 16,
+                                borderRadius: 12,
+                                border: '1px solid #E2E8F0',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: 800,
+                                    color: '#64748B',
+                                    textTransform: 'uppercase',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Pricing
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>
+                                ₹{plan.monthlyPrice}/mo or ₹{plan.yearlyPrice}/yr
+                            </div>
                         </div>
-                        <div style={{ background: '#F8FAFC', padding: 16, borderRadius: 12, border: '1px solid #E2E8F0' }}>
-                            <div style={{ fontSize: 11, fontWeight: 800, color: '#64748B', textTransform: 'uppercase', marginBottom: 4 }}>Support Level</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>{plan.support}</div>
+                        <div
+                            style={{
+                                background: '#F8FAFC',
+                                padding: 16,
+                                borderRadius: 12,
+                                border: '1px solid #E2E8F0',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    fontSize: 11,
+                                    fontWeight: 800,
+                                    color: '#64748B',
+                                    textTransform: 'uppercase',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Support Level
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0F172A' }}>
+                                {plan.support}
+                            </div>
                         </div>
                     </div>
 
                     <div style={{ marginBottom: 24 }}>
-                        <h3 style={{ fontSize: 14, fontWeight: 800, color: '#1E293B', marginBottom: 16, borderBottom: '1px solid #E2E8F0', paddingBottom: 8 }}>Included Resources</h3>
+                        <h3
+                            style={{
+                                fontSize: 14,
+                                fontWeight: 800,
+                                color: '#1E293B',
+                                marginBottom: 16,
+                                borderBottom: '1px solid #E2E8F0',
+                                paddingBottom: 8,
+                            }}
+                        >
+                            Included Resources
+                        </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <div style={{ width: 40, height: 40, borderRadius: 10, background: '#EFF6FF', color: '#3B82F6', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        background: '#EFF6FF',
+                                        color: '#3B82F6',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
                                     <Package size={20} />
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}>Vehicles</div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>{plan.vehiclesIncluded}</div>
+                                    <div
+                                        style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}
+                                    >
+                                        Vehicles
+                                    </div>
+                                    <div
+                                        style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}
+                                    >
+                                        {plan.vehiclesIncluded}
+                                    </div>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <div style={{ width: 40, height: 40, borderRadius: 10, background: '#F0FDF4', color: '#10B981', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        background: '#F0FDF4',
+                                        color: '#10B981',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
                                     <Activity size={20} />
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}>Beacons</div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>{plan.beaconsIncluded}</div>
+                                    <div
+                                        style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}
+                                    >
+                                        Beacons
+                                    </div>
+                                    <div
+                                        style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}
+                                    >
+                                        {plan.beaconsIncluded}
+                                    </div>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                <div style={{ width: 40, height: 40, borderRadius: 10, background: '#FEF2F2', color: '#EF4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <div
+                                    style={{
+                                        width: 40,
+                                        height: 40,
+                                        borderRadius: 10,
+                                        background: '#FEF2F2',
+                                        color: '#EF4444',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
                                     <Shield size={20} />
                                 </div>
                                 <div>
-                                    <div style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}>GPS Devices</div>
-                                    <div style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}>{plan.gpsIncluded}</div>
+                                    <div
+                                        style={{ fontSize: 12, fontWeight: 800, color: '#64748B' }}
+                                    >
+                                        GPS Devices
+                                    </div>
+                                    <div
+                                        style={{ fontSize: 13, fontWeight: 700, color: '#0F172A' }}
+                                    >
+                                        {plan.gpsIncluded}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <h3 style={{ fontSize: 14, fontWeight: 800, color: '#1E293B', marginBottom: 12, borderBottom: '1px solid #E2E8F0', paddingBottom: 8 }}>Description</h3>
-                        <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.6, margin: 0 }}>{plan.description}</p>
+                        <h3
+                            style={{
+                                fontSize: 14,
+                                fontWeight: 800,
+                                color: '#1E293B',
+                                marginBottom: 12,
+                                borderBottom: '1px solid #E2E8F0',
+                                paddingBottom: 8,
+                            }}
+                        >
+                            Description
+                        </h3>
+                        <p style={{ fontSize: 14, color: '#475569', lineHeight: 1.6, margin: 0 }}>
+                            {plan.description}
+                        </p>
                     </div>
                 </div>
             </motion.div>
@@ -109,9 +329,10 @@ export const PlanPage = () => {
     const [page, setPage] = useState(1);
     const [viewingPlan, setViewingPlan] = useState<Plan | null>(null);
 
-    const filtered = INITIAL_PLANS.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || 
-                             p.type.toLowerCase().includes(search.toLowerCase());
+    const filtered = INITIAL_PLANS.filter((p) => {
+        const matchesSearch =
+            p.name.toLowerCase().includes(search.toLowerCase()) ||
+            p.type.toLowerCase().includes(search.toLowerCase());
         const matchesStatus = statusFilter === 'All' ? true : p.status === statusFilter;
         return matchesSearch && matchesStatus;
     });
@@ -144,25 +365,81 @@ export const PlanPage = () => {
                 {/* Stat Cards */}
                 <div style={{ display: 'flex', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
                     {[
-                        { label: 'Total Plans', val: INITIAL_PLANS.length, color: '#7C3AED', bg: '#F5F3FF', icon: 'list_alt' },
-                        { label: 'Active Plans', val: INITIAL_PLANS.filter(p => p.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: 'check_circle' },
-                        { label: 'Trial Plans', val: INITIAL_PLANS.filter(p => p.type === 'Trial').length, color: '#2563EB', bg: '#EFF6FF', icon: 'timer' },
-                    ].map(s => (
-                        <div key={s.label} style={{ 
-                            background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
-                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 180px' 
-                        }}>
-                             <div style={{ 
-                                width: 32, height: 32, borderRadius: 8, background: s.bg, 
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
-                            }}>
+                        {
+                            label: 'Total Plans',
+                            val: INITIAL_PLANS.length,
+                            color: '#7C3AED',
+                            bg: '#F5F3FF',
+                            icon: 'list_alt',
+                        },
+                        {
+                            label: 'Active Plans',
+                            val: INITIAL_PLANS.filter((p) => p.status === 'Active').length,
+                            color: '#059669',
+                            bg: '#ECFDF5',
+                            icon: 'check_circle',
+                        },
+                        {
+                            label: 'Trial Plans',
+                            val: INITIAL_PLANS.filter((p) => p.type === 'Trial').length,
+                            color: '#2563EB',
+                            bg: '#EFF6FF',
+                            icon: 'timer',
+                        },
+                    ].map((s) => (
+                        <div
+                            key={s.label}
+                            style={{
+                                background: 'white',
+                                border: '1.5px solid var(--border)',
+                                borderRadius: 12,
+                                padding: '12px 16px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 10,
+                                flex: '1 1 180px',
+                            }}
+                        >
+                            <div
+                                style={{
+                                    width: 32,
+                                    height: 32,
+                                    borderRadius: 8,
+                                    background: s.bg,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    flexShrink: 0,
+                                }}
+                            >
                                 {s.icon === 'list_alt' && <List size={16} color={s.color} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={16} color={s.color} />}
+                                {s.icon === 'check_circle' && (
+                                    <CheckCircle2 size={16} color={s.color} />
+                                )}
                                 {s.icon === 'timer' && <Timer size={16} color={s.color} />}
                             </div>
                             <div>
-                                <div style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em' }}>{s.label}</div>
-                                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)', lineHeight: 1 }}>{s.val}</div>
+                                <div
+                                    style={{
+                                        fontSize: 9,
+                                        fontWeight: 800,
+                                        textTransform: 'uppercase',
+                                        color: 'var(--muted)',
+                                        letterSpacing: '0.05em',
+                                    }}
+                                >
+                                    {s.label}
+                                </div>
+                                <div
+                                    style={{
+                                        fontSize: 18,
+                                        fontWeight: 900,
+                                        color: 'var(--text)',
+                                        lineHeight: 1,
+                                    }}
+                                >
+                                    {s.val}
+                                </div>
                             </div>
                         </div>
                     ))}
@@ -170,17 +447,31 @@ export const PlanPage = () => {
 
                 <div className="filter-bar" style={{ flexWrap: 'wrap' }}>
                     <div style={{ position: 'relative', flex: 1 }}>
-                        <Search size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
-                        <input 
-                            className="search-input" 
-                            style={{ width: '100%', paddingLeft: 40 }} 
-                            placeholder="Search plans..." 
+                        <Search
+                            size={18}
+                            style={{
+                                position: 'absolute',
+                                left: 12,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted)',
+                            }}
+                        />
+                        <input
+                            className="search-input"
+                            style={{ width: '100%', paddingLeft: 40 }}
+                            placeholder="Search plans..."
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
                     <div style={{ position: 'relative' }} className="w-full sm:w-[160px]">
-                        <select className="form-select" style={{ width: '100%' }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                        <select
+                            className="form-select"
+                            style={{ width: '100%' }}
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                        >
                             <option value="All">All Status</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -188,8 +479,18 @@ export const PlanPage = () => {
                     </div>
                 </div>
 
-                <div className="table-card table-scroll-wrapper" style={{ border: 'none', background: 'transparent' }}>
-                    <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', overflow: 'hidden' }}>
+                <div
+                    className="table-card table-scroll-wrapper"
+                    style={{ border: 'none', background: 'transparent' }}
+                >
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: 16,
+                            border: '1.5px solid var(--border)',
+                            overflow: 'hidden',
+                        }}
+                    >
                         <table className="data-table" style={{ minWidth: 800 }}>
                             <thead>
                                 <tr>
@@ -206,46 +507,106 @@ export const PlanPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {paginated.map(p => (
+                                {paginated.map((p) => (
                                     <tr key={p.id}>
                                         <td style={{ padding: '16px 20px' }}>
-                                            <div style={{ fontWeight: 800, color: 'var(--text)', fontSize: 13 }}>{p.name}</div>
-                                            <div style={{ fontSize: 10, color: 'var(--muted)' }}>{p.id}</div>
+                                            <div
+                                                style={{
+                                                    fontWeight: 800,
+                                                    color: 'var(--text)',
+                                                    fontSize: 13,
+                                                }}
+                                            >
+                                                {p.name}
+                                            </div>
+                                            <div style={{ fontSize: 10, color: 'var(--muted)' }}>
+                                                {p.id}
+                                            </div>
                                         </td>
                                         <td>
-                                            <Badge variant="blue" style={{ fontSize: 10 }}>{p.type}</Badge>
+                                            <Badge variant="blue" style={{ fontSize: 10 }}>
+                                                {p.type}
+                                            </Badge>
                                         </td>
-                                        <td style={{ fontWeight: 700, fontSize: 13 }}>₹{p.monthlyPrice}</td>
-                                        <td style={{ fontWeight: 700, fontSize: 13 }}>₹{p.yearlyPrice}</td>
-                                        <td style={{ fontSize: 12, fontWeight: 600, color: '#475569' }}>{p.vehiclesIncluded}</td>
-                                        <td style={{ fontSize: 11, color: 'var(--muted)', maxWidth: 120 }}>{p.beaconsIncluded}</td>
-                                        <td style={{ fontSize: 11, color: 'var(--muted)', maxWidth: 120 }}>{p.gpsIncluded}</td>
-                                        <td style={{ fontSize: 12, fontWeight: 600 }}>{p.support}</td>
+                                        <td style={{ fontWeight: 700, fontSize: 13 }}>
+                                            ₹{p.monthlyPrice}
+                                        </td>
+                                        <td style={{ fontWeight: 700, fontSize: 13 }}>
+                                            ₹{p.yearlyPrice}
+                                        </td>
+                                        <td
+                                            style={{
+                                                fontSize: 12,
+                                                fontWeight: 600,
+                                                color: '#475569',
+                                            }}
+                                        >
+                                            {p.vehiclesIncluded}
+                                        </td>
+                                        <td
+                                            style={{
+                                                fontSize: 11,
+                                                color: 'var(--muted)',
+                                                maxWidth: 120,
+                                            }}
+                                        >
+                                            {p.beaconsIncluded}
+                                        </td>
+                                        <td
+                                            style={{
+                                                fontSize: 11,
+                                                color: 'var(--muted)',
+                                                maxWidth: 120,
+                                            }}
+                                        >
+                                            {p.gpsIncluded}
+                                        </td>
+                                        <td style={{ fontSize: 12, fontWeight: 600 }}>
+                                            {p.support}
+                                        </td>
                                         <td>
-                                            <Badge variant={p.status === 'Active' ? 'green' : 'slate'} style={{ fontSize: 10 }}>{p.status}</Badge>
+                                            <Badge
+                                                variant={p.status === 'Active' ? 'green' : 'slate'}
+                                                style={{ fontSize: 10 }}
+                                            >
+                                                {p.status}
+                                            </Badge>
                                         </td>
                                         <td style={{ textAlign: 'right', paddingRight: 20 }}>
-                                            <div className="actions-col" style={{ justifyContent: 'flex-end', display: 'flex', gap: '8px' }}>
-                                                <button 
-                                                    className="act-btn act-view" 
+                                            <div
+                                                className="actions-col"
+                                                style={{
+                                                    justifyContent: 'flex-end',
+                                                    display: 'flex',
+                                                    gap: '8px',
+                                                }}
+                                            >
+                                                <button
+                                                    className="act-btn act-view"
                                                     title="View Plan"
                                                     onClick={() => setViewingPlan(p)}
                                                 >
                                                     <Eye size={16} />
                                                 </button>
-                                                <button 
-                                                    className="act-btn act-edit" 
+                                                <button
+                                                    className="act-btn act-edit"
                                                     title="Edit Plan"
                                                     onClick={() => navigate(`/plan/create`)}
                                                 >
                                                     <Edit size={16} />
                                                 </button>
-                                                <button 
-                                                    className="act-btn act-delete" 
+                                                <button
+                                                    className="act-btn act-delete"
                                                     title="Delete Plan"
                                                     onClick={() => {
-                                                        if (window.confirm(`Are you sure you want to delete ${p.name}?`)) {
-                                                            alert(`Successfully deleted plan: ${p.name}`);
+                                                        if (
+                                                            window.confirm(
+                                                                `Are you sure you want to delete ${p.name}?`
+                                                            )
+                                                        ) {
+                                                            alert(
+                                                                `Successfully deleted plan: ${p.name}`
+                                                            );
                                                         }
                                                     }}
                                                 >
@@ -258,12 +619,16 @@ export const PlanPage = () => {
                             </tbody>
                         </table>
                     </div>
-                    {pages > 1 && <Pagination current={safePage} total={pages} onChange={setPage} />}
+                    {pages > 1 && (
+                        <Pagination current={safePage} total={pages} onChange={setPage} />
+                    )}
                 </div>
             </div>
-            
+
             <AnimatePresence>
-                {viewingPlan && <ViewOverlay plan={viewingPlan} onClose={() => setViewingPlan(null)} />}
+                {viewingPlan && (
+                    <ViewOverlay plan={viewingPlan} onClose={() => setViewingPlan(null)} />
+                )}
             </AnimatePresence>
         </>
     );

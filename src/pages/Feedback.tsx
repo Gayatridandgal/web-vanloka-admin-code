@@ -1,4 +1,21 @@
-import { ChevronDown, X, LayoutGrid, Flag, Shield, User, MessageSquare, AlertCircle, Trash2, Download, Star, CheckCircle2, Search, SearchX, Eye, Reply } from 'lucide-react';
+import {
+    ChevronDown,
+    X,
+    LayoutGrid,
+    Flag,
+    Shield,
+    User,
+    MessageSquare,
+    AlertCircle,
+    Trash2,
+    Download,
+    Star,
+    CheckCircle2,
+    Search,
+    SearchX,
+    Eye,
+    Reply,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -97,9 +114,7 @@ const ViewOverlay = ({
                             {entry.name}
                         </div>
                         <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
-                            <span className="text-xs text-white/70 font-bold">
-                                #{entry.id}
-                            </span>
+                            <span className="text-xs text-white/70 font-bold">#{entry.id}</span>
                             <Badge variant={isComplaint ? 'red' : 'green'}>
                                 {isComplaint ? 'Complaint' : 'Feedback'}
                             </Badge>
@@ -180,22 +195,40 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                    {s.icon === LayoutGrid && <LayoutGrid size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon === Flag && <Flag size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon === Shield && <Shield size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon !== LayoutGrid && s.icon !== Flag && s.icon !== Shield && (
-                                        <span
-                                            className="material-symbols-outlined"
-                                            style={{
-                                                fontSize: 20,
-                                                color: s.ic,
-                                                marginBottom: 4,
-                                                display: 'block',
-                                            }}
-                                        >
-                                            {s.icon as any}
-                                        </span>
-                                    )}
+                                {s.icon === LayoutGrid && (
+                                    <LayoutGrid
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon === Flag && (
+                                    <Flag
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon === Shield && (
+                                    <Shield
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon !== LayoutGrid && s.icon !== Flag && s.icon !== Shield && (
+                                    <span
+                                        className="material-symbols-outlined"
+                                        style={{
+                                            fontSize: 20,
+                                            color: s.ic,
+                                            marginBottom: 4,
+                                            display: 'block',
+                                        }}
+                                    >
+                                        {s.icon as string}
+                                    </span>
+                                )}
                                 <div
                                     style={{
                                         fontSize: 12,
@@ -239,7 +272,9 @@ const ViewOverlay = ({
                         <User size={16} />
                         Contact Info
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8"> toxicology: feedback-responsive-field-grid
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                        {' '}
+                        toxicology: feedback-responsive-field-grid
                         <Field label="Email" value={entry.email} />
                         <Field label="Phone" value={entry.phone} />
                         <Field label="Date Submitted" value={entry.date} />
@@ -707,10 +742,12 @@ export const FeedbacksPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                    {s.icon === Star && <Star size={24} color={s.ic} />}
-                                    {s.icon === MessageSquare && <MessageSquare size={24} color={s.ic} />}
-                                    {s.icon === Flag && <Flag size={24} color={s.ic} />}
-                                    {s.icon === CheckCircle2 && <CheckCircle2 size={24} color={s.ic} />}
+                                {s.icon === Star && <Star size={24} color={s.ic} />}
+                                {s.icon === MessageSquare && (
+                                    <MessageSquare size={24} color={s.ic} />
+                                )}
+                                {s.icon === Flag && <Flag size={24} color={s.ic} />}
+                                {s.icon === CheckCircle2 && <CheckCircle2 size={24} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -805,7 +842,10 @@ export const FeedbacksPage = () => {
 
                 {/* ── Table ── */}
                 <div className="table-card overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
-                    <table className="data-table !min-w-[1000px] !w-full" style={{ tableLayout: 'fixed' }}>
+                    <table
+                        className="data-table !min-w-[1000px] !w-full"
+                        style={{ tableLayout: 'fixed' }}
+                    >
                         <thead>
                             <tr>
                                 <th style={{ width: '14%' }}>Reviewer</th>
@@ -838,7 +878,7 @@ export const FeedbacksPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No{' '}
@@ -992,7 +1032,10 @@ export const FeedbacksPage = () => {
                                                                         )
                                                                     }
                                                                 >
-                                                                    <CheckCircle2 size={16} className="ms" />
+                                                                    <CheckCircle2
+                                                                        size={16}
+                                                                        className="ms"
+                                                                    />
                                                                 </button>
                                                             )}
                                                         <button
@@ -1042,12 +1085,12 @@ export const FeedbacksPage = () => {
                         </tbody>
                     </table>
                 </div>
-                    <Pagination
-                        info={`Showing ${filtered.length} of ${entries.length} entries`}
-                        pages={[1, 2, 3]}
-                        current={1}
-                    />
-                </div>
+                <Pagination
+                    info={`Showing ${filtered.length} of ${entries.length} entries`}
+                    pages={[1, 2, 3]}
+                    current={1}
+                />
+            </div>
 
             {/* ── View overlay ── */}
             {viewEntry && (

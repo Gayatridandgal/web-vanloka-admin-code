@@ -70,14 +70,16 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
     const toggleGroup = (path: string) =>
         setExpandedGroups((prev) => ({ ...prev, [path]: !prev[path] }));
 
-    const isActive = (path: string) =>
-        pathname === path || pathname.startsWith(path + '/');
+    const isActive = (path: string) => pathname === path || pathname.startsWith(path + '/');
 
     return (
         <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
             {/* ── Brand ── */}
             <div className="sidebar-brand">
-                <div className="sidebar-brand-inner" style={{ justifyContent: 'space-between', width: '100%' }}>
+                <div
+                    className="sidebar-brand-inner"
+                    style={{ justifyContent: 'space-between', width: '100%' }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div className="brand-icon">
                             <CarFront size={20} color="white" />
@@ -130,9 +132,7 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                                         size={16}
                                         style={{
                                             transition: 'transform .2s',
-                                            transform: isExpanded
-                                                ? 'rotate(180deg)'
-                                                : 'rotate(0)',
+                                            transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)',
                                         }}
                                     />
                                 </div>
@@ -212,11 +212,7 @@ export const Sidebar = ({ onLogout, user, isOpen, onClose }: Props) => {
                             {user.email}
                         </div>
                     </div>
-                    <LogOut
-                        size={17}
-                        color="var(--muted)"
-                        style={{ flexShrink: 0 }}
-                    />
+                    <LogOut size={17} color="var(--muted)" style={{ flexShrink: 0 }} />
                 </div>
             </div>
         </aside>

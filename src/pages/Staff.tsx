@@ -1,6 +1,33 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ChevronDown, X, Building2, Briefcase, Calendar, User as UserIcon, Contact, Home, Landmark, StickyNote, Trash2, UploadCloud, FileDown, Palette, ImagePlus, FileText, Eye, Download, Users, UserCheck, Umbrella, MinusCircle, Search, SearchX, UserPlus, Edit } from 'lucide-react';
+import {
+    ChevronDown,
+    X,
+    Building2,
+    Briefcase,
+    Calendar,
+    User as UserIcon,
+    Contact,
+    Home,
+    Landmark,
+    StickyNote,
+    Trash2,
+    UploadCloud,
+    FileDown,
+    Palette,
+    ImagePlus,
+    FileText,
+    Eye,
+    Download,
+    Users,
+    UserCheck,
+    Umbrella,
+    MinusCircle,
+    Search,
+    SearchX,
+    UserPlus,
+    Edit,
+} from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -205,9 +232,7 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <div style={{ color: s.ic, marginBottom: 4 }}>
-                                    {s.icon}
-                                </div>
+                                <div style={{ color: s.ic, marginBottom: 4 }}>{s.icon}</div>
                                 <div
                                     style={{
                                         fontSize: 14,
@@ -496,8 +521,20 @@ const DeleteOverlay = ({
                     permanently removed.
                 </span>
             </div>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
-                <button className="btn btn-secondary w-full sm:w-auto" onClick={onCancel} style={{ minWidth: 120 }}>
+            <div
+                style={{
+                    display: 'flex',
+                    gap: 12,
+                    justifyContent: 'center',
+                    flexDirection: 'column',
+                }}
+                className="sm:flex-row"
+            >
+                <button
+                    className="btn btn-secondary w-full sm:w-auto"
+                    onClick={onCancel}
+                    style={{ minWidth: 120 }}
+                >
                     Cancel
                 </button>
                 <button
@@ -676,7 +713,11 @@ const ImportOverlay = ({
                                 if (e.target.files?.[0]) handleFile(e.target.files[0]);
                             }}
                         />
-                        <UploadCloud size={36} className="text-primary mb-2 mx-auto" style={{ display: 'block' }} />
+                        <UploadCloud
+                            size={36}
+                            className="text-primary mb-2 mx-auto"
+                            style={{ display: 'block' }}
+                        />
                         {fileName ? (
                             <>
                                 <div
@@ -932,7 +973,10 @@ const ExportOverlay = ({
 
                 {/* Body */}
                 <div style={{ padding: '24px 28px' }}>
-                    <div style={{ display: 'grid', gap: 20 }} className="grid-cols-1 lg:grid-cols-2">
+                    <div
+                        style={{ display: 'grid', gap: 20 }}
+                        className="grid-cols-1 lg:grid-cols-2"
+                    >
                         {/* LEFT: Branding options */}
                         <div>
                             <div
@@ -1054,7 +1098,7 @@ const ExportOverlay = ({
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 4,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         <div
@@ -1209,7 +1253,7 @@ const ExportOverlay = ({
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         <div
@@ -1618,9 +1662,7 @@ export const StaffPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <div style={{ color: s.ic }}>
-                                    {s.icon}
-                                </div>
+                                <div style={{ color: s.ic }}>{s.icon}</div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -1636,16 +1678,16 @@ export const StaffPage = () => {
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
                         <Search
-                                    size={18}
-                                    style={{
-                                        position: 'absolute',
-                                        left: 10,
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        color: 'var(--muted)',
-                                        pointerEvents: 'none',
-                                    }}
-                                />
+                            size={18}
+                            style={{
+                                position: 'absolute',
+                                left: 10,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted)',
+                                pointerEvents: 'none',
+                            }}
+                        />
                         <input
                             className="search-input"
                             style={{ width: '100%', paddingLeft: 36 }}
@@ -1739,7 +1781,7 @@ export const StaffPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No employees found

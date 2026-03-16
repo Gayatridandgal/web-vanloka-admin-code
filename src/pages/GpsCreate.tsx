@@ -3,7 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Map, CheckCircle2, ArrowLeft, Info, Cpu, CarFront, Save } from 'lucide-react';
 
 /* ── Tiny Helpers (matching StaffCreate & BeaconCreate) ── */
-const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
+const SectionHeader = ({
+    icon: Icon,
+    title,
+    highlight,
+}: {
+    icon: React.ElementType;
+    title: string;
+    highlight?: boolean;
+}) => (
     <div
         style={{
             display: 'flex',
@@ -49,7 +57,13 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '24px 26px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
+const Grid = ({
+    children,
+    className = 'grid-cols-responsive-2',
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) => (
     <div className={className} style={{ gap: 20 }}>
         {children}
     </div>
@@ -88,7 +102,7 @@ export const GpsCreatePage = () => {
         firmware: '',
         assignedTo: '',
         status: 'Active',
-        remarks: ''
+        remarks: '',
     });
 
     const [errs, setErrs] = useState<Partial<typeof form>>({});
@@ -98,16 +112,16 @@ export const GpsCreatePage = () => {
         const e: Partial<typeof form> = {};
         if (!form.deviceId.trim()) e.deviceId = 'Device ID / Name is required';
         if (!form.imei.trim()) {
-             e.imei = 'IMEI Number is required';
+            e.imei = 'IMEI Number is required';
         } else if (!/^\d{15}$/.test(form.imei.replace(/[^0-9]/g, ''))) {
-             e.imei = 'IMEI must contain exactly 15 digits';
+            e.imei = 'IMEI must contain exactly 15 digits';
         }
 
         if (Object.keys(e).length > 0) {
             setErrs(e);
             return;
         }
-        
+
         setErrs({});
         setSaved(true);
     };
@@ -127,7 +141,10 @@ export const GpsCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}>
+                <div
+                    className="page-body"
+                    style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}
+                >
                     <div
                         style={{
                             background: 'white',
@@ -154,23 +171,51 @@ export const GpsCreatePage = () => {
                         >
                             <CheckCircle2 size={44} color="#059669" />
                         </div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 22,
+                                fontWeight: 900,
+                                color: '#065F46',
+                                marginBottom: 8,
+                            }}
+                        >
                             GPS Tracker Created Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.deviceId.toUpperCase()}</strong> (IMEI: {form.imei}) has been registered in the system.
+                            <strong>{form.deviceId.toUpperCase()}</strong> (IMEI: {form.imei}) has
+                            been registered in the system.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: 12,
+                                justifyContent: 'center',
+                                flexWrap: 'wrap',
+                            }}
+                        >
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
-                                    setForm({ deviceId: '', imei: '', simNumber: '', provider: '', model: '', firmware: '', assignedTo: '', status: 'Active', remarks: '' });
+                                    setForm({
+                                        deviceId: '',
+                                        imei: '',
+                                        simNumber: '',
+                                        provider: '',
+                                        model: '',
+                                        firmware: '',
+                                        assignedTo: '',
+                                        status: 'Active',
+                                        remarks: '',
+                                    });
                                     setSaved(false);
                                 }}
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary" onClick={() => navigate('/masters/gps-devices')}>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate('/masters/gps-devices')}
+                            >
                                 <ArrowLeft size={16} className="ms mr-1" /> Back to List
                             </button>
                         </div>
@@ -194,7 +239,10 @@ export const GpsCreatePage = () => {
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
-                    <button className="btn btn-secondary" onClick={() => navigate('/masters/gps-devices')}>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/masters/gps-devices')}
+                    >
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
@@ -203,7 +251,6 @@ export const GpsCreatePage = () => {
 
             <div className="page-body">
                 <div style={{ maxWidth: 860, width: '100%', margin: '0 auto' }}>
-                    
                     {/* Basic Info */}
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" highlight />
@@ -219,7 +266,11 @@ export const GpsCreatePage = () => {
                                             setForm((v) => ({ ...v, deviceId: e.target.value }));
                                             setErrs((e) => ({ ...e, deviceId: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.deviceId ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            borderColor: errs.deviceId ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.deviceId} />
                                 </div>
@@ -230,10 +281,20 @@ export const GpsCreatePage = () => {
                                         placeholder="e.g. 864230040510231 (15 digits)"
                                         value={form.imei}
                                         onChange={(e) => {
-                                            setForm((v) => ({ ...v, imei: e.target.value.replace(/\D/g, '').slice(0, 15) }));
+                                            setForm((v) => ({
+                                                ...v,
+                                                imei: e.target.value
+                                                    .replace(/\D/g, '')
+                                                    .slice(0, 15),
+                                            }));
                                             setErrs((e) => ({ ...e, imei: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace', borderColor: errs.imei ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                            borderColor: errs.imei ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.imei} />
                                 </div>
@@ -244,8 +305,14 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. +91 9876543210"
                                         value={form.simNumber}
-                                        onChange={(e) => setForm((v) => ({ ...v, simNumber: e.target.value }))}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace' }}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, simNumber: e.target.value }))
+                                        }
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                        }}
                                     />
                                 </div>
                                 <div>
@@ -254,7 +321,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. Airtel M2M"
                                         value={form.provider}
-                                        onChange={(e) => setForm((v) => ({ ...v, provider: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, provider: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -273,7 +342,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. Teltonika FMB120"
                                         value={form.model}
-                                        onChange={(e) => setForm((v) => ({ ...v, model: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, model: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -283,7 +354,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. v03.28"
                                         value={form.firmware}
-                                        onChange={(e) => setForm((v) => ({ ...v, firmware: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, firmware: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -301,7 +374,9 @@ export const GpsCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.assignedTo}
-                                        onChange={(e) => setForm((v) => ({ ...v, assignedTo: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, assignedTo: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="">-- Unassigned --</option>
@@ -315,7 +390,9 @@ export const GpsCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.status}
-                                        onChange={(e) => setForm((v) => ({ ...v, status: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, status: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="Active">Active</option>
@@ -330,23 +407,40 @@ export const GpsCreatePage = () => {
                                     className="form-input"
                                     placeholder="Add installation notes or issues..."
                                     value={form.remarks}
-                                    onChange={(e) => setForm((v) => ({ ...v, remarks: e.target.value }))}
-                                    style={{ width: '100%', boxSizing: 'border-box', minHeight: 80, resize: 'vertical' }}
+                                    onChange={(e) =>
+                                        setForm((v) => ({ ...v, remarks: e.target.value }))
+                                    }
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        minHeight: 80,
+                                        resize: 'vertical',
+                                    }}
                                 />
                             </div>
                         </Body>
                     </Card>
 
                     {/* ── FOOTER ACTIONS ── */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40 }}>
-                        <button className="btn btn-secondary" onClick={() => navigate('/masters/gps-devices')}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                        }}
+                    >
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/masters/gps-devices')}
+                        >
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
                             <Save size={16} className="ms mr-1" /> Save GPS
                         </button>
                     </div>
-
                 </div>
             </div>
         </>

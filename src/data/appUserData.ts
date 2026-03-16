@@ -1,4 +1,3 @@
-
 export interface AppUser {
     id: string;
     name: string;
@@ -21,7 +20,7 @@ export const DUMMY_APP_USERS: AppUser[] = [
         orgType: 'Office',
         device: 'Android',
         lastActive: '1 min ago',
-        status: 'Active'
+        status: 'Active',
     },
     {
         id: 'USR-002',
@@ -32,6 +31,6 @@ export const DUMMY_APP_USERS: AppUser[] = [
         orgType: 'Institute',
         device: 'iOS',
         lastActive: '2 min ago',
-        status: 'Active'
-    }
+        status: 'Active',
+    },
 ];

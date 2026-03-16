@@ -1,4 +1,19 @@
-import { ChevronDown, Map, X, Crosshair, MapPin, Plus, CheckCircle2, SignalHigh, Search, SearchX, Eye, Edit, Trash2, PowerOff } from 'lucide-react';
+import {
+    ChevronDown,
+    Map,
+    X,
+    Crosshair,
+    MapPin,
+    Plus,
+    CheckCircle2,
+    SignalHigh,
+    Search,
+    SearchX,
+    Eye,
+    Edit,
+    Trash2,
+    PowerOff,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -17,85 +32,156 @@ interface GpsDevice {
 }
 
 const DUMMY_GPS: GpsDevice[] = [
-    { id: 'GPS-201', imei: '864230040510231', simNumber: '+919876543210', assignedTo: 'Student Bus A', location: 'Route 42 (Main St)', networkSignal: 95, status: 'Active', lastPing: 'Just now' },
-    { id: 'GPS-202', imei: '864230040510232', simNumber: '+919876543211', assignedTo: 'Unassigned', location: 'Storage', networkSignal: 0, status: 'Inactive', lastPing: '1 week ago' },
-    { id: 'GPS-203', imei: '864230040510233', simNumber: '+919876543212', assignedTo: 'Staff Van C', location: 'Parking B', networkSignal: 30, status: 'Active', lastPing: '3 mins ago' },
-    { id: 'GPS-204', imei: '864230040510234', simNumber: '+919876543213', assignedTo: 'Executive Car 1', location: 'Workshop', networkSignal: 65, status: 'Maintenance', lastPing: '4 hrs ago' },
-    { id: 'GPS-205', imei: '864230040510235', simNumber: '+919876543214', assignedTo: 'Student Bus B', location: 'Route 15 (East Ave)', networkSignal: 88, status: 'Active', lastPing: '1 min ago' },
+    {
+        id: 'GPS-201',
+        imei: '864230040510231',
+        simNumber: '+919876543210',
+        assignedTo: 'Student Bus A',
+        location: 'Route 42 (Main St)',
+        networkSignal: 95,
+        status: 'Active',
+        lastPing: 'Just now',
+    },
+    {
+        id: 'GPS-202',
+        imei: '864230040510232',
+        simNumber: '+919876543211',
+        assignedTo: 'Unassigned',
+        location: 'Storage',
+        networkSignal: 0,
+        status: 'Inactive',
+        lastPing: '1 week ago',
+    },
+    {
+        id: 'GPS-203',
+        imei: '864230040510233',
+        simNumber: '+919876543212',
+        assignedTo: 'Staff Van C',
+        location: 'Parking B',
+        networkSignal: 30,
+        status: 'Active',
+        lastPing: '3 mins ago',
+    },
+    {
+        id: 'GPS-204',
+        imei: '864230040510234',
+        simNumber: '+919876543213',
+        assignedTo: 'Executive Car 1',
+        location: 'Workshop',
+        networkSignal: 65,
+        status: 'Maintenance',
+        lastPing: '4 hrs ago',
+    },
+    {
+        id: 'GPS-205',
+        imei: '864230040510235',
+        simNumber: '+919876543214',
+        assignedTo: 'Student Bus B',
+        location: 'Route 15 (East Ave)',
+        networkSignal: 88,
+        status: 'Active',
+        lastPing: '1 min ago',
+    },
 ];
 
 const getStatusVariant = (status: GpsStatus) => {
     switch (status) {
-        case 'Active': return 'green';
-        case 'Inactive': return 'slate';
-        case 'Maintenance': return 'amber';
-        default: return 'blue';
+        case 'Active':
+            return 'green';
+        case 'Inactive':
+            return 'slate';
+        case 'Maintenance':
+            return 'amber';
+        default:
+            return 'blue';
     }
 };
-
 
 /* ── VIEW DETAIL OVERLAY ── */
 const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) => {
     return (
-        <div style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0,0,0,.45)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: window.innerWidth < 640 ? 12 : 24,
-        }} onClick={onClose}>
-            <div style={{
-                background: 'white',
-                borderRadius: 16,
-                width: '100%',
-                maxWidth: 480,
-                maxHeight: 'calc(100vh - 40px)',
-                overflow: 'auto',
-                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
-            }} onClick={e => e.stopPropagation()}>
+        <div
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1000,
+                background: 'rgba(0,0,0,.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: window.innerWidth < 640 ? 12 : 24,
+            }}
+            onClick={onClose}
+        >
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    width: '100%',
+                    maxWidth: 480,
+                    maxHeight: 'calc(100vh - 40px)',
+                    overflow: 'auto',
+                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            >
                 {/* Header */}
-                <div style={{
-                    background: 'linear-gradient(135deg, #701A75 0%, #4A044E 100%)',
-                    padding: '24px 28px',
-                    borderRadius: '16px 16px 0 0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
+                <div
+                    style={{
+                        background: 'linear-gradient(135deg, #701A75 0%, #4A044E 100%)',
+                        padding: '24px 28px',
+                        borderRadius: '16px 16px 0 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <div style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            background: 'rgba(255,255,255,.2)',
+                        <div
+                            style={{
+                                width: 48,
+                                height: 48,
+                                borderRadius: '50%',
+                                background: 'rgba(255,255,255,.2)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                                fontSize: 18,
+                                fontWeight: 900,
+                            }}
+                        >
+                            <Crosshair size={24} />
+                        </div>
+                        <div>
+                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>
+                                {gps.id}
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 12,
+                                    color: 'rgba(255,255,255,.8)',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                GPS Device Details
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        style={{
+                            background: 'rgba(255,255,255,.1)',
+                            border: 'none',
+                            borderRadius: 8,
+                            width: 32,
+                            height: 32,
+                            cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: 'white',
-                            fontSize: 18,
-                            fontWeight: 900,
-                        }}>
-                             <Crosshair size={24} />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{gps.id}</div>
-                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', fontWeight: 600 }}>GPS Device Details</div>
-                        </div>
-                    </div>
-                    <button onClick={onClose} style={{
-                        background: 'rgba(255,255,255,.1)',
-                        border: 'none',
-                        borderRadius: 8,
-                        width: 32,
-                        height: 32,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
+                        }}
+                    >
                         <X color="white" size={18} />
                     </button>
                 </div>
@@ -104,43 +190,119 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                 <div style={{ padding: '28px' }}>
                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>IMEI Number</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{gps.imei}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                IMEI Number
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: 700,
+                                    color: 'var(--text)',
+                                    fontFamily: 'monospace',
+                                }}
+                            >
+                                {gps.imei}
+                            </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Status</div>
-                             <Badge variant={getStatusVariant(gps.status)}>
-                                {gps.status}
-                            </Badge>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Status
+                            </div>
+                            <Badge variant={getStatusVariant(gps.status)}>{gps.status}</Badge>
                         </div>
                     </div>
 
                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>SIM Number</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{gps.simNumber}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                SIM Number
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {gps.simNumber}
+                            </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Assigned To</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{gps.assignedTo}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Assigned To
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {gps.assignedTo}
+                            </div>
                         </div>
                     </div>
 
-                     <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
+                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Network Signal</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Network Signal
+                            </div>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                                <div style={{ 
-                                    width: 48, height: 8, 
-                                    background: '#E2E8F0', 
-                                    borderRadius: 10,
-                                    overflow: 'hidden'
-                                }}>
-                                    <div style={{ 
-                                        height: '100%', 
-                                        width: `${gps.networkSignal}%`,
-                                        background: gps.networkSignal > 60 ? '#10B981' : gps.networkSignal > 30 ? '#F59E0B' : '#EF4444' 
-                                    }} />
+                                <div
+                                    style={{
+                                        width: 48,
+                                        height: 8,
+                                        background: '#E2E8F0',
+                                        borderRadius: 10,
+                                        overflow: 'hidden',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            height: '100%',
+                                            width: `${gps.networkSignal}%`,
+                                            background:
+                                                gps.networkSignal > 60
+                                                    ? '#10B981'
+                                                    : gps.networkSignal > 30
+                                                      ? '#F59E0B'
+                                                      : '#EF4444',
+                                        }}
+                                    />
                                 </div>
                                 <span style={{ fontSize: 14, fontWeight: 800, color: '#475569' }}>
                                     {gps.networkSignal}%
@@ -148,23 +310,65 @@ const ViewOverlay = ({ gps, onClose }: { gps: GpsDevice; onClose: () => void }) 
                             </div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Last Ping</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{gps.lastPing}</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 6,
+                                    letterSpacing: '.05em',
+                                }}
+                            >
+                                Last Ping
+                            </div>
+                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
+                                {gps.lastPing}
+                            </div>
                         </div>
                     </div>
 
                     <div style={{ marginBottom: 24 }}>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Current Location</div>
+                        <div
+                            style={{
+                                fontSize: 10,
+                                fontWeight: 800,
+                                textTransform: 'uppercase',
+                                color: '#94A3B8',
+                                marginBottom: 6,
+                                letterSpacing: '.05em',
+                            }}
+                        >
+                            Current Location
+                        </div>
                         <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
-                            <MapPin size={16} color="var(--primary)" style={{ verticalAlign: '-3px', marginRight: 6 }} />
+                            <MapPin
+                                size={16}
+                                color="var(--primary)"
+                                style={{ verticalAlign: '-3px', marginRight: 6 }}
+                            />
                             {gps.location}
                         </div>
                     </div>
                 </div>
 
                 {/* Footer */}
-                <div style={{ padding: '20px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', background: 'var(--surface)' }}>
-                    <button className="btn btn-secondary" onClick={onClose} style={{ fontWeight: 800 }}>Close Overview</button>
+                <div
+                    style={{
+                        padding: '20px 28px',
+                        borderTop: '1px solid var(--border)',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        background: 'var(--surface)',
+                    }}
+                >
+                    <button
+                        className="btn btn-secondary"
+                        onClick={onClose}
+                        style={{ fontWeight: 800 }}
+                    >
+                        Close Overview
+                    </button>
                 </div>
             </div>
         </div>
@@ -196,9 +400,11 @@ export const GpsPage = () => {
 
     // Stats
     const totalCount = DUMMY_GPS.length;
-    const activeCount = DUMMY_GPS.filter(g => g.status === 'Active').length;
-    const weakSignalCount = DUMMY_GPS.filter(g => g.networkSignal > 0 && g.networkSignal < 40).length;
-    const inactiveCount = DUMMY_GPS.filter(g => g.status === 'Inactive').length;
+    const activeCount = DUMMY_GPS.filter((g) => g.status === 'Active').length;
+    const weakSignalCount = DUMMY_GPS.filter(
+        (g) => g.networkSignal > 0 && g.networkSignal < 40
+    ).length;
+    const inactiveCount = DUMMY_GPS.filter((g) => g.status === 'Inactive').length;
 
     return (
         <>
@@ -228,15 +434,45 @@ export const GpsPage = () => {
                 {/* ── Stat cards ── */}
                 <div className="stat-grid stat-grid-4">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: 'map', label: 'Total Trackers', val: String(totalCount), tc: '' },
-                        { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
-                        { bg: '#FEF3C7', ic: '#D97706', icon: 'weak_signal', label: 'Weak Signal', val: String(weakSignalCount), tc: 'trend-down' },
-                        { bg: '#F1F5F9', ic: '#64748B', icon: 'gps_off', label: 'Inactive', val: String(inactiveCount), tc: '' },
+                        {
+                            bg: '#EDE9FE',
+                            ic: '#7C3AED',
+                            icon: 'map',
+                            label: 'Total Trackers',
+                            val: String(totalCount),
+                            tc: '',
+                        },
+                        {
+                            bg: '#DCFCE7',
+                            ic: '#059669',
+                            icon: 'check_circle',
+                            label: 'Active',
+                            val: String(activeCount),
+                            tc: '',
+                        },
+                        {
+                            bg: '#FEF3C7',
+                            ic: '#D97706',
+                            icon: 'weak_signal',
+                            label: 'Weak Signal',
+                            val: String(weakSignalCount),
+                            tc: 'trend-down',
+                        },
+                        {
+                            bg: '#F1F5F9',
+                            ic: '#64748B',
+                            icon: 'gps_off',
+                            label: 'Inactive',
+                            val: String(inactiveCount),
+                            tc: '',
+                        },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
                                 {s.icon === 'map' && <Map size={18} color={s.ic} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
+                                {s.icon === 'check_circle' && (
+                                    <CheckCircle2 size={18} color={s.ic} />
+                                )}
                                 {s.icon === 'weak_signal' && <SignalHigh size={18} color={s.ic} />}
                                 {s.icon === 'gps_off' && <PowerOff size={18} color={s.ic} />}
                             </div>
@@ -336,63 +572,120 @@ export const GpsPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No GPS devices found
                                         {search ? ` matching "${search}"` : ''}
-                                        {statusFilter !== 'All' ? ` with status "${statusFilter}"` : ''}
+                                        {statusFilter !== 'All'
+                                            ? ` with status "${statusFilter}"`
+                                            : ''}
                                     </td>
                                 </tr>
                             ) : (
                                 paginated.map((g) => (
                                     <tr key={g.id}>
                                         <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-                                                <div 
-                                                    className="avatar" 
-                                                    style={{ 
-                                                        background: '#FDF4FF', 
-                                                        color: '#C026D3', 
-                                                        width: 36, 
-                                                        height: 36 
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 9,
+                                                }}
+                                            >
+                                                <div
+                                                    className="avatar"
+                                                    style={{
+                                                        background: '#FDF4FF',
+                                                        color: '#C026D3',
+                                                        width: 36,
+                                                        height: 36,
                                                     }}
                                                 >
                                                     <Crosshair size={18} />
                                                 </div>
                                                 <div>
-                                                    <div style={{ fontWeight: 800, color: 'var(--text)' }}>{g.id}</div>
-                                                    <div style={{ fontSize: 11, color: 'var(--muted)', fontFamily: 'monospace' }}>
+                                                    <div
+                                                        style={{
+                                                            fontWeight: 800,
+                                                            color: 'var(--text)',
+                                                        }}
+                                                    >
+                                                        {g.id}
+                                                    </div>
+                                                    <div
+                                                        style={{
+                                                            fontSize: 11,
+                                                            color: 'var(--muted)',
+                                                            fontFamily: 'monospace',
+                                                        }}
+                                                    >
                                                         IMEI: {g.imei}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
+                                            <div
+                                                style={{
+                                                    fontSize: 13,
+                                                    fontWeight: 600,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
                                                 {g.assignedTo}
                                             </div>
                                             <div style={{ fontSize: 11, color: 'var(--muted)' }}>
-                                                <MapPin size={12} style={{ verticalAlign: '-2px', marginRight: 2 }} />
+                                                <MapPin
+                                                    size={12}
+                                                    style={{
+                                                        verticalAlign: '-2px',
+                                                        marginRight: 2,
+                                                    }}
+                                                />
                                                 {g.location}
                                             </div>
                                         </td>
                                         <td>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                                                <div style={{ 
-                                                    width: 40, height: 6, 
-                                                    background: '#E2E8F0', 
-                                                    borderRadius: 10,
-                                                    overflow: 'hidden'
-                                                }}>
-                                                    <div style={{ 
-                                                        height: '100%', 
-                                                        width: `${g.networkSignal}%`,
-                                                        background: g.networkSignal > 60 ? '#10B981' : g.networkSignal > 30 ? '#F59E0B' : '#EF4444' 
-                                                    }} />
+                                            <div
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 6,
+                                                }}
+                                            >
+                                                <div
+                                                    style={{
+                                                        width: 40,
+                                                        height: 6,
+                                                        background: '#E2E8F0',
+                                                        borderRadius: 10,
+                                                        overflow: 'hidden',
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            height: '100%',
+                                                            width: `${g.networkSignal}%`,
+                                                            background:
+                                                                g.networkSignal > 60
+                                                                    ? '#10B981'
+                                                                    : g.networkSignal > 30
+                                                                      ? '#F59E0B'
+                                                                      : '#EF4444',
+                                                        }}
+                                                    />
                                                 </div>
-                                                <span style={{ fontSize: 12, fontWeight: 700, color: '#475569' }}>
-                                                    {g.networkSignal > 0 ? `${g.networkSignal}%` : 'Offline'}
+                                                <span
+                                                    style={{
+                                                        fontSize: 12,
+                                                        fontWeight: 700,
+                                                        color: '#475569',
+                                                    }}
+                                                >
+                                                    {g.networkSignal > 0
+                                                        ? `${g.networkSignal}%`
+                                                        : 'Offline'}
                                                 </span>
                                             </div>
                                         </td>
@@ -406,21 +699,26 @@ export const GpsPage = () => {
                                         </td>
                                         <td>
                                             <div className="actions-col">
-                                                <button 
+                                                <button
                                                     className="act-btn act-view"
                                                     title="View GPS Device"
                                                     onClick={() => setViewingGps(g)}
                                                 >
                                                     <Eye size={16} className="ms" />
                                                 </button>
-                                                <button 
+                                                <button
                                                     className="act-btn act-edit"
                                                     title="Edit GPS Device"
-                                                    onClick={() => navigate('/masters/gps-devices/create')}
+                                                    onClick={() =>
+                                                        navigate('/masters/gps-devices/create')
+                                                    }
                                                 >
                                                     <Edit size={16} className="ms" />
                                                 </button>
-                                                <button className="act-btn act-delete" title="Delete GPS Device">
+                                                <button
+                                                    className="act-btn act-delete"
+                                                    title="Delete GPS Device"
+                                                >
                                                     <Trash2 size={16} className="ms" />
                                                 </button>
                                             </div>
@@ -433,22 +731,13 @@ export const GpsPage = () => {
 
                     {/* ── PAGINATION ── */}
                     {pages > 0 && (
-                        <Pagination
-                            current={safePage}
-                            total={pages}
-                            onChange={(p) => setPage(p)}
-                        />
+                        <Pagination current={safePage} total={pages} onChange={(p) => setPage(p)} />
                     )}
                 </div>
             </div>
 
             {/* View Overlay */}
-            {viewingGps && (
-                <ViewOverlay 
-                    gps={viewingGps} 
-                    onClose={() => setViewingGps(null)} 
-                />
-            )}
+            {viewingGps && <ViewOverlay gps={viewingGps} onClose={() => setViewingGps(null)} />}
         </>
     );
 };

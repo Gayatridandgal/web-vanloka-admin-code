@@ -111,8 +111,8 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         background: isGood
                             ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
                             : record.score === 'Moderate'
-                                ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
-                                : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                              ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+                              : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
                     }}
                 >
                     <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 text-center sm:text-left">
@@ -238,10 +238,14 @@ const BasicReportView = () => {
                 </div>
                 <div className="flex gap-3 w-full sm:w-auto">
                     <button className="btn btn-secondary flex-1 sm:flex-none flex items-center justify-center gap-2 rounded-lg px-4 py-2 hover:bg-slate-100 transition-colors text-sm">
-                        <Download size={16} /> <span className="hidden xs:inline">Excel Output</span><span className="xs:hidden">Excel</span>
+                        <Download size={16} />{' '}
+                        <span className="hidden xs:inline">Excel Output</span>
+                        <span className="xs:hidden">Excel</span>
                     </button>
                     <button className="btn btn-primary flex-1 sm:flex-none flex items-center justify-center gap-2 rounded-lg px-4 py-2 shadow-md hover:shadow-lg transition-all text-sm">
-                        <FileText size={16} /> <span className="hidden xs:inline">Print Report</span><span className="xs:hidden">Print</span>
+                        <FileText size={16} />{' '}
+                        <span className="hidden xs:inline">Print Report</span>
+                        <span className="xs:hidden">Print</span>
                     </button>
                 </div>
             </div>
@@ -260,10 +264,11 @@ const BasicReportView = () => {
                         Trend Insight
                     </h3>
                     <p className="text-base font-semibold leading-snug">
-                        Fuel efficiency increased by <span className="font-black text-white">4.2%</span>{' '}
-                        across the heavy truck fleet this month, correlating with the recent routing
-                        optimization. <strong>VH-4022</strong> still requires maintenance review due to
-                        anomalous idling metrics.
+                        Fuel efficiency increased by{' '}
+                        <span className="font-black text-white">4.2%</span> across the heavy truck
+                        fleet this month, correlating with the recent routing optimization.{' '}
+                        <strong>VH-4022</strong> still requires maintenance review due to anomalous
+                        idling metrics.
                     </p>
                 </div>
             </motion.div>
@@ -322,7 +327,12 @@ const BasicReportView = () => {
                                     </div>
                                     <Badge
                                         variant="slate"
-                                        style={{ backgroundColor: '#F1F5F9', color: '#64748B', fontSize: '10px', padding: '4px 8px' }}
+                                        style={{
+                                            backgroundColor: '#F1F5F9',
+                                            color: '#64748B',
+                                            fontSize: '10px',
+                                            padding: '4px 8px',
+                                        }}
                                     >
                                         Last 30 Days
                                     </Badge>
@@ -362,8 +372,13 @@ const BasicReportView = () => {
                                     </p>
                                 </div>
                                 <div className="flex gap-2 text-xs font-bold text-slate-500">
-                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Revenue</span>
-                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500" /> Costs</span>
+                                    <span className="flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500" />{' '}
+                                        Revenue
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-red-500" /> Costs
+                                    </span>
                                 </div>
                             </div>
                             <div className="flex-1 min-h-0 w-full">
@@ -618,7 +633,8 @@ const BasicReportView = () => {
                                                     size={48}
                                                     className="mx-auto block mb-3 text-slate-300"
                                                 />
-                                                No records found{search ? ` matching "${search}"` : ''}.
+                                                No records found
+                                                {search ? ` matching "${search}"` : ''}.
                                             </td>
                                         </tr>
                                     ) : (
@@ -654,7 +670,11 @@ const BasicReportView = () => {
                                                 <td className="px-5 py-4 overflow-hidden text-ellipsis whitespace-nowrap">
                                                     <Badge
                                                         variant={scoreVariant(r.score)}
-                                                        style={{ padding: '4px 10px', borderRadius: 6, fontSize: 11 }}
+                                                        style={{
+                                                            padding: '4px 10px',
+                                                            borderRadius: 6,
+                                                            fontSize: 11,
+                                                        }}
                                                     >
                                                         {r.score}
                                                     </Badge>
@@ -706,7 +726,6 @@ const performanceData = [
     { name: 'Sat', revenue: 2390, distance: 3800 },
     { name: 'Sun', revenue: 3490, distance: 4300 },
 ];
-
 
 const safetyRankings = [
     { id: 'DRV-1042', name: 'Raj Kumar', incidents: 0, score: 98, status: 'Excellent' },
@@ -794,8 +813,12 @@ const AdvancedReportView = () => {
                             </p>
                         </div>
                         <div className="flex gap-2 text-xs font-bold text-slate-500">
-                            <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Revenue</span>
-                            <span className="flex items-center gap-1"><div className="w-4 h-1 bg-emerald-500" /> Distance</span>
+                            <span className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-purple-500" /> Revenue
+                            </span>
+                            <span className="flex items-center gap-1">
+                                <div className="w-4 h-1 bg-emerald-500" /> Distance
+                            </span>
                         </div>
                     </div>
                     <div className="flex-1 min-h-0 w-full">
@@ -864,7 +887,6 @@ const AdvancedReportView = () => {
                     </div>
                 </motion.div>
 
-
                 {/* Chart 2: Driver Safety Radar Chart */}
                 <motion.div
                     variants={itemVariants}
@@ -898,7 +920,12 @@ const AdvancedReportView = () => {
                                     dataKey="metric"
                                     tick={{ fill: '#64748B', fontSize: 12, fontWeight: 600 }}
                                 />
-                                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                                <PolarRadiusAxis
+                                    angle={30}
+                                    domain={[0, 100]}
+                                    tick={false}
+                                    axisLine={false}
+                                />
                                 <Radar
                                     name="Fleet Average"
                                     dataKey="value"
@@ -973,12 +1000,13 @@ const AdvancedReportView = () => {
                                         <div className="flex items-center gap-3">
                                             <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                                 <div
-                                                    className={`h-full rounded-full transition-all duration-500 ease-out ${driver.score > 90
-                                                        ? 'bg-emerald-500'
-                                                        : driver.score > 80
-                                                            ? 'bg-amber-500'
-                                                            : 'bg-red-500'
-                                                        }`}
+                                                    className={`h-full rounded-full transition-all duration-500 ease-out ${
+                                                        driver.score > 90
+                                                            ? 'bg-emerald-500'
+                                                            : driver.score > 80
+                                                              ? 'bg-amber-500'
+                                                              : 'bg-red-500'
+                                                    }`}
                                                     style={{
                                                         width: `${driver.score}%`,
                                                     }}
@@ -995,8 +1023,8 @@ const AdvancedReportView = () => {
                                                 driver.score > 90
                                                     ? 'blue'
                                                     : driver.score > 80
-                                                        ? 'orange'
-                                                        : 'red'
+                                                      ? 'orange'
+                                                      : 'red'
                                             }
                                         >
                                             {driver.status}
@@ -1071,9 +1099,7 @@ const ComplianceReportView = () => {
                             <span className="text-3xl font-black text-slate-900 tracking-tight">
                                 {Math.round((doc.valid / doc.total) * 100)}%
                             </span>
-                            <span className="text-xs font-bold text-slate-500">
-                                Compliance
-                            </span>
+                            <span className="text-xs font-bold text-slate-500">Compliance</span>
                         </div>
                         <div className="w-full h-1.5 bg-slate-100 rounded-full mb-4 overflow-hidden">
                             <div
@@ -1170,14 +1196,22 @@ const ComplianceReportView = () => {
                                         </td>
                                         <td className="px-6 py-4 text-[13px]">
                                             <span
-                                                className={v.pol === 'Expiring' ? 'text-amber-600 font-bold' : 'text-slate-600 font-medium'}
+                                                className={
+                                                    v.pol === 'Expiring'
+                                                        ? 'text-amber-600 font-bold'
+                                                        : 'text-slate-600 font-medium'
+                                                }
                                             >
                                                 {v.pol}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-[13px]">
                                             <span
-                                                className={v.fit === 'Expired' ? 'text-red-600 font-bold' : 'text-slate-600 font-medium'}
+                                                className={
+                                                    v.fit === 'Expired'
+                                                        ? 'text-red-600 font-bold'
+                                                        : 'text-slate-600 font-medium'
+                                                }
                                             >
                                                 {v.fit}
                                             </span>
@@ -1214,19 +1248,45 @@ const ComplianceReportView = () => {
                     <div className="p-4 flex-1 overflow-y-auto">
                         <div className="flex flex-col gap-3">
                             {[
-                                { vh: 'VH-4022', doc: 'Fitness Certificate', status: 'Expired', days: -12 },
-                                { vh: 'VH-4023', doc: 'Pollution (PUC)', status: 'Expiring', days: 5 },
+                                {
+                                    vh: 'VH-4022',
+                                    doc: 'Fitness Certificate',
+                                    status: 'Expired',
+                                    days: -12,
+                                },
+                                {
+                                    vh: 'VH-4023',
+                                    doc: 'Pollution (PUC)',
+                                    status: 'Expiring',
+                                    days: 5,
+                                },
                                 { vh: 'VH-4109', doc: 'Insurance', status: 'Expiring', days: 8 },
-                                { vh: 'VH-3984', doc: 'National Permit', status: 'Expiring', days: 14 },
+                                {
+                                    vh: 'VH-3984',
+                                    doc: 'National Permit',
+                                    status: 'Expiring',
+                                    days: 14,
+                                },
                             ].map((action, i) => (
-                                <div key={i} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-slate-300 transition-colors">
+                                <div
+                                    key={i}
+                                    className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-slate-300 transition-colors"
+                                >
                                     <div className="flex justify-between items-start mb-2">
                                         <div>
-                                            <div className="text-sm font-bold text-slate-900">{action.vh}</div>
-                                            <div className="text-[12px] font-semibold text-slate-500 mt-0.5">{action.doc}</div>
+                                            <div className="text-sm font-bold text-slate-900">
+                                                {action.vh}
+                                            </div>
+                                            <div className="text-[12px] font-semibold text-slate-500 mt-0.5">
+                                                {action.doc}
+                                            </div>
                                         </div>
-                                        <Badge variant={action.status === 'Expired' ? 'red' : 'amber'}>
-                                            {action.days < 0 ? `${Math.abs(action.days)}d ago` : `in ${action.days}d`}
+                                        <Badge
+                                            variant={action.status === 'Expired' ? 'red' : 'amber'}
+                                        >
+                                            {action.days < 0
+                                                ? `${Math.abs(action.days)}d ago`
+                                                : `in ${action.days}d`}
                                         </Badge>
                                     </div>
                                     <button className="w-full mt-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors">
@@ -1259,7 +1319,11 @@ const CustomizableReportView = () => {
         { name: 'Statutory', columns: ['Insurance Exp', 'PUC Exp', 'Fitness Exp', 'Permit Type'] },
     ];
 
-    const [selectedFields, setSelectedFields] = useState<string[]>(['Vehicle ID', 'Status', 'Make']);
+    const [selectedFields, setSelectedFields] = useState<string[]>([
+        'Vehicle ID',
+        'Status',
+        'Make',
+    ]);
 
     const handleCheckboxChange = (col: string) => {
         setSelectedFields((prev) =>
@@ -1269,13 +1333,39 @@ const CustomizableReportView = () => {
 
     // Mock data for preview
     const previewData = [
-        { 'Vehicle ID': 'VH-4021', 'Engine No': 'ENG1234', 'Make': 'Tata', 'Status': 'Active', 'Odometer': '45,200 km', 'Insurance Exp': '24 Dec 2026' },
-        { 'Vehicle ID': 'VH-4022', 'Engine No': 'ENG5678', 'Make': 'Ashok Leyland', 'Status': 'Idle', 'Odometer': '12,450 km', 'Insurance Exp': '12 Nov 2025' },
-        { 'Vehicle ID': 'VH-4023', 'Engine No': 'ENG9012', 'Make': 'Mahindra', 'Status': 'Maintenance', 'Odometer': '89,100 km', 'Insurance Exp': '05 Jan 2026' },
+        {
+            'Vehicle ID': 'VH-4021',
+            'Engine No': 'ENG1234',
+            Make: 'Tata',
+            Status: 'Active',
+            Odometer: '45,200 km',
+            'Insurance Exp': '24 Dec 2026',
+        },
+        {
+            'Vehicle ID': 'VH-4022',
+            'Engine No': 'ENG5678',
+            Make: 'Ashok Leyland',
+            Status: 'Idle',
+            Odometer: '12,450 km',
+            'Insurance Exp': '12 Nov 2025',
+        },
+        {
+            'Vehicle ID': 'VH-4023',
+            'Engine No': 'ENG9012',
+            Make: 'Mahindra',
+            Status: 'Maintenance',
+            Odometer: '89,100 km',
+            'Insurance Exp': '05 Jan 2026',
+        },
     ];
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col gap-6"
+        >
             <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
@@ -1283,7 +1373,8 @@ const CustomizableReportView = () => {
                             Custom Data Extraction Builder
                         </h3>
                         <p className="text-slate-500 text-sm mt-1">
-                            Configure your report by selecting data points and applying global filters.
+                            Configure your report by selecting data points and applying global
+                            filters.
                         </p>
                     </div>
                     <div className="flex gap-3">
@@ -1366,10 +1457,17 @@ const CustomizableReportView = () => {
             </div>
 
             {/* ── LIVE PREVIEW TABLE ── */}
-            <motion.div variants={itemVariants} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
+            <motion.div
+                variants={itemVariants}
+                className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col"
+            >
                 <div className="p-6 border-b border-slate-200 bg-white">
-                    <h3 className="text-base font-extrabold text-slate-900 m-0">Live Data Preview</h3>
-                    <p className="text-sm text-slate-500 mt-1">Showing first 3 rows based on current extract configuration.</p>
+                    <h3 className="text-base font-extrabold text-slate-900 m-0">
+                        Live Data Preview
+                    </h3>
+                    <p className="text-sm text-slate-500 mt-1">
+                        Showing first 3 rows based on current extract configuration.
+                    </p>
                 </div>
                 {selectedFields.length > 0 ? (
                     <div className="overflow-x-auto w-full">
@@ -1387,8 +1485,11 @@ const CustomizableReportView = () => {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                                {previewData.map((row: any, idx) => (
-                                    <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                                {previewData.map((row: Record<string, string>, idx) => (
+                                    <tr
+                                        key={idx}
+                                        className="hover:bg-slate-50/50 transition-colors"
+                                    >
                                         {selectedFields.map((field) => (
                                             <td
                                                 key={field}
@@ -1498,7 +1599,9 @@ export const ReportsPage = () => {
                                     onClick={() => navigate(`/reports/${t.id}`)}
                                     className={`group bg-white border-2 border-slate-100 rounded-2xl p-6 sm:p-8 cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-xl ${t.hoverBorderClass} flex flex-col items-center gap-4 text-center justify-center min-h-[220px] relative`}
                                 >
-                                    <div className={`absolute inset-0 rounded-2xl transition-shadow duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${t.hoverShadowClass}`} />
+                                    <div
+                                        className={`absolute inset-0 rounded-2xl transition-shadow duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${t.hoverShadowClass}`}
+                                    />
                                     <div
                                         className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110 relative z-10 ${t.bgClass}`}
                                     >
@@ -1530,13 +1633,22 @@ export const ReportsPage = () => {
                         Intelligence & Reports
                     </div>
                     <div className="breadcrumb mt-1 flex items-center text-xs font-semibold text-slate-500">
-                        <span className="hover:text-slate-800 transition-colors cursor-pointer">Admin</span>
+                        <span className="hover:text-slate-800 transition-colors cursor-pointer">
+                            Admin
+                        </span>
                         <span className="mx-2 text-slate-300">/</span>
-                        <span className="hover:text-slate-800 transition-colors cursor-pointer" onClick={() => navigate('/reports')}>Reports</span>
+                        <span
+                            className="hover:text-slate-800 transition-colors cursor-pointer"
+                            onClick={() => navigate('/reports')}
+                        >
+                            Reports
+                        </span>
                         {activeTab && (
                             <>
                                 <span className="mx-2 text-slate-300">/</span>
-                                <span className="text-slate-900">{tabs.find((t) => t.id === activeTab)?.label}</span>
+                                <span className="text-slate-900">
+                                    {tabs.find((t) => t.id === activeTab)?.label}
+                                </span>
                             </>
                         )}
                     </div>
@@ -1559,5 +1671,3 @@ export const ReportsPage = () => {
 };
 
 export default ReportsPage;
-
-

@@ -3,7 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { Info, FileText, CheckCircle2, ArrowLeft, CreditCard, Save } from 'lucide-react';
 
 /* ── Tiny Helpers (matching the latest Creation Form pattern) ── */
-const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
+const SectionHeader = ({
+    icon: Icon,
+    title,
+    highlight,
+}: {
+    icon: React.ElementType;
+    title: string;
+    highlight?: boolean;
+}) => (
     <div
         style={{
             display: 'flex',
@@ -50,9 +58,7 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
 );
 
 const Grid = ({ children }: { children: React.ReactNode }) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {children}
-    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">{children}</div>
 );
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -99,7 +105,7 @@ export const PlanFeatureCreatePage = () => {
             setErrs(e);
             return;
         }
-        
+
         setErrs({});
         setSaved(true);
     };
@@ -119,7 +125,10 @@ export const PlanFeatureCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}>
+                <div
+                    className="page-body"
+                    style={{ alignItems: 'center', justifyContent: 'center', padding: '24px 12px' }}
+                >
                     <div
                         style={{
                             background: 'white',
@@ -146,23 +155,48 @@ export const PlanFeatureCreatePage = () => {
                         >
                             <CheckCircle2 size={44} color="#059669" />
                         </div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 22,
+                                fontWeight: 900,
+                                color: '#065F46',
+                                marginBottom: 8,
+                            }}
+                        >
                             Feature Created Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.name}</strong> has been registered in the subscription system with code: <code>{form.code.toUpperCase()}</code>.
+                            <strong>{form.name}</strong> has been registered in the subscription
+                            system with code: <code>{form.code.toUpperCase()}</code>.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: 12,
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                            }}
+                            className="sm:flex-row"
+                        >
                             <button
                                 className="btn btn-secondary w-full sm:w-auto"
                                 onClick={() => {
-                                    setForm({ name: '', code: '', category: 'Tracking', description: '', status: 'Active' });
+                                    setForm({
+                                        name: '',
+                                        code: '',
+                                        category: 'Tracking',
+                                        description: '',
+                                        status: 'Active',
+                                    });
                                     setSaved(false);
                                 }}
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
+                            <button
+                                className="btn btn-primary w-full sm:w-auto"
+                                onClick={() => navigate('/masters/plan-features')}
+                            >
                                 <ArrowLeft size={16} className="ms mr-1" /> Back to List
                             </button>
                         </div>
@@ -176,21 +210,29 @@ export const PlanFeatureCreatePage = () => {
     return (
         <>
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
-                    <button className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
+                <div
+                    style={{ display: 'flex', alignItems: 'center', gap: 16 }}
+                    className="flex-col sm:flex-row sm:items-center"
+                >
+                    <button
+                        className="btn btn-secondary w-full sm:w-auto"
+                        onClick={() => navigate('/masters/plan-features')}
+                    >
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
                     <div className="text-center sm:text-left">
                         <div className="page-title">Add New Plan Feature</div>
-                        <div className="breadcrumb">Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span> Add</div>
+                        <div className="breadcrumb">
+                            Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span>{' '}
+                            Add
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div className="page-body">
                 <div style={{ maxWidth: 860, width: '100%', margin: '0 auto' }}>
-                    
                     {/* Basic Info */}
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" highlight />
@@ -206,7 +248,11 @@ export const PlanFeatureCreatePage = () => {
                                             setForm((v) => ({ ...v, name: e.target.value }));
                                             setErrs((e) => ({ ...e, name: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.name ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            borderColor: errs.name ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.name} />
                                 </div>
@@ -217,10 +263,20 @@ export const PlanFeatureCreatePage = () => {
                                         placeholder="e.g. GEO_FENCE_01"
                                         value={form.code}
                                         onChange={(e) => {
-                                            setForm((v) => ({ ...v, code: e.target.value.toUpperCase().replace(/\s+/g, '_') }));
+                                            setForm((v) => ({
+                                                ...v,
+                                                code: e.target.value
+                                                    .toUpperCase()
+                                                    .replace(/\s+/g, '_'),
+                                            }));
                                             setErrs((e) => ({ ...e, code: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace', borderColor: errs.code ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                            borderColor: errs.code ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.code} />
                                 </div>
@@ -229,7 +285,9 @@ export const PlanFeatureCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.category}
-                                        onChange={(e) => setForm((v) => ({ ...v, category: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, category: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="Tracking">Tracking</option>
@@ -248,7 +306,9 @@ export const PlanFeatureCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.status}
-                                        onChange={(e) => setForm((v) => ({ ...v, status: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, status: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="Active">Active</option>
@@ -270,23 +330,42 @@ export const PlanFeatureCreatePage = () => {
                                     className="form-input"
                                     placeholder="Explain what this feature enables for the end user..."
                                     value={form.description}
-                                    onChange={(e) => setForm((v) => ({ ...v, description: e.target.value }))}
-                                    style={{ width: '100%', boxSizing: 'border-box', minHeight: 120, resize: 'vertical' }}
+                                    onChange={(e) =>
+                                        setForm((v) => ({ ...v, description: e.target.value }))
+                                    }
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        minHeight: 120,
+                                        resize: 'vertical',
+                                    }}
                                 />
                             </div>
                         </Body>
                     </Card>
 
                     {/* Footer Actions: Cancel and Save */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40, flexDirection: 'column' }} className="sm:flex-row mb-8 sm:mb-0">
-                        <button className="btn btn-secondary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                            flexDirection: 'column',
+                        }}
+                        className="sm:flex-row mb-8 sm:mb-0"
+                    >
+                        <button
+                            className="btn btn-secondary w-full sm:w-auto"
+                            onClick={() => navigate('/masters/plan-features')}
+                        >
                             Cancel
                         </button>
                         <button className="btn btn-primary w-full sm:w-auto" onClick={handleSave}>
                             <Save size={18} className="ms mr-1" /> Save Feature
                         </button>
                     </div>
-
                 </div>
             </div>
         </>
