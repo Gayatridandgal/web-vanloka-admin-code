@@ -8,7 +8,7 @@ import { LoginScreen } from './auth/LoginPage';
 // Layout
 import { Sidebar } from './layouts/Sidebar';
 
-// Pages
+// Pagess
 import { Dashboard } from './pages/Dasboard';
 import { FeedbacksPage } from './pages/Feedback';
 import { FeedbackResolve } from './pages/FeedbackReslove';
