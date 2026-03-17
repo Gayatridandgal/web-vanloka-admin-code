@@ -106,8 +106,8 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         background: isGood
                             ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
                             : record.score === 'Moderate'
-                              ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
-                              : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
+                                ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+                                : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
                     }}
                 >
                     <div className="p-6 sm:p-8 relative">

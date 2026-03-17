@@ -223,10 +223,19 @@ function App() {
                                     element={<RoleCreatePage />}
                                 />
 
+                                <Route
+                                    path="/feedbacks"
+                                    element={<FeedbacksPage openModal={openModal} />}
+                                />
                                 {/* ── Feedback resolve full-page form ── */}
-                                <Route path="/feedbacks/resolve" element={<FeedbackResolve />} />
-                                {/* ── Trainee complaint submission ── */}
-                                <Route path="/feedbacks/complaint" element={<TraineeComplaint />} />
+                                <Route
+                                    path="/feedbacks/resolve"
+                                    element={<FeedbackResolve />}
+                                />
+                                <Route
+                                    path="/feedbacks/resolve/:id"
+                                    element={<FeedbackResolve />}
+                                />
                                 <Route path="/reports" element={<ReportsPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 {/* Any unknown path → dashboard */}
