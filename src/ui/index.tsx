@@ -11,12 +11,14 @@ export const Badge = ({
     variant,
     children,
     style,
+    className = '',
 }: {
     variant: BadgeVariant;
     children: React.ReactNode;
     style?: React.CSSProperties;
+    className?: string;
 }) => (
-    <span className={`badge badge-${variant}`} style={style}>
+    <span className={`badge badge-${variant} ${className}`.trim()} style={style}>
         {children}
     </span>
 );

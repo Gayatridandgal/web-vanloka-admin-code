@@ -8,7 +8,7 @@ import { LoginScreen } from './auth/LoginPage';
 // Layout
 import { Sidebar } from './layouts/Sidebar';
 
-// Pagess
+// Pages
 import { Dashboard } from './pages/Dasboard';
 import { FeedbacksPage } from './pages/Feedback';
 import { FeedbackResolve } from './pages/FeedbackReslove';
@@ -18,7 +18,7 @@ import { StaffPage } from './pages/Staff';
 import StaffCreate from './pages/StaffCreate';
 import { OrganisationPage } from './pages/Organisation';
 import OrganisationCreate from './pages/OrganisationCreate';
-import { TraineeComplaint } from './pages/TraineeComplaint';
+
 import { RolesPage } from './pages/Roles';
 import { RoleCreatePage } from './pages/RoleCreate';
 import { BeaconPage } from './pages/Beacon';
@@ -171,62 +171,35 @@ function App() {
                                 />
                                 <Route path="/feedbacks" element={<FeedbacksPage />} />
                                 {/* ── Staff management ── */}
-                                <Route path="/staff" element={<StaffPage />} />
+                                <Route path="/staff" element={<StaffPage openModal={openModal} />} />
                                 {/* ── Staff Creation ── */}
                                 <Route path="/staff/create" element={<StaffCreate />} />
                                 {/* ── Masters / Beacons ── */}
                                 <Route path="/masters/beacon-devices" element={<BeaconPage />} />
-                                <Route
-                                    path="/masters/beacon-devices/create"
-                                    element={<BeaconCreatePage />}
-                                />
+                                <Route path="/masters/beacon-devices/create" element={<BeaconCreatePage />} />
                                 {/* ── Masters / GPS ── */}
                                 <Route path="/masters/gps-devices" element={<GpsPage />} />
-                                <Route
-                                    path="/masters/gps-devices/create"
-                                    element={<GpsCreatePage />}
-                                />
+                                <Route path="/masters/gps-devices/create" element={<GpsCreatePage />} />
                                 {/* ── Masters / Plan Features ── */}
-                                <Route
-                                    path="/masters/plan-features"
-                                    element={<PlanFeaturesPage />}
-                                />
-                                <Route
-                                    path="/masters/plan-features/create"
-                                    element={<PlanFeatureCreatePage />}
-                                />
+                                <Route path="/masters/plan-features" element={<PlanFeaturesPage />} />
+                                <Route path="/masters/plan-features/create" element={<PlanFeatureCreatePage />} />
                                 <Route path="/plan" element={<PlanPage />} />
                                 <Route path="/plan/create" element={<PlanCreatePage />} />
                                 {/* ── Supplier management ── */}
                                 <Route path="/suppliers" element={<SupplierPage />} />
                                 <Route path="/suppliers/create" element={<SupplierCreatePage />} />
-                                <Route
-                                    path="/suppliers/:id/devices"
-                                    element={<SupplierDeviceDetails />}
-                                />
+                                <Route path="/suppliers/:id/devices" element={<SupplierDeviceDetails />} />
                                 {/* ── App Users management ── */}
                                 <Route path="/app-users" element={<AppUsersPage />} />
                                 {/* ── Organisation management ── */}
                                 <Route path="/organisation" element={<OrganisationPage />} />
-                                <Route
-                                    path="/organisation/create"
-                                    element={<OrganisationCreate />}
-                                />
-                                <Route
-                                    path="/organisation/edit/:id"
-                                    element={<OrganisationCreate />}
-                                />
+                                <Route path="/organisation/create" element={<OrganisationCreate />} />
+                                <Route path="/organisation/edit/:id" element={<OrganisationCreate />} />
                                 {/* ── Roles & Permissions ── */}
                                 <Route path="/roles-permissions" element={<RolesPage />} />
-                                <Route
-                                    path="/roles-permissions/create"
-                                    element={<RoleCreatePage />}
-                                />
+                                <Route path="/roles-permissions/create" element={<RoleCreatePage />} />
 
-                                <Route
-                                    path="/feedbacks"
-                                    element={<FeedbacksPage openModal={openModal} />}
-                                />
+
                                 {/* ── Feedback resolve full-page form ── */}
                                 <Route
                                     path="/feedbacks/resolve"
@@ -237,6 +210,7 @@ function App() {
                                     element={<FeedbackResolve />}
                                 />
                                 <Route path="/reports" element={<ReportsPage />} />
+                                <Route path="/reports/:type" element={<ReportsPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 {/* Any unknown path → dashboard */}
                                 <Route path="*" element={<Navigate to="/dashboard" replace />} />

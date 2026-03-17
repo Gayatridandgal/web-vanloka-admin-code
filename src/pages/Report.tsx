@@ -1,28 +1,43 @@
 import { motion } from 'framer-motion';
 import {
+    Activity,
     AlertCircle,
     Banknote,
     BarChart4,
+    Bell,
     Car,
     CheckCircle2,
     ChevronDown,
+    ChevronLeft,
     Clock,
     Download,
     Eye,
     FileText,
     Filter,
     Fuel,
+    Search,
+    Settings,
+    ShieldCheck,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
-    Area,
-    AreaChart,
-    CartesianGrid,
-    Cell,
-    Pie,
+    Line,
+    Bar,
+    ComposedChart,
     PieChart,
-    ResponsiveContainer,
+    Pie,
+    Cell,
     Tooltip,
+    CartesianGrid,
+    ResponsiveContainer,
+    AreaChart,
+    Area,
+    Radar,
+    RadarChart,
+    PolarGrid,
+    PolarAngleAxis,
+    PolarRadiusAxis,
     XAxis,
     YAxis,
 } from 'recharts';
@@ -79,29 +94,20 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            style={{
-                position: 'fixed',
-                inset: 0,
-                zIndex: 1000,
-                background: 'rgba(15, 23, 42, 0.4)',
-                backdropFilter: 'blur(4px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: 24,
-            }}
+            className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm"
             onClick={onClose}
         >
             <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.95, opacity: 0 }}
+                initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.95, opacity: 0, y: 20 }}
                 transition={{ type: 'spring', duration: 0.5, bounce: 0.3 }}
-                className="bg-white rounded-2xl w-full max-w-[600px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+                className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl overflow-hidden"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Dynamic Header */}
                 <div
+                    className="relative px-8 pt-8 pb-7"
                     style={{
                         background: isGood
                             ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
@@ -110,198 +116,77 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                                 : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)',
                     }}
                 >
-                    <div className="p-6 sm:p-8 relative">
-                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
-                            <div
-                                style={{
-                                    width: 64,
-                                    height: 64,
-                                    borderRadius: 16,
-                                    background: 'rgba(255,255,255,0.2)',
-                                    backdropFilter: 'blur(10px)',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: 'white',
-                                    flexShrink: 0,
-                                    boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.3)',
-                                }}
-                            >
-                                <Car size={32} strokeWidth={1.5} />
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <h2
-                                    style={{
-                                        fontSize: 22,
-                                        fontWeight: 900,
-                                        color: 'white',
-                                        margin: '0 0 6px 0',
-                                    }}
-                                >
-                                    Vehicle Performance Report
-                                </h2>
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 12,
-                                        flexWrap: 'wrap',
-                                    }}
-                                >
-                                    <span
-                                        style={{
-                                            fontSize: 16,
-                                            color: 'rgba(255,255,255,0.9)',
-                                            fontWeight: 800,
-                                        }}
-                                    >
-                                        {record.id}
-                                    </span>
-                                    <Badge variant={scoreVariant(record.score)}>
-                                        {record.score}
-                                    </Badge>
-                                </div>
+                    <div className="flex items-start gap-5">
+                        <div className="flex-shrink-0 flex items-center justify-center w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.3)]">
+                            <Car size={32} strokeWidth={1.5} />
+                        </div>
+                        <div className="flex-1">
+                            <h2 className="text-2xl font-black text-white mb-1.5">
+                                Vehicle Performance Report
+                            </h2>
+                            <div className="flex items-center gap-3 flex-wrap">
+                                <span className="text-base text-white/90 font-extrabold">
+                                    {record.id}
+                                </span>
+                                <Badge variant={scoreVariant(record.score)}>{record.score}</Badge>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="p-6 sm:p-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
-                        <div
-                            style={{
-                                background: '#F8FAFC',
-                                padding: '16px',
-                                borderRadius: 12,
-                                border: '1px solid #E2E8F0',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    fontSize: 11,
-                                    fontWeight: 800,
-                                    color: '#64748B',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.05em',
-                                    marginBottom: 4,
-                                }}
-                            >
+                <div className="p-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest mb-1">
                                 Vehicle Type
                             </div>
-                            <div style={{ fontSize: 15, fontWeight: 700, color: '#0F172A' }}>
-                                {record.type}
-                            </div>
+                            <div className="text-sm font-bold text-slate-900">{record.type}</div>
                         </div>
-                        <div
-                            style={{
-                                background: '#F8FAFC',
-                                padding: '16px',
-                                borderRadius: 12,
-                                border: '1px solid #E2E8F0',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    fontSize: 11,
-                                    fontWeight: 800,
-                                    color: '#64748B',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.05em',
-                                    marginBottom: 4,
-                                }}
-                            >
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest mb-1">
                                 Distance Travelled
                             </div>
-                            <div style={{ fontSize: 15, fontWeight: 700, color: '#0F172A' }}>
+                            <div className="text-sm font-bold text-slate-900">
                                 {record.distance.toLocaleString()} km
                             </div>
                         </div>
-                        <div
-                            style={{
-                                background: '#F8FAFC',
-                                padding: '16px',
-                                borderRadius: 12,
-                                border: '1px solid #E2E8F0',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    fontSize: 11,
-                                    fontWeight: 800,
-                                    color: '#64748B',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.05em',
-                                    marginBottom: 4,
-                                }}
-                            >
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest mb-1">
                                 Fuel Expenses
                             </div>
-                            <div style={{ fontSize: 15, fontWeight: 700, color: '#DC2626' }}>
+                            <div className="text-sm font-bold text-red-600">
                                 ${record.fuelCost.toFixed(2)}
                             </div>
                         </div>
-                        <div
-                            style={{
-                                background: '#F8FAFC',
-                                padding: '16px',
-                                borderRadius: 12,
-                                border: '1px solid #E2E8F0',
-                            }}
-                        >
-                            <div
-                                style={{
-                                    fontSize: 11,
-                                    fontWeight: 800,
-                                    color: '#64748B',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '.05em',
-                                    marginBottom: 4,
-                                }}
-                            >
+                        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                            <div className="text-[11px] font-extrabold text-slate-500 uppercase tracking-widest mb-1">
                                 Revenue Yield
                             </div>
-                            <div style={{ fontSize: 15, fontWeight: 700, color: '#059669' }}>
+                            <div className="text-sm font-bold text-emerald-600">
                                 ${record.revenue.toFixed(2)}
                             </div>
                         </div>
                     </div>
 
-                    <div
-                        style={{
-                            display: 'flex',
-                            gap: 12,
-                            background: 'var(--surface)',
-                            padding: '20px',
-                            borderRadius: 12,
-                            border: '1px solid var(--border)',
-                            marginBottom: 28,
-                        }}
-                    >
-                        <div style={{ flexShrink: 0, marginTop: 2 }}>
+                    <div className="flex gap-3 bg-[var(--surface)] p-5 rounded-xl border border-[var(--border)] mb-7">
+                        <div className="flex-shrink-0 mt-0.5">
                             {isGood ? (
-                                <CheckCircle2 size={20} color="#059669" />
+                                <CheckCircle2 size={20} className="text-emerald-600" />
                             ) : (
-                                <AlertCircle size={20} color="#D97706" />
+                                <AlertCircle size={20} className="text-amber-600" />
                             )}
                         </div>
                         <div>
-                            <div
-                                style={{
-                                    fontSize: 13,
-                                    fontWeight: 800,
-                                    color: 'var(--text)',
-                                    marginBottom: 4,
-                                }}
-                            >
+                            <div className="text-[13px] font-extrabold text-[var(--text)] mb-1">
                                 System Analytics
                             </div>
-                            <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.6 }}>
+                            <div className="text-[13px] text-slate-600 leading-relaxed">
                                 Generating{' '}
-                                <strong style={{ color: '#059669' }}>
+                                <strong className="text-emerald-600">
                                     ${(record.revenue / record.fuelCost).toFixed(2)}
                                 </strong>{' '}
                                 for every dollar spent on fuel. Cost averages{' '}
-                                <strong style={{ color: 'var(--text)' }}>
+                                <strong className="text-[var(--text)]">
                                     ${(record.fuelCost / record.distance).toFixed(2)}
                                 </strong>{' '}
                                 per kilometer driven.
@@ -311,11 +196,10 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <div className="flex justify-end">
                         <button
-                            className="btn btn-secondary"
+                            className="btn btn-secondary px-6 py-2.5 rounded-lg"
                             onClick={onClose}
-                            style={{ padding: '10px 24px', borderRadius: 8 }}
                         >
                             Close Window
                         </button>
@@ -327,9 +211,9 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
 };
 
 /* ═══════════════════════════════════════════════════
-   MAIN PAGE
+   BASIC REPORT VIEW
    ═══════════════════════════════════════════════════ */
-export const ReportsPage = () => {
+const BasicReportView = () => {
     const [records] = useState<PerformanceRecord[]>(INITIAL_REPORT_DATA);
     const [search, setSearch] = useState('');
     const [typeFilter, setTypeFilter] = useState('All');
@@ -344,59 +228,51 @@ export const ReportsPage = () => {
 
     return (
         <>
-            {/* ── HEADER ── */}
-            <div className="page-header" style={{ borderBottom: '1px solid #E2E8F0' }}>
+            <div className="flex justify-between items-center mb-6">
                 <div>
-                    <div
-                        className="page-title"
-                        style={{ display: 'flex', alignItems: 'center', gap: 8 }}
-                    >
-                        <BarChart4 size={20} color="var(--primary)" strokeWidth={2.5} />
-                        Fleet Performance Dashboard
-                    </div>
-                    <div className="breadcrumb">
-                        Admin <span>/</span> Intelligence & Reports
-                    </div>
+                    <h2 className="text-xl font-black text-slate-900 leading-tight">
+                        Executive Overview
+                    </h2>
+                    <p className="text-sm text-slate-500 font-medium">
+                        Real-time intelligence on fleet operations and economics.
+                    </p>
                 </div>
-                <div className="header-actions">
-                    <button
-                        className="btn btn-secondary"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            borderRadius: 8,
-                            padding: '8px 16px',
-                        }}
-                    >
-                        <Download size={16} /> Excel
+                <div className="flex gap-3">
+                    <button className="btn btn-secondary flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-slate-100 transition-colors">
+                        <Download size={16} /> Excel Output
                     </button>
-                    <button
-                        className="btn btn-primary"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            borderRadius: 8,
-                            padding: '8px 16px',
-                        }}
-                    >
-                        <FileText size={16} /> PDF Export
+                    <button className="btn btn-primary flex items-center gap-2 rounded-lg px-4 py-2 shadow-md hover:shadow-lg transition-all">
+                        <FileText size={16} /> Print Report
                     </button>
                 </div>
             </div>
 
-            <div className="page-body p-4 sm:p-6 lg:p-8 !bg-[#F8FAFC]">
+            {/* ── TREND INSIGHT BANNER ── */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mb-8 p-5 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl shadow-lg border border-emerald-400 text-white flex items-center gap-5"
+            >
+                <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shrink-0">
+                    <Activity size={24} className="text-white" />
+                </div>
+                <div>
+                    <h3 className="text-emerald-50 font-bold text-xs uppercase tracking-wider mb-0.5">
+                        Trend Insight
+                    </h3>
+                    <p className="text-base font-semibold leading-snug">
+                        Fuel efficiency increased by <span className="font-black text-white">4.2%</span>{' '}
+                        across the heavy truck fleet this month, correlating with the recent routing
+                        optimization. <strong>VH-4022</strong> still requires maintenance review due to
+                        anomalous idling metrics.
+                    </p>
+                </div>
+            </motion.div>
+
+            <div>
                 <motion.div variants={containerVariants} initial="hidden" animate="show">
                     {/* ── STATS ROW ── */}
-                    <div
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-                            gap: 20,
-                            marginBottom: 24,
-                        }}
-                    >
+                    <div className="stat-grid stat-grid-4" style={{ marginBottom: 32 }}>
                         {[
                             {
                                 icon: Car,
@@ -404,7 +280,7 @@ export const ReportsPage = () => {
                                 label: 'Active Fleet',
                                 val: '124',
                                 trend: '↑ 4.2% ',
-                                trendColor: '#059669',
+                                isUp: true,
                             },
                             {
                                 icon: Banknote,
@@ -412,7 +288,7 @@ export const ReportsPage = () => {
                                 label: 'Total Revenue',
                                 val: '$42,850',
                                 trend: '↑ 12.5%',
-                                trendColor: '#059669',
+                                isUp: true,
                             },
                             {
                                 icon: Fuel,
@@ -420,7 +296,7 @@ export const ReportsPage = () => {
                                 label: 'Avg Fuel Efficiency',
                                 val: '18.4 mpg',
                                 trend: '↓ 2.1%',
-                                trendColor: '#DC2626',
+                                isUp: false,
                             },
                             {
                                 icon: Clock,
@@ -428,92 +304,27 @@ export const ReportsPage = () => {
                                 label: 'On-Time Rate',
                                 val: '98.2%',
                                 trend: '+ 0.0%',
-                                trendColor: '#64748B',
+                                neutral: true,
                             },
                         ].map((s, i) => (
                             <motion.div
                                 key={i}
                                 variants={itemVariants}
-                                style={{
-                                    background: 'white',
-                                    padding: '24px',
-                                    borderRadius: 16,
-                                    border: '1px solid #E2E8F0',
-                                    boxShadow:
-                                        '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                }}
+                                layout
+                                className="stat-card"
                             >
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'flex-start',
-                                        marginBottom: 16,
-                                    }}
-                                >
-                                    <div
-                                        style={{
-                                            width: 48,
-                                            height: 48,
-                                            borderRadius: 12,
-                                            background: s.bg,
-                                            color: 'white',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                                        }}
-                                    >
-                                        <s.icon size={24} strokeWidth={2} />
-                                    </div>
-                                    <Badge
-                                        variant="slate"
-                                        style={{
-                                            background: '#F1F5F9',
-                                            color: '#64748B',
-                                            fontSize: 10,
-                                            padding: '4px 8px',
-                                        }}
-                                    >
-                                        Last 30 Days
-                                    </Badge>
+                                <div className="stat-icon" style={{ background: s.bg, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <s.icon size={24} strokeWidth={2} />
                                 </div>
                                 <div>
-                                    <div
-                                        style={{
-                                            fontSize: 13,
-                                            fontWeight: 700,
-                                            color: '#64748B',
-                                            marginBottom: 4,
-                                        }}
-                                    >
+                                    <div className="stat-label">
                                         {s.label}
                                     </div>
-                                    <div
-                                        style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}
-                                    >
-                                        <span
-                                            style={{
-                                                fontSize: 28,
-                                                fontWeight: 900,
-                                                color: '#0F172A',
-                                                letterSpacing: '-0.02em',
-                                            }}
-                                        >
-                                            {s.val}
-                                        </span>
-                                        <span
-                                            style={{
-                                                fontSize: 12,
-                                                fontWeight: 800,
-                                                color: s.trendColor,
-                                            }}
-                                        >
-                                            {s.trend}
-                                        </span>
+                                    <div className="stat-value">
+                                        {s.val}
+                                    </div>
+                                    <div className={`stat-trend ${s.neutral ? 'trend-neutral' : s.isUp ? 'trend-up' : 'trend-down'}`}>
+                                        {s.trend}
                                     </div>
                                 </div>
                             </motion.div>
@@ -521,43 +332,28 @@ export const ReportsPage = () => {
                     </div>
 
                     {/* ── CHARTS ROW ── */}
-                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 mb-6">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                         {/* Area Chart: Revenue vs Costs */}
                         <motion.div
                             variants={itemVariants}
-                            style={{
-                                background: 'white',
-                                borderRadius: 16,
-                                padding: '24px',
-                                border: '1px solid #E2E8F0',
-                                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
-                                height: 380,
-                                display: 'flex',
-                                flexDirection: 'column',
-                            }}
+                            layout
+                            className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col h-[400px]"
                         >
-                            <div style={{ marginBottom: 20 }}>
-                                <h3
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: 800,
-                                        color: '#0F172A',
-                                        margin: 0,
-                                    }}
-                                >
-                                    Revenue & Operational Costs
-                                </h3>
-                                <p
-                                    style={{
-                                        fontSize: 13,
-                                        color: '#64748B',
-                                        margin: '4px 0 0 0',
-                                    }}
-                                >
-                                    Historical financial performance over 6 months
-                                </p>
+                            <div className="mb-6 flex justify-between items-start">
+                                <div>
+                                    <h3 className="text-base font-extrabold text-slate-900 m-0">
+                                        Revenue & Operational Costs
+                                    </h3>
+                                    <p className="text-sm text-slate-500 mt-1">
+                                        Historical financial performance over 6 months
+                                    </p>
+                                </div>
+                                <div className="flex gap-2 text-xs font-bold text-slate-500">
+                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Revenue</span>
+                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500" /> Costs</span>
+                                </div>
                             </div>
-                            <div style={{ flex: 1, minHeight: 0, width: '100%' }}>
+                            <div className="flex-1 min-h-0 w-full">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <AreaChart
                                         data={revenueData}
@@ -662,47 +458,27 @@ export const ReportsPage = () => {
                         {/* Donut Chart: Fuel Consumption */}
                         <motion.div
                             variants={itemVariants}
-                            style={{
-                                background: 'white',
-                                borderRadius: 16,
-                                padding: '24px',
-                                border: '1px solid #E2E8F0',
-                                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
-                                display: 'flex',
-                                flexDirection: 'column',
-                            }}
+                            layout
+                            className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col h-[400px]"
                         >
-                            <div style={{ marginBottom: 12 }}>
-                                <h3
-                                    style={{
-                                        fontSize: 16,
-                                        fontWeight: 800,
-                                        color: '#0F172A',
-                                        margin: 0,
-                                    }}
-                                >
+                            <div className="mb-4">
+                                <h3 className="text-base font-extrabold text-slate-900 m-0">
                                     Fuel Consumption Distribution
                                 </h3>
-                                <p
-                                    style={{
-                                        fontSize: 13,
-                                        color: '#64748B',
-                                        margin: '4px 0 0 0',
-                                    }}
-                                >
+                                <p className="text-sm text-slate-500 mt-1">
                                     Volume breakdown by vehicle category
                                 </p>
                             </div>
-                            <div style={{ display: 'flex', flex: 1, alignItems: 'center' }}>
-                                <div style={{ flex: 1, height: 260 }}>
+                            <div className="flex flex-1 items-center flex-col sm:flex-row">
+                                <div className="flex-1 h-[260px] w-full">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <PieChart>
                                             <Pie
                                                 data={fuelData}
                                                 cx="50%"
                                                 cy="50%"
-                                                innerRadius={60}
-                                                outerRadius={100}
+                                                innerRadius={65}
+                                                outerRadius={105}
                                                 paddingAngle={5}
                                                 dataKey="value"
                                                 stroke="none"
@@ -726,49 +502,18 @@ export const ReportsPage = () => {
                                         </PieChart>
                                     </ResponsiveContainer>
                                 </div>
-                                <div
-                                    style={{
-                                        flex: 1,
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        gap: 16,
-                                    }}
-                                >
+                                <div className="flex-1 flex flex-col gap-4 min-w-[150px]">
                                     {fuelData.map((f, i) => (
-                                        <div
-                                            key={i}
-                                            style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                                gap: 12,
-                                            }}
-                                        >
+                                        <div key={i} className="flex items-center gap-3">
                                             <div
-                                                style={{
-                                                    width: 12,
-                                                    height: 12,
-                                                    borderRadius: 4,
-                                                    background: f.color,
-                                                    flexShrink: 0,
-                                                }}
+                                                className="w-3 h-3 rounded bg-slate-200 shrink-0"
+                                                style={{ background: f.color }}
                                             />
-                                            <div style={{ flex: 1 }}>
-                                                <div
-                                                    style={{
-                                                        fontSize: 13,
-                                                        fontWeight: 700,
-                                                        color: '#475569',
-                                                    }}
-                                                >
+                                            <div className="flex-1">
+                                                <div className="text-[13px] font-bold text-slate-600">
                                                     {f.name}
                                                 </div>
-                                                <div
-                                                    style={{
-                                                        fontSize: 15,
-                                                        fontWeight: 800,
-                                                        color: '#0F172A',
-                                                    }}
-                                                >
+                                                <div className="text-[15px] font-black text-slate-900">
                                                     {f.value}%
                                                 </div>
                                             </div>
@@ -780,210 +525,57 @@ export const ReportsPage = () => {
                     </div>
 
                     {/* ── DATA TABLE SECTION ── */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="table-card table-scroll-wrapper"
-                        style={{
-                            borderRadius: 16,
-                            border: '1px solid #E2E8F0',
-                            overflow: 'hidden',
-                            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
-                        }}
-                    >
-                        {/* Filter Bar Inside Card */}
-                        <div
-                            style={{
-                                padding: '16px 20px',
-                                borderBottom: '1px solid var(--border)',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                flexWrap: 'wrap',
-                                gap: 16,
-                                background: 'white',
-                            }}
-                        >
-                            <div style={{ position: 'relative', width: 280 }}>
-                                <Filter
-                                    size={18}
-                                    style={{
-                                        position: 'absolute',
-                                        left: 14,
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        color: 'var(--muted)',
-                                        pointerEvents: 'none',
-                                    }}
-                                />
-                                <input
-                                    className="search-input"
-                                    style={{
-                                        width: '100%',
-                                        paddingLeft: 42,
-                                        background: '#F1F5F9',
-                                        border: 'none',
-                                        borderRadius: 8,
-                                        height: 40,
-                                        fontSize: 13,
-                                        fontWeight: 600,
-                                    }}
-                                    placeholder="Filter by Vehicle ID…"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </div>
-                            <div style={{ position: 'relative' }}>
-                                <select
-                                    className="form-select"
-                                    style={{
-                                        width: 200,
-                                        paddingRight: 36,
-                                        background: '#F1F5F9',
-                                        border: 'none',
-                                        borderRadius: 8,
-                                        height: 40,
-                                        fontSize: 13,
-                                        fontWeight: 600,
-                                        color: '#475569',
-                                        appearance: 'none',
-                                    }}
-                                    value={typeFilter}
-                                    onChange={(e) => setTypeFilter(e.target.value)}
-                                >
-                                    <option value="All">All Vehicle Types</option>
-                                    <option value="Heavy Truck">Heavy Trucks</option>
-                                    <option value="Delivery Van">Delivery Vans</option>
-                                    <option value="Commercial Sedan">Commercial Sedans</option>
-                                    <option value="Other">Others</option>
-                                </select>
-                                <ChevronDown
-                                    size={18}
-                                    strokeWidth={2.5}
-                                    style={{
-                                        position: 'absolute',
-                                        right: 14,
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        color: '#64748B',
-                                        pointerEvents: 'none',
-                                    }}
-                                />
+                    <motion.div variants={itemVariants} layout>
+                        <div className="toolbar" style={{ marginBottom: 16 }}>
+                            <div className="toolbar-left">
+                                <div className="search-field">
+                                    <Search size={16} />
+                                    <input
+                                        placeholder="Filter by Vehicle ID..."
+                                        value={search}
+                                        onChange={(e) => setSearch(e.target.value)}
+                                    />
+                                </div>
+                                <div style={{ position: 'relative' }}>
+                                    <select
+                                        className="form-select"
+                                        style={{ width: 200 }}
+                                        value={typeFilter}
+                                        onChange={(e) => setTypeFilter(e.target.value)}
+                                    >
+                                        <option value="All">All Vehicle Types</option>
+                                        <option value="Heavy Truck">Heavy Trucks</option>
+                                        <option value="Delivery Van">Delivery Vans</option>
+                                        <option value="Commercial Sedan">Commercial Sedans</option>
+                                        <option value="Other">Others</option>
+                                    </select>
+                                    <ChevronDown
+                                        size={16}
+                                        style={{
+                                            position: 'absolute',
+                                            right: 12,
+                                            top: '50%',
+                                            transform: 'translateY(-50%)',
+                                            color: 'var(--muted)',
+                                            pointerEvents: 'none',
+                                        }}
+                                    />
+                                </div>
                             </div>
                         </div>
 
-                        <div className="overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
-                            <table
-                                className="data-table !min-w-[1000px] !w-full !bg-white"
-                                style={{
-                                    tableLayout: 'fixed',
-                                }}
-                            >
-                                <thead style={{ background: '#F8FAFC' }}>
+                        <div className="table-card">
+                            <table className="data-table" style={{ width: '100%' }}>
+                                <thead>
                                     <tr>
-                                        <th
-                                            style={{
-                                                width: '14%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Vehicle ID
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '15%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Type
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '14%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Distance
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '12%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Fuel Cost
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '14%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Revenue
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '10%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Idle (h)
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '13%',
-                                                padding: '14px 20px',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Score
-                                        </th>
-                                        <th
-                                            style={{
-                                                width: '8%',
-                                                padding: '14px 20px',
-                                                textAlign: 'center',
-                                                fontWeight: 800,
-                                                color: '#64748B',
-                                                textTransform: 'uppercase',
-                                                fontSize: 11,
-                                                letterSpacing: '.05em',
-                                            }}
-                                        >
-                                            Actions
-                                        </th>
+                                        <th style={{ width: '14%' }}>Vehicle ID</th>
+                                        <th style={{ width: '15%' }}>Type</th>
+                                        <th style={{ width: '14%' }}>Distance</th>
+                                        <th style={{ width: '12%' }}>Fuel Cost</th>
+                                        <th style={{ width: '14%' }}>Revenue</th>
+                                        <th style={{ width: '10%' }}>Idle (h)</th>
+                                        <th style={{ width: '13%' }}>Score</th>
+                                        <th style={{ width: '8%', textAlign: 'center' }}>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -991,24 +583,13 @@ export const ReportsPage = () => {
                                         <tr>
                                             <td
                                                 colSpan={8}
-                                                style={{
-                                                    textAlign: 'center',
-                                                    padding: '60px 0',
-                                                    color: 'var(--muted)',
-                                                    fontSize: 14,
-                                                    fontWeight: 700,
-                                                }}
+                                                className="text-center py-16 text-slate-400 text-sm font-bold"
                                             >
                                                 <AlertCircle
                                                     size={48}
-                                                    color="#CBD5E1"
-                                                    style={{
-                                                        display: 'block',
-                                                        margin: '0 auto 12px',
-                                                    }}
+                                                    className="mx-auto block mb-3 text-slate-300"
                                                 />
-                                                No records found
-                                                {search ? ` matching "${search}"` : ''}.
+                                                No records found{search ? ` matching "${search}"` : ''}.
                                             </td>
                                         </tr>
                                     ) : (
@@ -1018,141 +599,36 @@ export const ReportsPage = () => {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: i * 0.05 }}
-                                                className="hover:bg-[#F8FAFC]"
-                                                style={{
-                                                    borderBottom: '1px solid #F1F5F9',
-                                                    transition: 'background 0.2s',
-                                                }}
                                             >
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                        whiteSpace: 'nowrap',
-                                                    }}
-                                                >
-                                                    <span
-                                                        style={{
-                                                            fontSize: 13,
-                                                            fontWeight: 800,
-                                                            color: '#0F172A',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            gap: 8,
-                                                        }}
-                                                    >
-                                                        <Car size={16} color="#64748B" />
-                                                        {r.id}
-                                                    </span>
+                                                <td>
+                                                    <b>{r.id}</b>
                                                 </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                        whiteSpace: 'nowrap',
-                                                        fontSize: 13,
-                                                        color: '#475569',
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {r.type}
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        fontSize: 13,
-                                                        fontWeight: 600,
-                                                        color: '#334155',
-                                                    }}
-                                                >
-                                                    {r.distance.toLocaleString()} km
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        fontSize: 13,
-                                                        color: '#DC2626',
-                                                        fontWeight: 800,
-                                                    }}
-                                                >
-                                                    ${r.fuelCost.toFixed(2)}
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        fontSize: 13,
-                                                        color: '#059669',
-                                                        fontWeight: 800,
-                                                    }}
-                                                >
-                                                    ${r.revenue.toFixed(2)}
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        fontSize: 13,
-                                                        color: '#475569',
-                                                        fontWeight: 600,
-                                                    }}
-                                                >
-                                                    {r.idleTime.toFixed(1)}
-                                                </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        overflow: 'hidden',
-                                                        textOverflow: 'ellipsis',
-                                                        whiteSpace: 'nowrap',
-                                                    }}
-                                                >
+                                                <td>{r.type}</td>
+                                                <td>{r.distance.toLocaleString()} km</td>
+                                                <td style={{ color: '#DC2626', fontWeight: 800 }}>${r.fuelCost.toFixed(2)}</td>
+                                                <td style={{ color: '#059669', fontWeight: 800 }}>${r.revenue.toFixed(2)}</td>
+                                                <td>{r.idleTime.toFixed(1)}</td>
+                                                <td>
                                                     <Badge
                                                         variant={scoreVariant(r.score)}
-                                                        style={{
-                                                            padding: '4px 10px',
-                                                            borderRadius: 6,
-                                                            fontSize: 11,
-                                                        }}
                                                     >
                                                         {r.score}
                                                     </Badge>
                                                 </td>
-                                                <td
-                                                    style={{
-                                                        padding: '16px 20px',
-                                                        textAlign: 'center',
-                                                    }}
-                                                >
-                                                    <motion.button
-                                                        whileHover={{ scale: 1.1 }}
-                                                        whileTap={{ scale: 0.9 }}
-                                                        className="act-btn act-view"
-                                                        style={{
-                                                            background: '#F1F5F9',
-                                                            width: 32,
-                                                            height: 32,
-                                                            display: 'inline-flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center',
-                                                            borderRadius: 8,
-                                                            cursor: 'pointer',
-                                                            border: 'none',
-                                                            color: '#64748B',
-                                                        }}
+                                                <td style={{ textAlign: 'center' }}>
+                                                    <button
+                                                        className="btn-icon"
                                                         title="View Details"
                                                         onClick={() => setViewRecord(r)}
                                                     >
-                                                        <Eye size={16} strokeWidth={2.5} />
-                                                    </motion.button>
+                                                        <Eye size={16} />
+                                                    </button>
                                                 </td>
                                             </motion.tr>
                                         ))
                                     )}
                                 </tbody>
                             </table>
-                        </div>
-                        <div style={{ background: 'white' }}>
                             <Pagination
                                 info={`Showing ${filtered.length} of ${records.length} performance records`}
                                 pages={[1, 2, 3]}
@@ -1164,6 +640,793 @@ export const ReportsPage = () => {
             </div>
 
             {viewRecord && <ViewOverlay record={viewRecord} onClose={() => setViewRecord(null)} />}
+        </>
+    );
+};
+
+/* ═══════════════════════════════════════════════════
+   ADVANCED REPORT VIEW
+   ═══════════════════════════════════════════════════ */
+
+// Mock Data for Advanced Analytics
+const performanceData = [
+    { name: 'Mon', revenue: 4000, distance: 2400 },
+    { name: 'Tue', revenue: 3000, distance: 1398 },
+    { name: 'Wed', revenue: 2000, distance: 9800 },
+    { name: 'Thu', revenue: 2780, distance: 3908 },
+    { name: 'Fri', revenue: 1890, distance: 4800 },
+    { name: 'Sat', revenue: 2390, distance: 3800 },
+    { name: 'Sun', revenue: 3490, distance: 4300 },
+];
+
+
+const safetyRankings = [
+    { id: 'DRV-1042', name: 'Raj Kumar', incidents: 0, score: 98, status: 'Excellent' },
+    { id: 'DRV-0921', name: 'Amit Singh', incidents: 1, score: 92, status: 'Good' },
+    { id: 'DRV-1188', name: 'Sanjay Dutt', incidents: 3, score: 85, status: 'Average' },
+    { id: 'DRV-0844', name: 'Vikram Patel', incidents: 8, score: 64, status: 'Needs Training' },
+];
+
+const AdvancedReportView = () => {
+    return (
+        <motion.div variants={containerVariants} initial="hidden" animate="show">
+            {/* ── STATS ROW ── */}
+            <div className="stat-grid stat-grid-3" style={{ marginBottom: 32 }}>
+                {[
+                    {
+                        icon: Activity,
+                        bg: 'linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)',
+                        label: 'Distance vs Revenue',
+                        val: '$1.85 / km',
+                        trend: '↑ 4.2% ',
+                        isUp: true,
+                    },
+                    {
+                        icon: Clock,
+                        bg: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                        label: 'Cumulative Idle Time',
+                        val: '1,420 hrs',
+                        trend: '↓ 5.5%',
+                        isUp: true, // actually down is good, but keeping styling simple
+                    },
+                    {
+                        icon: ShieldCheck,
+                        bg: 'linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)',
+                        label: 'Avg Safety Score',
+                        val: '94 / 100',
+                        trend: '↑ 1.2%',
+                        isUp: true,
+                    },
+                ].map((s, i) => (
+                    <motion.div
+                        key={i}
+                        variants={itemVariants}
+                        className="stat-card"
+                    >
+                        <div className="stat-icon" style={{ background: s.bg, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <s.icon size={24} strokeWidth={2} />
+                        </div>
+                        <div>
+                            <div className="stat-label">
+                                {s.label}
+                            </div>
+                            <div className="stat-value">
+                                {s.val}
+                            </div>
+                            <div className={`stat-trend ${s.isUp ? 'trend-up' : 'trend-down'}`}>
+                                {s.trend}
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* ── CHARTS ROW ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                {/* Chart 1: Distance / Revenue Scatter/Line Composed */}
+                <motion.div
+                    variants={itemVariants}
+                    layout
+                    className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col h-[400px]"
+                >
+                    <div className="mb-6 flex justify-between items-start">
+                        <div>
+                            <h3 className="text-base font-extrabold text-slate-900 m-0">
+                                Distance vs Revenue
+                            </h3>
+                            <p className="text-sm text-slate-500 mt-1">
+                                Operational efficiency per vehicle (Composed View)
+                            </p>
+                        </div>
+                        <div className="flex gap-2 text-xs font-bold text-slate-500">
+                            <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Revenue</span>
+                            <span className="flex items-center gap-1"><div className="w-4 h-1 bg-emerald-500" /> Distance</span>
+                        </div>
+                    </div>
+                    <div className="flex-1 min-h-0 w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <ComposedChart
+                                data={performanceData}
+                                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+                            >
+                                <CartesianGrid
+                                    strokeDasharray="3 3"
+                                    vertical={false}
+                                    stroke="#E2E8F0"
+                                />
+                                <XAxis
+                                    dataKey="name"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fontSize: 12, fill: '#64748B' }}
+                                    dy={10}
+                                />
+                                <YAxis
+                                    yAxisId="left"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fontSize: 12, fill: '#64748B' }}
+                                    dx={-10}
+                                />
+                                <YAxis
+                                    yAxisId="right"
+                                    orientation="right"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fontSize: 12, fill: '#64748B' }}
+                                    dx={10}
+                                />
+                                <Tooltip
+                                    cursor={{ fill: 'transparent' }}
+                                    contentStyle={{
+                                        borderRadius: 12,
+                                        border: 'none',
+                                        boxShadow:
+                                            '0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)',
+                                    }}
+                                    itemStyle={{ fontSize: 14, fontWeight: 700 }}
+                                />
+                                <Bar
+                                    yAxisId="left"
+                                    dataKey="revenue"
+                                    fill="#A855F7"
+                                    radius={[4, 4, 0, 0]}
+                                    barSize={30}
+                                    name="Revenue ($)"
+                                />
+                                <Line
+                                    yAxisId="right"
+                                    type="monotone"
+                                    dataKey="distance"
+                                    stroke="#10B981"
+                                    strokeWidth={3}
+                                    dot={{ r: 4, strokeWidth: 2 }}
+                                    activeDot={{ r: 8 }}
+                                    name="Distance (km)"
+                                />
+                            </ComposedChart>
+                        </ResponsiveContainer>
+                    </div>
+                </motion.div>
+
+
+                {/* Chart 2: Driver Safety Radar Chart */}
+                <motion.div
+                    variants={itemVariants}
+                    layout
+                    className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col h-[400px]"
+                >
+                    <div className="mb-4 text-center">
+                        <h3 className="text-base font-extrabold text-slate-900 m-0">
+                            Fleet Driver Safety Profile
+                        </h3>
+                        <p className="text-sm text-slate-500 mt-1">
+                            Aggregate metrics identifying training focal points
+                        </p>
+                    </div>
+                    <div className="flex-1 w-full min-h-0 relative">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <RadarChart
+                                cx="50%"
+                                cy="50%"
+                                outerRadius="75%"
+                                data={[
+                                    { metric: 'Speeding', value: 80, fullMark: 100 },
+                                    { metric: 'Harsh Braking', value: 65, fullMark: 100 },
+                                    { metric: 'Idle Time', value: 45, fullMark: 100 },
+                                    { metric: 'Sharp Turns', value: 72, fullMark: 100 },
+                                    { metric: 'Tailgating', value: 55, fullMark: 100 },
+                                ]}
+                            >
+                                <PolarGrid stroke="#E2E8F0" />
+                                <PolarAngleAxis
+                                    dataKey="metric"
+                                    tick={{ fill: '#64748B', fontSize: 12, fontWeight: 600 }}
+                                />
+                                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                                <Radar
+                                    name="Fleet Average"
+                                    dataKey="value"
+                                    stroke="#3B82F6"
+                                    fill="#3B82F6"
+                                    fillOpacity={0.4}
+                                />
+                                <Tooltip
+                                    contentStyle={{
+                                        borderRadius: 12,
+                                        border: 'none',
+                                        boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)',
+                                    }}
+                                />
+                            </RadarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </motion.div>
+            </div>
+
+            {/* ── DRIVER SAFETY TABLE ── */}
+            <motion.div
+                variants={itemVariants}
+                layout
+                className="table-card"
+            >
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Driver Safety Rankings</h3>
+                    <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Bottom performers identified for target training.</p>
+                </div>
+                <table className="data-table">
+                    <thead>
+                        <tr>
+                            <th>Driver ID</th>
+                            <th>Name</th>
+                            <th>Harsh Incidents</th>
+                            <th>Safety Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {safetyRankings.map((driver, i) => (
+                            <tr key={i}>
+                                <td><b>{driver.id}</b></td>
+                                <td>{driver.name}</td>
+                                <td>{driver.incidents}</td>
+                                <td>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                        <div style={{ flex: 1, height: 6, background: '#E2E8F0', borderRadius: 3, overflow: 'hidden' }}>
+                                            <div
+                                                style={{
+                                                    height: '100%',
+                                                    width: `${driver.score}%`,
+                                                    background: driver.score > 90 ? '#10B981' : driver.score > 80 ? '#F59E0B' : '#EF4444',
+                                                }}
+                                            />
+                                        </div>
+                                        <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text)', minWidth: 24 }}>{driver.score}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <Badge variant={driver.score > 90 ? 'blue' : driver.score > 80 ? 'orange' : 'red'}>
+                                        {driver.status}
+                                    </Badge>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </motion.div>
+        </motion.div>
+    );
+};
+
+/* ═══════════════════════════════════════════════════
+   COMPLIANCE REPORT VIEW
+   ═══════════════════════════════════════════════════ */
+const complianceDocs = [
+    {
+        name: 'Vehicle Insurance',
+        total: 145,
+        valid: 132,
+        expiring: 12,
+        expired: 1,
+        color: '#3B82F6',
+    },
+    { name: 'Pollution (PUC)', total: 145, valid: 140, expiring: 4, expired: 1, color: '#10B981' },
+    {
+        name: 'Fitness Certificate',
+        total: 145,
+        valid: 128,
+        expiring: 15,
+        expired: 2,
+        color: '#F59E0B',
+    },
+    {
+        name: 'Permit (National/State)',
+        total: 145,
+        valid: 135,
+        expiring: 8,
+        expired: 2,
+        color: '#8B5CF6',
+    },
+];
+
+const ComplianceReportView = () => {
+    return (
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="compliance-report-view"
+        >
+            {/* ── OVERVIEW CARDS ── */}
+            <div className="stat-grid stat-grid-4" style={{ marginBottom: 32 }}>
+                {complianceDocs.map((doc, i) => (
+                    <motion.div
+                        key={i}
+                        variants={itemVariants}
+                        layout
+                        className="stat-card"
+                    >
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="stat-label">
+                                {doc.name}
+                            </span>
+                            <div
+                                className="stat-icon"
+                                style={{ background: `${doc.color}15`, color: doc.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                            >
+                                <FileText size={18} />
+                            </div>
+                        </div>
+                        <div className="flex items-baseline gap-2 mb-3">
+                            <span className="stat-value">
+                                {Math.round((doc.valid / doc.total) * 100)}%
+                            </span>
+                            <span className="text-xs font-bold text-slate-500">
+                                Compliance
+                            </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-slate-100 rounded-full mb-4 overflow-hidden">
+                            <div
+                                className="h-full rounded-full transition-all duration-500 ease-out"
+                                style={{
+                                    width: `${(doc.valid / doc.total) * 100}%`,
+                                    background: doc.color,
+                                }}
+                            />
+                        </div>
+                        <div className="flex justify-between text-[11px] font-bold">
+                            <span className="text-emerald-600">{doc.valid} Valid</span>
+                            <span className="text-amber-600">{doc.expiring} Expiring</span>
+                            <span className="text-red-600">{doc.expired} Expired</span>
+                        </div>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* ── MAIN CONTENT (TABLE + SIDEBAR) ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* ── DETAILED TABLE ── */}
+                <motion.div
+                    variants={itemVariants}
+                    layout
+                    className="table-card lg:col-span-2"
+                >
+                    <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+                        <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Statutory Document Tracking</h3>
+                        <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Real-time status of all mandatory vehicle and driver documentation.</p>
+                    </div>
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                <th>Vehicle ID</th>
+                                <th>Insurance</th>
+                                <th>Pollution</th>
+                                <th>Fitness</th>
+                                <th>Permit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[
+                                {
+                                    id: 'VH-4021',
+                                    ins: '24 Dec 2026',
+                                    pol: '15 Oct 2025',
+                                    fit: '10 Jan 2026',
+                                    per: '05 Mar 2027',
+                                },
+                                {
+                                    id: 'VH-4022',
+                                    ins: '12 Nov 2025',
+                                    pol: '02 Sep 2025',
+                                    fit: 'Expired',
+                                    per: '18 Jun 2026',
+                                },
+                                {
+                                    id: 'VH-4023',
+                                    ins: '05 Jan 2026',
+                                    pol: 'Expiring',
+                                    fit: '22 Feb 2026',
+                                    per: '30 Oct 2026',
+                                },
+                                {
+                                    id: 'VH-4024',
+                                    ins: '18 Aug 2026',
+                                    pol: '20 Jul 2025',
+                                    fit: '15 Dec 2025',
+                                    per: '12 Apr 2027',
+                                },
+                            ].map((v, i) => (
+                                <tr key={i}>
+                                    <td><b>{v.id}</b></td>
+                                    <td>{v.ins}</td>
+                                    <td>
+                                        <span className={v.pol === 'Expiring' ? 'text-amber-600 font-bold' : ''}>{v.pol}</span>
+                                    </td>
+                                    <td>
+                                        <span className={v.fit === 'Expired' ? 'text-red-600 font-bold' : ''}>{v.fit}</span>
+                                    </td>
+                                    <td>{v.per}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </motion.div>
+
+                {/* ── ACTION CENTER SIDEBAR ── */}
+                <motion.div
+                    variants={itemVariants}
+                    layout
+                    className="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full overflow-hidden"
+                >
+                    <div className="p-6 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
+                        <div>
+                            <h3 className="text-base font-extrabold text-slate-900 m-0">
+                                Action Center
+                            </h3>
+                            <p className="text-[13px] text-slate-500 mt-1 font-medium">
+                                Urgent Renewals
+                            </p>
+                        </div>
+                        <div className="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+                            <Bell size={16} strokeWidth={2.5} />
+                        </div>
+                    </div>
+                    <div className="p-4 flex-1 overflow-y-auto">
+                        <div className="flex flex-col gap-3">
+                            {[
+                                { vh: 'VH-4022', doc: 'Fitness Certificate', status: 'Expired', days: -12 },
+                                { vh: 'VH-4023', doc: 'Pollution (PUC)', status: 'Expiring', days: 5 },
+                                { vh: 'VH-4109', doc: 'Insurance', status: 'Expiring', days: 8 },
+                                { vh: 'VH-3984', doc: 'National Permit', status: 'Expiring', days: 14 },
+                            ].map((action, i) => (
+                                <div key={i} className="p-4 rounded-xl border border-slate-100 bg-white shadow-sm hover:border-slate-300 transition-colors">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <div className="text-sm font-bold text-slate-900">{action.vh}</div>
+                                            <div className="text-[12px] font-semibold text-slate-500 mt-0.5">{action.doc}</div>
+                                        </div>
+                                        <Badge variant={action.status === 'Expired' ? 'red' : 'amber'}>
+                                            {action.days < 0 ? `${Math.abs(action.days)}d ago` : `in ${action.days}d`}
+                                        </Badge>
+                                    </div>
+                                    <button className="w-full mt-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors">
+                                        Notify Driver
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </motion.div>
+    );
+};
+
+/* ═══════════════════════════════════════════════════
+   CUSTOMIZABLE REPORT VIEW
+   ═══════════════════════════════════════════════════ */
+const CustomizableReportView = () => {
+    const categories = [
+        {
+            name: 'Vehicle Info',
+            columns: ['Vehicle ID', 'Engine No', 'Chassis No', 'Make', 'Model', 'Year'],
+        },
+        { name: 'Organisation', columns: ['Entity Name', 'Branch', 'Department', 'Manager'] },
+        {
+            name: 'Operational',
+            columns: ['Status', 'Last Trip', 'Fuel Type', 'Efficiency', 'Odometer'],
+        },
+        { name: 'Statutory', columns: ['Insurance Exp', 'PUC Exp', 'Fitness Exp', 'Permit Type'] },
+    ];
+
+    const [selectedFields, setSelectedFields] = useState<string[]>(['Vehicle ID', 'Status', 'Make']);
+
+    const handleCheckboxChange = (col: string) => {
+        setSelectedFields((prev) =>
+            prev.includes(col) ? prev.filter((f) => f !== col) : [...prev, col]
+        );
+    };
+
+    // Mock data for preview
+    const previewData = [
+        { 'Vehicle ID': 'VH-4021', 'Engine No': 'ENG1234', 'Make': 'Tata', 'Status': 'Active', 'Odometer': '45,200 km', 'Insurance Exp': '24 Dec 2026' },
+        { 'Vehicle ID': 'VH-4022', 'Engine No': 'ENG5678', 'Make': 'Ashok Leyland', 'Status': 'Idle', 'Odometer': '12,450 km', 'Insurance Exp': '12 Nov 2025' },
+        { 'Vehicle ID': 'VH-4023', 'Engine No': 'ENG9012', 'Make': 'Mahindra', 'Status': 'Maintenance', 'Odometer': '89,100 km', 'Insurance Exp': '05 Jan 2026' },
+    ];
+
+    return (
+        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col gap-6">
+            <div className="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                    <div>
+                        <h3 className="text-lg font-extrabold text-slate-900 m-0">
+                            Custom Data Extraction Builder
+                        </h3>
+                        <p className="text-slate-500 text-sm mt-1">
+                            Configure your report by selecting data points and applying global filters.
+                        </p>
+                    </div>
+                    <div className="flex gap-3">
+                        <button className="btn btn-secondary flex items-center gap-2">
+                            <Filter size={16} /> Filters
+                        </button>
+                        <button className="btn btn-primary flex items-center gap-2">
+                            <Download size={16} /> Generate Report
+                        </button>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8">
+                    {/* ── COLUMN SELECTION ── */}
+                    <div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            {categories.map((cat, i) => (
+                                <div key={i}>
+                                    <h4 className="text-[13px] font-black text-slate-900 uppercase tracking-widest mb-3 flex items-center gap-2">
+                                        <div className="w-1 h-4 bg-primary rounded-sm" />
+                                        {cat.name}
+                                    </h4>
+                                    <div className="flex flex-col gap-2">
+                                        {cat.columns.map((col) => (
+                                            <label
+                                                key={col}
+                                                className="px-4 py-2.5 bg-slate-50 rounded-lg border border-slate-200 text-[13px] text-slate-700 cursor-pointer flex items-center gap-3 transition-colors hover:bg-slate-100/70"
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedFields.includes(col)}
+                                                    onChange={() => handleCheckboxChange(col)}
+                                                    className="w-4 h-4 cursor-pointer text-primary rounded border-slate-300 focus:ring-primary"
+                                                />
+                                                <span className="font-medium">{col}</span>
+                                            </label>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* ── CONFIGURATION ── */}
+                    <div className="p-6 bg-slate-50 rounded-xl border border-slate-200 h-fit">
+                        <h4 className="text-sm font-extrabold text-slate-900 mb-4">
+                            Export Configuration
+                        </h4>
+
+                        <div className="mb-5">
+                            <label className="block text-xs font-bold text-slate-500 mb-2">
+                                Select Date Range
+                            </label>
+                            <select className="w-full p-2.5 rounded-lg border border-slate-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                                <option>Last 30 Days</option>
+                                <option>Last quarter</option>
+                                <option>Financial Year 2024-25</option>
+                                <option>Custom Range</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-5">
+                            <label className="block text-xs font-bold text-slate-500 mb-2">
+                                Export Format
+                            </label>
+                            <div className="flex gap-2">
+                                <div className="flex-1 p-3 bg-white border-2 border-primary rounded-lg text-center text-xs font-extrabold text-primary cursor-pointer hover:bg-blue-50 transition-colors">
+                                    CSV
+                                </div>
+                                <div className="flex-1 p-3 bg-white border border-slate-300 rounded-lg text-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-slate-50 transition-colors">
+                                    Excel
+                                </div>
+                                <div className="flex-1 p-3 bg-white border border-slate-300 rounded-lg text-center text-xs font-bold text-slate-500 cursor-pointer hover:bg-slate-50 transition-colors">
+                                    PDF
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── LIVE PREVIEW TABLE ── */}
+            <motion.div variants={itemVariants} className="table-card">
+                <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+                    <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Live Data Preview</h3>
+                    <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Showing first 3 rows based on current extract configuration.</p>
+                </div>
+                {selectedFields.length > 0 ? (
+                    <table className="data-table">
+                        <thead>
+                            <tr>
+                                {selectedFields.map((field) => (
+                                    <th key={field} style={{ whiteSpace: 'nowrap' }}>
+                                        {field}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {previewData.map((row: any, idx) => (
+                                <tr key={idx}>
+                                    {selectedFields.map((field) => (
+                                        <td key={field} style={{ whiteSpace: 'nowrap' }}>
+                                            {row[field] || (
+                                                <span className="text-slate-300 italic">
+                                                    N/A
+                                                </span>
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                ) : (
+                    <div className="p-12 text-center flex flex-col items-center justify-center text-slate-500">
+                        <AlertCircle size={32} className="mb-4 text-slate-300" />
+                        <p className="text-sm font-medium">
+                            Select at least one column above to view the dynamic preview.
+                        </p>
+                    </div>
+                )}
+            </motion.div>
+        </motion.div>
+    );
+};
+
+/* ═══════════════════════════════════════════════════
+   MAIN PAGE LAYOUT
+   ═══════════════════════════════════════════════════ */
+export const ReportsPage = () => {
+    const { type } = useParams<{ type: string }>();
+    const navigate = useNavigate();
+    const activeTab = type;
+
+    const tabs = [
+        {
+            id: 'basic',
+            label: 'Basic Report',
+            desc: 'Fleet overview',
+            icon: BarChart4,
+            bgClass: 'bg-blue-50 text-blue-600',
+            hoverBorderClass: 'hover:border-blue-200',
+            hoverShadowClass: 'group-hover:shadow-[0_12px_24px_-8px_rgba(37,99,235,0.25)]',
+        },
+        {
+            id: 'advanced',
+            label: 'Advanced Report',
+            desc: 'Deep analytics',
+            icon: Activity,
+            bgClass: 'bg-indigo-50 text-indigo-600',
+            hoverBorderClass: 'hover:border-indigo-200',
+            hoverShadowClass: 'group-hover:shadow-[0_12px_24px_-8px_rgba(79,70,229,0.25)]',
+        },
+        {
+            id: 'compliance',
+            label: 'Compliance Report',
+            desc: 'Statutory status',
+            icon: ShieldCheck,
+            bgClass: 'bg-emerald-50 text-emerald-600',
+            hoverBorderClass: 'hover:border-emerald-200',
+            hoverShadowClass: 'group-hover:shadow-[0_12px_24px_-8px_rgba(16,185,129,0.25)]',
+        },
+        {
+            id: 'customizable',
+            label: 'Customizable Report',
+            desc: 'Flex extract',
+            icon: Settings,
+            bgClass: 'bg-amber-50 text-amber-600',
+            hoverBorderClass: 'hover:border-amber-200',
+            hoverShadowClass: 'group-hover:shadow-[0_12px_24px_-8px_rgba(245,158,11,0.25)]',
+        },
+    ];
+
+    const renderContent = () => {
+        switch (activeTab) {
+            case 'advanced':
+                return <AdvancedReportView />;
+            case 'compliance':
+                return <ComplianceReportView />;
+            case 'customizable':
+                return <CustomizableReportView />;
+            case 'basic':
+                return <BasicReportView />;
+            default:
+                // When we have no selection, render the full-page selector
+                return (
+                    <div className="flex flex-col items-center justify-center min-h-[70vh]">
+                        <div className="text-center mb-10 max-w-2xl mx-auto">
+                            <h2 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">
+                                What type of report would you like to view?
+                            </h2>
+                            <p className="text-[15px] text-slate-500 leading-relaxed max-w-[600px] mx-auto">
+                                Select the reporting category that best fits your current
+                                operational needs. The dashboard will adapt to display relevant
+                                metrics.
+                            </p>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto w-full px-4 text-left">
+                            {tabs.map((t) => (
+                                <div
+                                    key={t.id}
+                                    onClick={() => navigate(`/reports/${t.id}`)}
+                                    className={`group bg-white border-2 border-slate-100 rounded-2xl p-6 sm:p-8 cursor-pointer transition-all duration-300 hover:-translate-y-1 shadow-sm hover:shadow-xl ${t.hoverBorderClass} flex flex-col items-center gap-4 text-center justify-center min-h-[220px] relative`}
+                                >
+                                    <div className={`absolute inset-0 rounded-2xl transition-shadow duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${t.hoverShadowClass}`} />
+                                    <div
+                                        className={`w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110 relative z-10 ${t.bgClass}`}
+                                    >
+                                        <t.icon size={32} strokeWidth={2.5} />
+                                    </div>
+                                    <div className="relative z-10">
+                                        <h3 className="text-xl font-extrabold text-slate-900 mb-2">
+                                            {t.label}
+                                        </h3>
+                                        <p className="text-[13px] font-medium text-slate-500 leading-relaxed">
+                                            {t.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                );
+        }
+    };
+
+    return (
+        <>
+            {/* ── Page Header ── */}
+            <div className="page-header">
+                <div>
+                    <div className="page-title">
+                        <BarChart4 size={18} strokeWidth={2.5} />
+                        Intelligence & Reports
+                    </div>
+                    <div className="breadcrumb">
+                        Admin <span>/</span> <span style={{ cursor: 'pointer' }} onClick={() => navigate('/reports')}>Reports</span>
+                        {activeTab && (
+                            <>
+                                <span>/</span>
+                                <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
+                            </>
+                        )}
+                    </div>
+                </div>
+                <div className="header-actions">
+                    {activeTab && (
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/reports')}
+                        >
+                            <ChevronLeft size={16} /> Back to Selection
+                        </button>
+                    )}
+                </div>
+            </div>
+
+            {/* ── Page Body ── */}
+            <div className="page-body">
+                {renderContent()}
+            </div>
         </>
     );
 };

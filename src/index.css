@@ -523,7 +523,6 @@ body {
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
 }
 .data-table thead tr {
     background: var(--surface);
@@ -562,7 +561,6 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    min-width: 600px;
 }
 .pag-info {
     font-size: 12px;
@@ -1566,4 +1564,176 @@ input:checked + .slider:before {
         padding: 14px;
         gap: 12px;
     }
+}
+
+/* ════════════════════════════════════════════
+   COMPLIANCE REPORT ENHANCEMENTS — PHASE 2
+   ════════════════════════════════════════════ */
+
+.compliance-report-view {
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Background floating orbs */
+.compliance-report-view::before,
+.compliance-report-view::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.15;
+    animation: orb-float 20s infinite alternate;
+    pointer-events: none;
+}
+
+.compliance-report-view::before {
+    background: var(--primary);
+    top: -50px;
+    left: -50px;
+}
+
+.compliance-report-view::after {
+    background: #0ea5e9;
+    bottom: -50px;
+    right: -50px;
+    animation-delay: -10s;
+}
+
+@keyframes orb-float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 30px) scale(1.1); }
+}
+
+.compliance-report-view .stat-card {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.compliance-report-view .stat-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary-mid);
+}
+
+.compliance-report-view .stat-value {
+    background: linear-gradient(135deg, var(--text) 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+}
+
+.compliance-report-view .stat-label {
+    letter-spacing: 0.15em;
+    font-weight: 800;
+    color: #64748b;
+}
+
+/* Glass table card */
+.compliance-report-view .table-card {
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+    border-radius: 20px;
+}
+
+/* Custom premium scrollbar for table-card */
+.compliance-report-view .table-card::-webkit-scrollbar {
+    height: 3px;
+}
+
+.compliance-report-view .table-card::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, var(--primary-light), var(--primary-mid));
+    border-radius: 10px;
+}
+
+/* Gradient typography for sectional headers */
+.compliance-report-view h3 {
+    background: linear-gradient(90deg, var(--text) 0%, #475569 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Animated Progress bars */
+.compliance-report-view .bg-slate-100 {
+    background: rgba(226, 232, 240, 0.5) !important;
+    height: 10px !important;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.compliance-report-view .rounded-full.transition-all {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+/* Glow effects for badges */
+.compliance-report-view .badge-red {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.1);
+    animation: glow-pulse-red 2s infinite ease-in-out;
+}
+
+@keyframes glow-pulse-red {
+    0%, 100% { box-shadow: 0 0 5px rgba(239, 68, 68, 0.2); transform: scale(1); }
+    50% { box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); transform: scale(1.05); }
+}
+
+.compliance-report-view .badge-amber {
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.15);
+    border: 1px solid rgba(245, 158, 11, 0.1);
+}
+
+/* Action Center Side Panel */
+.compliance-report-view .bg-white.rounded-2xl.border.border-slate-200.shadow-sm.flex.flex-col {
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.compliance-report-view .p-4.rounded-xl.border.border-slate-100.bg-white.shadow-sm {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 18px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.compliance-report-view .p-4.rounded-xl.border.border-slate-100.bg-white.shadow-sm:hover {
+    background: #ffffff;
+    transform: scale(1.03) translateX(5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary-light);
+}
+
+/* Action button in center */
+.compliance-report-view .btn-secondary {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: 1px solid #e2e8f0;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 10px;
+    transition: all 0.3s ease;
+}
+
+.compliance-report-view .btn-secondary:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(124, 58, 237, 0.3);
 }
