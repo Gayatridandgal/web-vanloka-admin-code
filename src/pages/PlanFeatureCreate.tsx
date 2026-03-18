@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Info, FileText, CheckCircle2, ArrowLeft, CreditCard, Save } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Info, FileText, CheckCircle2, ArrowLeft, CreditCard, Save, RefreshCw } from 'lucide-react';
+import { DUMMY_FEATURES } from '../data/planData';
 
 /* ── Tiny Helpers (matching the latest Creation Form pattern) ── */
 const SectionHeader = ({ icon: Icon, title, highlight }: { icon: any; title: string, highlight?: boolean }) => (
@@ -76,8 +77,88 @@ const Err = ({ msg }: { msg?: string }) =>
         <div style={{ fontSize: 10, color: '#DC2626', fontWeight: 700, marginTop: 4 }}>⚠ {msg}</div>
     ) : null;
 
+/* ── Confirmation Overlay ── */
+const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+    <div
+        style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            background: 'rgba(0,0,0,.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+        }}
+        onClick={onCancel}
+    >
+        <div
+            style={{
+                background: 'white',
+                borderRadius: 16,
+                width: '100%',
+                maxWidth: 420,
+                padding: '36px 32px 28px',
+                textAlign: 'center',
+                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div
+                style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    background: '#EFF6FF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px',
+                }}
+            >
+                <RefreshCw size={36} color="#2563EB" />
+            </div>
+            <div
+                style={{
+                    fontSize: 18,
+                    fontWeight: 900,
+                    color: '#1E40AF',
+                    marginBottom: 8,
+                }}
+            >
+                Confirm Update?
+            </div>
+            <div
+                style={{
+                    fontSize: 13,
+                    color: '#64748B',
+                    marginBottom: 24,
+                    lineHeight: 1.6,
+                }}
+            >
+                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the existing record in the system.
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={onConfirm}
+                    style={{ minWidth: 120 }}
+                >
+                    Confirm Update
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
 export const PlanFeatureCreatePage = () => {
     const navigate = useNavigate();
+    const { id } = useParams();
+    const isEdit = !!id;
 
     const [form, setForm] = useState({
         name: '',
@@ -87,8 +168,24 @@ export const PlanFeatureCreatePage = () => {
         status: 'Active',
     });
 
+    useEffect(() => {
+        if (isEdit) {
+            const feature = DUMMY_FEATURES.find(f => f.id === id);
+            if (feature) {
+                setForm({
+                    name: feature.name,
+                    code: feature.code,
+                    category: feature.category,
+                    description: feature.description,
+                    status: feature.status,
+                });
+            }
+        }
+    }, [id, isEdit]);
+
     const [errs, setErrs] = useState<Partial<typeof form>>({});
     const [saved, setSaved] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const handleSave = () => {
         const e: Partial<typeof form> = {};
@@ -101,6 +198,15 @@ export const PlanFeatureCreatePage = () => {
         }
         
         setErrs({});
+        if (isEdit) {
+            setShowConfirm(true);
+        } else {
+            setSaved(true);
+        }
+    };
+
+    const confirmUpdate = () => {
+        setShowConfirm(false);
         setSaved(true);
     };
 
@@ -147,10 +253,10 @@ export const PlanFeatureCreatePage = () => {
                             <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
-                            Feature Created Successfully
+                             Feature {isEdit ? 'Updated' : 'Created'} Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.name}</strong> has been registered in the subscription system with code: <code>{form.code.toUpperCase()}</code>.
+                            <strong>{form.name}</strong> has been {isEdit ? 'updated' : 'registered'} in the subscription system with code: <code>{form.code.toUpperCase()}</code>.
                         </div>
                         <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexDirection: 'column' }} className="sm:flex-row">
                             <button
@@ -163,7 +269,7 @@ export const PlanFeatureCreatePage = () => {
                                 Add Another
                             </button>
                             <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/masters/plan-features')}>
-                                <ArrowLeft size={16} className="ms mr-1" /> Back to List
+                                <ArrowLeft size={18} className="ms mr-1" /> Back to List
                             </button>
                         </div>
                     </div>
@@ -182,8 +288,8 @@ export const PlanFeatureCreatePage = () => {
                         Back
                     </button>
                     <div className="text-center sm:text-left">
-                        <div className="page-title">Add New Plan Feature</div>
-                        <div className="breadcrumb">Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span> Add</div>
+                        <div className="page-title">{isEdit ? 'Update Plan Feature' : 'Add New Plan Feature'}</div>
+                        <div className="breadcrumb">Admin <span>/</span> Masters <span>/</span> Plan Features <span>/</span> {isEdit ? 'Update' : 'Add'}</div>
                     </div>
                 </div>
             </div>
@@ -283,12 +389,21 @@ export const PlanFeatureCreatePage = () => {
                             Cancel
                         </button>
                         <button className="btn btn-primary w-full sm:w-auto" onClick={handleSave}>
-                            <Save size={18} className="ms mr-1" /> Save Feature
+                            <Save size={18} className="ms mr-1" /> {isEdit ? 'Update' : 'Save'} Feature
                         </button>
                     </div>
 
                 </div>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirm && (
+                <UpdateConfirmOverlay 
+                    title={form.name}
+                    onConfirm={confirmUpdate}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </>
     );
 };

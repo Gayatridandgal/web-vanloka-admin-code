@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pagination } from '../ui/index';
-import { ShieldCheck, X, Plus, Search, SearchX, Eye, Edit, Trash2, Users } from 'lucide-react';
+import { ShieldCheck, X, Plus, Search, SearchX, Eye, Edit, Trash2, Users, UploadCloud, Download, ShieldUser, ShieldAlert } from 'lucide-react';
 
 type RoleInfo = {
     id: string;
@@ -167,13 +167,19 @@ export const RolesPage = () => {
     const safePage = Math.max(1, Math.min(page, pages));
     const paginated = filtered.slice((safePage - 1) * limit, safePage * limit);
 
+    // Stats
+    const totalRoles = DUMMY_ROLES.length;
+    const activeRoles = DUMMY_ROLES.filter(r => r.status === 'Active').length;
+    const totalUsers = DUMMY_ROLES.reduce((acc, curr) => acc + curr.usersCount, 0);
+    const inactiveRoles = DUMMY_ROLES.filter(r => r.status === 'Inactive').length;
+
     return (
         <>
             {/* ── HEADER ── */}
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <ShieldCheck size={20} className="text-primary" style={{ marginRight: 8 }} />
+                        <ShieldCheck size={18} className="ms mr-2" />
                         Roles & Permissions
                     </div>
                     <div className="breadcrumb">
@@ -192,10 +198,32 @@ export const RolesPage = () => {
 
             {/* ── BODY ── */}
             <div className="page-body">
+                {/* ── Stat cards ── */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    {[
+                        { bg: '#EDE9FE', ic: '#7C3AED', icon: <ShieldCheck size={20} />, label: 'Total Roles', val: String(totalRoles), tc: '', trend: '' },
+                        { bg: '#DCFCE7', ic: '#059669', icon: <ShieldUser size={20} />, label: 'Active Roles', val: String(activeRoles), tc: 'trend-up', trend: 'Latest update' },
+                        { bg: '#DBEAFE', ic: '#2563EB', icon: <Users size={20} />, label: 'Total Users', val: String(totalUsers), tc: 'trend-up', trend: 'Growing' },
+                        { bg: '#FEE2E2', ic: '#DC2626', icon: <ShieldAlert size={20} />, label: 'Inactive', val: String(inactiveRoles), tc: '', trend: '' },
+                    ].map((s) => (
+                        <div key={s.label} className="stat-card">
+                            <div className="stat-icon" style={{ background: s.bg }}>
+                                <div style={{ color: s.ic }}>
+                                    {s.icon}
+                                </div>
+                            </div>
+                            <div>
+                                <div className="stat-label">{s.label}</div>
+                                <div className="stat-value">{s.val}</div>
+                                {s.trend && <div className={`stat-trend ${s.tc}`}>{s.trend}</div>}
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 {/* ── Search + filter bar ── */}
-                <div className="filter-bar" style={{ flexWrap: 'wrap' }}>
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     {/* Search */}
-                    <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
                             size={18}
                             style={{
@@ -221,7 +249,7 @@ export const RolesPage = () => {
                 </div>
 
                 {/* ── TABLE WRAPPER ── */}
-                <div className="table-card">
+                <div className="table-card table-scroll-wrapper">
                     <table className="data-table">
                         <thead>
                             <tr>
@@ -286,7 +314,7 @@ export const RolesPage = () => {
                                                 fontWeight: 800,
                                                 color: '#475569'
                                             }}>
-                                                <Users size={14} />
+                                                <Users size={18} className="ms" />
                                                 {r.usersCount}
                                             </div>
                                         </td>
@@ -312,17 +340,17 @@ export const RolesPage = () => {
                                                     title="View Role"
                                                     onClick={() => setViewingRole(r)}
                                                 >
-                                                    <Eye size={16} className="ms" />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Role"
-                                                    onClick={() => navigate('/roles-permissions/create')}
+                                                    onClick={() => navigate(`/roles-permissions/edit/${r.id}`)}
                                                 >
-                                                    <Edit size={16} className="ms" />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Role">
-                                                    <Trash2 size={16} className="ms" />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

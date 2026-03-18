@@ -7,13 +7,13 @@ import {
     Trash2, 
     X, 
     Eye, 
-    Edit2, 
+    Edit, 
     User, 
     UserCheck, 
-    Monitor, 
+    Monitor,
+    History,
     Smartphone as Iphone,
     LayoutGrid,
-    History,
     Building2,
     Briefcase
 } from 'lucide-react';
@@ -62,40 +62,42 @@ export const AppUsersPage = () => {
 
     return (
         <>
+            {/* ── HEADER ── */}
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <Smartphone size={18} style={{ marginRight: 8 }} />
+                        <Smartphone size={18} className="ms mr-2" />
                         App Users
                     </div>
                     <div className="breadcrumb">
-                        Admin <span>/</span> Management <span>/</span> App Users
+                        Admin <span>/</span> Users <span>/</span> App Users
                     </div>
                 </div>
             </div>
-
             <div className="page-body">
                 {/* Stat Cards - Responsive Grid */}
-                <div className="stat-grid stat-grid-4" style={{ marginBottom: 24 }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { label: 'Total Users', val: users.length, color: '#7C3AED', bg: '#F5F3FF', icon: <User size={16} /> },
-                        { label: 'Active Users', val: users.filter(u => u.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <UserCheck size={16} /> },
-                        { label: 'Android Users', val: users.filter(u => u.device === 'Android').length, color: '#3DDC84', bg: '#F1FDF6', icon: <Monitor size={16} /> },
-                        { label: 'iOS Users', val: users.filter(u => u.device === 'iOS').length, color: '#000000', bg: '#F8FAFC', icon: <Iphone size={16} /> },
+                        { label: 'Total Users', val: users.length, color: '#7C3AED', bg: '#F5F3FF', icon: <User size={20} /> },
+                        { label: 'Active Users', val: users.filter(u => u.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <UserCheck size={20} /> },
+                        { label: 'Android Users', val: users.filter(u => u.device === 'Android').length, color: '#3DDC84', bg: '#F1FDF6', icon: <Monitor size={20} /> },
+                        { label: 'iOS Users', val: users.filter(u => u.device === 'iOS').length, color: '#000000', bg: '#F8FAFC', icon: <Iphone size={20} /> },
                     ].map(s => (
-                        <div key={s.label} className="stat-card" style={{ padding: '16px 20px' }}>
-                             <div className="stat-icon" style={{ background: s.bg, color: s.color, width: 40, height: 40, borderRadius: 10 }}>
-                                {s.icon}
+                        <div key={s.label} className="stat-card">
+                             <div className="stat-icon" style={{ background: s.bg }}>
+                                <div style={{ color: s.color }}>
+                                    {s.icon}
+                                </div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
-                                <div className="stat-value" style={{ fontSize: 20 }}>{s.val}</div>
+                                <div className="stat-value">{s.val}</div>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="filter-bar" style={{ marginBottom: 20 }}>
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
                     <div style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
                         <Search size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                         <input 
@@ -117,7 +119,7 @@ export const AppUsersPage = () => {
                     </div>
                 </div>
 
-                <div className="table-card">
+                <div className="table-card table-scroll-wrapper">
                     <table className="data-table">
                         <thead>
                             <tr>
@@ -133,8 +135,16 @@ export const AppUsersPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {paginated.map((u, idx) => (
-                                <tr key={u.id}>
+                            {paginated.length === 0 ? (
+                                <tr>
+                                    <td colSpan={9} style={{ textAlign: 'center', padding: '40px 0', color: 'var(--muted)', fontSize: 13, fontWeight: 600 }}>
+                                        <Search size={40} style={{ display: 'block', margin: '0 auto 8px', opacity: 0.3 }} />
+                                        No users found {search && `matching "${search}"`} {statusFilter !== 'All' && `with status "${statusFilter}"`}
+                                    </td>
+                                </tr>
+                            ) : (
+                                paginated.map((u, idx) => (
+                                    <tr key={u.id}>
                                     <td style={{ padding: '16px 24px', fontWeight: 700, color: 'var(--muted)' }}>
                                         {(safePage - 1) * limit + idx + 1}
                                     </td>
@@ -175,14 +185,15 @@ export const AppUsersPage = () => {
                                         </Badge>
                                     </td>
                                     <td style={{ textAlign: 'right', paddingRight: 24 }}>
-                                        <div className="actions-col" style={{ justifyContent: 'flex-end', gap: 6 }}>
-                                            <button className="act-btn act-view" onClick={() => setViewingUser(u)} title="View Detail"><Eye size={16} /></button>
-                                            <button className="act-btn act-edit" onClick={() => setEditingUser(u)} title="Edit User"><Edit2 size={16} /></button>
-                                            <button className="act-btn act-delete" onClick={() => setDeletingUser(u)} title="Delete User"><Trash2 size={16} /></button>
+                                        <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
+                                            <button className="act-btn act-view" onClick={() => setViewingUser(u)} title="View Detail"><Eye size={18} className="ms" /></button>
+                                            <button className="act-btn act-edit" onClick={() => setEditingUser(u)} title="Edit User"><Edit size={18} className="ms" /></button>
+                                            <button className="act-btn act-delete" onClick={() => setDeletingUser(u)} title="Delete User"><Trash2 size={18} className="ms" /></button>
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
+                            ))
+                        )}
                         </tbody>
                     </table>
                     {pages > 1 && <Pagination current={safePage} total={pages} onChange={setPage} />}
@@ -239,7 +250,7 @@ export const AppUsersPage = () => {
                     <form onSubmit={handleUpdateUser} style={{ background: 'white', borderRadius: 24, width: '100%', maxWidth: 550, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation: 'modalIn 0.3s ease-out' }}>
                         <div style={{ padding: '24px 32px', borderBottom: '1.5px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <h2 style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 10 }}>
-                                <Edit2 size={20} color="var(--primary)" />
+                                <Edit size={20} color="var(--primary)" />
                                 Edit User Profile
                             </h2>
                             <button type="button" onClick={() => setEditingUser(null)} style={{ background: '#F1F5F9', border: 'none', cursor: 'pointer', color: '#64748B', width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={18} /></button>
@@ -287,7 +298,7 @@ export const AppUsersPage = () => {
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.65)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)', padding: 20 }}>
                     <div style={{ background: 'white', borderRadius: 24, width: '100%', maxWidth: 400, padding: 32, textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', animation: 'modalIn 0.3s ease-out' }}>
                         <div style={{ width: 64, height: 64, background: '#FEF2F2', color: '#EF4444', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 10px 15px -3px rgba(239, 68, 68, 0.2)' }}>
-                            <Trash2 size={32} />
+                            <Trash2 size={18} className="ms" />
                         </div>
                         <h2 style={{ fontSize: 20, fontWeight: 900, color: '#0F172A', marginBottom: 12 }}>Delete User?</h2>
                         <p style={{ color: '#64748B', fontSize: 14, lineHeight: 1.6, marginBottom: 32 }}>Are you sure you want to delete <strong>{deletingUser.name}</strong>? This action cannot be undone.</p>

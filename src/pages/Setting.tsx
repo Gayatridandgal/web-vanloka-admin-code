@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    X, User, Edit2, CheckCircle2,
+    X, User, Edit, CheckCircle2,
     Mail, MessageSquare, Bell,
     Shield, Lock, Eye, EyeOff,
     Smartphone
@@ -148,7 +148,7 @@ export const SettingsPage: React.FC = () => {
                     <button type="button"
                         onClick={() => setShowPw(s => ({ ...s, [field]: !s[field] }))}
                         className="eye-btn">
-                        {showPw[field] ? <EyeOff size={15} /> : <Eye size={15} />}
+                        {showPw[field] ? <EyeOff size={15} /> : <Eye size={18} className="ms" />}
                     </button>
                 </div>
             </div>
@@ -226,7 +226,7 @@ export const SettingsPage: React.FC = () => {
                                     </div>
                                     {!editingProfile ? (
                                         <button onClick={openProfileEdit} className="btn-primary">
-                                            <Edit2 size={14} /> Edit Profile
+                                            <Edit size={18} className="ms" /> Edit Profile
                                         </button>
                                     ) : (
                                         <button onClick={() => setEditingProfile(false)} className="btn-ghost">
@@ -352,7 +352,7 @@ export const SettingsPage: React.FC = () => {
                                 <p className="card-sub">Control how and when you receive alerts and reports.</p>
                                 {!editingNotifs && (
                                     <button onClick={openNotifEdit} className="btn-outline">
-                                        <Edit2 size={13} /> Configure
+                                        <Edit size={18} className="ms" /> Configure
                                     </button>
                                 )}
                             </div>

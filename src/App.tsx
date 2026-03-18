@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import type { ModalName, UserInfo } from './types'; // ← "import type" for TS-only types
 
@@ -9,16 +9,16 @@ import { LoginScreen } from './auth/LoginPage';
 import { Sidebar } from './layouts/Sidebar';
 
 // Pages
-import { Dashboard } from './pages/Dasboard';
+import { Dashboard } from './pages/Dashboard';
 import { FeedbacksPage } from './pages/Feedback';
-import { FeedbackResolve } from './pages/FeedbackReslove';
+import { FeedbackResolve } from './pages/FeedbackResolve';
 import { ReportsPage } from './pages/Report';
 import { SettingsPage } from './pages/Setting';
 import { StaffPage } from './pages/Staff';
 import StaffCreate from './pages/StaffCreate';
 import { OrganisationPage } from './pages/Organisation';
 import OrganisationCreate from './pages/OrganisationCreate';
-import { TraineeComplaint } from './pages/TraineeComplaint';
+
 import { RolesPage } from './pages/Roles';
 import { RoleCreatePage } from './pages/RoleCreate';
 import { BeaconPage } from './pages/Beacon';
@@ -60,29 +60,35 @@ import { Menu } from 'lucide-react';
 function AdminLayout({ user, modal, openModal, closeModal, onLogout, children }: AdminLayoutProps) {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+    useEffect(() => {
+        const handler = () => setMobileMenuOpen(true);
+        window.addEventListener('open-sidebar', handler);
+        return () => window.removeEventListener('open-sidebar', handler);
+    }, []);
+
     return (
         <div className="admin-wrap">
             {/* Mobile overlay */}
             {mobileMenuOpen && (
-                <div 
-                    className="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-40 md:hidden animate-in fade-in duration-300"
+                <div
+                    className="fixed inset-0 bg-slate-900/60 backdrop-blur-[2px] z-40 lg:hidden animate-in fade-in duration-300"
                     onClick={() => setMobileMenuOpen(false)}
                 />
             )}
-            <Sidebar 
-                onLogout={onLogout} 
-                user={user} 
-                isOpen={mobileMenuOpen} 
-                onClose={() => setMobileMenuOpen(false)} 
+            <Sidebar
+                onLogout={onLogout}
+                user={user}
+                isOpen={mobileMenuOpen}
+                onClose={() => setMobileMenuOpen(false)}
             />
             <div className="page relative">
-                {/* Mobile hamburger - Moved to top-left */}
-                <button 
+                {/* Mobile hamburger - lg:hidden per documentation */}
+                <button
                     onClick={() => setMobileMenuOpen(true)}
-                    className="md:hidden absolute top-[13px] left-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                    className="lg:hidden absolute top-[13px] right-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
                     aria-label="Open Menu"
                 >
-                    <Menu size={18} strokeWidth={2.5} />
+                    <Menu size={22} strokeWidth={2.5} />
                 </button>
                 {children}
             </div>
@@ -173,18 +179,23 @@ function App() {
                                 {/* ── Staff management ── */}
                                 <Route path="/staff" element={<StaffPage />} />
                                 {/* ── Staff Creation ── */}
-                                <Route path="/staff/create" element={<StaffCreate />} />
+                                 <Route path="/staff/create" element={<StaffCreate />} />
+                                 <Route path="/staff/edit/:id" element={<StaffCreate />} />
                                 {/* ── Masters / Beacons ── */}
                                 <Route path="/masters/beacon-devices" element={<BeaconPage />} />
                                 <Route path="/masters/beacon-devices/create" element={<BeaconCreatePage />} />
+                                <Route path="/masters/beacon-devices/edit/:id" element={<BeaconCreatePage />} />
                                 {/* ── Masters / GPS ── */}
                                 <Route path="/masters/gps-devices" element={<GpsPage />} />
                                 <Route path="/masters/gps-devices/create" element={<GpsCreatePage />} />
+                                <Route path="/masters/gps-devices/edit/:id" element={<GpsCreatePage />} />
                                 {/* ── Masters / Plan Features ── */}
                                 <Route path="/masters/plan-features" element={<PlanFeaturesPage />} />
                                 <Route path="/masters/plan-features/create" element={<PlanFeatureCreatePage />} />
+                                <Route path="/masters/plan-features/edit/:id" element={<PlanFeatureCreatePage />} />
                                 <Route path="/plan" element={<PlanPage />} />
                                 <Route path="/plan/create" element={<PlanCreatePage />} />
+                                <Route path="/plan/edit/:id" element={<PlanCreatePage />} />
                                 {/* ── Supplier management ── */}
                                 <Route path="/suppliers" element={<SupplierPage />} />
                                 <Route path="/suppliers/create" element={<SupplierCreatePage />} />
@@ -198,12 +209,20 @@ function App() {
                                 {/* ── Roles & Permissions ── */}
                                 <Route path="/roles-permissions" element={<RolesPage />} />
                                 <Route path="/roles-permissions/create" element={<RoleCreatePage />} />
+                                <Route path="/roles-permissions/edit/:id" element={<RoleCreatePage />} />
+
 
                                 {/* ── Feedback resolve full-page form ── */}
-                                <Route path="/feedbacks/resolve" element={<FeedbackResolve />} />
-                                {/* ── Trainee complaint submission ── */}
-                                <Route path="/feedbacks/complaint" element={<TraineeComplaint />} />
+                                <Route
+                                    path="/feedbacks/resolve"
+                                    element={<FeedbackResolve />}
+                                />
+                                <Route
+                                    path="/feedbacks/resolve/:id"
+                                    element={<FeedbackResolve />}
+                                />
                                 <Route path="/reports" element={<ReportsPage />} />
+                                <Route path="/reports/:type" element={<ReportsPage />} />
                                 <Route path="/settings" element={<SettingsPage />} />
                                 {/* Any unknown path → dashboard */}
                                 <Route path="*" element={<Navigate to="/dashboard" replace />} />

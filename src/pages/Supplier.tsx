@@ -57,39 +57,33 @@ export const SupplierPage = () => {
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-primary" onClick={() => navigate('/suppliers/create')}>
-                        <Plus size={18} /> Add Supplier
+                        <Plus size={18} className="ms mr-1" /> Add Supplier
                     </button>
                 </div>
             </div>
 
             <div className="page-body">
                 {/* Stat Cards */}
-                <div style={{ display: 'flex', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-2">
                     {[
                         { label: 'Total Suppliers', val: suppliers.length, color: '#7C3AED', bg: '#F5F3FF', icon: <Warehouse size={16} /> },
                         { label: 'Active Suppliers', val: suppliers.filter(s => s.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <CheckCircle2 size={16} /> },
                         { label: 'Total Devices', val: suppliers.reduce((acc, s) => acc + s.devices.length, 0), color: '#2563EB', bg: '#EFF6FF', icon: <MonitorSmartphone size={16} /> },
                     ].map(s => (
-                        <div key={s.label} style={{ 
-                            background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
-                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 200px' 
-                        }}>
-                             <div style={{ 
-                                width: 32, height: 32, borderRadius: 8, background: s.bg, 
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
-                            }}>
+                        <div key={s.label} className="stat-card">
+                             <div className="stat-icon" style={{ background: s.bg }}>
                                 <div style={{ color: s.color, display: 'flex' }}>{s.icon}</div>
                             </div>
                             <div>
-                                <div style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em' }}>{s.label}</div>
-                                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)', lineHeight: 1 }}>{s.val}</div>
+                                <div className="stat-label">{s.label}</div>
+                                <div className="stat-value">{s.val}</div>
                             </div>
                         </div>
                     ))}
                 </div>
 
-                <div className="filter-bar">
-                    <div style={{ position: 'relative', flex: 1 }}>
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
                         <input 
                             className="search-input" 
@@ -99,8 +93,8 @@ export const SupplierPage = () => {
                             onChange={e => setSearch(e.target.value)}
                         />
                     </div>
-                    <div style={{ position: 'relative' }} className="w-full sm:w-[160px]">
-                        <select className="form-select" style={{ width: '100%', paddingRight: 32 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+                    <div style={{ position: 'relative' }} className="w-full sm:w-auto">
+                        <select className="form-select" style={{ width: '100%', minWidth: 160, paddingRight: 32 }} value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
                             <option value="All">All Status</option>
                             <option value="Active">Active</option>
                             <option value="Inactive">Inactive</option>
@@ -109,7 +103,7 @@ export const SupplierPage = () => {
                     </div>
                 </div>
 
-                <div className="table-card" style={{ border: 'none', background: 'transparent' }}>
+                <div className="table-card table-scroll-wrapper" style={{ border: 'none', background: 'transparent' }}>
                     <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
                         <table className="data-table">
                             <thead>
@@ -167,13 +161,13 @@ export const SupplierPage = () => {
                                         <td style={{ textAlign: 'right', paddingRight: 24 }}>
                                             <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
                                                 <button className="act-btn act-view" onClick={() => setViewingSupplier(s)} title="View Details">
-                                                    <Eye size={16} />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-edit" onClick={() => setEditingSupplier(s)} title="Edit Supplier">
-                                                    <Edit size={16} />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" onClick={() => setDeletingSupplier(s)} title="Delete Supplier">
-                                                    <Trash2 size={16} />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>
@@ -284,7 +278,7 @@ export const SupplierPage = () => {
                 <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
                     <div style={{ background: 'white', borderRadius: 24, width: '100%', maxWidth: 400, padding: 32, textAlign: 'center', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
                         <div style={{ width: 64, height: 64, background: '#FEF2F2', color: '#EF4444', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-                            <Trash2 size={32} />
+                            <Trash2 size={18} className="ms" />
                         </div>
                         <h2 style={{ fontSize: 20, fontWeight: 900, color: 'var(--text)', marginBottom: 12 }}>Delete Supplier?</h2>
                         <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6, marginBottom: 32 }}>Are you sure you want to remove <strong>{deletingSupplier.name}</strong>? All associated device records will remain but the link will be detached.</p>
@@ -298,3 +292,5 @@ export const SupplierPage = () => {
         </>
     );
 };
+
+

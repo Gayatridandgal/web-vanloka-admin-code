@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL_STAFF } from '../data/staffData';
-import { Users, CheckCircle2, ArrowLeft, User, Camera, Briefcase, Home, AlertTriangle, MapPin, Landmark, UploadCloud, Shield, Save } from 'lucide-react';
+import { Users, CheckCircle2, ArrowLeft, User, Camera, Briefcase, Home, AlertTriangle, MapPin, Landmark, UploadCloud, Shield, Save, RefreshCw } from 'lucide-react';
 
 
 /* ── Types ─────────────────────────────────────── */
@@ -186,6 +186,84 @@ const Err = ({ msg }: { msg?: string }) =>
         <div style={{ fontSize: 10, color: '#DC2626', fontWeight: 700, marginTop: 3 }}>⚠ {msg}</div>
     ) : null;
 
+/* ── Confirmation Overlay ── */
+const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+    <div
+        style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 1000,
+            background: 'rgba(0,0,0,.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+        }}
+        onClick={onCancel}
+    >
+        <div
+            style={{
+                background: 'white',
+                borderRadius: 16,
+                width: '100%',
+                maxWidth: 420,
+                padding: '36px 32px 28px',
+                textAlign: 'center',
+                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div
+                style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    background: '#EFF6FF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px',
+                }}
+            >
+                <RefreshCw size={36} color="#2563EB" />
+            </div>
+            <div
+                style={{
+                    fontSize: 18,
+                    fontWeight: 900,
+                    color: '#1E40AF',
+                    marginBottom: 8,
+                }}
+            >
+                Confirm Update?
+            </div>
+            <div
+                style={{
+                    fontSize: 13,
+                    color: '#64748B',
+                    marginBottom: 24,
+                    lineHeight: 1.6,
+                }}
+            >
+                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the employee record in the organization database.
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={onConfirm}
+                    style={{ minWidth: 120 }}
+                >
+                    Confirm Update
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
 /* ── Component ─────────────────────────────────── */
 export const StaffCreate = () => {
     const navigate = useNavigate();
@@ -224,6 +302,7 @@ export const StaffCreate = () => {
     const [form, setForm] = useState<Form>(getInitialForm);
     const [errs, setErrs] = useState<Errs>({});
     const [saved, setSaved] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
     const photoRef = useRef<HTMLInputElement>(null);
 
@@ -283,6 +362,15 @@ export const StaffCreate = () => {
             if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
+        if (isEdit) {
+            setShowConfirm(true);
+        } else {
+            setSaved(true);
+        }
+    };
+
+    const confirmUpdate = () => {
+        setShowConfirm(false);
         setSaved(true);
     };
 
@@ -384,7 +472,7 @@ export const StaffCreate = () => {
                                 Add Another
                             </button>
                             <button className="btn btn-primary w-full sm:w-auto" onClick={() => navigate('/staff')}>
-                                <ArrowLeft size={16} className="ms mr-1" />{' '}
+                                <ArrowLeft size={18} className="ms mr-1" />{' '}
                                 Back to Staff List
                             </button>
                         </div>
@@ -1213,6 +1301,15 @@ export const StaffCreate = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirm && (
+                <UpdateConfirmOverlay 
+                    title={`${form.firstName} ${form.lastName}`}
+                    onConfirm={confirmUpdate}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </>
     );
 };

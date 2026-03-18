@@ -35,7 +35,7 @@ export const SupplierDeviceDetails = () => {
             <div className="page-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
                     <button className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
-                        <ArrowLeft size={18} /> Back
+                        <ArrowLeft size={18} className="ms mr-1" /> Back
                     </button>
                     <div className="text-center sm:text-left">
                         <div className="page-title">{supplier.name} - Devices</div>
@@ -112,8 +112,8 @@ export const SupplierDeviceDetails = () => {
                                         </td>
                                         <td style={{ textAlign: 'right', paddingRight: 24 }}>
                                             <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
-                                                <button className="act-btn act-edit"><Edit size={16} /></button>
-                                                <button className="act-btn act-delete"><Trash2 size={16} /></button>
+                                                <button className="act-btn act-edit"><Edit size={18} className="ms" /></button>
+                                                <button className="act-btn act-delete"><Trash2 size={18} className="ms" /></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -129,3 +129,5 @@ export const SupplierDeviceDetails = () => {
         </>
     );
 };
+
+

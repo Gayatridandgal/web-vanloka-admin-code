@@ -511,7 +511,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <Trash2 size={16} className="ms text-white" />
+                    <Trash2 size={18} className="ms" />
                     Delete
                 </button>
             </div>
@@ -1174,8 +1174,7 @@ const ExportOverlay = ({
                                     marginBottom: 14,
                                 }}
                             >
-                                <Eye
-                                    size={14}
+                                <Eye size={18}
                                     style={{
                                         verticalAlign: 'middle',
                                         marginRight: 4,
@@ -1263,7 +1262,7 @@ const ExportOverlay = ({
                             border: '1px solid #DDD6FE',
                         }}
                     >
-                        <Eye size={16} className="ms" />
+                        <Eye size={18} className="ms" />
                         Generate Preview
                     </button>
                     <button
@@ -1560,14 +1559,16 @@ export const StaffPage = () => {
                     </div>
                 </div>
                 <div className="header-actions">
-                    <button className="btn btn-success" onClick={() => setShowImport(true)}>
-                        <UploadCloud size={18} className="ms mr-1" />
-                        Import Excel
-                    </button>
-                    <button className="btn btn-secondary" onClick={() => setShowExport(true)}>
-                        <Download size={18} className="ms mr-1" />
-                        Export PDF
-                    </button>
+                    <div className="responsive-btn-group">
+                        <button className="btn btn-success flex-1 justify-center" onClick={() => setShowImport(true)}>
+                            <UploadCloud size={18} className="ms mr-1" />
+                            Import
+                        </button>
+                        <button className="btn btn-secondary flex-1 justify-center" onClick={() => setShowExport(true)}>
+                            <Download size={18} className="ms mr-1" />
+                            Export
+                        </button>
+                    </div>
                     <button className="btn btn-primary" onClick={() => navigate('/staff/create')}>
                         <UserPlus size={18} className="ms mr-1" />
                         Add Employee
@@ -1577,7 +1578,7 @@ export const StaffPage = () => {
 
             <div className="page-body">
                 {/* ── Stat cards (dynamic) ── */}
-                <div className="stat-grid stat-grid-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
                         {
                             bg: '#EDE9FE',
@@ -1632,9 +1633,9 @@ export const StaffPage = () => {
                 </div>
 
                 {/* ── Search + filter bar ── */}
-                <div className="filter-bar">
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     {/* Search */}
-                    <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
                                     size={18}
                                     style={{
@@ -1708,7 +1709,7 @@ export const StaffPage = () => {
                 </div>
 
                 {/* ── Table ── */}
-                <div className="table-card">
+                <div className="table-card table-scroll-wrapper">
                     <table className="data-table">
                         <thead>
                             <tr>

@@ -1,4 +1,4 @@
-import { Plus, Search, Youtube, List, CheckCircle2, Timer, Edit, Trash2, Eye, X, Package, Shield, Activity } from 'lucide-react';
+import { Plus, Search, Youtube, List, CheckCircle2, Timer, Edit, Trash2, Eye, X, Package, Shield, Activity, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -135,34 +135,29 @@ export const PlanPage = () => {
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-primary" onClick={() => navigate('/plan/create')}>
-                        <Plus size={18} /> Add New Plan
+                        <Plus size={18} className="ms mr-1" /> Add New Plan
                     </button>
                 </div>
             </div>
 
             <div className="page-body">
                 {/* Stat Cards */}
-                <div style={{ display: 'flex', gap: 12, marginBottom: 8, flexWrap: 'wrap' }}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { label: 'Total Plans', val: INITIAL_PLANS.length, color: '#7C3AED', bg: '#F5F3FF', icon: 'list_alt' },
-                        { label: 'Active Plans', val: INITIAL_PLANS.filter(p => p.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: 'check_circle' },
-                        { label: 'Trial Plans', val: INITIAL_PLANS.filter(p => p.type === 'Trial').length, color: '#2563EB', bg: '#EFF6FF', icon: 'timer' },
+                        { label: 'Total Plans', val: INITIAL_PLANS.length, color: '#7C3AED', bg: '#F5F3FF', icon: <List size={20} /> },
+                        { label: 'Active Plans', val: INITIAL_PLANS.filter(p => p.status === 'Active').length, color: '#059669', bg: '#ECFDF5', icon: <CheckCircle2 size={20} /> },
+                        { label: 'Trial Plans', val: INITIAL_PLANS.filter(p => p.type === 'Trial').length, color: '#2563EB', bg: '#EFF6FF', icon: <Timer size={20} /> },
+                        { label: 'Inactive', val: INITIAL_PLANS.filter(p => p.status === 'Inactive').length, color: '#DC2626', bg: '#FEE2E2', icon: <AlertCircle size={20} /> },
                     ].map(s => (
-                        <div key={s.label} style={{ 
-                            background: 'white', border: '1.5px solid var(--border)', borderRadius: 12, 
-                            padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 10, flex: '1 1 180px' 
-                        }}>
-                             <div style={{ 
-                                width: 32, height: 32, borderRadius: 8, background: s.bg, 
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 
-                            }}>
-                                {s.icon === 'list_alt' && <List size={16} color={s.color} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={16} color={s.color} />}
-                                {s.icon === 'timer' && <Timer size={16} color={s.color} />}
+                        <div key={s.label} className="stat-card">
+                            <div className="stat-icon" style={{ background: s.bg }}>
+                                <div style={{ color: s.color }}>
+                                    {s.icon}
+                                </div>
                             </div>
                             <div>
-                                <div style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', color: 'var(--muted)', letterSpacing: '0.05em' }}>{s.label}</div>
-                                <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--text)', lineHeight: 1 }}>{s.val}</div>
+                                <div className="stat-label">{s.label}</div>
+                                <div className="stat-value">{s.val}</div>
                             </div>
                         </div>
                     ))}
@@ -188,9 +183,8 @@ export const PlanPage = () => {
                     </div>
                 </div>
 
-                <div className="table-card table-scroll-wrapper" style={{ border: 'none', background: 'transparent' }}>
-                    <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', overflow: 'hidden' }}>
-                        <table className="data-table" style={{ minWidth: 800 }}>
+                <div className="table-card table-scroll-wrapper">
+                    <table className="data-table" style={{ minWidth: 800 }}>
                             <thead>
                                 <tr>
                                     <th style={{ padding: '16px 20px' }}>PLAN NAME</th>
@@ -231,14 +225,14 @@ export const PlanPage = () => {
                                                     title="View Plan"
                                                     onClick={() => setViewingPlan(p)}
                                                 >
-                                                    <Eye size={16} />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit" 
                                                     title="Edit Plan"
-                                                    onClick={() => navigate(`/plan/create`)}
+                                                    onClick={() => navigate(`/plan/edit/${p.id}`)}
                                                 >
-                                                    <Edit size={16} />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-delete" 
@@ -249,7 +243,7 @@ export const PlanPage = () => {
                                                         }
                                                     }}
                                                 >
-                                                    <Trash2 size={16} />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>
@@ -257,14 +251,14 @@ export const PlanPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                        {pages > 1 && <Pagination current={safePage} total={pages} onChange={setPage} />}
                     </div>
-                    {pages > 1 && <Pagination current={safePage} total={pages} onChange={setPage} />}
                 </div>
-            </div>
             
             <AnimatePresence>
-                {viewingPlan && <ViewOverlay plan={viewingPlan} onClose={() => setViewingPlan(null)} />}
+                {viewingPlan && <ViewOverlay plan={viewingPlan as Plan} onClose={() => setViewingPlan(null)} />}
             </AnimatePresence>
         </>
     );
 };
+

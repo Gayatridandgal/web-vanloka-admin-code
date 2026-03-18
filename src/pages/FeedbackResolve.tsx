@@ -194,7 +194,7 @@ export const FeedbackResolve = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/feedbacks')}
                             >
-                                <ArrowLeft size={16} className="ms mr-1" />{' '}
+                                <ArrowLeft size={18} className="ms mr-1" />{' '}
                                 Back to Feedbacks
                             </button>
                         </div>
@@ -235,7 +235,7 @@ export const FeedbackResolve = () => {
                     onClick={() => navigate('/feedbacks')}
                     style={{ flexShrink: 0 }}
                 >
-                    <ArrowLeft size={16} className="ms mr-1" /> Back to List
+                    <ArrowLeft size={18} className="ms mr-1" /> Back to List
                 </button>
             </div>
 

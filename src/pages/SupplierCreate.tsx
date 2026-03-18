@@ -42,7 +42,7 @@ export const SupplierCreatePage = () => {
             <div className="page-header">
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
                     <button type="button" className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
-                        <ArrowLeft size={18} /> Back
+                        <ArrowLeft size={18} className="ms mr-1" /> Back
                     </button>
                     <div className="text-center sm:text-left">
                         <div className="page-title">Register New Supplier</div>
@@ -119,3 +119,4 @@ export const SupplierCreatePage = () => {
         </form>
     );
 };
+

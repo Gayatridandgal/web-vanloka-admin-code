@@ -1,4 +1,4 @@
-import { ChevronDown, Radio, X, RadioReceiver, Plus, Search, SearchX, Settings2, BatteryWarning, MapPin, Eye, Edit, Trash2, CheckCircle2 } from 'lucide-react';
+import { ChevronDown, RadioReceiver, X, Plus, Search, SearchX, Settings2, BatteryWarning, MapPin, Eye, Edit, Trash2, CheckCircle2 } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -195,21 +195,13 @@ export const BeaconPage = () => {
         <>
             {/* ── HEADER ── */}
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <button 
-                        className="md:hidden p-2 -ml-2 text-slate-600 hover:bg-slate-100 rounded-lg"
-                        onClick={() => {/* This will be handled by App.tsx logic */}}
-                    >
-                        {/* The sidebar toggle is in AdminLayout, but we can add a placeholder or rely on layout */}
-                    </button>
-                    <div>
-                        <div className="page-title">
-                            <Radio size={18} className="ms mr-2" />
-                            Beacon Devices
-                        </div>
-                        <div className="breadcrumb">
-                            Admin <span>/</span> Masters <span>/</span> Beacon Devices
-                        </div>
+                <div>
+                    <div className="page-title">
+                        <RadioReceiver size={18} className="ms mr-2" />
+                        Beacon Devices
+                    </div>
+                    <div className="breadcrumb">
+                        Admin <span>/</span> Masters <span>/</span> Beacon Devices
                     </div>
                 </div>
                 <div className="header-actions">
@@ -225,32 +217,32 @@ export const BeaconPage = () => {
             {/* ── BODY ── */}
             <div className="page-body">
                 {/* ── Stat cards ── */}
-                <div className="stat-grid stat-grid-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: 'radio', label: 'Total Beacons', val: String(totalCount), tc: '' },
-                        { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
-                        { bg: '#FEE2E2', ic: '#DC2626', icon: 'battery_alert', label: 'Low Battery', val: String(lowBatteryCount), tc: 'trend-down' },
-                        { bg: '#FEF3C7', ic: '#D97706', icon: 'maintenance', label: 'Maintenance', val: String(maintenanceCount), tc: '' },
+                        { bg: '#EDE9FE', ic: '#7C3AED', icon: <RadioReceiver size={20} />, label: 'Total Beacons', val: String(totalCount), tc: '' },
+                        { bg: '#DCFCE7', ic: '#059669', icon: <CheckCircle2 size={20} />, label: 'Active', val: String(activeCount), tc: '' },
+                        { bg: '#FEE2E2', ic: '#DC2626', icon: <BatteryWarning size={20} />, label: 'Low Battery', val: String(lowBatteryCount), trend: 'Needs attention', tc: 'trend-down' },
+                        { bg: '#FEF3C7', ic: '#D97706', icon: <Settings2 size={20} />, label: 'Maintenance', val: String(maintenanceCount), tc: '' },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                {s.icon === 'radio' && <RadioReceiver size={18} color={s.ic} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
-                                {s.icon === 'battery_alert' && <BatteryWarning size={18} color={s.ic} />}
-                                {s.icon === 'maintenance' && <Settings2 size={18} color={s.ic} />}
+                                <div style={{ color: s.ic }}>
+                                    {s.icon}
+                                </div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
                                 <div className="stat-value">{s.val}</div>
+                                {s.trend && <div className={`stat-trend ${s.tc}`}>{s.trend}</div>}
                             </div>
                         </div>
                     ))}
                 </div>
 
                 {/* ── Search + filter bar ── */}
-                <div className="filter-bar" style={{ flexWrap: 'wrap' }}>
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     {/* Search */}
-                    <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
                             style={{
                                 position: 'absolute',
@@ -274,10 +266,10 @@ export const BeaconPage = () => {
                         />
                     </div>
                     {/* Status filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative', flexShrink: 0, width: window.innerWidth < 640 ? '100%' : 'auto' }}>
                         <select
                             className="form-select"
-                            style={{ width: 150, paddingRight: 32 }}
+                            style={{ width: '100%', minWidth: 150, paddingRight: 32 }}
                             value={statusFilter}
                             onChange={(e) => {
                                 setStatusFilter(e.target.value);
@@ -410,17 +402,17 @@ export const BeaconPage = () => {
                                                     title="View Beacon"
                                                     onClick={() => setViewingBeacon(b)}
                                                 >
-                                                    <Eye size={16} className="ms" />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Beacon"
-                                                    onClick={() => navigate('/masters/beacon-devices/create')}
+                                                    onClick={() => navigate(`/masters/beacon-devices/edit/${b.id}`)}
                                                 >
-                                                    <Edit size={16} className="ms" />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Beacon">
-                                                    <Trash2 size={16} className="ms" />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

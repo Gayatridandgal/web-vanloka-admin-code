@@ -31,15 +31,16 @@
 }
 
 html {
-    overflow: hidden;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Manrope', sans-serif;
     background: var(--bg);
     color: var(--text);
-    overflow: hidden;
-    width: 100vw;
+    overflow-x: hidden;
+    width: 100%;
     height: 100vh;
 }
 
@@ -80,7 +81,7 @@ body {
    LAYOUT — LOCKED TO VIEWPORT
    ════════════════════════════════════════════ */
 .admin-wrap {
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     display: flex;
     overflow: hidden;
@@ -90,8 +91,8 @@ body {
 
 /* ── Sidebar ── */
 .sidebar {
-    width: 256px;
-    min-width: 256px;
+    width: 240px;
+    min-width: 240px;
     background: white;
     border-right: 1px solid var(--border);
     display: flex;
@@ -240,11 +241,27 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 26px;
+    padding: 0 24px;
     border-bottom: 1px solid var(--border);
     background: white;
     flex-shrink: 0;
-    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+@media (max-width: 640px) {
+    .page-header {
+        height: auto;
+        min-height: 80px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    .header-actions {
+        width: 100%;
+        margin-top: 4px;
+    }
 }
 .page-title {
     font-size: 13px;
@@ -281,6 +298,7 @@ body {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    scroll-behavior: smooth;
     padding: 22px;
     display: flex;
     flex-direction: column;
@@ -457,6 +475,13 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 }
 
+/* Responsive button group for headers */
+.responsive-btn-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 /* ════════════════════════════════════════════
    BUTTONS
    ════════════════════════════════════════════ */
@@ -523,7 +548,7 @@ body {
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 600px;
+    min-width: 560px;
 }
 .data-table thead tr {
     background: var(--surface);
@@ -562,7 +587,7 @@ body {
     align-items: center;
     flex-wrap: wrap;
     gap: 8px;
-    min-width: 600px;
+    min-width: 560px;
 }
 .pag-info {
     font-size: 12px;
@@ -1387,30 +1412,36 @@ input:checked + .slider:before {
 
 @media (max-width: 640px) {
     .login-topbar {
-        display: none !important;
+        padding: 0 24px !important;
+        height: 64px;
     }
     .login-card-container {
         padding: 20px !important;
     }
 }
+.mobile-logo { display: none; }
+@media (max-width: 992px) {
+    .mobile-logo { display: flex !important; }
+}
 
 /* ════════════════════════════════════════════
    RESPONSIVE DESIGN SYSTEM (Adjusted)
    ════════════════════════════════════════════ */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* Sidebar slide-in mechanics */
     .sidebar {
         position: fixed;
         top: 0;
         bottom: 0;
-        left: -280px;
-        width: 260px;
+        left: 0;
+        transform: translateX(-100%);
+        width: 240px;
         z-index: 999;
-        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: none;
     }
     .sidebar.open {
-        left: 0;
+        transform: translateX(0);
         box-shadow: 4px 0 32px rgba(0,0,0,0.15);
     }
     
@@ -1427,20 +1458,153 @@ input:checked + .slider:before {
 /* Allow page-header to grow when buttons wrap */
 @media (max-width: 640px) {
     .page-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
         height: auto;
         min-height: 62px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        gap: 16px;
+    }
+    .page-header > div:first-child {
+        width: 100%;
         flex-wrap: wrap;
-        padding-top: 12px;
-        padding-bottom: 12px;
         gap: 8px;
     }
     .page-header > div:last-child {
-        flex-wrap: wrap;
+        width: 100%;
     }
-    /* Reduce button text / icon gap so buttons fit */
-    .page-header .btn {
-        font-size: 11px;
-        padding: 6px 10px;
+    .header-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .header-actions .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 14px;
+        font-size: 13.5px;
+    }
+    .responsive-btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+    .responsive-btn-group .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    /* Toolbar filters and export/import stack on mobile */
+    .toolbar, .filter-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+    }
+    .toolbar-left, .toolbar-right {
+        width: 100%;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+    }
+    .toolbar-left .btn, .toolbar-right .btn, .filter-bar .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    .toolbar-left .form-select, .toolbar-left .search-input,
+    .filter-bar .form-select, .filter-bar .search-input {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+.form-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.form-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+    .form-grid-4 { grid-template-columns: repeat(2, 1fr); }
+    .form-grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .form-grid-2,
+    .form-grid-3,
+    .form-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    /* Org type selection cards: 2 column on mobile */
+    .org-type-selector-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    /* Success/confirmation card padding */
+    .page-body > div[style*="padding: 52px"] {
+        padding: 28px 20px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .org-type-selector-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – PAGE BODY PADDING
+   ════════════════════════════════════════════ */
+@media (max-width: 640px) {
+    .page-body {
+        padding: 16px;
+        gap: 16px;
+    }
+}
+
+/* Global Smooth Scrolling */
+html, body {
+    scroll-behavior: smooth;
+}
+@media (max-width: 1024px) {
+    /* Give space to the mobile hamburger - Right aligned */
+    .page-header {
+        padding-right: 64px;
+    }
+}
+
+/* ════════════════════════════════════════════
+   ADDITIONAL RESPONSIVE – PAGE HEADER
+   ════════════════════════════════════════════ */
+
+/* Allow page-header to grow when buttons wrap */
+@media (max-width: 768px) {
+    .page-header {
+        height: auto;
+        min-height: 64px;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    .header-actions {
+        width: 100%;
+        margin-top: 4px;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .responsive-btn-group {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .responsive-btn-group .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 12px;
+    }
+    .header-actions > .btn,
+    .header-actions > div {
+        width: 100% !important;
     }
 }
 
@@ -1518,6 +1682,7 @@ input:checked + .slider:before {
     gap: 16px;
 }
 .form-grid-2 { grid-template-columns: repeat(2, 1fr); }
+
 .form-grid-3 { grid-template-columns: repeat(3, 1fr); }
 .form-grid-4 { grid-template-columns: repeat(4, 1fr); }
 
@@ -1553,8 +1718,123 @@ input:checked + .slider:before {
    ════════════════════════════════════════════ */
 @media (max-width: 640px) {
     .page-body {
-        padding: 14px;
-        gap: 12px;
+        padding: 16px;
+        gap: 16px;
     }
 }
 
+/* ════════════════════════════════════════════
+   GLOBAL TWEAKS & OVERFLOWS
+   ════════════════════════════════════════════ */
+* {
+    scroll-behavior: smooth;
+}
+
+/* Global smooth scroll already in html, body reset */
+
+.data-table th {
+    white-space: nowrap;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .dashboard-grid {
+        padding: 0 16px 16px !important;
+        gap: 20px;
+    }
+}
+
+/*  Overrides for table-level scrolling  */
+.page-body {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: visible !important;
+    overflow-x: hidden !important;
+    padding: 24px !important;
+    gap: 16px !important;
+}
+
+@media (max-width: 640px) {
+    .page-body {
+        padding: 16px !important;
+        gap: 12px !important;
+    }
+}
+
+.table-card, .table-scroll-wrapper {
+    flex: 1 !important;
+    overflow: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+}
+
+.data-table {
+    min-width: 800px !important;
+}
+
+.responsive-btn-group {
+    display: flex;
+    gap: 12px;
+}
+
+@media (max-width: 640px) {
+    .responsive-btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+/* MOBILE SCROLL FIX */
+@media (max-width: 1024px) {
+    .page, .page-body, .table-card, .table-scroll-wrapper {
+        flex: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow-y: visible !important;
+        display: block !important;
+    }
+    .admin-wrap {
+        overflow-y: auto !important;
+        position: relative !important;
+        height: auto !important;
+    }
+}
+
+/* ROOT LOCK REMOVAL FOR MOBILE */
+@media (max-width: 1024px) {
+    html, body, #root {
+        height: auto !important;
+        overflow: visible !important;
+        position: relative !important;
+    }
+}
+
+/* MOBILE OVERFLOW FORCE SCROLL */
+@media (max-width: 1024px) {
+    .admin-wrap { position: relative !important; overflow-y: visible !important; height: auto !important; }
+    .page { overflow-y: visible !important; height: auto !important; height: auto !important; position: relative !important; }
+    .page-body { overflow-y: visible !important; height: auto !important; display: block !important; }
+}
+
+/* GRID UTILITIES */
+.grid-span-2-desktop { grid-column: span 2; }
+@media (max-width: 1024px) { 
+    .grid-span-2-desktop { grid-column: span 1 !important; } 
+}

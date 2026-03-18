@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ChevronDown, X, Building2, MapPin, CheckCircle2, Contact, Home, FileText, Building, Store, Car, GraduationCap, StickyNote, Trash2, UploadCloud, Download, FileDown, Table, Plus, Search, Eye, Edit } from 'lucide-react';
+import { ChevronDown, X, Building2, MapPin, CheckCircle2, Contact, Home, FileText, Building, Store, Car, GraduationCap, StickyNote, Trash2, UploadCloud, Download, FileDown, Plus, Search, Eye, Edit } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -526,7 +526,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <Trash2 size={16} className="ms mr-1" />
+                    <Trash2 size={18} className="ms" />
                     Delete
                 </button>
             </div>
@@ -913,7 +913,7 @@ export const OrganisationPage = () => {
                 />
             )}
 
-            {/* ═══ PAGE HEADER ═══ */}
+            {/* ── HEADER ── */}
             <div className="page-header">
                 <div>
                     <div className="page-title">
@@ -924,71 +924,49 @@ export const OrganisationPage = () => {
                         Admin <span>/</span> Organisation Management
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
-                    <button className="btn btn-secondary" onClick={() => setShowImport(true)}>
-                        <UploadCloud size={16} className="ms mr-1" /> Import
-                    </button>
-                    <div ref={exportRef} style={{ position: 'relative' }}>
+                <div className="header-actions">
+                    <div className="responsive-btn-group">
                         <button
-                            className="btn btn-secondary"
-                            onClick={() => setShowExport(!showExport)}
+                            className="btn btn-success flex-1 justify-center whitespace-nowrap"
+                            onClick={() => setShowImport(true)}
                         >
-                            <Download size={16} className="ms mr-1" /> Export{' '}
-                            <ChevronDown size={13} />
+                            <UploadCloud size={18} className="ms mr-1" /> Import
                         </button>
-                        {showExport && (
-                            <div
-                                style={{
-                                    position: 'absolute',
-                                    right: 0,
-                                    top: '110%',
-                                    background: 'white',
-                                    border: '1.5px solid var(--border)',
-                                    borderRadius: 10,
-                                    boxShadow: '0 12px 32px rgba(0,0,0,.1)',
-                                    overflow: 'hidden',
-                                    zIndex: 50,
-                                    minWidth: 170,
-                                }}
+                        <div ref={exportRef} style={{ position: 'relative' }} className="flex-1">
+                            <button
+                                className="btn btn-secondary w-full justify-center whitespace-nowrap"
+                                onClick={() => setShowExport(!showExport)}
                             >
+                                <Download size={18} className="ms mr-1" /> Export
+                                <ChevronDown size={14} style={{ marginLeft: 4 }} />
+                            </button>
+                            {showExport && (
                                 <div
-                                    style={{
-                                        padding: '10px 14px',
-                                        cursor: 'pointer',
-                                        fontSize: 12,
-                                        fontWeight: 700,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8,
-                                    }}
-                                    onClick={exportPdf}
+                                    className="absolute right-0 top-[110%] bg-white border border-[var(--border)] rounded-xl shadow-lg overflow-hidden z-[100] min-w-[180px]"
                                 >
-                                    <FileDown size={16} color="#DC2626" />
-                                    Export as PDF
+                                    <div
+                                        className="p-3 cursor-pointer text-xs font-black flex items-center gap-2 hover:bg-slate-50 uppercase tracking-wider"
+                                        onClick={exportPdf}
+                                    >
+                                        <FileDown size={18} className="ms text-red-500" />
+                                        Export as PDF
+                                    </div>
+                                    <div
+                                        className="p-3 cursor-pointer text-xs font-black flex items-center gap-2 hover:bg-slate-50 border-t border-[var(--border)] uppercase tracking-wider"
+                                        onClick={exportXlsx}
+                                    >
+                                        <Download size={16} className="text-emerald-500" />
+                                        Export as Excel
+                                    </div>
                                 </div>
-                                <div
-                                    style={{
-                                        padding: '10px 14px',
-                                        cursor: 'pointer',
-                                        fontSize: 12,
-                                        fontWeight: 700,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8,
-                                    }}
-                                    onClick={exportXlsx}
-                                >
-                                    <Table size={16} color="#059669" />
-                                    Export as Excel
-                                </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </div>
                     <button
-                        className="btn btn-primary"
+                        className="btn btn-primary whitespace-nowrap"
                         onClick={() => navigate('/organisation/create')}
                     >
-                        <Plus size={16} className="ms mr-1" /> Add Organisation
+                        <Plus size={18} className="ms mr-1" /> Add Organisation
                     </button>
                 </div>
             </div>
@@ -996,63 +974,41 @@ export const OrganisationPage = () => {
             {/* ═══ PAGE BODY ═══ */}
             <div className="page-body">
                 {/* Summary cards */}
-                <div className="org-type-grid">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {ORG_TYPES.map((t) => {
                         const tc = orgTypeColor(t);
+                        const isFiltered = typeFilter === t;
                         return (
                             <div
                                 key={t}
+                                className={`stat-card ${isFiltered ? 'active-filter' : ''}`}
                                 style={{
-                                    background: 'white',
-                                    border: '1.5px solid var(--border)',
-                                    borderRadius: 12,
-                                    padding: '18px 20px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 14,
                                     cursor: 'pointer',
-                                    transition: 'box-shadow .15s',
+                                    borderColor: isFiltered ? 'var(--primary)' : 'var(--border)',
+                                    background: isFiltered ? 'var(--primary-light)' : 'white'
                                 }}
-                                onClick={() =>
-                                    setTypeFilter((prev) => (prev === t ? '' : t))
-                                }
+                                onClick={() => setTypeFilter(prev => prev === t ? '' : t)}
                             >
-                                <div
-                                    style={{
-                                        width: 44,
-                                        height: 44,
-                                        borderRadius: 10,
-                                        background: tc.bg,
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        flexShrink: 0,
+                                <div 
+                                    className="stat-icon" 
+                                    style={{ 
+                                        background: isFiltered ? 'white' : tc.bg,
+                                        boxShadow: isFiltered ? '0 4px 12px rgba(124, 58, 237, 0.15)' : 'none'
                                     }}
                                 >
-                                    {t === 'Office' && <Building size={22} color={tc.color} />}
-                                    {t === 'Vendor' && <Store size={22} color={tc.color} />}
-                                    {t === 'Motor Driving School' && <Car size={22} color={tc.color} />}
-                                    {t === 'Institute' && <GraduationCap size={22} color={tc.color} />}
+                                    <div style={{ color: isFiltered ? 'var(--primary)' : tc.color }}>
+                                        {t === 'Office' && <Building size={20} />}
+                                        {t === 'Vendor' && <Store size={20} />}
+                                        {t === 'Motor Driving School' && <Car size={20} />}
+                                        {t === 'Institute' && <GraduationCap size={20} />}
+                                    </div>
                                 </div>
                                 <div>
-                                    <div
-                                        style={{
-                                            fontSize: 22,
-                                            fontWeight: 900,
-                                            color: 'var(--text)',
-                                        }}
-                                    >
-                                        {counts[t]}
-                                    </div>
-                                    <div
-                                        style={{
-                                            fontSize: 11,
-                                            fontWeight: 700,
-                                            color: '#64748B',
-                                        }}
-                                    >
+                                    <div className="stat-label">
                                         {t === 'Motor Driving School' ? 'MDS' : t}
                                     </div>
+                                    <div className="stat-value">{counts[t]}</div>
+                                    {isFiltered && <div className="stat-trend trend-up">Filtered</div>}
                                 </div>
                             </div>
                         );
@@ -1060,81 +1016,75 @@ export const OrganisationPage = () => {
                 </div>
 
                 {/* Toolbar */}
-                <div
-                    style={{
-                        display: 'flex',
-                        gap: 12,
-                        marginBottom: 16,
-                        flexWrap: 'wrap',
-                        alignItems: 'center',
-                    }}
-                >
-                    <div style={{ position: 'relative', flex: '1 1 220px', maxWidth: 340 }}>
-                        <Search
-                            size={17}
-                            color="#94A3B8"
-                            style={{
-                                position: 'absolute',
-                                left: 12,
-                                top: '50%',
-                                transform: 'translateY(-50%)',
-                            }}
-                        />
-                        <input
-                            className="form-input"
-                            style={{
-                                width: '100%',
-                                boxSizing: 'border-box',
-                                paddingLeft: 36,
-                            }}
-                            placeholder="Search organisations…"
-                            value={query}
+                <div className="toolbar">
+                    <div className="toolbar-left">
+                        <div style={{ position: 'relative', flex: '1 1 240px' }}>
+                            <Search
+                                size={17}
+                                color="#94A3B8"
+                                style={{
+                                    position: 'absolute',
+                                    left: 12,
+                                    top: '50%',
+                                    transform: 'translateY(-50%)',
+                                }}
+                            />
+                            <input
+                                className="form-input"
+                                style={{
+                                    width: '100%',
+                                    boxSizing: 'border-box',
+                                    paddingLeft: 36,
+                                }}
+                                placeholder="Search organisations…"
+                                value={query}
+                                onChange={(e) => {
+                                    setQuery(e.target.value);
+                                    setPage(1);
+                                }}
+                            />
+                        </div>
+                        <select
+                            className="form-select flex-1 sm:flex-none sm:w-[180px]"
+                            value={typeFilter}
                             onChange={(e) => {
-                                setQuery(e.target.value);
+                                setTypeFilter(e.target.value as OrgType | '');
                                 setPage(1);
                             }}
-                        />
+                        >
+                            <option value="">All Types</option>
+                            {ORG_TYPES.map((t) => (
+                                <option key={t} value={t}>
+                                    {t === 'Motor Driving School' ? 'MDS' : t}
+                                </option>
+                            ))}
+                        </select>
+                        <select
+                            className="form-select flex-1 sm:flex-none sm:w-[150px]"
+                            value={statusFilter}
+                            onChange={(e) => {
+                                setStatusFilter(e.target.value as Organisation['status'] | '');
+                                setPage(1);
+                            }}
+                        >
+                            <option value="">All Statuses</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                            <option>Pending</option>
+                        </select>
                     </div>
-                    <select
-                        className="form-select"
-                        value={typeFilter}
-                        onChange={(e) => {
-                            setTypeFilter(e.target.value as OrgType | '');
-                            setPage(1);
-                        }}
-                        style={{ width: 200 }}
-                    >
-                        <option value="">All Types</option>
-                        {ORG_TYPES.map((t) => (
-                            <option key={t} value={t}>
-                                {t}
-                            </option>
-                        ))}
-                    </select>
-                    <select
-                        className="form-select"
-                        value={statusFilter}
-                        onChange={(e) => {
-                            setStatusFilter(e.target.value as Organisation['status'] | '');
-                            setPage(1);
-                        }}
-                        style={{ width: 160 }}
-                    >
-                        <option value="">All Statuses</option>
-                        <option>Active</option>
-                        <option>Inactive</option>
-                        <option>Pending</option>
-                    </select>
-                    <div
-                        style={{
-                            marginLeft: 'auto',
-                            fontSize: 12,
-                            fontWeight: 700,
-                            color: '#64748B',
-                        }}
-                    >
-                        Showing {slice.length} of {filtered.length} organisation
-                        {filtered.length !== 1 ? 's' : ''}
+
+                    <div className="toolbar-right">
+                        <div
+                            className="stats-text"
+                            style={{
+                                fontSize: 12,
+                                fontWeight: 700,
+                                color: '#64748B',
+                            }}
+                        >
+                            Showing <b>{slice.length}</b> of <b>{filtered.length}</b> organisations
+                        </div>
                     </div>
                 </div>
 
@@ -1302,33 +1252,17 @@ export const OrganisationPage = () => {
                                                 </Badge>
                                             </td>
                                             {/* Actions */}
-                                            <td
-                                                style={{ padding: '12px 16px' }}
-                                                onClick={(e) => e.stopPropagation()}
-                                            >
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        gap: 6,
-                                                    }}
-                                                >
+                                            <td onClick={(e) => e.stopPropagation()}>
+                                                <div className="actions-col">
                                                     <button
-                                                        className="btn btn-secondary"
-                                                        style={{
-                                                            padding: '4px 8px',
-                                                            fontSize: 11,
-                                                        }}
+                                                        className="act-btn act-view"
                                                         onClick={() => setViewIdx(realIdx)}
                                                         title="View"
                                                     >
-                                                        <Eye size={15} />
+                                                        <Eye size={18} className="ms" />
                                                     </button>
                                                     <button
-                                                        className="btn btn-secondary"
-                                                        style={{
-                                                            padding: '4px 8px',
-                                                            fontSize: 11,
-                                                        }}
+                                                        className="act-btn act-edit"
                                                         onClick={() =>
                                                             navigate(
                                                                 `/organisation/edit/${o.id}`
@@ -1336,21 +1270,14 @@ export const OrganisationPage = () => {
                                                         }
                                                         title="Edit"
                                                     >
-                                                        <Edit size={15} />
+                                                        <Edit size={18} className="ms" />
                                                     </button>
                                                     <button
-                                                        className="btn"
-                                                        style={{
-                                                            padding: '4px 8px',
-                                                            fontSize: 11,
-                                                            background: '#FEE2E2',
-                                                            color: '#DC2626',
-                                                            border: '1px solid #FECACA',
-                                                        }}
+                                                        className="act-btn act-delete"
                                                         onClick={() => setDelIdx(realIdx)}
                                                         title="Delete"
                                                     >
-                                                        <Trash2 size={15} />
+                                                        <Trash2 size={18} className="ms" />
                                                     </button>
                                                 </div>
                                             </td>

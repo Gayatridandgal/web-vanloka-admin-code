@@ -421,7 +421,7 @@ const DeleteOverlay = ({
                         fontWeight: 800,
                     }}
                 >
-                    <Trash2 size={16} className="ms mr-1" />
+                    <Trash2 size={18} className="ms" />
                     Delete
                 </button>
             </div>
@@ -580,6 +580,8 @@ export const FeedbacksPage = () => {
     } | null>(null);
     const [deleteEntry, setDeleteEntry] = useState<FeedbackEntry | null>(null);
     const [replyEntry, setReplyEntry] = useState<FeedbackEntry | null>(null);
+    const [page, setPage] = useState(1);
+    const PER_PAGE = 10;
 
     /* ── Filtering ── */
     const filtered = entries.filter((e) => {
@@ -599,6 +601,10 @@ export const FeedbacksPage = () => {
         const matchPriority = priorityFilter === 'All' || e.priority === priorityFilter;
         return matchSearch && matchTab && matchStatus && matchPriority;
     });
+
+    const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+    const safePage = Math.min(page, pages);
+    const slice = filtered.slice((safePage - 1) * PER_PAGE, safePage * PER_PAGE);
 
     /* ── Dynamic stats ── */
     const totalEntries = entries.length;
@@ -622,7 +628,8 @@ export const FeedbacksPage = () => {
         setDeleteEntry(null);
     };
 
-    const handleReply = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleReply = (_msg: string) => {
         // In real app, this would send the reply. Here we just close the overlay.
         setReplyEntry(null);
     };
@@ -631,7 +638,10 @@ export const FeedbacksPage = () => {
         <button
             className={activeTab === tab ? 'btn btn-primary' : 'btn btn-secondary'}
             style={{ fontSize: 12, padding: '8px 14px' }}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {
+                setActiveTab(tab);
+                setPage(1);
+            }}
         >
             {label}
         </button>
@@ -650,23 +660,18 @@ export const FeedbacksPage = () => {
                     </div>
                 </div>
                 <div className="header-actions">
-                    <button className="btn btn-secondary">
-                        <Download size={16} className="ms mr-1" />
-                        Export
-                    </button>
-                    {/* <button
-            className="btn btn-primary"
-            onClick={() => navigate("/feedbacks/complaint")}
-          >
-            <span className="material-symbols-outlined ms">add</span>Submit
-            Complaint
-          </button> */}
+                    <div className="responsive-btn-group">
+                        <button className="btn btn-secondary flex-1 justify-center">
+                            <Download size={18} className="ms mr-1" />
+                            Export
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div className="page-body p-4 sm:p-6 lg:p-8">
+            <div className="page-body">
                 {/* ── Stat cards ── */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
                         {
                             bg: '#FEF3C7',
@@ -721,11 +726,10 @@ export const FeedbacksPage = () => {
                     ))}
                 </div>
 
-                {/* ── Filter bar ── */}
-                {/* ── Filter bar ── */}
-                <div className="bg-white p-4 rounded-xl border border-slate-200 mb-6 flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+                {/* ── Search + filter bar ── */}
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     {/* Search */}
-                    <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
                             style={{
                                 position: 'absolute',
@@ -742,7 +746,10 @@ export const FeedbacksPage = () => {
                             style={{ width: '100%', paddingLeft: 36 }}
                             placeholder="Search comments, users or IDs…"
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => {
+                                setSearch(e.target.value);
+                                setPage(1);
+                            }}
                         />
                     </div>
 
@@ -761,66 +768,85 @@ export const FeedbacksPage = () => {
                         </>
                     )}
 
-                    <div className="flex flex-wrap gap-4 items-center">
-                        {/* Status filter */}
-                        <div className="relative flex-1 md:flex-none md:min-w-[140px]">
-                            <select
-                                className="form-select w-full"
-                                style={{ paddingRight: 32 }}
-                                value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value)}
-                            >
-                                <option value="All">All Status</option>
-                                <option value="Open">Open</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Resolved">Resolved</option>
-                                <option value="Dismissed">Dismissed</option>
-                            </select>
-                            <ChevronDown
-                                size={16}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                            />
-                        </div>
-                        {/* Priority filter */}
-                        <div className="relative flex-1 md:flex-none md:min-w-[130px]">
-                            <select
-                                className="form-select w-full"
-                                style={{ paddingRight: 32 }}
-                                value={priorityFilter}
-                                onChange={(e) => setPriorityFilter(e.target.value)}
-                            >
-                                <option value="All">All Priority</option>
-                                <option value="Low">Low</option>
-                                <option value="Medium">Medium</option>
-                                <option value="High">High</option>
-                                <option value="Critical">Critical</option>
-                            </select>
-                            <ChevronDown
-                                size={16}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"
-                            />
-                        </div>
+                    {/* Status filter */}
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[140px]">
+                        <select
+                            className="form-select"
+                            style={{ width: '100%', paddingRight: 32 }}
+                            value={statusFilter}
+                            onChange={(e) => {
+                                setStatusFilter(e.target.value);
+                                setPage(1);
+                            }}
+                        >
+                            <option value="All">All Status</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Dismissed">Dismissed</option>
+                        </select>
+                        <ChevronDown
+                            size={16}
+                            style={{
+                                position: 'absolute',
+                                right: 10,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted)',
+                                pointerEvents: 'none',
+                            }}
+                        />
+                    </div>
+
+                    {/* Priority filter */}
+                    <div style={{ position: 'relative' }} className="w-full sm:w-[140px]">
+                        <select
+                            className="form-select"
+                            style={{ width: '100%', paddingRight: 32 }}
+                            value={priorityFilter}
+                            onChange={(e) => {
+                                setPriorityFilter(e.target.value);
+                                setPage(1);
+                            }}
+                        >
+                            <option value="All">All Priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                        <ChevronDown
+                            size={16}
+                            style={{
+                                position: 'absolute',
+                                right: 10,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted)',
+                                pointerEvents: 'none',
+                            }}
+                        />
                     </div>
                 </div>
 
                 {/* ── Table ── */}
-                <div className="table-card overflow-x-auto scrollbar-hide -mx-4 sm:mx-0">
-                    <table className="data-table !min-w-[1000px] !w-full" style={{ tableLayout: 'fixed' }}>
+                <div className="table-card table-scroll-wrapper">
+                    <table className="data-table">
                         <thead>
                             <tr>
-                                <th style={{ width: '14%' }}>Reviewer</th>
-                                <th style={{ width: '8%' }}>Type</th>
-                                <th style={{ width: '8%' }}>Rating</th>
-                                <th style={{ width: '22%' }}>Comment</th>
-                                <th style={{ width: '10%' }}>Target</th>
-                                <th style={{ width: '8%' }}>Priority</th>
-                                <th style={{ width: '8%' }}>Status</th>
-                                <th style={{ width: '9%' }}>Date</th>
-                                <th style={{ width: '13%' }}>Actions</th>
+                                <th>Reviewer</th>
+                                <th>Type</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Target</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filtered.length === 0 ? (
+                            {slice.length === 0 ? (
                                 <tr>
                                     <td
                                         colSpan={9}
@@ -852,7 +878,7 @@ export const FeedbacksPage = () => {
                                     </td>
                                 </tr>
                             ) : (
-                                filtered.map((e) => {
+                                slice.map((e) => {
                                     const globalIdx = entries.findIndex((x) => x.id === e.id);
                                     const ac = avatarColor(globalIdx);
                                     return (
@@ -979,7 +1005,7 @@ export const FeedbacksPage = () => {
                                                                 })
                                                             }
                                                         >
-                                                            <Eye size={16} className="ms" />
+                                                            <Eye size={18} className="ms" />
                                                         </button>
                                                         {e.status !== 'Resolved' &&
                                                             e.status !== 'Dismissed' && (
@@ -1000,7 +1026,7 @@ export const FeedbacksPage = () => {
                                                             title="Delete"
                                                             onClick={() => setDeleteEntry(e)}
                                                         >
-                                                            <Trash2 size={16} className="ms" />
+                                                            <Trash2 size={18} className="ms" />
                                                         </button>
                                                     </div>
                                                 ) : (
@@ -1015,7 +1041,7 @@ export const FeedbacksPage = () => {
                                                                 })
                                                             }
                                                         >
-                                                            <Eye size={16} className="ms" />
+                                                            <Eye size={18} className="ms" />
                                                         </button>
                                                         <button
                                                             className="act-btn"
@@ -1030,7 +1056,7 @@ export const FeedbacksPage = () => {
                                                             title="Delete"
                                                             onClick={() => setDeleteEntry(e)}
                                                         >
-                                                            <Trash2 size={16} className="ms" />
+                                                            <Trash2 size={18} className="ms" />
                                                         </button>
                                                     </div>
                                                 )}
@@ -1042,12 +1068,15 @@ export const FeedbacksPage = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {pages > 1 && (
                     <Pagination
-                        info={`Showing ${filtered.length} of ${entries.length} entries`}
-                        pages={[1, 2, 3]}
-                        current={1}
+                        current={safePage}
+                        total={pages}
+                        onChange={(p: number) => setPage(p)}
                     />
-                </div>
+                )}
+            </div>
 
             {/* ── View overlay ── */}
             {viewEntry && (
@@ -1062,7 +1091,7 @@ export const FeedbacksPage = () => {
             {deleteEntry && (
                 <DeleteOverlay
                     entry={deleteEntry}
-                    onConfirm={handleDelete}
+                    onConfirm={() => handleDelete()}
                     onCancel={() => setDeleteEntry(null)}
                 />
             )}
@@ -1071,7 +1100,7 @@ export const FeedbacksPage = () => {
             {replyEntry && (
                 <ReplyOverlay
                     entry={replyEntry}
-                    onSend={handleReply}
+                    onSend={(msg) => handleReply(msg)}
                     onCancel={() => setReplyEntry(null)}
                 />
             )}

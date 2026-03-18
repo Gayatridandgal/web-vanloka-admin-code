@@ -1,22 +1,36 @@
-import { ChevronDown, CreditCard, X, Plus, Search, SearchX, Eye, Edit, Trash2, CheckCircle2, Grid } from 'lucide-react';
+import { StickyNote, X, ChevronDown, Search, SearchX, Plus, Eye, Edit, Trash2, CheckCircle2, CreditCard, LayoutGrid, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
-import { DUMMY_FEATURES } from '../data/planData';
 
-type PlanFeature = typeof DUMMY_FEATURES[number];
+/* ── DUMMY DATA ── */
+type Feature = {
+    id: string;
+    name: string;
+    code: string;
+    category: string;
+    status: 'Active' | 'Inactive';
+    description: string;
+};
+
+const DUMMY_FEATURES: Feature[] = [
+    { id: '1', name: 'Real-time GPS Tracking', code: 'GPS-001', category: 'Fleet Management', status: 'Active', description: 'Track vehicles in real-time with high precision.' },
+    { id: '2', name: 'Battery Usage Report', code: 'BAT-002', category: 'Reports & Analytics', status: 'Active', description: 'Monitor battery levels and consumption trends.' },
+    { id: '3', name: 'Geofencing Alerts', code: 'GEO-003', category: 'Safety & Security', status: 'Active', description: 'Get notified when devices enter or exit zones.' },
+    { id: '4', name: 'Employee Panic Button', code: 'PAN-004', category: 'Staff Management', status: 'Active', description: 'Emergency SOS alerts for field staff.' },
+    { id: '5', name: 'Maintenance Log', code: 'MNT-005', category: 'Fleet Management', status: 'Inactive', description: 'Keep track of device servicing and repairs.' },
+];
 
 const getStatusVariant = (status: string) => {
     switch (status) {
         case 'Active': return 'green';
         case 'Inactive': return 'slate';
-        case 'Deprecated': return 'amber';
-        default: return 'blue';
+        default: return 'amber';
     }
 };
 
 /* ── VIEW DETAIL OVERLAY ── */
-const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () => void }) => {
+const ViewOverlay = ({ feature, onClose }: { feature: Feature; onClose: () => void }) => {
     return (
         <div style={{
             position: 'fixed',
@@ -26,21 +40,21 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: window.innerWidth < 640 ? 12 : 24,
+            padding: 24,
         }} onClick={onClose}>
             <div style={{
                 background: 'white',
                 borderRadius: 16,
                 width: '100%',
                 maxWidth: 480,
-                maxHeight: 'calc(100vh - 40px)',
+                maxHeight: '90vh',
                 overflow: 'auto',
                 boxShadow: '0 20px 60px rgba(0,0,0,.15)',
             }} onClick={e => e.stopPropagation()}>
                 {/* Header */}
                 <div style={{
-                    background: 'linear-gradient(135deg, #059669 0%, #065F46 100%)',
-                    padding: '24px 28px',
+                    background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)',
+                    padding: '28px',
                     borderRadius: '16px 16px 0 0',
                     display: 'flex',
                     alignItems: 'center',
@@ -56,14 +70,12 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
                             alignItems: 'center',
                             justifyContent: 'center',
                             color: 'white',
-                            fontSize: 18,
-                            fontWeight: 900,
                         }}>
-                             <CreditCard size={24} color="white" />
+                             <StickyNote size={24} />
                         </div>
                         <div>
                             <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{feature.name}</div>
-                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', fontWeight: 600 }}>Feature Details</div>
+                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', fontWeight: 600 }}>Feature Overview</div>
                         </div>
                     </div>
                     <button onClick={onClose} style={{
@@ -81,51 +93,25 @@ const ViewOverlay = ({ feature, onClose }: { feature: PlanFeature; onClose: () =
                     </button>
                 </div>
 
-                {/* Body */}
                 <div style={{ padding: '28px' }}>
-                    <div className="grid-cols-responsive-2" style={{ gap: 20, marginBottom: 24 }}>
-                        <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Feature Code</div>
-                            <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)', fontFamily: 'monospace' }}>{feature.code}</div>
-                        </div>
-                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Status</div>
-                             <Badge variant={getStatusVariant(feature.status)}>
-                                {feature.status}
-                            </Badge>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-                        <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Category</div>
-                            <div style={{ 
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: 6,
-                                padding: '4px 10px',
-                                borderRadius: 100,
-                                background: '#F1F5F9',
-                                fontSize: 12,
-                                fontWeight: 800,
-                                color: '#475569'
-                            }}>
-                                {feature.category}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style={{ marginBottom: 24 }}>
+                    <div style={{ marginBottom: 20 }}>
                         <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Description</div>
-                        <div style={{ fontSize: 14, color: '#475569', lineHeight: 1.6, fontWeight: 500 }}>
-                            {feature.description || 'No description provided.'}
+                        <div style={{ fontSize: 14, color: 'var(--text)', lineHeight: 1.6, fontWeight: 500 }}>{feature.description}</div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-6">
+                        <div>
+                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Category</div>
+                            <div style={{ fontSize: 14, fontWeight: 700 }}>{feature.category}</div>
+                        </div>
+                        <div>
+                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Status</div>
+                            <Badge variant={feature.status === 'Active' ? 'green' : 'slate'}>{feature.status}</Badge>
                         </div>
                     </div>
                 </div>
 
-                {/* Footer */}
-                <div style={{ padding: '20px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end', background: 'var(--surface)' }}>
-                    <button className="btn btn-secondary" onClick={onClose} style={{ fontWeight: 800 }}>Close Overview</button>
+                <div style={{ padding: '20px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end' }}>
+                    <button className="btn btn-secondary" onClick={onClose}>Close Detail</button>
                 </div>
             </div>
         </div>
@@ -137,7 +123,7 @@ export const PlanFeaturesPage = () => {
     const [search, setSearch] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('All');
     const [page, setPage] = useState(1);
-    const [viewingFeature, setViewingFeature] = useState<PlanFeature | null>(null);
+    const [viewingFeature, setViewingFeature] = useState<Feature | null>(null);
 
     // Filter Logic
     const filtered = DUMMY_FEATURES.filter((f) => {
@@ -156,16 +142,19 @@ export const PlanFeaturesPage = () => {
 
     // Stats
     const totalCount = DUMMY_FEATURES.length;
-    const activeCount = DUMMY_FEATURES.filter(f => f.status === 'Active').length;
-    const categoriesCount = new Set(DUMMY_FEATURES.map(f => f.category)).size;
+    const activeCount = DUMMY_FEATURES.filter((f) => f.status === 'Active').length;
+    const categoriesCount = new Set(DUMMY_FEATURES.map((f) => f.category)).size;
+    const inactiveCount = DUMMY_FEATURES.filter((f) => f.status === 'Inactive').length;
 
     return (
         <>
+            {viewingFeature && <ViewOverlay feature={viewingFeature} onClose={() => setViewingFeature(null)} />}
+
             {/* ── HEADER ── */}
             <div className="page-header">
                 <div>
                     <div className="page-title">
-                        <CreditCard size={18} className="ms mr-2" />
+                        <StickyNote size={18} className="ms mr-2" />
                         Plan Features
                     </div>
                     <div className="breadcrumb">
@@ -185,17 +174,18 @@ export const PlanFeaturesPage = () => {
             {/* ── BODY ── */}
             <div className="page-body">
                 {/* ── Stat cards ── */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: 'credit_card', label: 'Total Features', val: String(totalCount) },
-                        { bg: '#DCFCE7', ic: '#059669', icon: 'verified', label: 'Active Features', val: String(activeCount) },
-                        { bg: '#EFF6FF', ic: '#2563EB', icon: 'category', label: 'Service Categories', val: String(categoriesCount) },
+                        { bg: '#EDE9FE', ic: '#7C3AED', icon: <CreditCard size={20} />, label: 'Total Features', val: String(totalCount) },
+                        { bg: '#DCFCE7', ic: '#059669', icon: <CheckCircle2 size={20} />, label: 'Active Features', val: String(activeCount) },
+                        { bg: '#EFF6FF', ic: '#2563EB', icon: <LayoutGrid size={20} />, label: 'Service Categories', val: String(categoriesCount) },
+                        { bg: '#FEE2E2', ic: '#DC2626', icon: <AlertCircle size={20} />, label: 'Inactive', val: String(inactiveCount) },
                     ].map((s) => (
                         <div key={s.label} className="stat-card" style={{ margin: 0 }}>
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                {s.icon === 'credit_card' && <CreditCard size={20} color={s.ic} />}
-                                {s.icon === 'verified' && <CheckCircle2 size={20} color={s.ic} />}
-                                {s.icon === 'category' && <Grid size={20} color={s.ic} />}
+                                <div style={{ color: s.ic }}>
+                                    {s.icon}
+                                </div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -347,17 +337,17 @@ export const PlanFeaturesPage = () => {
                                                     title="View Feature"
                                                     onClick={() => setViewingFeature(f)}
                                                 >
-                                                    <Eye size={16} className="ms" />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit Feature"
-                                                    onClick={() => navigate('/masters/plan-features/create')}
+                                                    onClick={() => navigate(`/masters/plan-features/edit/${f.id}`)}
                                                 >
-                                                    <Edit size={16} className="ms" />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete Feature">
-                                                    <Trash2 size={16} className="ms" />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>

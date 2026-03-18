@@ -402,6 +402,84 @@ const Err = ({ msg }: { msg?: string }) =>
         <div style={{ fontSize: 10, color: '#DC2626', fontWeight: 700, marginTop: 3 }}>⚠ {msg}</div>
     ) : null;
 
+/* ── Confirmation Overlay ── */
+const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+    <div
+        style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 2000,
+            background: 'rgba(0,0,0,.45)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 24,
+        }}
+        onClick={onCancel}
+    >
+        <div
+            style={{
+                background: 'white',
+                borderRadius: 16,
+                width: '100%',
+                maxWidth: 420,
+                padding: '36px 32px 28px',
+                textAlign: 'center',
+                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+            }}
+            onClick={(e) => e.stopPropagation()}
+        >
+            <div
+                style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: '50%',
+                    background: '#EFF6FF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    margin: '0 auto 20px',
+                }}
+            >
+                <RefreshCw size={36} color="#2563EB" />
+            </div>
+            <div
+                style={{
+                    fontSize: 18,
+                    fontWeight: 900,
+                    color: '#1E40AF',
+                    marginBottom: 8,
+                }}
+            >
+                Confirm Update?
+            </div>
+            <div
+                style={{
+                    fontSize: 13,
+                    color: '#64748B',
+                    marginBottom: 24,
+                    lineHeight: 1.6,
+                }}
+            >
+                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the organisation record in the system.
+            </div>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                    Cancel
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={onConfirm}
+                    style={{ minWidth: 120 }}
+                >
+                    Confirm Update
+                </button>
+            </div>
+        </div>
+    </div>
+);
+
 /* ── Component ─────────────────────────────────── */
 export const OrganisationCreate = () => {
     const navigate = useNavigate();
@@ -450,6 +528,7 @@ export const OrganisationCreate = () => {
     const [form, setForm] = useState<Form>(getInitialForm);
     const [errs, setErrs] = useState<Errs>({});
     const [saved, setSaved] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     /* field helpers */
     const f =
@@ -641,6 +720,15 @@ export const OrganisationCreate = () => {
             if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
+        if (isEdit) {
+            setShowConfirm(true);
+        } else {
+            setSaved(true);
+        }
+    };
+
+    const confirmUpdate = () => {
+        setShowConfirm(false);
         setSaved(true);
     };
 
@@ -2202,6 +2290,15 @@ export const OrganisationCreate = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Confirmation Modal */}
+            {showConfirm && (
+                <UpdateConfirmOverlay 
+                    title={form.orgName}
+                    onConfirm={confirmUpdate}
+                    onCancel={() => setShowConfirm(false)}
+                />
+            )}
         </>
     );
 };

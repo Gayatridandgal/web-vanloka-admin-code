@@ -226,32 +226,32 @@ export const GpsPage = () => {
             {/* ── BODY ── */}
             <div className="page-body">
                 {/* ── Stat cards ── */}
-                <div className="stat-grid stat-grid-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: 'map', label: 'Total Trackers', val: String(totalCount), tc: '' },
-                        { bg: '#DCFCE7', ic: '#059669', icon: 'check_circle', label: 'Active', val: String(activeCount), tc: '' },
-                        { bg: '#FEF3C7', ic: '#D97706', icon: 'weak_signal', label: 'Weak Signal', val: String(weakSignalCount), tc: 'trend-down' },
-                        { bg: '#F1F5F9', ic: '#64748B', icon: 'gps_off', label: 'Inactive', val: String(inactiveCount), tc: '' },
+                        { bg: '#EDE9FE', ic: '#7C3AED', icon: <Map size={20} />, label: 'Total Trackers', val: String(totalCount), tc: '' },
+                        { bg: '#DCFCE7', ic: '#059669', icon: <CheckCircle2 size={20} />, label: 'Active', val: String(activeCount), tc: '' },
+                        { bg: '#FEF3C7', ic: '#D97706', icon: <SignalHigh size={20} />, label: 'Weak Signal', val: String(weakSignalCount), trend: 'Unstable connection', tc: 'trend-down' },
+                        { bg: '#F1F5F9', ic: '#64748B', icon: <PowerOff size={20} />, label: 'Inactive', val: String(inactiveCount), tc: '' },
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                {s.icon === 'map' && <Map size={18} color={s.ic} />}
-                                {s.icon === 'check_circle' && <CheckCircle2 size={18} color={s.ic} />}
-                                {s.icon === 'weak_signal' && <SignalHigh size={18} color={s.ic} />}
-                                {s.icon === 'gps_off' && <PowerOff size={18} color={s.ic} />}
+                                <div style={{ color: s.ic }}>
+                                    {s.icon}
+                                </div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
                                 <div className="stat-value">{s.val}</div>
+                                {s.trend && <div className={`stat-trend ${s.tc}`}>{s.trend}</div>}
                             </div>
                         </div>
                     ))}
                 </div>
 
                 {/* ── Search + filter bar ── */}
-                <div className="filter-bar" style={{ flexWrap: 'wrap' }}>
+                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
                     {/* Search */}
-                    <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                    <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
                             style={{
                                 position: 'absolute',
@@ -275,10 +275,10 @@ export const GpsPage = () => {
                         />
                     </div>
                     {/* Status filter */}
-                    <div style={{ position: 'relative', flexShrink: 0 }}>
+                    <div style={{ position: 'relative', flexShrink: 0, width: window.innerWidth < 640 ? '100%' : 'auto' }}>
                         <select
                             className="form-select"
-                            style={{ width: 150, paddingRight: 32 }}
+                            style={{ width: '100%', minWidth: 150, paddingRight: 32 }}
                             value={statusFilter}
                             onChange={(e) => {
                                 setStatusFilter(e.target.value);
@@ -411,17 +411,17 @@ export const GpsPage = () => {
                                                     title="View GPS Device"
                                                     onClick={() => setViewingGps(g)}
                                                 >
-                                                    <Eye size={16} className="ms" />
+                                                    <Eye size={18} className="ms" />
                                                 </button>
                                                 <button 
                                                     className="act-btn act-edit"
                                                     title="Edit GPS Device"
-                                                    onClick={() => navigate('/masters/gps-devices/create')}
+                                                    onClick={() => navigate(`/masters/gps-devices/edit/${g.id}`)}
                                                 >
-                                                    <Edit size={16} className="ms" />
+                                                    <Edit size={18} className="ms" />
                                                 </button>
                                                 <button className="act-btn act-delete" title="Delete GPS Device">
-                                                    <Trash2 size={16} className="ms" />
+                                                    <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
                                         </td>
