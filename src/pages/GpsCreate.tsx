@@ -3,13 +3,51 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Map, CheckCircle2, ArrowLeft, Info, Cpu, CarFront, Save, RefreshCw } from 'lucide-react';
 
 const DUMMY_GPS = [
-    { id: 'GPS-201', imei: '864230040510231', simNumber: '+919876543210', provider: 'Airtel', model: 'Teltonika FMB120', firmware: 'v1.2', assignedTo: 'Student Bus A', status: 'Active', remarks: '' },
-    { id: 'GPS-202', imei: '864230040510232', simNumber: '+919876543211', provider: 'Vi', model: 'TK103', firmware: 'v2.0', assignedTo: '', status: 'Inactive', remarks: '' },
-    { id: 'GPS-203', imei: '864230040510233', simNumber: '+919876543212', provider: 'Jio', model: 'Coban 403', firmware: 'v3.1', assignedTo: 'Staff Van C', status: 'Active', remarks: '' },
+    {
+        id: 'GPS-201',
+        imei: '864230040510231',
+        simNumber: '+919876543210',
+        provider: 'Airtel',
+        model: 'Teltonika FMB120',
+        firmware: 'v1.2',
+        assignedTo: 'Student Bus A',
+        status: 'Active',
+        remarks: '',
+    },
+    {
+        id: 'GPS-202',
+        imei: '864230040510232',
+        simNumber: '+919876543211',
+        provider: 'Vi',
+        model: 'TK103',
+        firmware: 'v2.0',
+        assignedTo: '',
+        status: 'Inactive',
+        remarks: '',
+    },
+    {
+        id: 'GPS-203',
+        imei: '864230040510233',
+        simNumber: '+919876543212',
+        provider: 'Jio',
+        model: 'Coban 403',
+        firmware: 'v3.1',
+        assignedTo: 'Staff Van C',
+        status: 'Active',
+        remarks: '',
+    },
 ];
 
 /* ── Tiny Helpers (matching StaffCreate & BeaconCreate) ── */
-const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
+const SectionHeader = ({
+    icon: Icon,
+    title,
+    highlight,
+}: {
+    icon: React.ElementType;
+    title: string;
+    highlight?: boolean;
+}) => (
     <div
         style={{
             display: 'flex',
@@ -17,10 +55,10 @@ const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
             gap: 10,
             padding: '12px 20px',
             borderBottom: '1.5px solid var(--border)',
-            background: 'var(--surface)',
+            background: highlight ? 'var(--highlight-blue)' : 'var(--surface)',
         }}
     >
-        <Icon size={18} color="var(--primary)" />
+        <Icon size={18} color={highlight ? '#2563EB' : 'var(--primary)'} />
         <span
             style={{
                 fontSize: 11,
@@ -53,7 +91,13 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
+const Grid = ({
+    children,
+    className = 'grid-cols-responsive-2',
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) => (
     <div className={className} style={{ display: 'grid', gap: 16 }}>
         {children}
     </div>
@@ -81,7 +125,15 @@ const Err = ({ msg }: { msg?: string }) =>
     ) : null;
 
 /* ── Confirmation Overlay ── */
-const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+const UpdateConfirmOverlay = ({
+    onConfirm,
+    onCancel,
+    title,
+}: {
+    onConfirm: () => void;
+    onCancel: () => void;
+    title: string;
+}) => (
     <div
         style={{
             position: 'fixed',
@@ -139,10 +191,16 @@ const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () =>
                     lineHeight: 1.6,
                 }}
             >
-                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the existing record in the system.
+                Are you sure you want to update the details for <strong>{title}</strong>? This will
+                modify the existing record in the system.
             </div>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onCancel}
+                    style={{ minWidth: 120 }}
+                >
                     Cancel
                 </button>
                 <button
@@ -172,12 +230,12 @@ export const GpsCreatePage = () => {
         firmware: '',
         assignedTo: '',
         status: 'Active',
-        remarks: ''
+        remarks: '',
     });
 
     useEffect(() => {
         if (isEdit) {
-            const device = DUMMY_GPS.find(d => d.id === id);
+            const device = DUMMY_GPS.find((d) => d.id === id);
             if (device) {
                 setForm({
                     deviceId: device.id,
@@ -188,7 +246,7 @@ export const GpsCreatePage = () => {
                     firmware: device.firmware,
                     assignedTo: device.assignedTo,
                     status: device.status,
-                    remarks: device.remarks
+                    remarks: device.remarks,
                 });
             }
         }
@@ -202,16 +260,16 @@ export const GpsCreatePage = () => {
         const e: Partial<typeof form> = {};
         if (!form.deviceId.trim()) e.deviceId = 'Device ID / Name is required';
         if (!form.imei.trim()) {
-             e.imei = 'IMEI Number is required';
+            e.imei = 'IMEI Number is required';
         } else if (!/^\d{15}$/.test(form.imei.replace(/[^0-9]/g, ''))) {
-             e.imei = 'IMEI must contain exactly 15 digits';
+            e.imei = 'IMEI must contain exactly 15 digits';
         }
 
         if (Object.keys(e).length > 0) {
             setErrs(e);
             return;
         }
-        
+
         setErrs({});
         if (isEdit) {
             setShowConfirm(true);
@@ -240,7 +298,10 @@ export const GpsCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <div
+                    className="page-body"
+                    style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
                     <div
                         style={{
                             background: 'white',
@@ -269,23 +330,51 @@ export const GpsCreatePage = () => {
                         >
                             <CheckCircle2 size={44} color="#059669" />
                         </div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 22,
+                                fontWeight: 900,
+                                color: '#065F46',
+                                marginBottom: 8,
+                            }}
+                        >
                             GPS Tracker {isEdit ? 'Updated' : 'Created'} Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.deviceId.toUpperCase()}</strong> (IMEI: {form.imei}) has been {isEdit ? 'updated' : 'registered'} in the system.
+                            <strong>{form.deviceId.toUpperCase()}</strong> (IMEI: {form.imei}) has
+                            been {isEdit ? 'updated' : 'registered'} in the system.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: 12,
+                                justifyContent: 'center',
+                                flexWrap: 'wrap',
+                            }}
+                        >
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
-                                    setForm({ deviceId: '', imei: '', simNumber: '', provider: '', model: '', firmware: '', assignedTo: '', status: 'Active', remarks: '' });
+                                    setForm({
+                                        deviceId: '',
+                                        imei: '',
+                                        simNumber: '',
+                                        provider: '',
+                                        model: '',
+                                        firmware: '',
+                                        assignedTo: '',
+                                        status: 'Active',
+                                        remarks: '',
+                                    });
                                     setSaved(false);
                                 }}
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary" onClick={() => navigate('/masters/gps-devices')}>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate('/masters/gps-devices')}
+                            >
                                 <ArrowLeft size={18} className="ms mr-1" /> Back to List
                             </button>
                         </div>
@@ -305,11 +394,15 @@ export const GpsCreatePage = () => {
                         {isEdit ? 'Update GPS Device' : 'Add New GPS Device'}
                     </div>
                     <div className="breadcrumb">
-                        Admin <span>/</span> Masters <span>/</span> GPS Devices <span>/</span> {isEdit ? 'Update' : 'Add'}
+                        Admin <span>/</span> Masters <span>/</span> GPS Devices <span>/</span>{' '}
+                        {isEdit ? 'Update' : 'Add'}
                     </div>
                 </div>
                 <div className="header-actions">
-                    <button className="btn btn-secondary" onClick={() => navigate('/masters/gps-devices')}>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/masters/gps-devices')}
+                    >
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
@@ -317,8 +410,15 @@ export const GpsCreatePage = () => {
             </div>
 
             <div className="page-body">
-                <div style={{ maxWidth: 860, width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
-                    
+                <div
+                    style={{
+                        maxWidth: 860,
+                        width: '100%',
+                        margin: '0 auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
                     {/* Basic Info */}
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" />
@@ -334,7 +434,11 @@ export const GpsCreatePage = () => {
                                             setForm((v) => ({ ...v, deviceId: e.target.value }));
                                             setErrs((e) => ({ ...e, deviceId: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.deviceId ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            borderColor: errs.deviceId ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.deviceId} />
                                 </div>
@@ -345,10 +449,20 @@ export const GpsCreatePage = () => {
                                         placeholder="e.g. 864230040510231 (15 digits)"
                                         value={form.imei}
                                         onChange={(e) => {
-                                            setForm((v) => ({ ...v, imei: e.target.value.replace(/\D/g, '').slice(0, 15) }));
+                                            setForm((v) => ({
+                                                ...v,
+                                                imei: e.target.value
+                                                    .replace(/\D/g, '')
+                                                    .slice(0, 15),
+                                            }));
                                             setErrs((e) => ({ ...e, imei: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace', borderColor: errs.imei ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                            borderColor: errs.imei ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.imei} />
                                 </div>
@@ -359,8 +473,14 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. +91 9876543210"
                                         value={form.simNumber}
-                                        onChange={(e) => setForm((v) => ({ ...v, simNumber: e.target.value }))}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace' }}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, simNumber: e.target.value }))
+                                        }
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                        }}
                                     />
                                 </div>
                                 <div>
@@ -369,7 +489,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. Airtel M2M"
                                         value={form.provider}
-                                        onChange={(e) => setForm((v) => ({ ...v, provider: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, provider: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -388,7 +510,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. Teltonika FMB120"
                                         value={form.model}
-                                        onChange={(e) => setForm((v) => ({ ...v, model: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, model: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -398,7 +522,9 @@ export const GpsCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. v03.28"
                                         value={form.firmware}
-                                        onChange={(e) => setForm((v) => ({ ...v, firmware: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, firmware: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -416,7 +542,9 @@ export const GpsCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.assignedTo}
-                                        onChange={(e) => setForm((v) => ({ ...v, assignedTo: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, assignedTo: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="">-- Unassigned --</option>
@@ -430,7 +558,9 @@ export const GpsCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.status}
-                                        onChange={(e) => setForm((v) => ({ ...v, status: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, status: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="Active">Active</option>
@@ -445,29 +575,46 @@ export const GpsCreatePage = () => {
                                     className="form-input"
                                     placeholder="Add installation notes or issues..."
                                     value={form.remarks}
-                                    onChange={(e) => setForm((v) => ({ ...v, remarks: e.target.value }))}
-                                    style={{ width: '100%', boxSizing: 'border-box', minHeight: 80, resize: 'vertical' }}
+                                    onChange={(e) =>
+                                        setForm((v) => ({ ...v, remarks: e.target.value }))
+                                    }
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        minHeight: 80,
+                                        resize: 'vertical',
+                                    }}
                                 />
                             </div>
                         </Body>
                     </Card>
 
                     {/* ── FOOTER ACTIONS ── */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40 }}>
-                        <button className="btn btn-secondary" onClick={() => navigate('/masters/gps-devices')}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                        }}
+                    >
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/masters/gps-devices')}
+                        >
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
                             <Save size={16} className="ms mr-1" /> {isEdit ? 'Update' : 'Save'} GPS
                         </button>
                     </div>
-
                 </div>
             </div>
 
             {/* Confirmation Modal */}
             {showConfirm && (
-                <UpdateConfirmOverlay 
+                <UpdateConfirmOverlay
                     title={form.deviceId}
                     onConfirm={confirmUpdate}
                     onCancel={() => setShowConfirm(false)}

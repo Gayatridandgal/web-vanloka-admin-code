@@ -1,4 +1,3 @@
-
 export interface SupplierDevice {
     id: string;
     imei: string;
@@ -32,14 +31,14 @@ export const DUMMY_SUPPLIERS: Supplier[] = [
         status: 'Active',
         devices: Array.from({ length: 10 }).map((_, i) => ({
             id: `DEV-100${i}`,
-            imei: i === 0 ? '86420104000100' : `86420104000${100+i}`,
+            imei: i === 0 ? '86420104000100' : `86420104000${100 + i}`,
             model: i === 0 ? 'Aqua G2' : 'Aqua G2',
             type: 'AIS140',
-            status: i === 0 ? 'Assigned' : (i % 3 === 0 ? 'Assigned' : 'In Stock'),
+            status: i === 0 ? 'Assigned' : i % 3 === 0 ? 'Assigned' : 'In Stock',
             addedDate: 'Mar 01, 2026',
-            assignedOrg: i === 0 ? 'BHARAT_MOTORS' : (i % 3 === 0 ? 'City Logistics' : undefined),
-            orgType: i === 0 ? 'MDS' : (i % 3 === 0 ? 'Vendor' : undefined)
-        }))
+            assignedOrg: i === 0 ? 'BHARAT_MOTORS' : i % 3 === 0 ? 'City Logistics' : undefined,
+            orgType: i === 0 ? 'MDS' : i % 3 === 0 ? 'Vendor' : undefined,
+        })),
     },
     {
         id: 'SUP-002',
@@ -51,11 +50,11 @@ export const DUMMY_SUPPLIERS: Supplier[] = [
         status: 'Active',
         devices: Array.from({ length: 5 }).map((_, i) => ({
             id: `DEV-200${i}`,
-            imei: `35467810000${200+i}`,
+            imei: `35467810000${200 + i}`,
             model: 'FMB920',
             type: 'Basic',
             status: 'In Stock',
-            addedDate: 'Mar 05, 2026'
-        }))
-    }
+            addedDate: 'Mar 05, 2026',
+        })),
+    },
 ];

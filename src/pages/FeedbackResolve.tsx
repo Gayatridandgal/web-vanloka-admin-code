@@ -1,4 +1,13 @@
-import { MessageSquare, ArrowLeft, CheckCircle2, AlertTriangle, Bus, Calendar, Mail, Phone } from 'lucide-react';
+import {
+    MessageSquare,
+    ArrowLeft,
+    CheckCircle2,
+    AlertTriangle,
+    Bus,
+    Calendar,
+    Mail,
+    Phone,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { INITIAL_FEEDBACKS } from '../data/feedbackData';
@@ -154,7 +163,7 @@ export const FeedbackResolve = () => {
                                 margin: '0 auto 24px',
                             }}
                         >
-                                <CheckCircle2 size={44} color="#059669" />
+                            <CheckCircle2 size={44} color="#059669" />
                         </div>
                         <div
                             style={{
@@ -194,8 +203,7 @@ export const FeedbackResolve = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/feedbacks')}
                             >
-                                <ArrowLeft size={18} className="ms mr-1" />{' '}
-                                Back to Feedbacks
+                                <ArrowLeft size={18} className="ms mr-1" /> Back to Feedbacks
                             </button>
                         </div>
                     </div>
@@ -298,7 +306,7 @@ export const FeedbackResolve = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                            <AlertTriangle size={22} color="#DC2626" />
+                                        <AlertTriangle size={22} color="#DC2626" />
                                     </div>
                                     <div style={{ flex: 1 }}>
                                         <div
@@ -442,7 +450,7 @@ export const FeedbackResolve = () => {
                                         justifyContent: 'center',
                                     }}
                                 >
-                                        <CheckCircle2 size={20} color="#059669" />
+                                    <CheckCircle2 size={20} color="#059669" />
                                 </div>
                                 <div>
                                     <div

@@ -1,17 +1,70 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { RadioReceiver, Info, Cpu, ClipboardList, Save, ArrowLeft, CheckCircle2, RefreshCw } from 'lucide-react';
+import {
+    RadioReceiver,
+    Info,
+    ClipboardList,
+    Save,
+    ArrowLeft,
+    CheckCircle2,
+    RefreshCw,
+} from 'lucide-react';
 
 const DUMMY_BEACONS = [
-    { id: 'BCN-001', macAddress: '00:1A:2B:3C:4D:5E', assignedTo: 'Student Bus A', location: 'Gate 1', batteryLevel: '98', status: 'Active', firmware: 'v2.1', remarks: '' },
-    { id: 'BCN-002', macAddress: '00:1A:2B:3C:4D:5F', assignedTo: '', location: 'Storage', batteryLevel: '100', status: 'Inactive', firmware: 'v2.0', remarks: '' },
-    { id: 'BCN-003', macAddress: '00:1A:2B:3C:4D:60', assignedTo: 'Staff Van C', location: 'Parking B', batteryLevel: '15', status: 'Active', firmware: 'v1.9', remarks: '' },
-    { id: 'BCN-004', macAddress: '00:1A:2B:3C:4D:61', assignedTo: 'Visitor Pass 1', location: 'Reception', batteryLevel: '45', status: 'Maintenance', firmware: 'v2.1', remarks: '' },
-    { id: 'BCN-005', macAddress: '00:1A:2B:3C:4D:62', assignedTo: 'Student Bus B', location: 'Gate 2', batteryLevel: '82', status: 'Active', firmware: 'v2.2', remarks: '' },
+    {
+        id: 'BCN-001',
+        macAddress: '00:1A:2B:3C:4D:5E',
+        assignedTo: 'Student Bus A',
+        location: 'Gate 1',
+        batteryLevel: '98',
+        status: 'Active',
+        firmware: 'v2.1',
+        remarks: '',
+    },
+    {
+        id: 'BCN-002',
+        macAddress: '00:1A:2B:3C:4D:5F',
+        assignedTo: '',
+        location: 'Storage',
+        batteryLevel: '100',
+        status: 'Inactive',
+        firmware: 'v2.0',
+        remarks: '',
+    },
+    {
+        id: 'BCN-003',
+        macAddress: '00:1A:2B:3C:4D:60',
+        assignedTo: 'Staff Van C',
+        location: 'Parking B',
+        batteryLevel: '15',
+        status: 'Active',
+        firmware: 'v1.9',
+        remarks: '',
+    },
+    {
+        id: 'BCN-004',
+        macAddress: '00:1A:2B:3C:4D:61',
+        assignedTo: 'Visitor Pass 1',
+        location: 'Reception',
+        batteryLevel: '45',
+        status: 'Maintenance',
+        firmware: 'v2.1',
+        remarks: '',
+    },
+    {
+        id: 'BCN-005',
+        macAddress: '00:1A:2B:3C:4D:62',
+        assignedTo: 'Student Bus B',
+        location: 'Gate 2',
+        batteryLevel: '82',
+        status: 'Active',
+        firmware: 'v2.2',
+        remarks: '',
+    },
 ];
 
 /* ── Tiny Helpers (matching StaffCreate & RolesCreate) ── */
-const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -55,7 +108,13 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ children, className = "grid-cols-responsive-2" }: { children: React.ReactNode; className?: string }) => (
+const Grid = ({
+    children,
+    className = 'grid-cols-responsive-2',
+}: {
+    children: React.ReactNode;
+    className?: string;
+}) => (
     <div className={className} style={{ display: 'grid', gap: 16 }}>
         {children}
     </div>
@@ -83,7 +142,15 @@ const Err = ({ msg }: { msg?: string }) =>
     ) : null;
 
 /* ── Confirmation Overlay ── */
-const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+const UpdateConfirmOverlay = ({
+    onConfirm,
+    onCancel,
+    title,
+}: {
+    onConfirm: () => void;
+    onCancel: () => void;
+    title: string;
+}) => (
     <div
         style={{
             position: 'fixed',
@@ -141,10 +208,16 @@ const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () =>
                     lineHeight: 1.6,
                 }}
             >
-                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the existing record in the system.
+                Are you sure you want to update the details for <strong>{title}</strong>? This will
+                modify the existing record in the system.
             </div>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onCancel}
+                    style={{ minWidth: 120 }}
+                >
                     Cancel
                 </button>
                 <button
@@ -173,12 +246,12 @@ export const BeaconCreatePage = () => {
         assignedTo: '',
         location: '',
         status: 'Active' as 'Active' | 'Inactive' | 'Maintenance',
-        remarks: ''
+        remarks: '',
     });
 
     useEffect(() => {
         if (isEdit) {
-            const beacon = DUMMY_BEACONS.find(b => b.id === id);
+            const beacon = DUMMY_BEACONS.find((b) => b.id === id);
             if (beacon) {
                 setForm({
                     beaconId: beacon.id,
@@ -187,8 +260,8 @@ export const BeaconCreatePage = () => {
                     firmware: beacon.firmware,
                     assignedTo: beacon.assignedTo,
                     location: beacon.location,
-                    status: beacon.status as any,
-                    remarks: beacon.remarks || ''
+                    status: beacon.status as typeof form.status,
+                    remarks: beacon.remarks || '',
                 });
             }
         }
@@ -203,14 +276,14 @@ export const BeaconCreatePage = () => {
         if (!form.beaconId.trim()) e.beaconId = 'Beacon ID / Name is required';
         if (!form.macAddress.trim()) e.macAddress = 'MAC Address is required';
         else if (!/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/.test(form.macAddress)) {
-             e.macAddress = 'Invalid MAC Address format. E.g. 00:1A:2B:3C:4D:5E';
+            e.macAddress = 'Invalid MAC Address format. E.g. 00:1A:2B:3C:4D:5E';
         }
 
         if (Object.keys(e).length > 0) {
             setErrs(e);
             return;
         }
-        
+
         setErrs({});
         if (isEdit) {
             setShowConfirm(true);
@@ -239,7 +312,10 @@ export const BeaconCreatePage = () => {
                         </div>
                     </div>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center' }}>
+                <div
+                    className="page-body"
+                    style={{ alignItems: 'center', justifyContent: 'center' }}
+                >
                     <div
                         style={{
                             background: 'white',
@@ -268,23 +344,51 @@ export const BeaconCreatePage = () => {
                         >
                             <CheckCircle2 size={44} color="#059669" />
                         </div>
-                        <div style={{ fontSize: 22, fontWeight: 900, color: '#065F46', marginBottom: 8 }}>
+                        <div
+                            style={{
+                                fontSize: 22,
+                                fontWeight: 900,
+                                color: '#065F46',
+                                marginBottom: 8,
+                            }}
+                        >
                             Beacon {isEdit ? 'Updated' : 'Created'} Successfully
                         </div>
                         <div style={{ fontSize: 13, color: '#059669', marginBottom: 32 }}>
-                            <strong>{form.beaconId.toUpperCase()}</strong> ({form.macAddress.toUpperCase()}) has been {isEdit ? 'updated' : 'registered'} in the system.
+                            <strong>{form.beaconId.toUpperCase()}</strong> (
+                            {form.macAddress.toUpperCase()}) has been{' '}
+                            {isEdit ? 'updated' : 'registered'} in the system.
                         </div>
-                        <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                gap: 12,
+                                justifyContent: 'center',
+                                flexWrap: 'wrap',
+                            }}
+                        >
                             <button
                                 className="btn btn-secondary"
                                 onClick={() => {
-                                    setForm({ beaconId: '', macAddress: '', batteryLevel: '', firmware: '', assignedTo: '', location: '', status: 'Active', remarks: '' });
+                                    setForm({
+                                        beaconId: '',
+                                        macAddress: '',
+                                        batteryLevel: '',
+                                        firmware: '',
+                                        assignedTo: '',
+                                        location: '',
+                                        status: 'Active',
+                                        remarks: '',
+                                    });
                                     setSaved(false);
                                 }}
                             >
                                 Add Another
                             </button>
-                            <button className="btn btn-primary" onClick={() => navigate('/masters/beacon-devices')}>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate('/masters/beacon-devices')}
+                            >
                                 <ArrowLeft size={18} className="ms mr-1" /> Back to List
                             </button>
                         </div>
@@ -304,11 +408,15 @@ export const BeaconCreatePage = () => {
                         {isEdit ? 'Update Beacon' : 'Add New Beacon'}
                     </div>
                     <div className="breadcrumb">
-                        Admin <span>/</span> Masters <span>/</span> Beacon Devices <span>/</span> {isEdit ? 'Update' : 'Add'}
+                        Admin <span>/</span> Masters <span>/</span> Beacon Devices <span>/</span>{' '}
+                        {isEdit ? 'Update' : 'Add'}
                     </div>
                 </div>
                 <div className="header-actions">
-                    <button className="btn btn-secondary" onClick={() => navigate('/masters/beacon-devices')}>
+                    <button
+                        className="btn btn-secondary"
+                        onClick={() => navigate('/masters/beacon-devices')}
+                    >
                         <ArrowLeft size={18} className="ms" />
                         Back
                     </button>
@@ -316,8 +424,15 @@ export const BeaconCreatePage = () => {
             </div>
 
             <div className="page-body">
-                <div style={{ maxWidth: 860, width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
-                    
+                <div
+                    style={{
+                        maxWidth: 860,
+                        width: '100%',
+                        margin: '0 auto',
+                        display: 'flex',
+                        flexDirection: 'column',
+                    }}
+                >
                     {/* Basic Info */}
                     <Card>
                         <SectionHeader icon={Info} title="Basic Information" />
@@ -333,7 +448,11 @@ export const BeaconCreatePage = () => {
                                             setForm((v) => ({ ...v, beaconId: e.target.value }));
                                             setErrs((e) => ({ ...e, beaconId: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.beaconId ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            borderColor: errs.beaconId ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.beaconId} />
                                 </div>
@@ -347,7 +466,12 @@ export const BeaconCreatePage = () => {
                                             setForm((v) => ({ ...v, macAddress: e.target.value }));
                                             setErrs((e) => ({ ...e, macAddress: undefined }));
                                         }}
-                                        style={{ width: '100%', boxSizing: 'border-box', fontFamily: 'monospace', borderColor: errs.macAddress ? '#DC2626' : undefined }}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            fontFamily: 'monospace',
+                                            borderColor: errs.macAddress ? '#DC2626' : undefined,
+                                        }}
                                     />
                                     <Err msg={errs.macAddress} />
                                 </div>
@@ -360,7 +484,9 @@ export const BeaconCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. 100"
                                         value={form.batteryLevel}
-                                        onChange={(e) => setForm((v) => ({ ...v, batteryLevel: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, batteryLevel: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -370,7 +496,9 @@ export const BeaconCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. v2.1.0"
                                         value={form.firmware}
-                                        onChange={(e) => setForm((v) => ({ ...v, firmware: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, firmware: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -388,7 +516,9 @@ export const BeaconCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.assignedTo}
-                                        onChange={(e) => setForm((v) => ({ ...v, assignedTo: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, assignedTo: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="">-- Unassigned --</option>
@@ -403,7 +533,9 @@ export const BeaconCreatePage = () => {
                                         className="form-input"
                                         placeholder="e.g. Storage"
                                         value={form.location}
-                                        onChange={(e) => setForm((v) => ({ ...v, location: e.target.value }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({ ...v, location: e.target.value }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     />
                                 </div>
@@ -412,7 +544,12 @@ export const BeaconCreatePage = () => {
                                     <select
                                         className="form-select"
                                         value={form.status}
-                                        onChange={(e) => setForm((v) => ({ ...v, status: e.target.value as any }))}
+                                        onChange={(e) =>
+                                            setForm((v) => ({
+                                                ...v,
+                                                status: e.target.value as typeof form.status,
+                                            }))
+                                        }
                                         style={{ width: '100%', boxSizing: 'border-box' }}
                                     >
                                         <option value="Active">Active</option>
@@ -427,29 +564,47 @@ export const BeaconCreatePage = () => {
                                     className="form-input"
                                     placeholder="Add any additional notes about this beacon..."
                                     value={form.remarks}
-                                    onChange={(e) => setForm((v) => ({ ...v, remarks: e.target.value }))}
-                                    style={{ width: '100%', boxSizing: 'border-box', minHeight: 80, resize: 'vertical' }}
+                                    onChange={(e) =>
+                                        setForm((v) => ({ ...v, remarks: e.target.value }))
+                                    }
+                                    style={{
+                                        width: '100%',
+                                        boxSizing: 'border-box',
+                                        minHeight: 80,
+                                        resize: 'vertical',
+                                    }}
                                 />
                             </div>
                         </Body>
                     </Card>
 
                     {/* ── FOOTER ACTIONS ── */}
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 12, marginTop: 12, paddingBottom: 40 }}>
-                        <button className="btn btn-secondary" onClick={() => navigate('/masters/beacon-devices')}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                        }}
+                    >
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate('/masters/beacon-devices')}
+                        >
                             Cancel
                         </button>
                         <button className="btn btn-primary" onClick={handleSave}>
-                            <Save size={16} className="ms mr-1" /> {isEdit ? 'Update' : 'Save'} Beacon
+                            <Save size={16} className="ms mr-1" /> {isEdit ? 'Update' : 'Save'}{' '}
+                            Beacon
                         </button>
                     </div>
-
                 </div>
             </div>
 
             {/* Confirmation Modal */}
             {showConfirm && (
-                <UpdateConfirmOverlay 
+                <UpdateConfirmOverlay
                     title={form.beaconId}
                     onConfirm={confirmUpdate}
                     onCancel={() => setShowConfirm(false)}

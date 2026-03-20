@@ -251,8 +251,7 @@ export const TraineeComplaint = () => {
                                 className="btn btn-primary"
                                 onClick={() => navigate('/feedbacks')}
                             >
-                                <ArrowLeft size={18} className="ms" />{' '}
-                                Back to Feedbacks
+                                <ArrowLeft size={18} className="ms" /> Back to Feedbacks
                             </button>
                         </div>
                     </div>
@@ -612,9 +611,15 @@ export const TraineeComplaint = () => {
                                             flexShrink: 0,
                                         }}
                                     >
-                                        {item.icon === 'mark_email_read' && <MailCheck size={18} color={item.color} />}
-                                        {item.icon === 'manage_search' && <Search size={18} color={item.color} />}
-                                        {item.icon === 'check_circle' && <CheckCircle2 size={18} color={item.color} />}
+                                        {item.icon === 'mark_email_read' && (
+                                            <MailCheck size={18} color={item.color} />
+                                        )}
+                                        {item.icon === 'manage_search' && (
+                                            <Search size={18} color={item.color} />
+                                        )}
+                                        {item.icon === 'check_circle' && (
+                                            <CheckCircle2 size={18} color={item.color} />
+                                        )}
                                     </div>
                                     <div>
                                         <div
@@ -648,5 +653,3 @@ export const TraineeComplaint = () => {
 };
 
 export default TraineeComplaint;
-
-

@@ -1426,34 +1426,64 @@ export const LoginScreen = ({ onLogin }: Props) => {
 
             {/* Right side */}
             <div className="login-right" style={{ display: 'flex', flexDirection: 'column' }}>
-                <div className="login-topbar" style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'center', 
-                    height: 80,
-                    padding: '0 40px', 
-                    borderBottom: '1px solid #f1f5f9',
-                    background: 'white',
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 10
-                }}>
-                    <div className="login-logo" style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <div style={{ 
-                            width: 42, 
-                            height: 42, 
-                            borderRadius: 12, 
-                            background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            justifyContent: 'center', 
-                            boxShadow: '0 10px 20px -5px rgba(124,58,237,0.3)' 
-                        }}>
+                <div
+                    className="login-topbar"
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 80,
+                        padding: '0 40px',
+                        borderBottom: '1px solid #f1f5f9',
+                        background: 'white',
+                        position: 'sticky',
+                        top: 0,
+                        zIndex: 10,
+                    }}
+                >
+                    <div
+                        className="login-logo"
+                        style={{ display: 'flex', alignItems: 'center', gap: 14 }}
+                    >
+                        <div
+                            style={{
+                                width: 42,
+                                height: 42,
+                                borderRadius: 12,
+                                background: 'linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                boxShadow: '0 10px 20px -5px rgba(124,58,237,0.3)',
+                            }}
+                        >
                             <VanIcon />
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', lineHeight: 1, letterSpacing: '-0.02em', textTransform: 'uppercase' }}>VanLoka</span>
-                            <span style={{ fontSize: 10, fontWeight: 800, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: 2 }}>Fleet Intelligence</span>
+                            <span
+                                style={{
+                                    fontSize: 20,
+                                    fontWeight: 900,
+                                    color: '#0f172a',
+                                    lineHeight: 1,
+                                    letterSpacing: '-0.02em',
+                                    textTransform: 'uppercase',
+                                }}
+                            >
+                                VanLoka
+                            </span>
+                            <span
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    color: '#94a3b8',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.1em',
+                                    marginTop: 2,
+                                }}
+                            >
+                                Fleet Intelligence
+                            </span>
                         </div>
                     </div>
                 </div>

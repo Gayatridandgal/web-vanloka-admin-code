@@ -18,6 +18,7 @@ import {
     Search,
     Settings,
     ShieldCheck,
+    X,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -91,8 +92,8 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
     const headerBg = isGood
         ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
         : record.score === 'Moderate'
-            ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
-            : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)';
+          ? 'linear-gradient(135deg, #d97706 0%, #b45309 100%)'
+          : 'linear-gradient(135deg, #dc2626 0%, #991b1b 100%)';
 
     const Field = ({ label, value, color }: { label: string; value: string; color?: string }) => (
         <div>
@@ -151,7 +152,7 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                         alignItems: 'center',
                         textAlign: 'center',
                         gap: 16,
-                        position: 'relative'
+                        position: 'relative',
                     }}
                     className="md:flex-row md:text-left md:items-center md:gap-[18px]"
                 >
@@ -271,9 +272,7 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                                     textAlign: 'center',
                                 }}
                             >
-                                <div style={{ color: s.ic, marginBottom: 4 }}>
-                                    {s.icon}
-                                </div>
+                                <div style={{ color: s.ic, marginBottom: 4 }}>{s.icon}</div>
                                 <div
                                     style={{
                                         fontSize: 14,
@@ -324,7 +323,10 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                     >
                         <Field label="Vehicle Type" value={record.type} />
                         <Field label="Idle Time" value={`${record.idleTime} hrs`} />
-                        <Field label="Efficiency" value={`${(record.revenue / record.fuelCost).toFixed(2)} rev/fuel`} />
+                        <Field
+                            label="Efficiency"
+                            value={`${(record.revenue / record.fuelCost).toFixed(2)} rev/fuel`}
+                        />
                     </div>
 
                     {/* Summary */}
@@ -355,13 +357,33 @@ const ViewOverlay = ({ record, onClose }: { record: PerformanceRecord; onClose: 
                             border: '1px solid var(--border)',
                         }}
                     >
-                        Generating <strong style={{color: '#059669'}}>${(record.revenue / record.fuelCost).toFixed(2)}</strong> for every dollar spent on fuel. 
-                        Cost averages <strong style={{color: 'var(--text)'}}>${(record.fuelCost / record.distance).toFixed(2)}</strong> per kilometer driven.
-                        {record.idleTime > 15 && ' High idle time detected; routing optimization recommended.'}
+                        Generating{' '}
+                        <strong style={{ color: '#059669' }}>
+                            ${(record.revenue / record.fuelCost).toFixed(2)}
+                        </strong>{' '}
+                        for every dollar spent on fuel. Cost averages{' '}
+                        <strong style={{ color: 'var(--text)' }}>
+                            ${(record.fuelCost / record.distance).toFixed(2)}
+                        </strong>{' '}
+                        per kilometer driven.
+                        {record.idleTime > 15 &&
+                            ' High idle time detected; routing optimization recommended.'}
                     </div>
 
-                    <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginTop: 24 }} className="sm:flex-row">
-                        <button className="btn btn-secondary w-full sm:w-auto" onClick={onClose} style={{ minWidth: 120 }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: 12,
+                            justifyContent: 'center',
+                            marginTop: 24,
+                        }}
+                        className="sm:flex-row"
+                    >
+                        <button
+                            className="btn btn-secondary w-full sm:w-auto"
+                            onClick={onClose}
+                            style={{ minWidth: 120 }}
+                        >
                             Close Window
                         </button>
                     </div>
@@ -390,10 +412,27 @@ const BasicReportView = () => {
     return (
         <>
             {/* ── Toolbar ── */}
-            <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', background: 'white', padding: '16px 20px', borderRadius: 12, marginBottom: 24, border: '1px solid var(--border)' }}>
+            <div
+                className="toolbar"
+                style={{
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    background: 'white',
+                    padding: '16px 20px',
+                    borderRadius: 12,
+                    marginBottom: 24,
+                    border: '1px solid var(--border)',
+                }}
+            >
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Executive Overview</h2>
-                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>Real-time intelligence on fleet operations and economics.</p>
+                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                        Executive Overview
+                    </h2>
+                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+                        Real-time intelligence on fleet operations and economics.
+                    </p>
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-secondary px-4 py-2 flex items-center gap-2">
@@ -419,10 +458,11 @@ const BasicReportView = () => {
                         Trend Insight
                     </h3>
                     <p className="text-base font-semibold leading-snug">
-                        Fuel efficiency increased by <span className="font-black text-white">4.2%</span>{' '}
-                        across the heavy truck fleet this month, correlating with the recent routing
-                        optimization. <strong>VH-4022</strong> still requires maintenance review due to
-                        anomalous idling metrics.
+                        Fuel efficiency increased by{' '}
+                        <span className="font-black text-white">4.2%</span> across the heavy truck
+                        fleet this month, correlating with the recent routing optimization.{' '}
+                        <strong>VH-4022</strong> still requires maintenance review due to anomalous
+                        idling metrics.
                     </p>
                 </div>
             </motion.div>
@@ -507,8 +547,13 @@ const BasicReportView = () => {
                                     </p>
                                 </div>
                                 <div className="flex gap-2 text-xs font-bold text-slate-500">
-                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-500" /> Revenue</span>
-                                    <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-red-500" /> Costs</span>
+                                    <span className="flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-emerald-500" />{' '}
+                                        Revenue
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        <div className="w-2 h-2 rounded-full bg-red-500" /> Costs
+                                    </span>
                                 </div>
                             </div>
                             <div className="flex-1 min-h-0 w-full">
@@ -684,7 +729,16 @@ const BasicReportView = () => {
 
                     {/* ── DATA TABLE SECTION ── */}
                     <motion.div variants={itemVariants} layout>
-                        <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 16 }}>
+                        <div
+                            className="toolbar"
+                            style={{
+                                display: 'flex',
+                                gap: 10,
+                                alignItems: 'center',
+                                flexWrap: 'wrap',
+                                marginBottom: 16,
+                            }}
+                        >
                             {/* Search */}
                             <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                                 <Search
@@ -745,67 +799,75 @@ const BasicReportView = () => {
                                         <th style={{ width: '14%' }}>Revenue</th>
                                         <th style={{ width: '10%' }}>Idle (h)</th>
                                         <th style={{ width: '13%' }}>Score</th>
-                                        <th style={{ width: '8%', textAlign: 'center' }}>Actions</th>
+                                        <th style={{ width: '8%', textAlign: 'center' }}>
+                                            Actions
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {filtered.length === 0 ? (
-                                    <tr>
-                                        <td
-                                            colSpan={8}
-                                            className="text-center py-16 text-slate-400 text-sm font-bold"
-                                        >
-                                            <AlertCircle
-                                                size={48}
-                                                className="mx-auto block mb-3 text-slate-300"
-                                            />
-                                            No records found{search ? ` matching "${search}"` : ''}.
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    filtered.map((r, i) => (
-                                        <motion.tr
-                                            key={r.id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: i * 0.05 }}
-                                        >
-                                            <td>
-                                                <b>{r.id}</b>
+                                    {filtered.length === 0 ? (
+                                        <tr>
+                                            <td
+                                                colSpan={8}
+                                                className="text-center py-16 text-slate-400 text-sm font-bold"
+                                            >
+                                                <AlertCircle
+                                                    size={48}
+                                                    className="mx-auto block mb-3 text-slate-300"
+                                                />
+                                                No records found
+                                                {search ? ` matching "${search}"` : ''}.
                                             </td>
-                                            <td>{r.type}</td>
-                                            <td>{r.distance.toLocaleString()} km</td>
-                                            <td style={{ color: '#DC2626', fontWeight: 800 }}>${r.fuelCost.toFixed(2)}</td>
-                                            <td style={{ color: '#059669', fontWeight: 800 }}>${r.revenue.toFixed(2)}</td>
-                                            <td>{r.idleTime.toFixed(1)}</td>
-                                            <td>
-                                                <Badge
-                                                    variant={scoreVariant(r.score)}
-                                                >
-                                                    {r.score}
-                                                </Badge>
-                                            </td>
-                                            <td style={{ textAlign: 'center' }}>
-                                                 <div className="actions-col" style={{ justifyContent: 'center' }}>
-                                                     <button
-                                                         className="act-btn act-view"
-                                                         title="View Details"
-                                                         onClick={() => setViewRecord(r)}
-                                                     >
-                                                         <Eye size={18} className="ms" />
-                                                     </button>
-                                                 </div>
-                                             </td>
-                                        </motion.tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                        <Pagination
-                            info={`Showing ${filtered.length} of ${records.length} performance records`}
-                            pages={[1, 2, 3]}
-                            current={1}
-                        />
+                                        </tr>
+                                    ) : (
+                                        filtered.map((r, i) => (
+                                            <motion.tr
+                                                key={r.id}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: i * 0.05 }}
+                                            >
+                                                <td>
+                                                    <b>{r.id}</b>
+                                                </td>
+                                                <td>{r.type}</td>
+                                                <td>{r.distance.toLocaleString()} km</td>
+                                                <td style={{ color: '#DC2626', fontWeight: 800 }}>
+                                                    ${r.fuelCost.toFixed(2)}
+                                                </td>
+                                                <td style={{ color: '#059669', fontWeight: 800 }}>
+                                                    ${r.revenue.toFixed(2)}
+                                                </td>
+                                                <td>{r.idleTime.toFixed(1)}</td>
+                                                <td>
+                                                    <Badge variant={scoreVariant(r.score)}>
+                                                        {r.score}
+                                                    </Badge>
+                                                </td>
+                                                <td style={{ textAlign: 'center' }}>
+                                                    <div
+                                                        className="actions-col"
+                                                        style={{ justifyContent: 'center' }}
+                                                    >
+                                                        <button
+                                                            className="act-btn act-view"
+                                                            title="View Details"
+                                                            onClick={() => setViewRecord(r)}
+                                                        >
+                                                            <Eye size={18} className="ms" />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </motion.tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                            <Pagination
+                                info={`Showing ${filtered.length} of ${records.length} performance records`}
+                                pages={[1, 2, 3]}
+                                current={1}
+                            />
                         </div>
                     </motion.div>
                 </motion.div>
@@ -831,7 +893,6 @@ const performanceData = [
     { name: 'Sun', revenue: 3490, distance: 4300 },
 ];
 
-
 const safetyRankings = [
     { id: 'DRV-1042', name: 'Raj Kumar', incidents: 0, score: 98, status: 'Excellent' },
     { id: 'DRV-0921', name: 'Amit Singh', incidents: 1, score: 92, status: 'Good' },
@@ -843,10 +904,27 @@ const AdvancedReportView = () => {
     return (
         <motion.div variants={containerVariants} initial="hidden" animate="show">
             {/* ── Toolbar ── */}
-            <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', background: 'white', padding: '16px 20px', borderRadius: 12, marginBottom: 24, border: '1px solid var(--border)' }}>
+            <div
+                className="toolbar"
+                style={{
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    background: 'white',
+                    padding: '16px 20px',
+                    borderRadius: 12,
+                    marginBottom: 24,
+                    border: '1px solid var(--border)',
+                }}
+            >
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Deep Operational Analytics</h2>
-                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>Advanced data modeling for driver behavior and efficiency.</p>
+                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                        Deep Operational Analytics
+                    </h2>
+                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+                        Advanced data modeling for driver behavior and efficiency.
+                    </p>
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-secondary px-4 py-2 flex items-center gap-2">
@@ -889,11 +967,7 @@ const AdvancedReportView = () => {
                         tc: 'trend-up',
                     },
                 ].map((s, i) => (
-                    <motion.div
-                        key={i}
-                        variants={itemVariants}
-                        className="stat-card"
-                    >
+                    <motion.div key={i} variants={itemVariants} className="stat-card">
                         <div className="stat-icon" style={{ background: s.bg }}>
                             <div style={{ color: s.color }}>
                                 <s.icon size={22} strokeWidth={2.5} />
@@ -926,8 +1000,12 @@ const AdvancedReportView = () => {
                             </p>
                         </div>
                         <div className="flex gap-2 text-xs font-bold text-slate-500">
-                            <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-purple-500" /> Revenue</span>
-                            <span className="flex items-center gap-1"><div className="w-4 h-1 bg-emerald-500" /> Distance</span>
+                            <span className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-purple-500" /> Revenue
+                            </span>
+                            <span className="flex items-center gap-1">
+                                <div className="w-4 h-1 bg-emerald-500" /> Distance
+                            </span>
                         </div>
                     </div>
                     <div className="flex-1 min-h-0 w-full">
@@ -996,7 +1074,6 @@ const AdvancedReportView = () => {
                     </div>
                 </motion.div>
 
-
                 {/* Chart 2: Driver Safety Radar Chart */}
                 <motion.div
                     variants={itemVariants}
@@ -1030,7 +1107,12 @@ const AdvancedReportView = () => {
                                     dataKey="metric"
                                     tick={{ fill: '#64748B', fontSize: 12, fontWeight: 600 }}
                                 />
-                                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                                <PolarRadiusAxis
+                                    angle={30}
+                                    domain={[0, 100]}
+                                    tick={false}
+                                    axisLine={false}
+                                />
                                 <Radar
                                     name="Fleet Average"
                                     dataKey="value"
@@ -1052,14 +1134,14 @@ const AdvancedReportView = () => {
             </div>
 
             {/* ── DRIVER SAFETY TABLE ── */}
-             <motion.div
-                 variants={itemVariants}
-                 layout
-                 className="table-card table-scroll-wrapper"
-             >
+            <motion.div variants={itemVariants} layout className="table-card table-scroll-wrapper">
                 <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
-                    <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Driver Safety Rankings</h3>
-                    <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Bottom performers identified for target training.</p>
+                    <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                        Driver Safety Rankings
+                    </h3>
+                    <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>
+                        Bottom performers identified for target training.
+                    </p>
                 </div>
                 <table className="data-table">
                     <thead>
@@ -1074,25 +1156,57 @@ const AdvancedReportView = () => {
                     <tbody>
                         {safetyRankings.map((driver, i) => (
                             <tr key={i}>
-                                <td><b>{driver.id}</b></td>
+                                <td>
+                                    <b>{driver.id}</b>
+                                </td>
                                 <td>{driver.name}</td>
                                 <td>{driver.incidents}</td>
                                 <td>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                        <div style={{ flex: 1, height: 6, background: '#E2E8F0', borderRadius: 3, overflow: 'hidden' }}>
+                                        <div
+                                            style={{
+                                                flex: 1,
+                                                height: 6,
+                                                background: '#E2E8F0',
+                                                borderRadius: 3,
+                                                overflow: 'hidden',
+                                            }}
+                                        >
                                             <div
                                                 style={{
                                                     height: '100%',
                                                     width: `${driver.score}%`,
-                                                    background: driver.score > 90 ? '#10B981' : driver.score > 80 ? '#F59E0B' : '#EF4444',
+                                                    background:
+                                                        driver.score > 90
+                                                            ? '#10B981'
+                                                            : driver.score > 80
+                                                              ? '#F59E0B'
+                                                              : '#EF4444',
                                                 }}
                                             />
                                         </div>
-                                        <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text)', minWidth: 24 }}>{driver.score}</span>
+                                        <span
+                                            style={{
+                                                fontSize: 13,
+                                                fontWeight: 800,
+                                                color: 'var(--text)',
+                                                minWidth: 24,
+                                            }}
+                                        >
+                                            {driver.score}
+                                        </span>
                                     </div>
                                 </td>
                                 <td>
-                                    <Badge variant={driver.score > 90 ? 'blue' : driver.score > 80 ? 'orange' : 'red'}>
+                                    <Badge
+                                        variant={
+                                            driver.score > 90
+                                                ? 'blue'
+                                                : driver.score > 80
+                                                  ? 'orange'
+                                                  : 'red'
+                                        }
+                                    >
                                         {driver.status}
                                     </Badge>
                                 </td>
@@ -1138,12 +1252,34 @@ const complianceDocs = [
 
 const ComplianceReportView = () => {
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col h-full gap-6">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col h-full gap-6"
+        >
             {/* ── Toolbar ── */}
-            <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', background: 'white', padding: '16px 20px', borderRadius: 12, marginBottom: 24, border: '1px solid var(--border)' }}>
+            <div
+                className="toolbar"
+                style={{
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    background: 'white',
+                    padding: '16px 20px',
+                    borderRadius: 12,
+                    marginBottom: 24,
+                    border: '1px solid var(--border)',
+                }}
+            >
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Statutory Compliance</h2>
-                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>Monitoring vehicle fitness, insurance, and permit validity.</p>
+                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                        Statutory Compliance
+                    </h2>
+                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+                        Monitoring vehicle fitness, insurance, and permit validity.
+                    </p>
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-secondary px-4 py-2 flex items-center gap-2">
@@ -1155,18 +1291,10 @@ const ComplianceReportView = () => {
             {/* ── OVERVIEW CARDS ── */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                 {complianceDocs.map((doc, i) => (
-                    <motion.div
-                        key={i}
-                        variants={itemVariants}
-                        layout
-                        className="stat-card"
-                    >
+                    <motion.div key={i} variants={itemVariants} layout className="stat-card">
                         <div className="flex flex-col w-full">
                             <div className="flex items-center gap-4 mb-4">
-                                <div
-                                    className="stat-icon"
-                                    style={{ background: `${doc.color}15` }}
-                                >
+                                <div className="stat-icon" style={{ background: `${doc.color}15` }}>
                                     <div style={{ color: doc.color }}>
                                         <FileText size={20} strokeWidth={2.5} />
                                     </div>
@@ -1189,14 +1317,26 @@ const ComplianceReportView = () => {
                                 />
                             </div>
                             <div className="flex justify-between text-[10px] font-bold">
-                                <span className="flex items-center gap-1" style={{ color: '#10B981' }}>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> {doc.valid} Valid
+                                <span
+                                    className="flex items-center gap-1"
+                                    style={{ color: '#10B981' }}
+                                >
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />{' '}
+                                    {doc.valid} Valid
                                 </span>
-                                <span className="flex items-center gap-1" style={{ color: '#F59E0B' }}>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500" /> {doc.expiring} Exp
+                                <span
+                                    className="flex items-center gap-1"
+                                    style={{ color: '#F59E0B' }}
+                                >
+                                    <div className="w-1.5 h-1.5 rounded-full bg-amber-500" />{' '}
+                                    {doc.expiring} Exp
                                 </span>
-                                <span className="flex items-center gap-1" style={{ color: '#EF4444' }}>
-                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500" /> {doc.expired} Exp
+                                <span
+                                    className="flex items-center gap-1"
+                                    style={{ color: '#EF4444' }}
+                                >
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500" />{' '}
+                                    {doc.expired} Exp
                                 </span>
                             </div>
                         </div>
@@ -1208,9 +1348,26 @@ const ComplianceReportView = () => {
             <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-6 flex-1 min-h-0 overflow-hidden">
                 {/* ── DETAILED TABLE ── */}
                 <div className="table-card table-scroll-wrapper flex-1">
-                    <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', background: 'var(--surface)' }}>
-                        <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Statutory Document Tracking</h3>
-                        <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Mandatory vehicle and driver documentation status.</p>
+                    <div
+                        style={{
+                            padding: '20px 24px',
+                            borderBottom: '1px solid var(--border)',
+                            background: 'var(--surface)',
+                        }}
+                    >
+                        <h3
+                            style={{
+                                fontSize: 16,
+                                fontWeight: 900,
+                                color: 'var(--text)',
+                                margin: 0,
+                            }}
+                        >
+                            Statutory Document Tracking
+                        </h3>
+                        <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>
+                            Mandatory vehicle and driver documentation status.
+                        </p>
                     </div>
                     <div className="flex-1 overflow-auto">
                         <table className="data-table" style={{ minWidth: 850 }}>
@@ -1276,20 +1433,38 @@ const ComplianceReportView = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            <span className="text-slate-600 font-bold text-xs">{v.ins}</span>
+                                            <span className="text-slate-600 font-bold text-xs">
+                                                {v.ins}
+                                            </span>
                                         </td>
                                         <td>
-                                            <Badge variant={v.pol === 'Expiring' ? 'orange' : v.pol === 'Expired' ? 'red' : 'green'}>
+                                            <Badge
+                                                variant={
+                                                    v.pol === 'Expiring'
+                                                        ? 'orange'
+                                                        : v.pol === 'Expired'
+                                                          ? 'red'
+                                                          : 'green'
+                                                }
+                                            >
                                                 {v.pol === 'Valid' ? 'Valid' : v.pol}
                                             </Badge>
                                         </td>
                                         <td>
-                                            <Badge variant={v.fit === 'Expired' ? 'red' : 'green'}>{v.fit}</Badge>
+                                            <Badge variant={v.fit === 'Expired' ? 'red' : 'green'}>
+                                                {v.fit}
+                                            </Badge>
                                         </td>
                                         <td style={{ paddingRight: 24 }}>
                                             <div className="flex items-center gap-2">
-                                                <Badge variant={v.per === 'Expired' ? 'red' : 'blue'}>{v.per}</Badge>
-                                                <span className="text-[10px] text-slate-400 font-black uppercase">{v.perDate}</span>
+                                                <Badge
+                                                    variant={v.per === 'Expired' ? 'red' : 'blue'}
+                                                >
+                                                    {v.per}
+                                                </Badge>
+                                                <span className="text-[10px] text-slate-400 font-black uppercase">
+                                                    {v.perDate}
+                                                </span>
                                             </div>
                                         </td>
                                     </tr>
@@ -1299,44 +1474,111 @@ const ComplianceReportView = () => {
                     </div>
                 </div>
 
-                <div className="white-card flex flex-col h-full overflow-hidden" style={{ padding: 0 }}>
+                <div
+                    className="white-card flex flex-col h-full overflow-hidden"
+                    style={{ padding: 0 }}
+                >
                     <div className="modal-head" style={{ background: 'var(--surface)' }}>
                         <div>
-                            <h3 style={{ fontSize: 14, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                            <h3
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: 900,
+                                    color: 'var(--text)',
+                                    margin: 0,
+                                }}
+                            >
                                 Action Center
                             </h3>
-                            <p style={{ fontSize: 10, fontWeight: 800, color: 'var(--muted)', mt: 1, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                            <p
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    color: 'var(--muted)',
+                                    marginTop: 4,
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.07em',
+                                }}
+                            >
                                 Critical Renewals
                             </p>
                         </div>
-                        <div style={{ width: 36, height: 36, borderRadius: 10, background: '#FEE2E2', color: '#DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div
+                            style={{
+                                width: 36,
+                                height: 36,
+                                borderRadius: 10,
+                                background: '#FEE2E2',
+                                color: '#DC2626',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}
+                        >
                             <Bell size={18} strokeWidth={2.5} className="animate-pulse" />
                         </div>
                     </div>
                     <div className="p-4 flex-1 overflow-y-auto custom-scrollbar">
                         <div className="flex flex-col gap-3">
                             {[
-                                { vh: 'VH-4022', doc: 'Fitness Certificate', status: 'Expired', days: -12, priority: 'High' },
-                                { vh: 'VH-4023', doc: 'Pollution (PUC)', status: 'Expiring', days: 5, priority: 'Medium' },
-                                { vh: 'VH-4109', doc: 'Insurance Policy', status: 'Expiring', days: 8, priority: 'Medium' },
-                                { vh: 'VH-3984', doc: 'National Permit', status: 'Expiring', days: 14, priority: 'Low' },
+                                {
+                                    vh: 'VH-4022',
+                                    doc: 'Fitness Certificate',
+                                    status: 'Expired',
+                                    days: -12,
+                                    priority: 'High',
+                                },
+                                {
+                                    vh: 'VH-4023',
+                                    doc: 'Pollution (PUC)',
+                                    status: 'Expiring',
+                                    days: 5,
+                                    priority: 'Medium',
+                                },
+                                {
+                                    vh: 'VH-4109',
+                                    doc: 'Insurance Policy',
+                                    status: 'Expiring',
+                                    days: 8,
+                                    priority: 'Medium',
+                                },
+                                {
+                                    vh: 'VH-3984',
+                                    doc: 'National Permit',
+                                    status: 'Expiring',
+                                    days: 14,
+                                    priority: 'Low',
+                                },
                             ].map((action, i) => (
-                                <div key={i} className="p-4 rounded-xl border border-slate-100 bg-slate-50/30 hover:bg-white hover:border-red-100 transition-all duration-200">
+                                <div
+                                    key={i}
+                                    className="p-4 rounded-xl border border-slate-100 bg-slate-50/30 hover:bg-white hover:border-red-100 transition-all duration-200"
+                                >
                                     <div className="flex justify-between items-start mb-3">
                                         <div className="flex items-center gap-2.5">
-                                            <div className={`w-1.5 h-1.5 rounded-full ${action.status === 'Expired' ? 'bg-red-500' : 'bg-amber-400'} shadow-sm`} />
+                                            <div
+                                                className={`w-1.5 h-1.5 rounded-full ${action.status === 'Expired' ? 'bg-red-500' : 'bg-amber-400'} shadow-sm`}
+                                            />
                                             <div>
-                                                <div className="text-xs font-black text-slate-900">{action.vh}</div>
-                                                <div className="text-[10px] font-bold text-slate-500 mt-0.5">{action.doc}</div>
+                                                <div className="text-xs font-black text-slate-900">
+                                                    {action.vh}
+                                                </div>
+                                                <div className="text-[10px] font-bold text-slate-500 mt-0.5">
+                                                    {action.doc}
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className={`text-[10px] font-black px-2 py-0.5 rounded-full ${action.status === 'Expired' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-700'}`}>
+                                        <div
+                                            className={`text-[10px] font-black px-2 py-0.5 rounded-full ${action.status === 'Expired' ? 'bg-red-50 text-red-600' : 'bg-amber-50 text-amber-700'}`}
+                                        >
                                             {action.status.toUpperCase()}
                                         </div>
                                     </div>
                                     <div className="flex items-center justify-between">
                                         <span className="text-[10px] font-bold text-slate-400">
-                                            {action.days < 0 ? `${Math.abs(action.days)} days ago` : `Due in ${action.days} days`}
+                                            {action.days < 0
+                                                ? `${Math.abs(action.days)} days ago`
+                                                : `Due in ${action.days} days`}
                                         </span>
                                         <button className="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">
                                             Notify
@@ -1369,7 +1611,11 @@ const CustomizableReportView = () => {
         { name: 'Statutory', columns: ['Insurance Exp', 'PUC Exp', 'Fitness Exp', 'Permit Type'] },
     ];
 
-    const [selectedFields, setSelectedFields] = useState<string[]>(['Vehicle ID', 'Status', 'Make']);
+    const [selectedFields, setSelectedFields] = useState<string[]>([
+        'Vehicle ID',
+        'Status',
+        'Make',
+    ]);
 
     const handleCheckboxChange = (col: string) => {
         setSelectedFields((prev) =>
@@ -1379,18 +1625,61 @@ const CustomizableReportView = () => {
 
     // Mock data for preview
     const previewData = [
-        { 'Vehicle ID': 'VH-4021', 'Engine No': 'ENG1234', 'Make': 'Tata', 'Status': 'Active', 'Odometer': '45,200 km', 'Insurance Exp': '24 Dec 2026' },
-        { 'Vehicle ID': 'VH-4022', 'Engine No': 'ENG5678', 'Make': 'Ashok Leyland', 'Status': 'Idle', 'Odometer': '12,450 km', 'Insurance Exp': '12 Nov 2025' },
-        { 'Vehicle ID': 'VH-4023', 'Engine No': 'ENG9012', 'Make': 'Mahindra', 'Status': 'Maintenance', 'Odometer': '89,100 km', 'Insurance Exp': '05 Jan 2026' },
+        {
+            'Vehicle ID': 'VH-4021',
+            'Engine No': 'ENG1234',
+            Make: 'Tata',
+            Status: 'Active',
+            Odometer: '45,200 km',
+            'Insurance Exp': '24 Dec 2026',
+        },
+        {
+            'Vehicle ID': 'VH-4022',
+            'Engine No': 'ENG5678',
+            Make: 'Ashok Leyland',
+            Status: 'Idle',
+            Odometer: '12,450 km',
+            'Insurance Exp': '12 Nov 2025',
+        },
+        {
+            'Vehicle ID': 'VH-4023',
+            'Engine No': 'ENG9012',
+            Make: 'Mahindra',
+            Status: 'Maintenance',
+            Odometer: '89,100 km',
+            'Insurance Exp': '05 Jan 2026',
+        },
     ];
 
     return (
-        <motion.div variants={containerVariants} initial="hidden" animate="show" className="flex flex-col h-full gap-6 overflow-hidden">
+        <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="show"
+            className="flex flex-col h-full gap-6 overflow-hidden"
+        >
             {/* ── Toolbar ── */}
-            <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', background: 'white', padding: '16px 20px', borderRadius: 12, marginBottom: 24, border: '1px solid var(--border)' }}>
+            <div
+                className="toolbar"
+                style={{
+                    display: 'flex',
+                    gap: 10,
+                    alignItems: 'center',
+                    flexWrap: 'wrap',
+                    background: 'white',
+                    padding: '16px 20px',
+                    borderRadius: 12,
+                    marginBottom: 24,
+                    border: '1px solid var(--border)',
+                }}
+            >
                 <div style={{ flex: 1 }}>
-                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Report Builder</h2>
-                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>Select operational data points and extract custom reports.</p>
+                    <h2 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>
+                        Report Builder
+                    </h2>
+                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: 0 }}>
+                        Select operational data points and extract custom reports.
+                    </p>
                 </div>
                 <div className="header-actions">
                     <button className="btn btn-secondary px-4 py-2 flex items-center gap-2">
@@ -1423,11 +1712,13 @@ const CustomizableReportView = () => {
                                                         : 'hover:bg-white text-slate-600'
                                                 }`}
                                             >
-                                                <div className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
-                                                    selectedFields.includes(col) 
-                                                    ? 'bg-primary border-primary' 
-                                                    : 'bg-white border-slate-300 group-hover:border-primary/50'
-                                                }`}>
+                                                <div
+                                                    className={`w-4 h-4 rounded border flex items-center justify-center transition-all ${
+                                                        selectedFields.includes(col)
+                                                            ? 'bg-primary border-primary'
+                                                            : 'bg-white border-slate-300 group-hover:border-primary/50'
+                                                    }`}
+                                                >
                                                     <input
                                                         type="checkbox"
                                                         checked={selectedFields.includes(col)}
@@ -1435,7 +1726,11 @@ const CustomizableReportView = () => {
                                                         className="hidden"
                                                     />
                                                     {selectedFields.includes(col) && (
-                                                        <CheckCircle2 size={10} className="text-white" strokeWidth={4} />
+                                                        <CheckCircle2
+                                                            size={10}
+                                                            className="text-white"
+                                                            strokeWidth={4}
+                                                        />
                                                     )}
                                                 </div>
                                                 <span className="text-[13px] font-bold">{col}</span>
@@ -1453,7 +1748,7 @@ const CustomizableReportView = () => {
                             <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:opacity-20 transition-opacity">
                                 <FileText size={80} />
                             </div>
-                            
+
                             <h4 className="text-[10px] font-black uppercase tracking-widest mb-8 text-white relative z-10">
                                 Export Configuration
                             </h4>
@@ -1469,7 +1764,10 @@ const CustomizableReportView = () => {
                                         <option>Full Financial Year</option>
                                         <option>Custom Epoch Range</option>
                                     </select>
-                                    <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none" />
+                                    <ChevronDown
+                                        size={14}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 pointer-events-none"
+                                    />
                                 </div>
                             </div>
 
@@ -1478,13 +1776,13 @@ const CustomizableReportView = () => {
                                     Output Format
                                 </label>
                                 <div className="grid grid-cols-3 gap-2.5">
-                                    {['CSV', 'Excel', 'PDF'].map(fmt => (
-                                        <div 
+                                    {['CSV', 'Excel', 'PDF'].map((fmt) => (
+                                        <div
                                             key={fmt}
                                             className={`py-3.5 rounded-xl text-center text-[11px] font-black cursor-pointer transition-all border-2 ${
-                                                fmt === 'Excel' 
-                                                ? 'bg-primary border-primary text-white shadow-lg shadow-primary/30' 
-                                                : 'bg-slate-800/50 border-slate-700/50 text-white/60 hover:bg-slate-700 hover:text-white'
+                                                fmt === 'Excel'
+                                                    ? 'bg-primary border-primary text-white shadow-lg shadow-primary/30'
+                                                    : 'bg-slate-800/50 border-slate-700/50 text-white/60 hover:bg-slate-700 hover:text-white'
                                             }`}
                                         >
                                             {fmt}
@@ -1500,9 +1798,12 @@ const CustomizableReportView = () => {
                                     <AlertCircle size={18} />
                                 </div>
                                 <div className="flex-1">
-                                    <h5 className="text-[13px] font-black text-blue-900 mb-1">Optimizer Tip</h5>
+                                    <h5 className="text-[13px] font-black text-blue-900 mb-1">
+                                        Optimizer Tip
+                                    </h5>
                                     <p className="text-[11.5px] font-bold text-blue-800/70 leading-relaxed">
-                                        Dynamic selection across 10+ columns may impact processing speed. For faster extracts, use indexed fields.
+                                        Dynamic selection across 10+ columns may impact processing
+                                        speed. For faster extracts, use indexed fields.
                                     </p>
                                 </div>
                             </div>
@@ -1513,15 +1814,30 @@ const CustomizableReportView = () => {
 
             {/* ── LIVE PREVIEW TABLE ── */}
             <motion.div variants={itemVariants} className="table-card table-scroll-wrapper flex-1">
-                <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border)', background: 'var(--surface)' }}>
+                <div
+                    style={{
+                        padding: '20px 24px',
+                        borderBottom: '1px solid var(--border)',
+                        background: 'var(--surface)',
+                    }}
+                >
                     <div className="flex justify-between items-center">
                         <div>
-                            <h3 style={{ fontSize: 16, fontWeight: 900, color: 'var(--text)', margin: 0 }}>Live Data Preview</h3>
-                            <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>Validating first 3 records against selected schema.</p>
+                            <h3
+                                style={{
+                                    fontSize: 16,
+                                    fontWeight: 900,
+                                    color: 'var(--text)',
+                                    margin: 0,
+                                }}
+                            >
+                                Live Data Preview
+                            </h3>
+                            <p style={{ fontSize: 13, color: 'var(--muted)', marginTop: 4 }}>
+                                Validating first 3 records against selected schema.
+                            </p>
                         </div>
-                        <div className="badge badge-slate">
-                            Preview Only
-                        </div>
+                        <div className="badge badge-slate">Preview Only</div>
                     </div>
                 </div>
                 <div className="flex-1 overflow-auto p-4">
@@ -1537,16 +1853,29 @@ const CustomizableReportView = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {previewData.map((row: any, idx) => (
-                                    <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
+                                {previewData.map((row: Record<string, string | number>, idx) => (
+                                    <tr
+                                        key={idx}
+                                        className="hover:bg-slate-50/50 transition-colors"
+                                    >
                                         {selectedFields.map((field) => (
                                             <td key={field}>
                                                 {field === 'Status' ? (
-                                                    <Badge variant={row[field] === 'Active' ? 'green' : row[field] === 'Idle' ? 'orange' : 'red'}>
+                                                    <Badge
+                                                        variant={
+                                                            row[field] === 'Active'
+                                                                ? 'green'
+                                                                : row[field] === 'Idle'
+                                                                  ? 'orange'
+                                                                  : 'red'
+                                                        }
+                                                    >
                                                         {row[field]}
                                                     </Badge>
                                                 ) : row[field] ? (
-                                                    <span className="font-medium text-slate-700">{row[field]}</span>
+                                                    <span className="font-medium text-slate-700">
+                                                        {row[field]}
+                                                    </span>
                                                 ) : (
                                                     <span className="text-slate-300 italic font-medium">
                                                         Not Selected
@@ -1563,9 +1892,12 @@ const CustomizableReportView = () => {
                             <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6 border-2 border-dashed border-slate-200">
                                 <Search size={32} className="text-slate-200" />
                             </div>
-                            <h4 className="text-lg font-black text-slate-800 mb-2">Build Your Preview</h4>
+                            <h4 className="text-lg font-black text-slate-800 mb-2">
+                                Build Your Preview
+                            </h4>
                             <p className="max-w-[320px] text-sm font-medium leading-relaxed">
-                                Select data categories above to generate a real-time preview of your report structure.
+                                Select data categories above to generate a real-time preview of your
+                                report structure.
                             </p>
                         </div>
                     )}
@@ -1652,7 +1984,9 @@ export const ReportsPage = () => {
                                     onClick={() => navigate(`/reports/${t.id}`)}
                                     className={`group bg-white border border-slate-200 rounded-3xl p-6 cursor-pointer transition-all duration-300 hover:-translate-y-1.5 shadow-sm hover:shadow-xl ${t.hoverBorderClass} flex flex-col items-center gap-3 text-center justify-center min-h-[160px] relative`}
                                 >
-                                    <div className={`absolute inset-0 rounded-3xl transition-shadow duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${t.hoverShadowClass}`} />
+                                    <div
+                                        className={`absolute inset-0 rounded-3xl transition-shadow duration-300 opacity-0 group-hover:opacity-100 pointer-events-none ${t.hoverShadowClass}`}
+                                    />
                                     <div
                                         className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 relative z-10 ${t.bgClass}`}
                                     >
@@ -1684,7 +2018,10 @@ export const ReportsPage = () => {
                         Intelligence & Reports
                     </div>
                     <div className="breadcrumb">
-                        Admin <span>/</span> <span style={{ cursor: 'pointer' }} onClick={() => navigate('/reports')}>Reports</span>
+                        Admin <span>/</span>{' '}
+                        <span style={{ cursor: 'pointer' }} onClick={() => navigate('/reports')}>
+                            Reports
+                        </span>
                         {activeTab && (
                             <>
                                 <span>/</span>
@@ -1695,10 +2032,7 @@ export const ReportsPage = () => {
                 </div>
                 <div className="header-actions">
                     {activeTab && (
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate('/reports')}
-                        >
+                        <button className="btn btn-secondary" onClick={() => navigate('/reports')}>
                             <ChevronLeft size={16} /> Back to Selection
                         </button>
                     )}
@@ -1706,12 +2040,9 @@ export const ReportsPage = () => {
             </div>
 
             {/* ── Page Body ── */}
-            <div className="page-body">
-                {renderContent()}
-            </div>
+            <div className="page-body">{renderContent()}</div>
         </>
     );
 };
 
 export default ReportsPage;
-

@@ -1,4 +1,21 @@
-import { ChevronDown, X, LayoutGrid, Flag, Shield, User, MessageSquare, AlertCircle, Trash2, Download, Star, CheckCircle2, Search, SearchX, Eye, Reply } from 'lucide-react';
+import {
+    ChevronDown,
+    X,
+    LayoutGrid,
+    Flag,
+    Shield,
+    User,
+    MessageSquare,
+    AlertCircle,
+    Trash2,
+    Download,
+    Star,
+    CheckCircle2,
+    Search,
+    SearchX,
+    Eye,
+    Reply,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -97,9 +114,7 @@ const ViewOverlay = ({
                             {entry.name}
                         </div>
                         <div className="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
-                            <span className="text-xs text-white/70 font-bold">
-                                #{entry.id}
-                            </span>
+                            <span className="text-xs text-white/70 font-bold">#{entry.id}</span>
                             <Badge variant={isComplaint ? 'red' : 'green'}>
                                 {isComplaint ? 'Complaint' : 'Feedback'}
                             </Badge>
@@ -180,22 +195,40 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                    {s.icon === LayoutGrid && <LayoutGrid size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon === Flag && <Flag size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon === Shield && <Shield size={20} color={s.ic} style={{ marginBottom: 4, display: 'block' }} />}
-                                    {s.icon !== LayoutGrid && s.icon !== Flag && s.icon !== Shield && (
-                                        <span
-                                            className="material-symbols-outlined"
-                                            style={{
-                                                fontSize: 20,
-                                                color: s.ic,
-                                                marginBottom: 4,
-                                                display: 'block',
-                                            }}
-                                        >
-                                            {s.icon as any}
-                                        </span>
-                                    )}
+                                {s.icon === LayoutGrid && (
+                                    <LayoutGrid
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon === Flag && (
+                                    <Flag
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon === Shield && (
+                                    <Shield
+                                        size={20}
+                                        color={s.ic}
+                                        style={{ marginBottom: 4, display: 'block' }}
+                                    />
+                                )}
+                                {s.icon !== LayoutGrid && s.icon !== Flag && s.icon !== Shield && (
+                                    <span
+                                        className="material-symbols-outlined"
+                                        style={{
+                                            fontSize: 20,
+                                            color: s.ic,
+                                            marginBottom: 4,
+                                            display: 'block',
+                                        }}
+                                    >
+                                        {s.icon as string}
+                                    </span>
+                                )}
                                 <div
                                     style={{
                                         fontSize: 12,
@@ -239,7 +272,9 @@ const ViewOverlay = ({
                         <User size={16} />
                         Contact Info
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8"> toxicology: feedback-responsive-field-grid
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
+                        {' '}
+                        toxicology: feedback-responsive-field-grid
                         <Field label="Email" value={entry.email} />
                         <Field label="Phone" value={entry.phone} />
                         <Field label="Date Submitted" value={entry.date} />
@@ -572,8 +607,8 @@ export const FeedbacksPage = () => {
     const [entries, setEntries] = useState<FeedbackEntry[]>(INITIAL_FEEDBACKS);
     const [search, setSearch] = useState('');
     const [activeTab, setActiveTab] = useState<FeedbackTab>('all');
-    const [statusFilter, setStatusFilter] = useState('All');
-    const [priorityFilter, setPriorityFilter] = useState('All');
+    const [statusFilter, setStatusFilter] = useState<FeedbackEntry['status'] | 'All'>('All');
+    const [priorityFilter, setPriorityFilter] = useState<FeedbackEntry['priority'] | 'All'>('All');
     const [viewEntry, setViewEntry] = useState<{
         entry: FeedbackEntry;
         idx: number;
@@ -712,10 +747,12 @@ export const FeedbacksPage = () => {
                     ].map((s) => (
                         <div key={s.label} className="stat-card">
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                    {s.icon === Star && <Star size={24} color={s.ic} />}
-                                    {s.icon === MessageSquare && <MessageSquare size={24} color={s.ic} />}
-                                    {s.icon === Flag && <Flag size={24} color={s.ic} />}
-                                    {s.icon === CheckCircle2 && <CheckCircle2 size={24} color={s.ic} />}
+                                {s.icon === Star && <Star size={24} color={s.ic} />}
+                                {s.icon === MessageSquare && (
+                                    <MessageSquare size={24} color={s.ic} />
+                                )}
+                                {s.icon === Flag && <Flag size={24} color={s.ic} />}
+                                {s.icon === CheckCircle2 && <CheckCircle2 size={24} color={s.ic} />}
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -727,7 +764,10 @@ export const FeedbacksPage = () => {
                 </div>
 
                 {/* ── Search + filter bar ── */}
-                <div className="toolbar" style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <div
+                    className="toolbar"
+                    style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}
+                >
                     {/* Search */}
                     <div style={{ position: 'relative', flex: 1, minWidth: 240 }}>
                         <Search
@@ -775,7 +815,7 @@ export const FeedbacksPage = () => {
                             style={{ width: '100%', paddingRight: 32 }}
                             value={statusFilter}
                             onChange={(e) => {
-                                setStatusFilter(e.target.value);
+                                setStatusFilter(e.target.value as FeedbackEntry['status'] | 'All');
                                 setPage(1);
                             }}
                         >
@@ -805,7 +845,9 @@ export const FeedbacksPage = () => {
                             style={{ width: '100%', paddingRight: 32 }}
                             value={priorityFilter}
                             onChange={(e) => {
-                                setPriorityFilter(e.target.value);
+                                setPriorityFilter(
+                                    e.target.value as FeedbackEntry['priority'] | 'All'
+                                );
                                 setPage(1);
                             }}
                         >
@@ -864,7 +906,7 @@ export const FeedbacksPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No{' '}
@@ -1018,7 +1060,10 @@ export const FeedbacksPage = () => {
                                                                         )
                                                                     }
                                                                 >
-                                                                    <CheckCircle2 size={16} className="ms" />
+                                                                    <CheckCircle2
+                                                                        size={16}
+                                                                        className="ms"
+                                                                    />
                                                                 </button>
                                                             )}
                                                         <button

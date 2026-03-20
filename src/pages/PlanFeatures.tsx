@@ -1,4 +1,18 @@
-import { StickyNote, X, ChevronDown, Search, SearchX, Plus, Eye, Edit, Trash2, CheckCircle2, CreditCard, LayoutGrid, AlertCircle } from 'lucide-react';
+import {
+    StickyNote,
+    X,
+    ChevronDown,
+    Search,
+    SearchX,
+    Plus,
+    Eye,
+    Edit,
+    Trash2,
+    CheckCircle2,
+    CreditCard,
+    LayoutGrid,
+    AlertCircle,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Pagination } from '../ui/index';
@@ -14,104 +28,216 @@ type Feature = {
 };
 
 const DUMMY_FEATURES: Feature[] = [
-    { id: '1', name: 'Real-time GPS Tracking', code: 'GPS-001', category: 'Fleet Management', status: 'Active', description: 'Track vehicles in real-time with high precision.' },
-    { id: '2', name: 'Battery Usage Report', code: 'BAT-002', category: 'Reports & Analytics', status: 'Active', description: 'Monitor battery levels and consumption trends.' },
-    { id: '3', name: 'Geofencing Alerts', code: 'GEO-003', category: 'Safety & Security', status: 'Active', description: 'Get notified when devices enter or exit zones.' },
-    { id: '4', name: 'Employee Panic Button', code: 'PAN-004', category: 'Staff Management', status: 'Active', description: 'Emergency SOS alerts for field staff.' },
-    { id: '5', name: 'Maintenance Log', code: 'MNT-005', category: 'Fleet Management', status: 'Inactive', description: 'Keep track of device servicing and repairs.' },
+    {
+        id: '1',
+        name: 'Real-time GPS Tracking',
+        code: 'GPS-001',
+        category: 'Fleet Management',
+        status: 'Active',
+        description: 'Track vehicles in real-time with high precision.',
+    },
+    {
+        id: '2',
+        name: 'Battery Usage Report',
+        code: 'BAT-002',
+        category: 'Reports & Analytics',
+        status: 'Active',
+        description: 'Monitor battery levels and consumption trends.',
+    },
+    {
+        id: '3',
+        name: 'Geofencing Alerts',
+        code: 'GEO-003',
+        category: 'Safety & Security',
+        status: 'Active',
+        description: 'Get notified when devices enter or exit zones.',
+    },
+    {
+        id: '4',
+        name: 'Employee Panic Button',
+        code: 'PAN-004',
+        category: 'Staff Management',
+        status: 'Active',
+        description: 'Emergency SOS alerts for field staff.',
+    },
+    {
+        id: '5',
+        name: 'Maintenance Log',
+        code: 'MNT-005',
+        category: 'Fleet Management',
+        status: 'Inactive',
+        description: 'Keep track of device servicing and repairs.',
+    },
 ];
 
 const getStatusVariant = (status: string) => {
     switch (status) {
-        case 'Active': return 'green';
-        case 'Inactive': return 'slate';
-        default: return 'amber';
+        case 'Active':
+            return 'green';
+        case 'Inactive':
+            return 'slate';
+        default:
+            return 'amber';
     }
 };
 
 /* ── VIEW DETAIL OVERLAY ── */
 const ViewOverlay = ({ feature, onClose }: { feature: Feature; onClose: () => void }) => {
     return (
-        <div style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 1000,
-            background: 'rgba(0,0,0,.45)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 24,
-        }} onClick={onClose}>
-            <div style={{
-                background: 'white',
-                borderRadius: 16,
-                width: '100%',
-                maxWidth: 480,
-                maxHeight: '90vh',
-                overflow: 'auto',
-                boxShadow: '0 20px 60px rgba(0,0,0,.15)',
-            }} onClick={e => e.stopPropagation()}>
+        <div
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 1000,
+                background: 'rgba(0,0,0,.45)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 24,
+            }}
+            onClick={onClose}
+        >
+            <div
+                style={{
+                    background: 'white',
+                    borderRadius: 16,
+                    width: '100%',
+                    maxWidth: 480,
+                    maxHeight: '90vh',
+                    overflow: 'auto',
+                    boxShadow: '0 20px 60px rgba(0,0,0,.15)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+            >
                 {/* Header */}
-                <div style={{
-                    background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)',
-                    padding: '28px',
-                    borderRadius: '16px 16px 0 0',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                }}>
+                <div
+                    style={{
+                        background: 'linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)',
+                        padding: '28px',
+                        borderRadius: '16px 16px 0 0',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
+                >
                     <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                        <div style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            background: 'rgba(255,255,255,.2)',
+                        <div
+                            style={{
+                                width: 48,
+                                height: 48,
+                                borderRadius: '50%',
+                                background: 'rgba(255,255,255,.2)',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                color: 'white',
+                            }}
+                        >
+                            <StickyNote size={24} />
+                        </div>
+                        <div>
+                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>
+                                {feature.name}
+                            </div>
+                            <div
+                                style={{
+                                    fontSize: 12,
+                                    color: 'rgba(255,255,255,.8)',
+                                    fontWeight: 600,
+                                }}
+                            >
+                                Feature Overview
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        onClick={onClose}
+                        style={{
+                            background: 'rgba(255,255,255,.1)',
+                            border: 'none',
+                            borderRadius: 8,
+                            width: 32,
+                            height: 32,
+                            cursor: 'pointer',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            color: 'white',
-                        }}>
-                             <StickyNote size={24} />
-                        </div>
-                        <div>
-                            <div style={{ fontSize: 18, fontWeight: 900, color: 'white' }}>{feature.name}</div>
-                            <div style={{ fontSize: 12, color: 'rgba(255,255,255,.8)', fontWeight: 600 }}>Feature Overview</div>
-                        </div>
-                    </div>
-                    <button onClick={onClose} style={{
-                        background: 'rgba(255,255,255,.1)',
-                        border: 'none',
-                        borderRadius: 8,
-                        width: 32,
-                        height: 32,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}>
+                        }}
+                    >
                         <X size={18} color="white" />
                     </button>
                 </div>
 
                 <div style={{ padding: '28px' }}>
                     <div style={{ marginBottom: 20 }}>
-                        <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 6, letterSpacing: '.05em' }}>Description</div>
-                        <div style={{ fontSize: 14, color: 'var(--text)', lineHeight: 1.6, fontWeight: 500 }}>{feature.description}</div>
+                        <div
+                            style={{
+                                fontSize: 10,
+                                fontWeight: 800,
+                                textTransform: 'uppercase',
+                                color: '#94A3B8',
+                                marginBottom: 6,
+                                letterSpacing: '.05em',
+                            }}
+                        >
+                            Description
+                        </div>
+                        <div
+                            style={{
+                                fontSize: 14,
+                                color: 'var(--text)',
+                                lineHeight: 1.6,
+                                fontWeight: 500,
+                            }}
+                        >
+                            {feature.description}
+                        </div>
                     </div>
                     <div className="grid grid-cols-2 gap-6">
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Category</div>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Category
+                            </div>
                             <div style={{ fontSize: 14, fontWeight: 700 }}>{feature.category}</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: 10, fontWeight: 800, textTransform: 'uppercase', color: '#94A3B8', marginBottom: 4 }}>Status</div>
-                            <Badge variant={feature.status === 'Active' ? 'green' : 'slate'}>{feature.status}</Badge>
+                            <div
+                                style={{
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    textTransform: 'uppercase',
+                                    color: '#94A3B8',
+                                    marginBottom: 4,
+                                }}
+                            >
+                                Status
+                            </div>
+                            <Badge variant={feature.status === 'Active' ? 'green' : 'slate'}>
+                                {feature.status}
+                            </Badge>
                         </div>
                     </div>
                 </div>
 
-                <div style={{ padding: '20px 28px', borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'flex-end' }}>
-                    <button className="btn btn-secondary" onClick={onClose}>Close Detail</button>
+                <div
+                    style={{
+                        padding: '20px 28px',
+                        borderTop: '1px solid var(--border)',
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                    }}
+                >
+                    <button className="btn btn-secondary" onClick={onClose}>
+                        Close Detail
+                    </button>
                 </div>
             </div>
         </div>
@@ -148,7 +274,9 @@ export const PlanFeaturesPage = () => {
 
     return (
         <>
-            {viewingFeature && <ViewOverlay feature={viewingFeature} onClose={() => setViewingFeature(null)} />}
+            {viewingFeature && (
+                <ViewOverlay feature={viewingFeature} onClose={() => setViewingFeature(null)} />
+            )}
 
             {/* ── HEADER ── */}
             <div className="page-header">
@@ -176,16 +304,38 @@ export const PlanFeaturesPage = () => {
                 {/* ── Stat cards ── */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     {[
-                        { bg: '#EDE9FE', ic: '#7C3AED', icon: <CreditCard size={20} />, label: 'Total Features', val: String(totalCount) },
-                        { bg: '#DCFCE7', ic: '#059669', icon: <CheckCircle2 size={20} />, label: 'Active Features', val: String(activeCount) },
-                        { bg: '#EFF6FF', ic: '#2563EB', icon: <LayoutGrid size={20} />, label: 'Service Categories', val: String(categoriesCount) },
-                        { bg: '#FEE2E2', ic: '#DC2626', icon: <AlertCircle size={20} />, label: 'Inactive', val: String(inactiveCount) },
+                        {
+                            bg: '#EDE9FE',
+                            ic: '#7C3AED',
+                            icon: <CreditCard size={20} />,
+                            label: 'Total Features',
+                            val: String(totalCount),
+                        },
+                        {
+                            bg: '#DCFCE7',
+                            ic: '#059669',
+                            icon: <CheckCircle2 size={20} />,
+                            label: 'Active Features',
+                            val: String(activeCount),
+                        },
+                        {
+                            bg: '#EFF6FF',
+                            ic: '#2563EB',
+                            icon: <LayoutGrid size={20} />,
+                            label: 'Service Categories',
+                            val: String(categoriesCount),
+                        },
+                        {
+                            bg: '#FEE2E2',
+                            ic: '#DC2626',
+                            icon: <AlertCircle size={20} />,
+                            label: 'Inactive',
+                            val: String(inactiveCount),
+                        },
                     ].map((s) => (
                         <div key={s.label} className="stat-card" style={{ margin: 0 }}>
                             <div className="stat-icon" style={{ background: s.bg }}>
-                                <div style={{ color: s.ic }}>
-                                    {s.icon}
-                                </div>
+                                <div style={{ color: s.ic }}>{s.icon}</div>
                             </div>
                             <div>
                                 <div className="stat-label">{s.label}</div>
@@ -283,7 +433,7 @@ export const PlanFeaturesPage = () => {
                                             style={{
                                                 display: 'block',
                                                 marginBottom: 8,
-                                                margin: '0 auto'
+                                                margin: '0 auto',
                                             }}
                                         />
                                         No plan features found
@@ -293,35 +443,50 @@ export const PlanFeaturesPage = () => {
                                 paginated.map((f) => (
                                     <tr key={f.id}>
                                         <td>
-                                            <div style={{ fontWeight: 800, color: 'var(--text)' }}>{f.name}</div>
-                                            <div style={{ fontSize: 11, color: 'var(--muted)', maxWidth: 250, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            <div style={{ fontWeight: 800, color: 'var(--text)' }}>
+                                                {f.name}
+                                            </div>
+                                            <div
+                                                style={{
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    maxWidth: 250,
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    whiteSpace: 'nowrap',
+                                                }}
+                                            >
                                                 {f.description}
                                             </div>
                                         </td>
                                         <td>
-                                            <code style={{ 
-                                                fontSize: 12, 
-                                                fontWeight: 800, 
-                                                color: 'var(--primary)',
-                                                background: '#EDE9FE',
-                                                padding: '2px 6px',
-                                                borderRadius: 4
-                                            }}>
+                                            <code
+                                                style={{
+                                                    fontSize: 12,
+                                                    fontWeight: 800,
+                                                    color: 'var(--primary)',
+                                                    background: '#EDE9FE',
+                                                    padding: '2px 6px',
+                                                    borderRadius: 4,
+                                                }}
+                                            >
                                                 {f.code}
                                             </code>
                                         </td>
                                         <td>
-                                            <div style={{ 
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: 6,
-                                                padding: '4px 10px',
-                                                borderRadius: 100,
-                                                background: '#F1F5F9',
-                                                fontSize: 12,
-                                                fontWeight: 800,
-                                                color: '#475569'
-                                            }}>
+                                            <div
+                                                style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: 6,
+                                                    padding: '4px 10px',
+                                                    borderRadius: 100,
+                                                    background: '#F1F5F9',
+                                                    fontSize: 12,
+                                                    fontWeight: 800,
+                                                    color: '#475569',
+                                                }}
+                                            >
                                                 {f.category}
                                             </div>
                                         </td>
@@ -332,21 +497,28 @@ export const PlanFeaturesPage = () => {
                                         </td>
                                         <td>
                                             <div className="actions-col">
-                                                <button 
+                                                <button
                                                     className="act-btn act-view"
                                                     title="View Feature"
                                                     onClick={() => setViewingFeature(f)}
                                                 >
                                                     <Eye size={18} className="ms" />
                                                 </button>
-                                                <button 
+                                                <button
                                                     className="act-btn act-edit"
                                                     title="Edit Feature"
-                                                    onClick={() => navigate(`/masters/plan-features/edit/${f.id}`)}
+                                                    onClick={() =>
+                                                        navigate(
+                                                            `/masters/plan-features/edit/${f.id}`
+                                                        )
+                                                    }
                                                 >
                                                     <Edit size={18} className="ms" />
                                                 </button>
-                                                <button className="act-btn act-delete" title="Delete Feature">
+                                                <button
+                                                    className="act-btn act-delete"
+                                                    title="Delete Feature"
+                                                >
                                                     <Trash2 size={18} className="ms" />
                                                 </button>
                                             </div>
@@ -370,10 +542,7 @@ export const PlanFeaturesPage = () => {
 
             {/* View Overlay */}
             {viewingFeature && (
-                <ViewOverlay 
-                    feature={viewingFeature} 
-                    onClose={() => setViewingFeature(null)} 
-                />
+                <ViewOverlay feature={viewingFeature} onClose={() => setViewingFeature(null)} />
             )}
         </>
     );

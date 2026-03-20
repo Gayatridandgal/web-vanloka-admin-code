@@ -1,14 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Info, Key, CheckCircle2, ArrowLeft, ShieldCheck, Save, RefreshCw, Menu } from 'lucide-react';
+import {
+    Info,
+    Key,
+    CheckCircle2,
+    ArrowLeft,
+    ShieldCheck,
+    Save,
+    RefreshCw,
+    Menu,
+} from 'lucide-react';
 
 const DUMMY_ROLES = [
-    { id: '1', name: 'Administrator', description: 'Full access to all system modules and settings', permissions: new Set(['VIEW DASHBOARD', 'VIEW APP USERS', 'EDIT APP USERS', 'VIEW BEACONS']) },
-    { id: '2', name: 'Content Manager', description: 'Can manage pages, notifications, and media', permissions: new Set(['VIEW DASHBOARD', 'VIEW APP USERS']) },
+    {
+        id: '1',
+        name: 'Administrator',
+        description: 'Full access to all system modules and settings',
+        permissions: new Set([
+            'VIEW DASHBOARD',
+            'VIEW APP USERS',
+            'EDIT APP USERS',
+            'VIEW BEACONS',
+        ]),
+    },
+    {
+        id: '2',
+        name: 'Content Manager',
+        description: 'Can manage pages, notifications, and media',
+        permissions: new Set(['VIEW DASHBOARD', 'VIEW APP USERS']),
+    },
 ];
 
 /* ── Tiny Helpers ──────────────────────────────── */
-const SectionHeader = ({ icon: Icon, title }: { icon: any; title: string }) => (
+const SectionHeader = ({ icon: Icon, title }: { icon: React.ElementType; title: string }) => (
     <div
         style={{
             display: 'flex',
@@ -74,7 +98,15 @@ const Err = ({ msg }: { msg?: string }) =>
     ) : null;
 
 /* ── Confirmation Overlay ── */
-const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+const UpdateConfirmOverlay = ({
+    onConfirm,
+    onCancel,
+    title,
+}: {
+    onConfirm: () => void;
+    onCancel: () => void;
+    title: string;
+}) => (
     <div
         style={{
             position: 'fixed',
@@ -132,10 +164,16 @@ const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () =>
                     lineHeight: 1.6,
                 }}
             >
-                Are you sure you want to update the role <strong>{title}</strong>? This will modify its permissions and details across the system.
+                Are you sure you want to update the role <strong>{title}</strong>? This will modify
+                its permissions and details across the system.
             </div>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onCancel}
+                    style={{ minWidth: 120 }}
+                >
                     Cancel
                 </button>
                 <button
@@ -185,7 +223,7 @@ export const RoleCreatePage = () => {
 
     useEffect(() => {
         if (isEdit) {
-            const role = DUMMY_ROLES.find(r => r.id === id);
+            const role = DUMMY_ROLES.find((r) => r.id === id);
             if (role) {
                 setForm({ roleName: role.name, description: role.description });
                 setSelectedPerms(new Set(role.permissions));
@@ -238,7 +276,10 @@ export const RoleCreatePage = () => {
 
     return (
         <div className="page relative">
-            <button className="lg:hidden absolute top-[13px] right-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors" aria-label="Open Menu">
+            <button
+                className="lg:hidden absolute top-[13px] right-4 z-30 p-1.5 bg-white text-slate-600 rounded-lg shadow-sm border border-slate-200 hover:bg-slate-50 transition-colors"
+                aria-label="Open Menu"
+            >
                 <Menu size={22} strokeWidth={2.5} />
             </button>
 
@@ -264,7 +305,10 @@ export const RoleCreatePage = () => {
                     </div>
                 </div>
                 <div style={{ display: 'flex', gap: 12 }}>
-                    <button className="btn btn-secondary hidden sm:flex" onClick={() => navigate('/roles-permissions')}>
+                    <button
+                        className="btn btn-secondary hidden sm:flex"
+                        onClick={() => navigate('/roles-permissions')}
+                    >
                         <ArrowLeft size={18} className="ms mr-1" />
                         Back
                     </button>
@@ -273,13 +317,23 @@ export const RoleCreatePage = () => {
 
             {/* ── PAGE BODY ── */}
             <div className="page-body">
-                <div style={{ maxWidth: 1100, width: '100%', margin: '0 auto', boxSizing: 'border-box' }} className="px-1 sm:px-0">
-                    
+                <div
+                    style={{
+                        maxWidth: 1100,
+                        width: '100%',
+                        margin: '0 auto',
+                        boxSizing: 'border-box',
+                    }}
+                    className="px-1 sm:px-0"
+                >
                     {/* Role Information Card */}
                     <Card>
                         <SectionHeader icon={Info} title="Role Information" />
                         <Body style={{ padding: '24px 28px' }}>
-                            <div className="grid grid-cols-1 gap-6" style={{ boxSizing: 'border-box' }}>
+                            <div
+                                className="grid grid-cols-1 gap-6"
+                                style={{ boxSizing: 'border-box' }}
+                            >
                                 <div className="space-y-5">
                                     <div>
                                         <Label>Role Name *</Label>
@@ -288,7 +342,10 @@ export const RoleCreatePage = () => {
                                             placeholder="e.g. CONTENT MANAGER"
                                             value={form.roleName}
                                             onChange={(e) => {
-                                                setForm((v) => ({ ...v, roleName: e.target.value.toUpperCase() }));
+                                                setForm((v) => ({
+                                                    ...v,
+                                                    roleName: e.target.value.toUpperCase(),
+                                                }));
                                                 setErrs({});
                                             }}
                                             style={{
@@ -305,9 +362,18 @@ export const RoleCreatePage = () => {
                                             className="form-input"
                                             placeholder="Describe the role responsibilities..."
                                             value={form.description}
-                                            onChange={(e) => setForm((v) => ({ ...v, description: e.target.value }))}
+                                            onChange={(e) =>
+                                                setForm((v) => ({
+                                                    ...v,
+                                                    description: e.target.value,
+                                                }))
+                                            }
                                             rows={3}
-                                            style={{ width: '100%', boxSizing: 'border-box', resize: 'vertical' }}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                resize: 'vertical',
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -317,34 +383,45 @@ export const RoleCreatePage = () => {
 
                     {/* Permissions Settings Card */}
                     <Card style={{ marginTop: 20 }}>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            padding: '12px 20px',
-                            borderBottom: '1.5px solid var(--border)',
-                            background: 'var(--surface)'
-                        }}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                padding: '12px 20px',
+                                borderBottom: '1.5px solid var(--border)',
+                                background: 'var(--surface)',
+                            }}
+                        >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                 <Key size={18} color="var(--primary)" />
-                                <span style={{ fontSize: 11, fontWeight: 900, letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+                                <span
+                                    style={{
+                                        fontSize: 11,
+                                        fontWeight: 900,
+                                        letterSpacing: '0.07em',
+                                        textTransform: 'uppercase',
+                                    }}
+                                >
                                     Permissions Settings
                                 </span>
                             </div>
-                            <label style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 8,
-                                cursor: 'pointer',
-                                fontSize: 10,
-                                fontWeight: 800,
-                                color: 'var(--primary)',
-                                userSelect: 'none',
-                                background: 'white',
-                                padding: '4px 10px',
-                                borderRadius: 6,
-                                border: '1px solid var(--primary)'
-                            }}>
+                            <label
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 8,
+                                    cursor: 'pointer',
+                                    fontSize: 10,
+                                    fontWeight: 800,
+                                    color: 'var(--primary)',
+                                    userSelect: 'none',
+                                    background: 'white',
+                                    padding: '4px 10px',
+                                    borderRadius: 6,
+                                    border: '1px solid var(--primary)',
+                                }}
+                            >
                                 <input
                                     type="checkbox"
                                     style={{ display: 'none' }}
@@ -354,25 +431,32 @@ export const RoleCreatePage = () => {
                                 {isAllSelected ? 'DESELECT ALL' : 'SELECT ALL'}
                             </label>
                         </div>
-                        
+
                         <Body style={{ padding: '20px 22px' }}>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3" style={{ boxSizing: 'border-box' }}>
-                                {PERMISSIONS.map(p => (
-                                    <label key={p} style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 10,
-                                        padding: '12px 14px',
-                                        borderRadius: 8,
-                                        border: `1px solid ${selectedPerms.has(p) ? 'var(--primary)' : 'var(--border)'}`,
-                                        background: selectedPerms.has(p) ? 'var(--surface)' : 'white',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.1s ease-in-out',
-                                        userSelect: 'none',
-                                        minWidth: 0,
-                                        boxSizing: 'border-box'
-                                    }}
-                                    className="hover:shadow-sm transition-all active:scale-[0.98]"
+                            <div
+                                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3"
+                                style={{ boxSizing: 'border-box' }}
+                            >
+                                {PERMISSIONS.map((p) => (
+                                    <label
+                                        key={p}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 10,
+                                            padding: '12px 14px',
+                                            borderRadius: 8,
+                                            border: `1px solid ${selectedPerms.has(p) ? 'var(--primary)' : 'var(--border)'}`,
+                                            background: selectedPerms.has(p)
+                                                ? 'var(--surface)'
+                                                : 'white',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.1s ease-in-out',
+                                            userSelect: 'none',
+                                            minWidth: 0,
+                                            boxSizing: 'border-box',
+                                        }}
+                                        className="hover:shadow-sm transition-all active:scale-[0.98]"
                                     >
                                         <input
                                             type="checkbox"
@@ -383,18 +467,22 @@ export const RoleCreatePage = () => {
                                                 height: 16,
                                                 cursor: 'pointer',
                                                 accentColor: 'var(--primary)',
-                                                flexShrink: 0
+                                                flexShrink: 0,
                                             }}
                                         />
-                                        <span style={{ 
-                                            fontSize: 11, 
-                                            fontWeight: 700, 
-                                            letterSpacing: '0.01em',
-                                            color: selectedPerms.has(p) ? 'var(--primary)' : '#475569',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            whiteSpace: 'nowrap'
-                                        }}>
+                                        <span
+                                            style={{
+                                                fontSize: 11,
+                                                fontWeight: 700,
+                                                letterSpacing: '0.01em',
+                                                color: selectedPerms.has(p)
+                                                    ? 'var(--primary)'
+                                                    : '#475569',
+                                                overflow: 'hidden',
+                                                textOverflow: 'ellipsis',
+                                                whiteSpace: 'nowrap',
+                                            }}
+                                        >
                                             {p}
                                         </span>
                                     </label>
@@ -404,13 +492,16 @@ export const RoleCreatePage = () => {
                     </Card>
 
                     {/* Footer Actions */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        gap: 12,
-                        marginTop: 12,
-                        paddingBottom: 40
-                    }} className="flex-col sm:flex-row">
+                    <div
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: 12,
+                            marginTop: 12,
+                            paddingBottom: 40,
+                        }}
+                        className="flex-col sm:flex-row"
+                    >
                         <button
                             className="btn btn-secondary w-full sm:w-auto"
                             onClick={() => navigate('/roles-permissions')}
@@ -437,37 +528,49 @@ export const RoleCreatePage = () => {
 
             {/* ── SUCCESS MESSAGE ── */}
             {success && (
-                <div style={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '100%',
-                    background: 'rgba(255,255,255,0.9)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 1000
-                }}>
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        background: 'rgba(255,255,255,0.9)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        zIndex: 1000,
+                    }}
+                >
                     <div style={{ textAlign: 'center' }}>
-                        <div style={{
-                            width: 80,
-                            height: 80,
-                            borderRadius: '50%',
-                            background: '#ECFDF5',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            margin: '0 auto 24px auto',
-                            boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)'
-                        }}>
+                        <div
+                            style={{
+                                width: 80,
+                                height: 80,
+                                borderRadius: '50%',
+                                background: '#ECFDF5',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                margin: '0 auto 24px auto',
+                                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.2)',
+                            }}
+                        >
                             <CheckCircle2 size={40} color="#10B981" />
                         </div>
-                        <h2 style={{ fontSize: 24, fontWeight: 900, marginBottom: 12, color: 'var(--text)' }}>
+                        <h2
+                            style={{
+                                fontSize: 24,
+                                fontWeight: 900,
+                                marginBottom: 12,
+                                color: 'var(--text)',
+                            }}
+                        >
                             Role {isEdit ? 'Updated' : 'Created'} Successfully!
                         </h2>
                         <p style={{ color: 'var(--muted)', marginBottom: 32 }}>
-                            The {form.roleName} role has been successfully {isEdit ? 'updated in' : 'added to'} the system.
+                            The {form.roleName} role has been successfully{' '}
+                            {isEdit ? 'updated in' : 'added to'} the system.
                         </p>
                         <button
                             className="btn btn-primary"
@@ -482,7 +585,7 @@ export const RoleCreatePage = () => {
 
             {/* Confirmation Modal */}
             {showConfirm && (
-                <UpdateConfirmOverlay 
+                <UpdateConfirmOverlay
                     title={form.roleName}
                     onConfirm={confirmUpdate}
                     onCancel={() => setShowConfirm(false)}

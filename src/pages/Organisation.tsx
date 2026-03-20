@@ -1,6 +1,28 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { ChevronDown, X, Building2, MapPin, CheckCircle2, Contact, Home, FileText, Building, Store, Car, GraduationCap, StickyNote, Trash2, UploadCloud, Download, FileDown, Plus, Search, Eye, Edit } from 'lucide-react';
+import {
+    ChevronDown,
+    X,
+    Building2,
+    MapPin,
+    CheckCircle2,
+    Contact,
+    Home,
+    FileText,
+    Building,
+    Store,
+    Car,
+    GraduationCap,
+    StickyNote,
+    Trash2,
+    UploadCloud,
+    Download,
+    FileDown,
+    Plus,
+    Search,
+    Eye,
+    Edit,
+} from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -204,8 +226,14 @@ const ViewOverlay = ({
                                     textAlign: 'center',
                                 }}
                             >
-                                <s.icon size={20} color={s.ic} style={{ marginBottom: 4, display: 'block', margin: '0 auto' }} />
-                                <div style={{ fontSize: 14, fontWeight: 900, color: 'var(--text)' }}>
+                                <s.icon
+                                    size={20}
+                                    color={s.ic}
+                                    style={{ marginBottom: 4, display: 'block', margin: '0 auto' }}
+                                />
+                                <div
+                                    style={{ fontSize: 14, fontWeight: 900, color: 'var(--text)' }}
+                                >
                                     {s.value}
                                 </div>
                                 <div
@@ -289,10 +317,7 @@ const ViewOverlay = ({
                             >
                                 <Field label="Vendor Type" value={org.vendorType || ''} />
                                 <Field label="Service Type" value={org.serviceType || ''} />
-                                <Field
-                                    label="Vehicles"
-                                    value={String(org.vehicleCount ?? '—')}
-                                />
+                                <Field label="Vehicles" value={String(org.vehicleCount ?? '—')} />
                             </div>
                             <div
                                 style={{
@@ -302,10 +327,7 @@ const ViewOverlay = ({
                                     marginBottom: 24,
                                 }}
                             >
-                                <Field
-                                    label="Contract Start"
-                                    value={org.contractStartDate || ''}
-                                />
+                                <Field label="Contract Start" value={org.contractStartDate || ''} />
                                 <Field label="Contract End" value={org.contractEndDate || ''} />
                             </div>
                         </>
@@ -315,14 +337,8 @@ const ViewOverlay = ({
                         <>
                             <SectionLabel icon={Car} title="MDS Details" />
                             <div className="grid-cols-responsive-3" style={{ marginBottom: 24 }}>
-                                <Field
-                                    label="License Number"
-                                    value={org.mdsLicenseNumber || ''}
-                                />
-                                <Field
-                                    label="License Expiry"
-                                    value={org.licenseExpiryDate || ''}
-                                />
+                                <Field label="License Number" value={org.mdsLicenseNumber || ''} />
+                                <Field label="License Expiry" value={org.licenseExpiryDate || ''} />
                                 <Field
                                     label="Total Vehicles"
                                     value={String(org.totalVehicles ?? '—')}
@@ -665,7 +681,11 @@ const ImportOverlay = ({
                                 if (e.target.files?.[0]) handleFile(e.target.files[0]);
                             }}
                         />
-                        <UploadCloud size={36} color="var(--primary)" style={{ display: 'block', marginBottom: 8, margin: '0 auto' }} />
+                        <UploadCloud
+                            size={36}
+                            color="var(--primary)"
+                            style={{ display: 'block', marginBottom: 8, margin: '0 auto' }}
+                        />
                         {fileName ? (
                             <>
                                 <div
@@ -822,7 +842,7 @@ export const OrganisationPage = () => {
 
     /* ── Delete ── */
     const confirmDelete = useCallback(() => {
-        if (delIdx == null) return;
+        if (delIdx === null) return;
         setList((prev) => prev.filter((_, i) => i !== delIdx));
         setDelIdx(null);
     }, [delIdx]);
@@ -872,13 +892,10 @@ export const OrganisationPage = () => {
     }, [filtered]);
 
     /* ── Close export menu on outside click ── */
-    const closeExport = useCallback(
-        (e: MouseEvent) => {
-            if (exportRef.current && !exportRef.current.contains(e.target as Node))
-                setShowExport(false);
-        },
-        []
-    );
+    const closeExport = useCallback((e: MouseEvent) => {
+        if (exportRef.current && !exportRef.current.contains(e.target as Node))
+            setShowExport(false);
+    }, []);
     if (showExport) {
         document.addEventListener('mousedown', closeExport);
     } else {
@@ -896,10 +913,10 @@ export const OrganisationPage = () => {
     return (
         <>
             {/* Overlays */}
-            {viewIdx != null && (
+            {viewIdx !== null && (
                 <ViewOverlay org={list[viewIdx]} index={viewIdx} onClose={() => setViewIdx(null)} />
             )}
-            {delIdx != null && (
+            {delIdx !== null && (
                 <DeleteOverlay
                     org={list[delIdx]}
                     onConfirm={confirmDelete}
@@ -941,9 +958,7 @@ export const OrganisationPage = () => {
                                 <ChevronDown size={14} style={{ marginLeft: 4 }} />
                             </button>
                             {showExport && (
-                                <div
-                                    className="absolute right-0 top-[110%] bg-white border border-[var(--border)] rounded-xl shadow-lg overflow-hidden z-[100] min-w-[180px]"
-                                >
+                                <div className="absolute right-0 top-[110%] bg-white border border-[var(--border)] rounded-xl shadow-lg overflow-hidden z-[100] min-w-[180px]">
                                     <div
                                         className="p-3 cursor-pointer text-xs font-black flex items-center gap-2 hover:bg-slate-50 uppercase tracking-wider"
                                         onClick={exportPdf}
@@ -985,18 +1000,22 @@ export const OrganisationPage = () => {
                                 style={{
                                     cursor: 'pointer',
                                     borderColor: isFiltered ? 'var(--primary)' : 'var(--border)',
-                                    background: isFiltered ? 'var(--primary-light)' : 'white'
+                                    background: isFiltered ? 'var(--primary-light)' : 'white',
                                 }}
-                                onClick={() => setTypeFilter(prev => prev === t ? '' : t)}
+                                onClick={() => setTypeFilter((prev) => (prev === t ? '' : t))}
                             >
-                                <div 
-                                    className="stat-icon" 
-                                    style={{ 
+                                <div
+                                    className="stat-icon"
+                                    style={{
                                         background: isFiltered ? 'white' : tc.bg,
-                                        boxShadow: isFiltered ? '0 4px 12px rgba(124, 58, 237, 0.15)' : 'none'
+                                        boxShadow: isFiltered
+                                            ? '0 4px 12px rgba(124, 58, 237, 0.15)'
+                                            : 'none',
                                     }}
                                 >
-                                    <div style={{ color: isFiltered ? 'var(--primary)' : tc.color }}>
+                                    <div
+                                        style={{ color: isFiltered ? 'var(--primary)' : tc.color }}
+                                    >
                                         {t === 'Office' && <Building size={20} />}
                                         {t === 'Vendor' && <Store size={20} />}
                                         {t === 'Motor Driving School' && <Car size={20} />}
@@ -1008,7 +1027,9 @@ export const OrganisationPage = () => {
                                         {t === 'Motor Driving School' ? 'MDS' : t}
                                     </div>
                                     <div className="stat-value">{counts[t]}</div>
-                                    {isFiltered && <div className="stat-trend trend-up">Filtered</div>}
+                                    {isFiltered && (
+                                        <div className="stat-trend trend-up">Filtered</div>
+                                    )}
                                 </div>
                             </div>
                         );
@@ -1264,9 +1285,7 @@ export const OrganisationPage = () => {
                                                     <button
                                                         className="act-btn act-edit"
                                                         onClick={() =>
-                                                            navigate(
-                                                                `/organisation/edit/${o.id}`
-                                                            )
+                                                            navigate(`/organisation/edit/${o.id}`)
                                                         }
                                                         title="Edit"
                                                     >

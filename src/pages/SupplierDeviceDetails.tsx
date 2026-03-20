@@ -10,19 +10,21 @@ export const SupplierDeviceDetails = () => {
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
 
-    const supplier = DUMMY_SUPPLIERS.find(s => s.id === id);
+    const supplier = DUMMY_SUPPLIERS.find((s) => s.id === id);
 
     if (!supplier) {
         return (
             <div style={{ padding: 40, textAlign: 'center' }}>
                 <h3>Supplier not found</h3>
-                <button className="btn btn-primary" onClick={() => navigate('/suppliers')}>Back to Suppliers</button>
+                <button className="btn btn-primary" onClick={() => navigate('/suppliers')}>
+                    Back to Suppliers
+                </button>
             </div>
         );
     }
 
-    const filtered = supplier.devices.filter(d => 
-        d.imei.includes(search) || d.model.toLowerCase().includes(search.toLowerCase())
+    const filtered = supplier.devices.filter(
+        (d) => d.imei.includes(search) || d.model.toLowerCase().includes(search.toLowerCase())
     );
 
     const limit = 10;
@@ -33,13 +35,22 @@ export const SupplierDeviceDetails = () => {
     return (
         <>
             <div className="page-header">
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }} className="flex-col sm:flex-row sm:items-center">
-                    <button className="btn btn-secondary w-full sm:w-auto" style={{ padding: '8px 12px' }} onClick={() => navigate('/suppliers')}>
+                <div
+                    style={{ display: 'flex', alignItems: 'center', gap: 16 }}
+                    className="flex-col sm:flex-row sm:items-center"
+                >
+                    <button
+                        className="btn btn-secondary w-full sm:w-auto"
+                        style={{ padding: '8px 12px' }}
+                        onClick={() => navigate('/suppliers')}
+                    >
                         <ArrowLeft size={18} className="ms mr-1" /> Back
                     </button>
                     <div className="text-center sm:text-left">
                         <div className="page-title">{supplier.name} - Devices</div>
-                        <div className="breadcrumb">Suppliers <span>/</span> {supplier.name} <span>/</span> Devices</div>
+                        <div className="breadcrumb">
+                            Suppliers <span>/</span> {supplier.name} <span>/</span> Devices
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,19 +59,36 @@ export const SupplierDeviceDetails = () => {
                 {/* Search Bar */}
                 <div className="filter-bar">
                     <div style={{ position: 'relative', flex: 1 }}>
-                        <Search size={18} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--muted)' }} />
-                        <input 
-                            className="search-input" 
-                            style={{ width: '100%', paddingLeft: 40 }} 
-                            placeholder="Search by IMEI or Model..." 
+                        <Search
+                            size={18}
+                            style={{
+                                position: 'absolute',
+                                left: 12,
+                                top: '50%',
+                                transform: 'translateY(-50%)',
+                                color: 'var(--muted)',
+                            }}
+                        />
+                        <input
+                            className="search-input"
+                            style={{ width: '100%', paddingLeft: 40 }}
+                            placeholder="Search by IMEI or Model..."
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
                 </div>
 
                 <div className="table-card" style={{ border: 'none', background: 'transparent' }}>
-                    <div style={{ background: 'white', borderRadius: 16, border: '1.5px solid var(--border)', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
+                    <div
+                        style={{
+                            background: 'white',
+                            borderRadius: 16,
+                            border: '1.5px solid var(--border)',
+                            overflow: 'hidden',
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+                        }}
+                    >
                         <table className="data-table">
                             <thead>
                                 <tr>
@@ -71,13 +99,22 @@ export const SupplierDeviceDetails = () => {
                                     <th>ORG TYPE</th>
                                     <th>ADDED DATE</th>
                                     <th>STATUS</th>
-                                    <th style={{ textAlign: 'right', paddingRight: 24 }}>ACTIONS</th>
+                                    <th style={{ textAlign: 'right', paddingRight: 24 }}>
+                                        ACTIONS
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {paginated.map(d => (
+                                {paginated.map((d) => (
                                     <tr key={d.id}>
-                                        <td style={{ padding: '16px 24px', fontWeight: 700, fontFamily: 'monospace', color: 'var(--text)' }}>
+                                        <td
+                                            style={{
+                                                padding: '16px 24px',
+                                                fontWeight: 700,
+                                                fontFamily: 'monospace',
+                                                color: 'var(--text)',
+                                            }}
+                                        >
                                             {d.imei}
                                         </td>
                                         <td style={{ fontWeight: 800 }}>{d.model}</td>
@@ -85,35 +122,56 @@ export const SupplierDeviceDetails = () => {
                                             <Badge variant="blue">{d.type}</Badge>
                                         </td>
                                         <td style={{ fontWeight: 700, color: 'var(--text)' }}>
-                                            {d.assignedOrg || <span style={{ color: '#CBD5E1' }}>—</span>}
+                                            {d.assignedOrg || (
+                                                <span style={{ color: '#CBD5E1' }}>—</span>
+                                            )}
                                         </td>
                                         <td>
                                             {d.orgType ? (
-                                                <div style={{ 
-                                                    display: 'inline-flex',
-                                                    padding: '2px 8px',
-                                                    background: '#F1F5F9',
-                                                    borderRadius: 6,
-                                                    fontSize: 10,
-                                                    fontWeight: 800,
-                                                    color: '#475569'
-                                                }}>
+                                                <div
+                                                    style={{
+                                                        display: 'inline-flex',
+                                                        padding: '2px 8px',
+                                                        background: '#F1F5F9',
+                                                        borderRadius: 6,
+                                                        fontSize: 10,
+                                                        fontWeight: 800,
+                                                        color: '#475569',
+                                                    }}
+                                                >
                                                     {d.orgType}
                                                 </div>
                                             ) : (
                                                 <span style={{ color: '#CBD5E1' }}>—</span>
                                             )}
                                         </td>
-                                        <td style={{ color: 'var(--muted)', fontSize: 12 }}>{d.addedDate}</td>
+                                        <td style={{ color: 'var(--muted)', fontSize: 12 }}>
+                                            {d.addedDate}
+                                        </td>
                                         <td>
-                                            <Badge variant={d.status === 'In Stock' ? 'green' : d.status === 'Assigned' ? 'amber' : 'red'}>
+                                            <Badge
+                                                variant={
+                                                    d.status === 'In Stock'
+                                                        ? 'green'
+                                                        : d.status === 'Assigned'
+                                                          ? 'amber'
+                                                          : 'red'
+                                                }
+                                            >
                                                 {d.status}
                                             </Badge>
                                         </td>
                                         <td style={{ textAlign: 'right', paddingRight: 24 }}>
-                                            <div className="actions-col" style={{ justifyContent: 'flex-end' }}>
-                                                <button className="act-btn act-edit"><Edit size={18} className="ms" /></button>
-                                                <button className="act-btn act-delete"><Trash2 size={18} className="ms" /></button>
+                                            <div
+                                                className="actions-col"
+                                                style={{ justifyContent: 'flex-end' }}
+                                            >
+                                                <button className="act-btn act-edit">
+                                                    <Edit size={18} className="ms" />
+                                                </button>
+                                                <button className="act-btn act-delete">
+                                                    <Trash2 size={18} className="ms" />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -129,5 +187,3 @@ export const SupplierDeviceDetails = () => {
         </>
     );
 };
-
-

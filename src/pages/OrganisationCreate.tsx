@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { 
-    Building2, 
-    Store, 
-    Car, 
-    GraduationCap, 
-    BarChart3, 
-    Home, 
-    Users, 
-    Lock, 
-    FileText, 
-    MapPin, 
-    Receipt, 
-    FileSignature, 
-    Truck, 
-    Building, 
-    RefreshCw, 
-    ArrowLeft, 
+import {
+    Building2,
+    Store,
+    Car,
+    GraduationCap,
+    BarChart3,
+    Home,
+    Users,
+    Lock,
+    FileText,
+    MapPin,
+    Receipt,
+    FileSignature,
+    Truck,
+    Building,
+    RefreshCw,
+    ArrowLeft,
     CheckCircle2,
     Info,
     ShieldCheck,
-    FileUp
+    FileUp,
 } from 'lucide-react';
 import { type OrgType, INITIAL_ORGANISATIONS } from '../data/organisationData';
 
@@ -329,8 +329,6 @@ const STATES = [
     'Delhi',
 ];
 
-
-
 const VEHICLE_TYPES = ['Bus', 'Van', 'Car', 'Auto', 'Two-wheeler'];
 
 /* ── Tiny Helpers ──────────────────────────────── */
@@ -377,8 +375,23 @@ const Body = ({ children, style }: { children: React.ReactNode; style?: React.CS
     <div style={{ padding: '20px 22px', ...style }}>{children}</div>
 );
 
-const Grid = ({ cols, className, children, style }: { cols?: string; className?: string; children: React.ReactNode; style?: React.CSSProperties }) => (
-    <div className={className} style={{ display: cols ? 'grid' : undefined, gridTemplateColumns: cols, gap: 16, ...style }}>{children}</div>
+const Grid = ({
+    cols,
+    className,
+    children,
+    style,
+}: {
+    cols?: string;
+    className?: string;
+    children: React.ReactNode;
+    style?: React.CSSProperties;
+}) => (
+    <div
+        className={className}
+        style={{ display: cols ? 'grid' : undefined, gridTemplateColumns: cols, gap: 16, ...style }}
+    >
+        {children}
+    </div>
 );
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -403,7 +416,15 @@ const Err = ({ msg }: { msg?: string }) =>
     ) : null;
 
 /* ── Confirmation Overlay ── */
-const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () => void; onCancel: () => void; title: string }) => (
+const UpdateConfirmOverlay = ({
+    onConfirm,
+    onCancel,
+    title,
+}: {
+    onConfirm: () => void;
+    onCancel: () => void;
+    title: string;
+}) => (
     <div
         style={{
             position: 'fixed',
@@ -461,10 +482,16 @@ const UpdateConfirmOverlay = ({ onConfirm, onCancel, title }: { onConfirm: () =>
                     lineHeight: 1.6,
                 }}
             >
-                Are you sure you want to update the details for <strong>{title}</strong>? This will modify the organisation record in the system.
+                Are you sure you want to update the details for <strong>{title}</strong>? This will
+                modify the organisation record in the system.
             </div>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-                <button type="button" className="btn btn-secondary" onClick={onCancel} style={{ minWidth: 120 }}>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={onCancel}
+                    style={{ minWidth: 120 }}
+                >
                     Cancel
                 </button>
                 <button
@@ -507,21 +534,21 @@ export const OrganisationCreate = () => {
             status: org.status,
             remarks: org.remarks,
             officeCode: org.officeCode || '',
-            numberOfEmployees: org.numberOfEmployees != null ? String(org.numberOfEmployees) : '',
+            numberOfEmployees: org.numberOfEmployees !== null ? String(org.numberOfEmployees) : '',
             operatingHours: org.operatingHours || '',
             vendorType: org.vendorType || '',
             serviceType: org.serviceType || '',
             contractStartDate: org.contractStartDate || '',
             contractEndDate: org.contractEndDate || '',
-            vehicleCount: org.vehicleCount != null ? String(org.vehicleCount) : '',
+            vehicleCount: org.vehicleCount !== null ? String(org.vehicleCount) : '',
             mdsLicenseNumber: org.mdsLicenseNumber || '',
             licenseExpiryDate: org.licenseExpiryDate || '',
-            totalVehicles: org.totalVehicles != null ? String(org.totalVehicles) : '',
+            totalVehicles: org.totalVehicles !== null ? String(org.totalVehicles) : '',
             mdsCourses: org.mdsCourses || [],
             affiliatedBody: org.affiliatedBody || '',
             accreditationNumber: org.accreditationNumber || '',
             instituteCourses: org.instituteCourses || [],
-            studentCapacity: org.studentCapacity != null ? String(org.studentCapacity) : '',
+            studentCapacity: org.studentCapacity !== null ? String(org.studentCapacity) : '',
         };
     };
 
@@ -533,10 +560,10 @@ export const OrganisationCreate = () => {
     /* field helpers */
     const f =
         (key: keyof Form) =>
-            (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-                setForm((v) => ({ ...v, [key]: e.target.value }));
-                setErrs((v) => ({ ...v, [key]: undefined }));
-            };
+        (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+            setForm((v) => ({ ...v, [key]: e.target.value }));
+            setErrs((v) => ({ ...v, [key]: undefined }));
+        };
 
     const handleConsent = (e: React.ChangeEvent<HTMLInputElement>) => {
         const checked = e.target.checked;
@@ -548,12 +575,10 @@ export const OrganisationCreate = () => {
         setErrs((v) => ({ ...v, consentCheckbox: undefined }));
     };
 
-    const handleDoc =
-        (key: keyof Form) =>
-            (e: React.ChangeEvent<HTMLInputElement>) => {
-                const file = e.target.files?.[0];
-                if (file) setForm((v) => ({ ...v, [key]: file }));
-            };
+    const handleDoc = (key: keyof Form) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) setForm((v) => ({ ...v, [key]: file }));
+    };
 
     /* validation */
     const validate = (): boolean => {
@@ -585,12 +610,15 @@ export const OrganisationCreate = () => {
             if (!form.udiseCode.trim()) e.udiseCode = 'UDISE code is required';
             if (!form.panNumber.trim()) e.panNumber = 'PAN number is required';
 
-            if (!form.primaryContactName.trim()) e.primaryContactName = 'Contact person is required';
+            if (!form.primaryContactName.trim())
+                e.primaryContactName = 'Contact person is required';
             if (!form.primaryContactPhone1.trim()) e.primaryContactPhone1 = 'Mobile is required';
             if (!form.primaryContactEmail.trim()) e.primaryContactEmail = 'Email is required';
 
-            if (!form.emergencyContactName.trim()) e.emergencyContactName = 'Emergency contact name required';
-            if (!form.emergencyContactNumber.trim()) e.emergencyContactNumber = 'Emergency contact number required';
+            if (!form.emergencyContactName.trim())
+                e.emergencyContactName = 'Emergency contact name required';
+            if (!form.emergencyContactNumber.trim())
+                e.emergencyContactNumber = 'Emergency contact number required';
 
             if (!form.address1.trim()) e.address1 = 'Campus address is required';
             if (!form.villageLocality.trim()) e.villageLocality = 'Village/Locality is required';
@@ -610,22 +638,32 @@ export const OrganisationCreate = () => {
 
             /* Institute Mandatory Docs mapping */
             const mandatoryDocs: (keyof Form)[] = [
-                'panCard', 'registrationCert', 'udiseProof', 'safetySop',
-                'transportPolicy', 'insuranceCert', 'driverVettingPolicy',
-                'maintenancePolicy', 'subscriptionAgreement', 'consentDeclaration'
+                'panCard',
+                'registrationCert',
+                'udiseProof',
+                'safetySop',
+                'transportPolicy',
+                'insuranceCert',
+                'driverVettingPolicy',
+                'maintenancePolicy',
+                'subscriptionAgreement',
+                'consentDeclaration',
             ];
-            mandatoryDocs.forEach(doc => {
+            mandatoryDocs.forEach((doc) => {
                 if (!form[doc]) e[doc] = 'Required';
             });
         } else if (form.orgType === 'Vendor') {
             if (!form.orgName.trim()) e.orgName = 'Vendor name is required';
             if (!form.vendorType) e.vendorType = 'Select vendor type';
 
-            if (!form.primaryContactName.trim()) e.primaryContactName = 'Contact person is required';
+            if (!form.primaryContactName.trim())
+                e.primaryContactName = 'Contact person is required';
             if (!form.primaryContactPhone1.trim()) e.primaryContactPhone1 = 'Mobile is required';
 
-            if (!form.emergencyContactName.trim()) e.emergencyContactName = 'Emergency contact required';
-            if (!form.emergencyContactNumber.trim()) e.emergencyContactNumber = 'Emergency phone required';
+            if (!form.emergencyContactName.trim())
+                e.emergencyContactName = 'Emergency contact required';
+            if (!form.emergencyContactNumber.trim())
+                e.emergencyContactNumber = 'Emergency phone required';
 
             if (!form.address1.trim()) e.address1 = 'Office address is required';
             if (!form.villageLocality.trim()) e.villageLocality = 'Village/Locality is required';
@@ -636,7 +674,8 @@ export const OrganisationCreate = () => {
 
             if (!form.gstNumber.trim()) e.gstNumber = 'GST number is required';
             if (!form.panNumber.trim()) e.panNumber = 'PAN number is required';
-            if (form.vendorType === 'Individual' && !form.aadhaarNumber.trim()) e.aadhaarNumber = 'Aadhaar required for individual';
+            if (form.vendorType === 'Individual' && !form.aadhaarNumber.trim())
+                e.aadhaarNumber = 'Aadhaar required for individual';
 
             if (!form.bankAccountNo.trim()) e.bankAccountNo = 'Account number required';
             if (!form.bankIfsc.trim()) e.bankIfsc = 'IFSC required';
@@ -655,12 +694,12 @@ export const OrganisationCreate = () => {
 
             /* Mandatory Vendor Docs */
             const vendorDocs: (keyof Form)[] = ['panCard', 'gstCert', 'bankProof', 'contractDoc'];
-            vendorDocs.forEach(doc => {
+            vendorDocs.forEach((doc) => {
                 if (!form[doc]) e[doc] = 'Required';
             });
             if (form.vendorType === 'Individual' && !form.aadhaarCard) e.aadhaarCard = 'Required';
-            if (form.insuranceCoverage === 'Yes' && !form.insuranceCert) e.insuranceCert = 'Required';
-
+            if (form.insuranceCoverage === 'Yes' && !form.insuranceCert)
+                e.insuranceCert = 'Required';
         } else if (form.orgType === 'Motor Driving School') {
             if (!form.orgName.trim()) e.orgName = 'Driving school name is required';
             if (!form.mdsLicenseNumber.trim()) e.mdsLicenseNumber = 'License number is required';
@@ -670,11 +709,14 @@ export const OrganisationCreate = () => {
             if (!form.registrationNo.trim()) e.registrationNo = 'Registration number is required';
             if (!form.panNumber.trim()) e.panNumber = 'PAN number is required';
 
-            if (!form.primaryContactName.trim()) e.primaryContactName = 'Contact person is required';
+            if (!form.primaryContactName.trim())
+                e.primaryContactName = 'Contact person is required';
             if (!form.primaryContactPhone1.trim()) e.primaryContactPhone1 = 'Mobile is required';
             if (!form.email.trim()) e.email = 'Email is required';
-            if (!form.emergencyContactName.trim()) e.emergencyContactName = 'Emergency contact required';
-            if (!form.emergencyContactNumber.trim()) e.emergencyContactNumber = 'Emergency phone required';
+            if (!form.emergencyContactName.trim())
+                e.emergencyContactName = 'Emergency contact required';
+            if (!form.emergencyContactNumber.trim())
+                e.emergencyContactNumber = 'Emergency phone required';
 
             if (!form.address1.trim()) e.address1 = 'Office address is required';
             if (!form.villageLocality.trim()) e.villageLocality = 'Village/Locality is required';
@@ -692,11 +734,18 @@ export const OrganisationCreate = () => {
 
             /* Mandatory MDS Docs */
             const mdsDocs: (keyof Form)[] = [
-                'rtoLicenseCopy', 'panCard', 'registrationCert', 'safetySop',
-                'trainerCertList', 'insuranceCert', 'fitnessCert', 'driverVettingPolicy',
-                'subscriptionAgreement', 'consentDeclaration'
+                'rtoLicenseCopy',
+                'panCard',
+                'registrationCert',
+                'safetySop',
+                'trainerCertList',
+                'insuranceCert',
+                'fitnessCert',
+                'driverVettingPolicy',
+                'subscriptionAgreement',
+                'consentDeclaration',
             ];
-            mdsDocs.forEach(doc => {
+            mdsDocs.forEach((doc) => {
                 if (!form[doc]) e[doc] = 'Required';
             });
         } else {
@@ -811,8 +860,7 @@ export const OrganisationCreate = () => {
                             <span
                                 style={{
                                     fontWeight: 800,
-                                    color:
-                                        form.status === 'Active' ? '#059669' : '#64748B',
+                                    color: form.status === 'Active' ? '#059669' : '#64748B',
                                 }}
                             >
                                 {form.status}
@@ -873,35 +921,84 @@ export const OrganisationCreate = () => {
                         <ArrowLeft size={18} className="ms" /> Back to List
                     </button>
                 </div>
-                <div className="page-body" style={{ alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+                <div
+                    className="page-body"
+                    style={{ alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}
+                >
                     <div style={{ textAlign: 'center', marginBottom: 40 }}>
-                        <h2 style={{ fontSize: 28, fontWeight: 900, color: 'var(--text)', marginBottom: 12 }}>
+                        <h2
+                            style={{
+                                fontSize: 28,
+                                fontWeight: 900,
+                                color: 'var(--text)',
+                                marginBottom: 12,
+                            }}
+                        >
                             What type of organisation are you onboarding?
                         </h2>
-                        <p style={{ fontSize: 15, color: 'var(--muted)', maxWidth: 600, margin: '0 auto' }}>
-                            Select the category that best describes the new organisation. The form will adjust automatically to collect the relevant information.
+                        <p
+                            style={{
+                                fontSize: 15,
+                                color: 'var(--muted)',
+                                maxWidth: 600,
+                                margin: '0 auto',
+                            }}
+                        >
+                            Select the category that best describes the new organisation. The form
+                            will adjust automatically to collect the relevant information.
                         </p>
                     </div>
 
-                    <div className="org-type-selector-grid" style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                        gap: 24,
-                        maxWidth: 1000,
-                        width: '100%',
-                        padding: '0 20px'
-                    }}>
+                    <div
+                        className="org-type-selector-grid"
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                            gap: 24,
+                            maxWidth: 1000,
+                            width: '100%',
+                            padding: '0 20px',
+                        }}
+                    >
                         {[
-                            { type: 'Office', icon: Building2, color: '#2563EB', bg: '#EFF6FF', desc: 'Standard corporate offices or branches', border: '#BFDBFE' },
-                            { type: 'Vendor', icon: Store, color: '#D97706', bg: '#FFFBEB', desc: 'Service providers and suppliers', border: '#FDE68A' },
-                            { type: 'Motor Driving School', icon: Car, color: '#059669', bg: '#ECFDF5', desc: 'Driving instruction centers', border: '#A7F3D0' },
-                            { type: 'Institute', icon: GraduationCap, color: '#7C3AED', bg: '#F5F3FF', desc: 'Educational and training institutions', border: '#DDD6FE' }
-                        ].map(t => (
+                            {
+                                type: 'Office',
+                                icon: Building2,
+                                color: '#2563EB',
+                                bg: '#EFF6FF',
+                                desc: 'Standard corporate offices or branches',
+                                border: '#BFDBFE',
+                            },
+                            {
+                                type: 'Vendor',
+                                icon: Store,
+                                color: '#D97706',
+                                bg: '#FFFBEB',
+                                desc: 'Service providers and suppliers',
+                                border: '#FDE68A',
+                            },
+                            {
+                                type: 'Motor Driving School',
+                                icon: Car,
+                                color: '#059669',
+                                bg: '#ECFDF5',
+                                desc: 'Driving instruction centers',
+                                border: '#A7F3D0',
+                            },
+                            {
+                                type: 'Institute',
+                                icon: GraduationCap,
+                                color: '#7C3AED',
+                                bg: '#F5F3FF',
+                                desc: 'Educational and training institutions',
+                                border: '#DDD6FE',
+                            },
+                        ].map((t) => (
                             <div
                                 key={t.type}
                                 onClick={() => {
-                                    setForm(v => ({ ...v, orgType: t.type as OrgType }));
-                                    setErrs(v => ({ ...v, orgType: undefined }));
+                                    setForm((v) => ({ ...v, orgType: t.type as OrgType }));
+                                    setErrs((v) => ({ ...v, orgType: undefined }));
                                 }}
                                 style={{
                                     background: 'white',
@@ -924,26 +1021,43 @@ export const OrganisationCreate = () => {
                                 }}
                                 onMouseLeave={(e) => {
                                     e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+                                    e.currentTarget.style.boxShadow =
+                                        '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
                                     e.currentTarget.style.borderColor = t.border;
                                 }}
                             >
-                                <div style={{
-                                    width: 72,
-                                    height: 72,
-                                    borderRadius: '50%',
-                                    background: t.bg,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
+                                <div
+                                    style={{
+                                        width: 72,
+                                        height: 72,
+                                        borderRadius: '50%',
+                                        background: t.bg,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
                                     <t.icon size={36} color={t.color} />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text)', margin: '0 0 8px 0' }}>
+                                    <h3
+                                        style={{
+                                            fontSize: 18,
+                                            fontWeight: 800,
+                                            color: 'var(--text)',
+                                            margin: '0 0 8px 0',
+                                        }}
+                                    >
                                         {t.type}
                                     </h3>
-                                    <p style={{ fontSize: 13, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
+                                    <p
+                                        style={{
+                                            fontSize: 13,
+                                            color: 'var(--muted)',
+                                            margin: 0,
+                                            lineHeight: 1.5,
+                                        }}
+                                    >
                                         {t.desc}
                                     </p>
                                 </div>
@@ -982,7 +1096,7 @@ export const OrganisationCreate = () => {
                     {!isEdit && (
                         <button
                             className="btn btn-secondary"
-                            onClick={() => setForm(v => ({ ...v, orgType: '' }))}
+                            onClick={() => setForm((v) => ({ ...v, orgType: '' }))}
                         >
                             <RefreshCw size={18} className="ms" /> Change Type
                         </button>
@@ -1007,47 +1121,66 @@ export const OrganisationCreate = () => {
                                 form.orgType === 'Office'
                                     ? '#EFF6FF'
                                     : form.orgType === 'Vendor'
-                                        ? '#FFFBEB'
-                                        : form.orgType === 'Motor Driving School'
-                                            ? '#ECFDF5'
-                                            : '#F5F3FF',
-                            border: `1px solid ${form.orgType === 'Office'
-                                ? '#BFDBFE'
-                                : form.orgType === 'Vendor'
-                                    ? '#FDE68A'
-                                    : form.orgType === 'Motor Driving School'
+                                      ? '#FFFBEB'
+                                      : form.orgType === 'Motor Driving School'
+                                        ? '#ECFDF5'
+                                        : '#F5F3FF',
+                            border: `1px solid ${
+                                form.orgType === 'Office'
+                                    ? '#BFDBFE'
+                                    : form.orgType === 'Vendor'
+                                      ? '#FDE68A'
+                                      : form.orgType === 'Motor Driving School'
                                         ? '#A7F3D0'
                                         : '#DDD6FE'
-                                }`,
+                            }`,
                             display: 'flex',
                             alignItems: 'center',
                             gap: 16,
                         }}
                     >
-                        <div style={{
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            background: 'white',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
-                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-                        }}>
-                                {form.orgType === 'Office'
-                                    ? <Building2 size={24} color="#2563EB" />
-                                    : form.orgType === 'Vendor'
-                                        ? <Store size={24} color="#D97706" />
-                                        : form.orgType === 'Motor Driving School'
-                                            ? <Car size={24} color="#059669" />
-                                            : <GraduationCap size={24} color="#7C3AED" />}
+                        <div
+                            style={{
+                                width: 48,
+                                height: 48,
+                                borderRadius: '50%',
+                                background: 'white',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexShrink: 0,
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+                            }}
+                        >
+                            {form.orgType === 'Office' ? (
+                                <Building2 size={24} color="#2563EB" />
+                            ) : form.orgType === 'Vendor' ? (
+                                <Store size={24} color="#D97706" />
+                            ) : form.orgType === 'Motor Driving School' ? (
+                                <Car size={24} color="#059669" />
+                            ) : (
+                                <GraduationCap size={24} color="#7C3AED" />
+                            )}
                         </div>
                         <div>
-                            <h3 style={{ fontSize: 16, fontWeight: 800, color: 'var(--text)', margin: '0 0 4px 0' }}>
+                            <h3
+                                style={{
+                                    fontSize: 16,
+                                    fontWeight: 800,
+                                    color: 'var(--text)',
+                                    margin: '0 0 4px 0',
+                                }}
+                            >
                                 Onboarding a {form.orgType}
                             </h3>
-                            <p style={{ fontSize: 13, color: 'var(--muted)', margin: 0, lineHeight: 1.5 }}>
+                            <p
+                                style={{
+                                    fontSize: 13,
+                                    color: 'var(--muted)',
+                                    margin: 0,
+                                    lineHeight: 1.5,
+                                }}
+                            >
                                 {form.orgType === 'Office' &&
                                     'Complete the comprehensive office onboarding form including operational metrics and documents.'}
                                 {form.orgType === 'Vendor' &&
@@ -1068,18 +1201,42 @@ export const OrganisationCreate = () => {
                                 <Grid className="grid-cols-responsive-2">
                                     <div data-err={errs.orgName ? '1' : undefined}>
                                         <Label>Organisation Name*</Label>
-                                        <input className="form-input" placeholder="e.g. VanLoka Branch" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="e.g. VanLoka Branch"
+                                            value={form.orgName}
+                                            onChange={f('orgName')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                borderColor: errs.orgName ? '#DC2626' : undefined,
+                                            }}
+                                        />
                                         <Err msg={errs.orgName} />
                                     </div>
                                     <div>
                                         <Label>Organisation Type</Label>
-                                        <input className="form-input" value={form.orgType} readOnly style={{ width: '100%', boxSizing: 'border-box', background: 'var(--surface)' }} />
+                                        <input
+                                            className="form-input"
+                                            value={form.orgType}
+                                            readOnly
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                background: 'var(--surface)',
+                                            }}
+                                        />
                                     </div>
                                 </Grid>
                                 <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>Registration Type</Label>
-                                        <select className="form-select" value={form.registrationType} onChange={f('registrationType')} style={{ width: '100%', boxSizing: 'border-box' }}>
+                                        <select
+                                            className="form-select"
+                                            value={form.registrationType}
+                                            onChange={f('registrationType')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        >
                                             <option value="">Select</option>
                                             <option>Private Ltd</option>
                                             <option>Public Ltd</option>
@@ -1090,50 +1247,127 @@ export const OrganisationCreate = () => {
                                     </div>
                                     <div>
                                         <Label>Registration No.</Label>
-                                        <input className="form-input" placeholder="Reg No" value={form.registrationNo} onChange={f('registrationNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="Reg No"
+                                            value={form.registrationNo}
+                                            onChange={f('registrationNo')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Registration Date</Label>
-                                        <input type="date" className="form-input" value={form.registrationDate} onChange={f('registrationDate')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="date"
+                                            className="form-input"
+                                            value={form.registrationDate}
+                                            onChange={f('registrationDate')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>UDYAM / MSME No.</Label>
-                                        <input className="form-input" placeholder="UDYAM-XX-00-0000000" value={form.udyamNo} onChange={f('udyamNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="UDYAM-XX-00-0000000"
+                                            value={form.udyamNo}
+                                            onChange={f('udyamNo')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Grid>
                                 <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>GST Number</Label>
-                                        <input className="form-input" placeholder="29AABCC1234A1Z5" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="29AABCC1234A1Z5"
+                                            value={form.gstNumber}
+                                            onChange={f('gstNumber')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>PAN Number</Label>
-                                        <input className="form-input" placeholder="AABCC1234A" value={form.panNumber} onChange={f('panNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="AABCC1234A"
+                                            value={form.panNumber}
+                                            onChange={f('panNumber')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Tan Number</Label>
-                                        <input className="form-input" placeholder="ABCD12345E" value={form.tanNumber} onChange={f('tanNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="ABCD12345E"
+                                            value={form.tanNumber}
+                                            onChange={f('tanNumber')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Grid>
                                 <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
                                     <div data-err={errs.email ? '1' : undefined}>
                                         <Label>organisation Email*</Label>
-                                        <input type="email" className="form-input" placeholder="org@example.com" value={form.email} onChange={f('email')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.email ? '#DC2626' : undefined }} />
+                                        <input
+                                            type="email"
+                                            className="form-input"
+                                            placeholder="org@example.com"
+                                            value={form.email}
+                                            onChange={f('email')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                borderColor: errs.email ? '#DC2626' : undefined,
+                                            }}
+                                        />
                                         <Err msg={errs.email} />
                                     </div>
                                     <div data-err={errs.phone ? '1' : undefined}>
                                         <Label>Organisation Phone*</Label>
-                                        <input className="form-input" placeholder="XXXXXXXXXX" value={form.phone} onChange={f('phone')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.phone ? '#DC2626' : undefined }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="XXXXXXXXXX"
+                                            value={form.phone}
+                                            onChange={f('phone')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                borderColor: errs.phone ? '#DC2626' : undefined,
+                                            }}
+                                        />
                                         <Err msg={errs.phone} />
                                     </div>
                                     <div>
                                         <Label>Website / Domain</Label>
-                                        <input className="form-input" placeholder="e.g. company-name.com" value={form.website} onChange={f('website')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="e.g. company-name.com"
+                                            value={form.website}
+                                            onChange={f('website')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Grid>
-                                <div style={{ marginTop: 16 }} data-err={errs.subscriptionPlan ? '1' : undefined}>
+                                <div
+                                    style={{ marginTop: 16 }}
+                                    data-err={errs.subscriptionPlan ? '1' : undefined}
+                                >
                                     <Label>Subscription Plan *</Label>
-                                    <select className="form-select" value={form.subscriptionPlan} onChange={f('subscriptionPlan')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.subscriptionPlan ? '#DC2626' : undefined }}>
+                                    <select
+                                        className="form-select"
+                                        value={form.subscriptionPlan}
+                                        onChange={f('subscriptionPlan')}
+                                        style={{
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                            borderColor: errs.subscriptionPlan
+                                                ? '#DC2626'
+                                                : undefined,
+                                        }}
+                                    >
                                         <option value="">Select</option>
                                         <option>Basic Plan</option>
                                         <option>Standard Plan</option>
@@ -1144,29 +1378,76 @@ export const OrganisationCreate = () => {
                             </Body>
                         </Card>
                     ) : (
-                        (form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School') && (
+                        form.orgType !== 'Institute' &&
+                        form.orgType !== 'Vendor' &&
+                        form.orgType !== 'Motor Driving School' && (
                             <Card>
                                 <SectionHeader icon={Building2} title="Basic Information" />
                                 <Body>
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Organisation Name *</Label>
-                                            <input className="form-input" placeholder="e.g. VanLoka Branch" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="e.g. VanLoka Branch"
+                                                value={form.orgName}
+                                                onChange={f('orgName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.orgName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.orgName} />
                                         </div>
                                         <div data-err={errs.contactPerson ? '1' : undefined}>
                                             <Label>Contact Person *</Label>
-                                            <input className="form-input" placeholder="Full Name" value={form.contactPerson} onChange={f('contactPerson')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.contactPerson ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Full Name"
+                                                value={form.contactPerson}
+                                                onChange={f('contactPerson')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.contactPerson
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.contactPerson} />
                                         </div>
                                         <div data-err={errs.email ? '1' : undefined}>
                                             <Label>Email *</Label>
-                                            <input type="email" className="form-input" placeholder="org@example.com" value={form.email} onChange={f('email')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.email ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="email"
+                                                className="form-input"
+                                                placeholder="org@example.com"
+                                                value={form.email}
+                                                onChange={f('email')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.email ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.email} />
                                         </div>
                                         <div data-err={errs.phone ? '1' : undefined}>
                                             <Label>Phone *</Label>
-                                            <input className="form-input" placeholder="+91 XXXXX XXXXX" value={form.phone} onChange={f('phone')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.phone ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="+91 XXXXX XXXXX"
+                                                value={form.phone}
+                                                onChange={f('phone')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.phone ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.phone} />
                                         </div>
                                     </Grid>
@@ -1183,37 +1464,91 @@ export const OrganisationCreate = () => {
                                 <Grid className="grid-cols-responsive-4">
                                     <div>
                                         <Label>Total Employees</Label>
-                                        <input type="number" className="form-input" placeholder="0" value={form.totalEmployees} onChange={f('totalEmployees')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="0"
+                                            value={form.totalEmployees}
+                                            onChange={f('totalEmployees')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Total Vehicles</Label>
-                                        <input type="number" className="form-input" placeholder="0" value={form.totalVehicles} onChange={f('totalVehicles')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="0"
+                                            value={form.totalVehicles}
+                                            onChange={f('totalVehicles')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>GPS Devices</Label>
-                                        <input type="number" className="form-input" placeholder="0" value={form.gpsDevices} onChange={f('gpsDevices')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="0"
+                                            value={form.gpsDevices}
+                                            onChange={f('gpsDevices')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Beacons Devices</Label>
-                                        <input type="number" className="form-input" placeholder="0" value={form.beaconsDevices} onChange={f('beaconsDevices')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="0"
+                                            value={form.beaconsDevices}
+                                            onChange={f('beaconsDevices')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Grid>
                                 <Grid className="grid-cols-responsive-4" style={{ marginTop: 16 }}>
                                     <div>
                                         <Label>Shifts</Label>
-                                        <input type="number" className="form-input" placeholder="e.g. 3" value={form.shifts} onChange={f('shifts')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="e.g. 3"
+                                            value={form.shifts}
+                                            onChange={f('shifts')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Branches</Label>
-                                        <input type="number" className="form-input" placeholder="e.g. 5" value={form.branches} onChange={f('branches')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            placeholder="e.g. 5"
+                                            value={form.branches}
+                                            onChange={f('branches')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Working Hours</Label>
-                                        <input className="form-input" placeholder="e.g. 9:00 AM – 6:00 PM" value={form.workingHours} onChange={f('workingHours')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="e.g. 9:00 AM – 6:00 PM"
+                                            value={form.workingHours}
+                                            onChange={f('workingHours')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                     <div>
                                         <Label>Working Days</Label>
-                                        <input className="form-input" placeholder="e.g. Mon - Sat" value={form.workingDays} onChange={f('workingDays')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="e.g. Mon - Sat"
+                                            value={form.workingDays}
+                                            onChange={f('workingDays')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Grid>
                             </Body>
@@ -1221,53 +1556,123 @@ export const OrganisationCreate = () => {
                     )}
 
                     {/* ── ADDRESS DETAILS ── */}
-                    {(form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School') && (
-                        <Card>
-                            <SectionHeader icon={Home} title="Address Details" />
-                            <Body>
-                                <Grid className="grid-cols-responsive-2">
-                                    <div data-err={errs.address1 ? '1' : undefined}>
-                                        <Label>Address Line 1*</Label>
-                                        <input className="form-input" placeholder="Building/Flat No, Street" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
-                                        <Err msg={errs.address1} />
-                                    </div>
-                                    <div>
-                                        <Label>Address Line 2</Label>
-                                        <input className="form-input" placeholder="Area, Locality" value={form.address2} onChange={f('address2')} style={{ width: '100%', boxSizing: 'border-box' }} />
-                                    </div>
-                                    <div data-err={errs.state ? '1' : undefined}>
-                                        <Label>State *</Label>
-                                        <select className="form-select" value={form.state} onChange={f('state')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.state ? '#DC2626' : undefined }}>
-                                            <option value="">Select State</option>
-                                            {STATES.map((s) => (
-                                                <option key={s}>{s}</option>
-                                            ))}
-                                        </select>
-                                        <Err msg={errs.state} />
-                                    </div>
-                                    <div data-err={errs.district ? '1' : undefined}>
-                                        <Label>District *</Label>
-                                        <input className="form-input" placeholder="District" value={form.district} onChange={f('district')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.district ? '#DC2626' : undefined }} />
-                                        <Err msg={errs.district} />
-                                    </div>
-                                    <div data-err={errs.city ? '1' : undefined}>
-                                        <Label>City*</Label>
-                                        <input className="form-input" placeholder="City" value={form.city} onChange={f('city')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.city ? '#DC2626' : undefined }} />
-                                        <Err msg={errs.city} />
-                                    </div>
-                                    <div data-err={errs.pinCode ? '1' : undefined}>
-                                        <Label>Pincode*</Label>
-                                        <input className="form-input" placeholder="400XXX" value={form.pinCode} onChange={f('pinCode')} maxLength={6} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.pinCode ? '#DC2626' : undefined }} />
-                                        <Err msg={errs.pinCode} />
-                                    </div>
-                                    <div style={{ gridColumn: 'span 2' }}>
-                                        <Label>Landmark</Label>
-                                        <input className="form-input" placeholder="Near XYZ" value={form.landmark} onChange={f('landmark')} style={{ width: '100%', boxSizing: 'border-box' }} />
-                                    </div>
-                                </Grid>
-                            </Body>
-                        </Card>
-                    )}
+                    {form.orgType !== 'Institute' &&
+                        form.orgType !== 'Vendor' &&
+                        form.orgType !== 'Motor Driving School' && (
+                            <Card>
+                                <SectionHeader icon={Home} title="Address Details" />
+                                <Body>
+                                    <Grid className="grid-cols-responsive-2">
+                                        <div data-err={errs.address1 ? '1' : undefined}>
+                                            <Label>Address Line 1*</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="Building/Flat No, Street"
+                                                value={form.address1}
+                                                onChange={f('address1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.address1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
+                                            <Err msg={errs.address1} />
+                                        </div>
+                                        <div>
+                                            <Label>Address Line 2</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="Area, Locality"
+                                                value={form.address2}
+                                                onChange={f('address2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
+                                        </div>
+                                        <div data-err={errs.state ? '1' : undefined}>
+                                            <Label>State *</Label>
+                                            <select
+                                                className="form-select"
+                                                value={form.state}
+                                                onChange={f('state')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.state ? '#DC2626' : undefined,
+                                                }}
+                                            >
+                                                <option value="">Select State</option>
+                                                {STATES.map((s) => (
+                                                    <option key={s}>{s}</option>
+                                                ))}
+                                            </select>
+                                            <Err msg={errs.state} />
+                                        </div>
+                                        <div data-err={errs.district ? '1' : undefined}>
+                                            <Label>District *</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="District"
+                                                value={form.district}
+                                                onChange={f('district')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.district
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
+                                            <Err msg={errs.district} />
+                                        </div>
+                                        <div data-err={errs.city ? '1' : undefined}>
+                                            <Label>City*</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="City"
+                                                value={form.city}
+                                                onChange={f('city')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.city ? '#DC2626' : undefined,
+                                                }}
+                                            />
+                                            <Err msg={errs.city} />
+                                        </div>
+                                        <div data-err={errs.pinCode ? '1' : undefined}>
+                                            <Label>Pincode*</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="400XXX"
+                                                value={form.pinCode}
+                                                onChange={f('pinCode')}
+                                                maxLength={6}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.pinCode
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
+                                            <Err msg={errs.pinCode} />
+                                        </div>
+                                        <div style={{ gridColumn: 'span 2' }}>
+                                            <Label>Landmark</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="Near XYZ"
+                                                value={form.landmark}
+                                                onChange={f('landmark')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
+                                        </div>
+                                    </Grid>
+                                </Body>
+                            </Card>
+                        )}
 
                     {/* ── CONTACT PERSONS (Office Only) ── */}
                     {form.orgType === 'Office' && (
@@ -1275,48 +1680,136 @@ export const OrganisationCreate = () => {
                             <SectionHeader icon={Users} title="Contact Persons" />
                             <Body>
                                 <div style={{ marginBottom: 20 }}>
-                                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--primary)', marginBottom: 15, borderBottom: '1px solid var(--border)', paddingBottom: 5 }}>Primary Contact</div>
+                                    <div
+                                        style={{
+                                            fontSize: 13,
+                                            fontWeight: 800,
+                                            color: 'var(--primary)',
+                                            marginBottom: 15,
+                                            borderBottom: '1px solid var(--border)',
+                                            paddingBottom: 5,
+                                        }}
+                                    >
+                                        Primary Contact
+                                    </div>
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Full Name*</Label>
-                                            <input className="form-input" placeholder="Name" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Name"
+                                                value={form.primaryContactName}
+                                                onChange={f('primaryContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactName} />
                                         </div>
                                         <div data-err={errs.primaryContactEmail ? '1' : undefined}>
                                             <Label>Email*</Label>
-                                            <input className="form-input" placeholder="email@example.com" value={form.primaryContactEmail} onChange={f('primaryContactEmail')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactEmail ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="email@example.com"
+                                                value={form.primaryContactEmail}
+                                                onChange={f('primaryContactEmail')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactEmail
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactEmail} />
                                         </div>
                                         <div data-err={errs.primaryContactPhone1 ? '1' : undefined}>
                                             <Label>Phone 1*</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.primaryContactPhone1} onChange={f('primaryContactPhone1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactPhone1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.primaryContactPhone1}
+                                                onChange={f('primaryContactPhone1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactPhone1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactPhone1} />
                                         </div>
                                         <div>
                                             <Label>Phone 2</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.primaryContactPhone2} onChange={f('primaryContactPhone2')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.primaryContactPhone2}
+                                                onChange={f('primaryContactPhone2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
                                 </div>
 
                                 <div>
-                                    <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--muted)', marginBottom: 15, borderBottom: '1px solid var(--border)', paddingBottom: 5 }}>Secondary Contact</div>
+                                    <div
+                                        style={{
+                                            fontSize: 13,
+                                            fontWeight: 800,
+                                            color: 'var(--muted)',
+                                            marginBottom: 15,
+                                            borderBottom: '1px solid var(--border)',
+                                            paddingBottom: 5,
+                                        }}
+                                    >
+                                        Secondary Contact
+                                    </div>
                                     <Grid className="grid-cols-responsive-2">
                                         <div>
                                             <Label>Full Name</Label>
-                                            <input className="form-input" placeholder="Name" value={form.secondaryContactName} onChange={f('secondaryContactName')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Name"
+                                                value={form.secondaryContactName}
+                                                onChange={f('secondaryContactName')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div>
                                             <Label>Email</Label>
-                                            <input className="form-input" placeholder="email@example.com" value={form.secondaryContactEmail} onChange={f('secondaryContactEmail')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="email@example.com"
+                                                value={form.secondaryContactEmail}
+                                                onChange={f('secondaryContactEmail')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div>
                                             <Label>Phone 1</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.secondaryContactPhone1} onChange={f('secondaryContactPhone1')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.secondaryContactPhone1}
+                                                onChange={f('secondaryContactPhone1')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div>
                                             <Label>Phone 2</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.secondaryContactPhone2} onChange={f('secondaryContactPhone2')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.secondaryContactPhone2}
+                                                onChange={f('secondaryContactPhone2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
                                 </div>
@@ -1332,46 +1825,83 @@ export const OrganisationCreate = () => {
                                 <Grid className="grid-cols-responsive-2">
                                     <div data-err={errs.adminEmail ? '1' : undefined}>
                                         <Label>Admin Email (Username)*</Label>
-                                        <input className="form-input" placeholder="admin@admin.com" value={form.adminEmail} onChange={f('adminEmail')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.adminEmail ? '#DC2626' : undefined }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="admin@admin.com"
+                                            value={form.adminEmail}
+                                            onChange={f('adminEmail')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                borderColor: errs.adminEmail
+                                                    ? '#DC2626'
+                                                    : undefined,
+                                            }}
+                                        />
                                         <Err msg={errs.adminEmail} />
                                     </div>
                                     <div data-err={errs.password ? '1' : undefined}>
                                         <Label>Password*</Label>
-                                        <input type="password" className="form-input" placeholder="••••••••" value={form.password} onChange={f('password')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.password ? '#DC2626' : undefined }} />
+                                        <input
+                                            type="password"
+                                            className="form-input"
+                                            placeholder="••••••••"
+                                            value={form.password}
+                                            onChange={f('password')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                borderColor: errs.password ? '#DC2626' : undefined,
+                                            }}
+                                        />
                                         <Err msg={errs.password} />
                                     </div>
                                 </Grid>
                                 <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: 12 }}>
-                                    Ensure the password is strong and shared securely with the organization admin.
+                                    Ensure the password is strong and shared securely with the
+                                    organization admin.
                                 </p>
                             </Body>
                         </Card>
                     )}
 
                     {/* ── STATUTORY DETAILS (Motor Driving School / Others) ── */}
-                    {form.orgType !== 'Office' && form.orgType !== 'Institute' && form.orgType !== 'Vendor' && form.orgType !== 'Motor Driving School' && (
-                        <Card>
-                            <SectionHeader icon={FileText} title="Statutory Details" />
-                            <Body>
-                                <Grid className="grid-cols-responsive-2">
-                                    <div>
-                                        <Label>GST Number</Label>
-                                        <input className="form-input" placeholder="29AABCC1234A1Z5" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
-                                    </div>
-                                    <div>
-                                        <Label>PAN Number</Label>
-                                        <input className="form-input" placeholder="AABCC1234A" value={form.panNumber} onChange={f('panNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
-                                    </div>
-                                </Grid>
-                            </Body>
-                        </Card>
-                    )}
-
+                    {form.orgType !== 'Office' &&
+                        form.orgType !== 'Institute' &&
+                        form.orgType !== 'Vendor' &&
+                        form.orgType !== 'Motor Driving School' && (
+                            <Card>
+                                <SectionHeader icon={FileText} title="Statutory Details" />
+                                <Body>
+                                    <Grid className="grid-cols-responsive-2">
+                                        <div>
+                                            <Label>GST Number</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="29AABCC1234A1Z5"
+                                                value={form.gstNumber}
+                                                onChange={f('gstNumber')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
+                                        </div>
+                                        <div>
+                                            <Label>PAN Number</Label>
+                                            <input
+                                                className="form-input"
+                                                placeholder="AABCC1234A"
+                                                value={form.panNumber}
+                                                onChange={f('panNumber')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
+                                        </div>
+                                    </Grid>
+                                </Body>
+                            </Card>
+                        )}
 
                     {/* ═══════════════════════════════════════
                        TYPE-SPECIFIC SECTIONS
                     ═══════════════════════════════════════ */}
-
 
                     {/* ── VENDOR COMPREHENSIVE FORM ── */}
                     {form.orgType === 'Vendor' && (
@@ -1383,12 +1913,35 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Vendor Name *</Label>
-                                            <input className="form-input" placeholder="Legal name of the transport vendor" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Legal name of the transport vendor"
+                                                value={form.orgName}
+                                                onChange={f('orgName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.orgName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.orgName} />
                                         </div>
                                         <div data-err={errs.vendorType ? '1' : undefined}>
                                             <Label>Vendor Type *</Label>
-                                            <select className="form-select" value={form.vendorType} onChange={f('vendorType')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.vendorType ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.vendorType}
+                                                onChange={f('vendorType')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.vendorType
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>Individual</option>
                                                 <option>Company</option>
@@ -1398,31 +1951,93 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.vendorType} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
-                                            <input className="form-input" placeholder="Primary Contact" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Primary Contact"
+                                                value={form.primaryContactName}
+                                                onChange={f('primaryContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactName} />
                                         </div>
                                         <div data-err={errs.primaryContactPhone1 ? '1' : undefined}>
                                             <Label>Contact Mobile Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.primaryContactPhone1} onChange={f('primaryContactPhone1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactPhone1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.primaryContactPhone1}
+                                                onChange={f('primaryContactPhone1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactPhone1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactPhone1} />
                                         </div>
                                         <div>
                                             <Label>Contact Email ID (Optional)</Label>
-                                            <input className="form-input" placeholder="email@example.com" value={form.primaryContactEmail} onChange={f('primaryContactEmail')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="email@example.com"
+                                                value={form.primaryContactEmail}
+                                                onChange={f('primaryContactEmail')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-2"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
-                                            <input className="form-input" placeholder="Escalation Contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Escalation Contact"
+                                                value={form.emergencyContactName}
+                                                onChange={f('emergencyContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactName} />
                                         </div>
-                                        <div data-err={errs.emergencyContactNumber ? '1' : undefined}>
+                                        <div
+                                            data-err={errs.emergencyContactNumber ? '1' : undefined}
+                                        >
                                             <Label>Emergency Contact Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.emergencyContactNumber} onChange={f('emergencyContactNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.emergencyContactNumber}
+                                                onChange={f('emergencyContactNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactNumber} />
                                         </div>
                                     </Grid>
@@ -1436,38 +2051,114 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Office Address Line 1 *</Label>
-                                            <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Street, Landmark"
+                                                value={form.address1}
+                                                onChange={f('address1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.address1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.address1} />
                                         </div>
                                         <div>
                                             <Label>Office Address Line 2 (Optional)</Label>
-                                            <input className="form-input" placeholder="Extension data" value={form.address2} onChange={f('address2')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Extension data"
+                                                value={form.address2}
+                                                onChange={f('address2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div data-err={errs.villageLocality ? '1' : undefined}>
                                             <Label>Village / Locality *</Label>
-                                            <input className="form-input" placeholder="Rural/Urban mapping" value={form.villageLocality} onChange={f('villageLocality')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.villageLocality ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Rural/Urban mapping"
+                                                value={form.villageLocality}
+                                                onChange={f('villageLocality')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.villageLocality
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.villageLocality} />
                                         </div>
                                         <div data-err={errs.city ? '1' : undefined}>
                                             <Label>City / Town *</Label>
-                                            <input className="form-input" placeholder="City" value={form.city} onChange={f('city')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.city ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="City"
+                                                value={form.city}
+                                                onChange={f('city')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.city ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.city} />
                                         </div>
                                         <div data-err={errs.district ? '1' : undefined}>
                                             <Label>District *</Label>
-                                            <input className="form-input" placeholder="District" value={form.district} onChange={f('district')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.district ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="District"
+                                                value={form.district}
+                                                onChange={f('district')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.district
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.district} />
                                         </div>
                                         <div data-err={errs.state ? '1' : undefined}>
                                             <Label>State *</Label>
-                                            <select className="form-select" value={form.state} onChange={f('state')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.state ? '#DC2626' : undefined }}>
-                                                {STATES.map((s) => <option key={s}>{s}</option>)}
+                                            <select
+                                                className="form-select"
+                                                value={form.state}
+                                                onChange={f('state')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.state ? '#DC2626' : undefined,
+                                                }}
+                                            >
+                                                {STATES.map((s) => (
+                                                    <option key={s}>{s}</option>
+                                                ))}
                                             </select>
                                             <Err msg={errs.state} />
                                         </div>
                                         <div data-err={errs.pinCode ? '1' : undefined}>
                                             <Label>PIN Code *</Label>
-                                            <input className="form-input" placeholder="6-digit PIN" value={form.pinCode} onChange={f('pinCode')} maxLength={6} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.pinCode ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="6-digit PIN"
+                                                value={form.pinCode}
+                                                onChange={f('pinCode')}
+                                                maxLength={6}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.pinCode
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.pinCode} />
                                         </div>
                                     </Grid>
@@ -1476,45 +2167,130 @@ export const OrganisationCreate = () => {
 
                             {/* ── Statutory & Financial Details ── */}
                             <Card>
-                                <SectionHeader icon={Receipt} title="Statutory & Financial Details" />
+                                <SectionHeader
+                                    icon={Receipt}
+                                    title="Statutory & Financial Details"
+                                />
                                 <Body>
                                     <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.gstNumber ? '1' : undefined}>
                                             <Label>GST Number *</Label>
-                                            <input className="form-input" placeholder="29AABCC..." value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.gstNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="29AABCC..."
+                                                value={form.gstNumber}
+                                                onChange={f('gstNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.gstNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.gstNumber} />
                                         </div>
                                         <div data-err={errs.panNumber ? '1' : undefined}>
                                             <Label>PAN Number *</Label>
-                                            <input className="form-input" placeholder="AABCC1234A" value={form.panNumber} onChange={f('panNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.panNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="AABCC1234A"
+                                                value={form.panNumber}
+                                                onChange={f('panNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.panNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.panNumber} />
                                         </div>
                                         {form.vendorType === 'Individual' && (
                                             <div data-err={errs.aadhaarNumber ? '1' : undefined}>
                                                 <Label>Aadhaar Number *</Label>
-                                                <input className="form-input" placeholder="12-digit Aadhaar" value={form.aadhaarNumber} onChange={f('aadhaarNumber')} maxLength={12} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.aadhaarNumber ? '#DC2626' : undefined }} />
+                                                <input
+                                                    className="form-input"
+                                                    placeholder="12-digit Aadhaar"
+                                                    value={form.aadhaarNumber}
+                                                    onChange={f('aadhaarNumber')}
+                                                    maxLength={12}
+                                                    style={{
+                                                        width: '100%',
+                                                        boxSizing: 'border-box',
+                                                        borderColor: errs.aadhaarNumber
+                                                            ? '#DC2626'
+                                                            : undefined,
+                                                    }}
+                                                />
                                                 <Err msg={errs.aadhaarNumber} />
                                             </div>
                                         )}
                                         <div>
                                             <Label>UDYAM / MSME Reg No (Optional)</Label>
-                                            <input className="form-input" placeholder="UDYAM-XX-..." value={form.udyamNo} onChange={f('udyamNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="UDYAM-XX-..."
+                                                value={form.udyamNo}
+                                                onChange={f('udyamNo')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.bankAccountNo ? '1' : undefined}>
                                             <Label>Bank Account Number *</Label>
-                                            <input className="form-input" placeholder="Account Number" value={form.bankAccountNo} onChange={f('bankAccountNo')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.bankAccountNo ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Account Number"
+                                                value={form.bankAccountNo}
+                                                onChange={f('bankAccountNo')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.bankAccountNo
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.bankAccountNo} />
                                         </div>
                                         <div data-err={errs.bankIfsc ? '1' : undefined}>
                                             <Label>Bank IFSC Code *</Label>
-                                            <input className="form-input" placeholder="IFSC0001234" value={form.bankIfsc} onChange={f('bankIfsc')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.bankIfsc ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="IFSC0001234"
+                                                value={form.bankIfsc}
+                                                onChange={f('bankIfsc')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.bankIfsc
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.bankIfsc} />
                                         </div>
                                         <div data-err={errs.accountHolderName ? '1' : undefined}>
                                             <Label>Account Holder Name *</Label>
-                                            <input className="form-input" placeholder="Must match PAN/Aadhaar" value={form.accountHolderName} onChange={f('accountHolderName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.accountHolderName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Must match PAN/Aadhaar"
+                                                value={form.accountHolderName}
+                                                onChange={f('accountHolderName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.accountHolderName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.accountHolderName} />
                                         </div>
                                     </Grid>
@@ -1523,22 +2299,60 @@ export const OrganisationCreate = () => {
 
                             {/* ── Contract & Insurance Details ── */}
                             <Card>
-                                <SectionHeader icon={FileSignature} title="Contract & Insurance Details" />
+                                <SectionHeader
+                                    icon={FileSignature}
+                                    title="Contract & Insurance Details"
+                                />
                                 <Body>
                                     <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.contractStartDate ? '1' : undefined}>
                                             <Label>Contract Start Date *</Label>
-                                            <input type="date" className="form-input" value={form.contractStartDate} onChange={f('contractStartDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.contractStartDate ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="date"
+                                                className="form-input"
+                                                value={form.contractStartDate}
+                                                onChange={f('contractStartDate')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.contractStartDate
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.contractStartDate} />
                                         </div>
                                         <div data-err={errs.contractEndDate ? '1' : undefined}>
                                             <Label>Contract End Date *</Label>
-                                            <input type="date" className="form-input" value={form.contractEndDate} onChange={f('contractEndDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.contractEndDate ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="date"
+                                                className="form-input"
+                                                value={form.contractEndDate}
+                                                onChange={f('contractEndDate')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.contractEndDate
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.contractEndDate} />
                                         </div>
                                         <div data-err={errs.insuranceCoverage ? '1' : undefined}>
                                             <Label>Insurance Liability Coverage *</Label>
-                                            <select className="form-select" value={form.insuranceCoverage} onChange={f('insuranceCoverage')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.insuranceCoverage ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.insuranceCoverage}
+                                                onChange={f('insuranceCoverage')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.insuranceCoverage
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option>No</option>
                                                 <option>Yes</option>
                                             </select>
@@ -1546,21 +2360,79 @@ export const OrganisationCreate = () => {
                                         </div>
                                     </Grid>
                                     <div style={{ marginTop: 16 }}>
-                                        <label style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-                                            <input type="checkbox" checked={form.safetyTrainingCompleted} onChange={(e) => setForm(v => ({ ...v, safetyTrainingCompleted: e.target.checked }))} style={{ width: 16, height: 16 }} />
-                                            <span style={{ fontSize: 12, fontWeight: 700 }}>Safety Training Completed (Optional)</span>
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 10,
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={form.safetyTrainingCompleted}
+                                                onChange={(e) =>
+                                                    setForm((v) => ({
+                                                        ...v,
+                                                        safetyTrainingCompleted: e.target.checked,
+                                                    }))
+                                                }
+                                                style={{ width: 16, height: 16 }}
+                                            />
+                                            <span style={{ fontSize: 12, fontWeight: 700 }}>
+                                                Safety Training Completed (Optional)
+                                            </span>
                                         </label>
                                     </div>
-                                    <div style={{ marginTop: 24, padding: '16px 20px', background: 'var(--surface)', borderRadius: 12, border: '1.5px solid var(--border)' }}>
-                                        <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-                                            <input type="checkbox" checked={form.consentCheckbox} onChange={handleConsent} style={{ width: 18, height: 18, accentColor: 'var(--primary)' }} />
-                                            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
-                                                I agree to VanLoka’s compliance and safety protocols *
+                                    <div
+                                        style={{
+                                            marginTop: 24,
+                                            padding: '16px 20px',
+                                            background: 'var(--surface)',
+                                            borderRadius: 12,
+                                            border: '1.5px solid var(--border)',
+                                        }}
+                                    >
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 12,
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={form.consentCheckbox}
+                                                onChange={handleConsent}
+                                                style={{
+                                                    width: 18,
+                                                    height: 18,
+                                                    accentColor: 'var(--primary)',
+                                                }}
+                                            />
+                                            <div
+                                                style={{
+                                                    fontSize: 13,
+                                                    fontWeight: 700,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
+                                                I agree to VanLoka’s compliance and safety protocols
+                                                *
                                             </div>
                                         </label>
                                         {form.consentTimestamp && (
-                                            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8, marginLeft: 30 }}>
-                                                Consent captured on: <strong>{form.consentTimestamp}</strong>
+                                            <div
+                                                style={{
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    marginTop: 8,
+                                                    marginLeft: 30,
+                                                }}
+                                            >
+                                                Consent captured on:{' '}
+                                                <strong>{form.consentTimestamp}</strong>
                                             </div>
                                         )}
                                         <Err msg={errs.consentCheckbox} />
@@ -1575,48 +2447,106 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.vehicleCount ? '1' : undefined}>
                                             <Label>Vehicle Count *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.vehicleCount} onChange={f('vehicleCount')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.vehicleCount ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.vehicleCount}
+                                                onChange={f('vehicleCount')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.vehicleCount
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.vehicleCount} />
                                         </div>
                                         <div data-err={errs.vehicleNumbers ? '1' : undefined}>
                                             <Label>Vehicle Numbers (List) *</Label>
-                                            <textarea className="form-input" placeholder="KA-01-XX-1234, KA-02..." value={form.vehicleNumbers} onChange={f('vehicleNumbers')} rows={1} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.vehicleNumbers ? '#DC2626' : undefined }} />
+                                            <textarea
+                                                className="form-input"
+                                                placeholder="KA-01-XX-1234, KA-02..."
+                                                value={form.vehicleNumbers}
+                                                onChange={f('vehicleNumbers')}
+                                                rows={1}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.vehicleNumbers
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.vehicleNumbers} />
                                         </div>
                                     </Grid>
                                     <div style={{ marginTop: 16 }}>
                                         <Label>Vehicle Types *</Label>
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                                            {VEHICLE_TYPES.map(type => (
-                                                <label key={type} style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: 6,
-                                                    padding: '6px 12px',
-                                                    background: form.vehicleTypes.includes(type) ? 'var(--primary-bg)' : 'var(--surface)',
-                                                    borderRadius: 20,
-                                                    border: `1px solid ${form.vehicleTypes.includes(type) ? 'var(--primary)' : 'var(--border)'}`,
-                                                    cursor: 'pointer',
-                                                    fontSize: 11,
-                                                    fontWeight: 700,
-                                                    color: form.vehicleTypes.includes(type) ? 'var(--primary)' : 'var(--text)'
-                                                }}>
-                                                    <input type="checkbox" checked={form.vehicleTypes.includes(type)} onChange={() => {
-                                                        const types = form.vehicleTypes.includes(type)
-                                                            ? form.vehicleTypes.filter(t => t !== type)
-                                                            : [...form.vehicleTypes, type];
-                                                        setForm(v => ({ ...v, vehicleTypes: types }));
-                                                    }} style={{ display: 'none' }} />
+                                            {VEHICLE_TYPES.map((type) => (
+                                                <label
+                                                    key={type}
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 6,
+                                                        padding: '6px 12px',
+                                                        background: form.vehicleTypes.includes(type)
+                                                            ? 'var(--primary-bg)'
+                                                            : 'var(--surface)',
+                                                        borderRadius: 20,
+                                                        border: `1px solid ${form.vehicleTypes.includes(type) ? 'var(--primary)' : 'var(--border)'}`,
+                                                        cursor: 'pointer',
+                                                        fontSize: 11,
+                                                        fontWeight: 700,
+                                                        color: form.vehicleTypes.includes(type)
+                                                            ? 'var(--primary)'
+                                                            : 'var(--text)',
+                                                    }}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={form.vehicleTypes.includes(type)}
+                                                        onChange={() => {
+                                                            const types =
+                                                                form.vehicleTypes.includes(type)
+                                                                    ? form.vehicleTypes.filter(
+                                                                          (t) => t !== type
+                                                                      )
+                                                                    : [...form.vehicleTypes, type];
+                                                            setForm((v) => ({
+                                                                ...v,
+                                                                vehicleTypes: types,
+                                                            }));
+                                                        }}
+                                                        style={{ display: 'none' }}
+                                                    />
                                                     {type}
                                                 </label>
                                             ))}
                                         </div>
                                         <Err msg={errs.vehicleTypes} />
                                     </div>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 20 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 20 }}
+                                    >
                                         <div data-err={errs.gpsInstalled ? '1' : undefined}>
                                             <Label>GPS Installed *</Label>
-                                            <select className="form-select" value={form.gpsInstalled} onChange={f('gpsInstalled')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.gpsInstalled ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.gpsInstalled}
+                                                onChange={f('gpsInstalled')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.gpsInstalled
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option>No</option>
                                                 <option>Yes</option>
                                             </select>
@@ -1624,7 +2554,18 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <div data-err={errs.beaconInstalled ? '1' : undefined}>
                                             <Label>Beacon Installed *</Label>
-                                            <select className="form-select" value={form.beaconInstalled} onChange={f('beaconInstalled')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.beaconInstalled ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.beaconInstalled}
+                                                onChange={f('beaconInstalled')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.beaconInstalled
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option>No</option>
                                                 <option>Yes</option>
                                             </select>
@@ -1638,11 +2579,33 @@ export const OrganisationCreate = () => {
                                                 { label: 'Permit', key: 'permitValidity' },
                                                 { label: 'Insurance', key: 'insuranceValidity' },
                                                 { label: 'Fitness', key: 'fitnessValidity' },
-                                                { label: 'Pollution', key: 'pollutionValidity' }
-                                            ].map(item => (
-                                                <label key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
-                                                    <input type="checkbox" checked={form[item.key as keyof Form] as boolean} onChange={(e) => setForm(v => ({ ...v, [item.key]: e.target.checked }))} style={{ width: 16, height: 16 }} />
-                                                    <span style={{ fontSize: 11, fontWeight: 700 }}>{item.label}</span>
+                                                { label: 'Pollution', key: 'pollutionValidity' },
+                                            ].map((item) => (
+                                                <label
+                                                    key={item.key}
+                                                    style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: 8,
+                                                        cursor: 'pointer',
+                                                    }}
+                                                >
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={
+                                                            form[item.key as keyof Form] as boolean
+                                                        }
+                                                        onChange={(e) =>
+                                                            setForm((v) => ({
+                                                                ...v,
+                                                                [item.key]: e.target.checked,
+                                                            }))
+                                                        }
+                                                        style={{ width: 16, height: 16 }}
+                                                    />
+                                                    <span style={{ fontSize: 11, fontWeight: 700 }}>
+                                                        {item.label}
+                                                    </span>
                                                 </label>
                                             ))}
                                         </Grid>
@@ -1662,29 +2625,91 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Driving school Name *</Label>
-                                            <input className="form-input" placeholder="Legal name as per RTO license" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Legal name as per RTO license"
+                                                value={form.orgName}
+                                                onChange={f('orgName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.orgName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.orgName} />
                                         </div>
                                         <div data-err={errs.mdsLicenseNumber ? '1' : undefined}>
                                             <Label>License Number (RTO) *</Label>
-                                            <input className="form-input" placeholder="MDS-XX-0000" value={form.mdsLicenseNumber} onChange={f('mdsLicenseNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.mdsLicenseNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="MDS-XX-0000"
+                                                value={form.mdsLicenseNumber}
+                                                onChange={f('mdsLicenseNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.mdsLicenseNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.mdsLicenseNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.licenseIssueDate ? '1' : undefined}>
                                             <Label>License Issue Date *</Label>
-                                            <input type="date" className="form-input" value={form.licenseIssueDate} onChange={f('licenseIssueDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.licenseIssueDate ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="date"
+                                                className="form-input"
+                                                value={form.licenseIssueDate}
+                                                onChange={f('licenseIssueDate')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.licenseIssueDate
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.licenseIssueDate} />
                                         </div>
                                         <div data-err={errs.licenseExpiryDate ? '1' : undefined}>
                                             <Label>License Expiry Date *</Label>
-                                            <input type="date" className="form-input" value={form.licenseExpiryDate} onChange={f('licenseExpiryDate')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.licenseExpiryDate ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="date"
+                                                className="form-input"
+                                                value={form.licenseExpiryDate}
+                                                onChange={f('licenseExpiryDate')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.licenseExpiryDate
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.licenseExpiryDate} />
                                         </div>
                                         <div data-err={errs.registrationType ? '1' : undefined}>
                                             <Label>Registration Type *</Label>
-                                            <select className="form-select" value={form.registrationType} onChange={f('registrationType')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.registrationType ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.registrationType}
+                                                onChange={f('registrationType')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.registrationType
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>Proprietorship</option>
                                                 <option>Partnership</option>
@@ -1694,25 +2719,64 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.registrationType} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.registrationNo ? '1' : undefined}>
                                             <Label>Registration Number *</Label>
-                                            <input className="form-input" placeholder="Reg No" value={form.registrationNo} onChange={f('registrationNo')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.registrationNo ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Reg No"
+                                                value={form.registrationNo}
+                                                onChange={f('registrationNo')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.registrationNo
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.registrationNo} />
                                         </div>
                                         <div data-err={errs.panNumber ? '1' : undefined}>
                                             <Label>PAN Number *</Label>
-                                            <input className="form-input" placeholder="PAN Number" value={form.panNumber} onChange={f('panNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.panNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="PAN Number"
+                                                value={form.panNumber}
+                                                onChange={f('panNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.panNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.panNumber} />
                                         </div>
                                         <div>
                                             <Label>GST Number (Optional)</Label>
-                                            <input className="form-input" placeholder="GST Number" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="GST Number"
+                                                value={form.gstNumber}
+                                                onChange={f('gstNumber')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
                                     <div style={{ marginTop: 16 }}>
                                         <Label>UDYAM / MSME Registration No. (Optional)</Label>
-                                        <input className="form-input" placeholder="UDYAM-XX-00-0000000" value={form.udyamNo} onChange={f('udyamNo')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                        <input
+                                            className="form-input"
+                                            placeholder="UDYAM-XX-00-0000000"
+                                            value={form.udyamNo}
+                                            onChange={f('udyamNo')}
+                                            style={{ width: '100%', boxSizing: 'border-box' }}
+                                        />
                                     </div>
                                 </Body>
                             </Card>
@@ -1724,67 +2788,210 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
-                                            <input className="form-input" placeholder="Name" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Name"
+                                                value={form.primaryContactName}
+                                                onChange={f('primaryContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactName} />
                                         </div>
                                         <div data-err={errs.primaryContactPhone1 ? '1' : undefined}>
                                             <Label>Contact Mobile Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.primaryContactPhone1} onChange={f('primaryContactPhone1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactPhone1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.primaryContactPhone1}
+                                                onChange={f('primaryContactPhone1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactPhone1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactPhone1} />
                                         </div>
                                         <div data-err={errs.email ? '1' : undefined}>
                                             <Label>Contact Email ID *</Label>
-                                            <input type="email" className="form-input" placeholder="email@example.com" value={form.email} onChange={f('email')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.email ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="email"
+                                                className="form-input"
+                                                placeholder="email@example.com"
+                                                value={form.email}
+                                                onChange={f('email')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.email ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.email} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-2"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
-                                            <input className="form-input" placeholder="Escalation Contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Escalation Contact"
+                                                value={form.emergencyContactName}
+                                                onChange={f('emergencyContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactName} />
                                         </div>
-                                        <div data-err={errs.emergencyContactNumber ? '1' : undefined}>
+                                        <div
+                                            data-err={errs.emergencyContactNumber ? '1' : undefined}
+                                        >
                                             <Label>Emergency Contact Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.emergencyContactNumber} onChange={f('emergencyContactNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.emergencyContactNumber}
+                                                onChange={f('emergencyContactNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-2"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Office Address Line 1 *</Label>
-                                            <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Street, Landmark"
+                                                value={form.address1}
+                                                onChange={f('address1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.address1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.address1} />
                                         </div>
                                         <div>
                                             <Label>Office Address Line 2 (Optional)</Label>
-                                            <input className="form-input" placeholder="Extension data" value={form.address2} onChange={f('address2')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Extension data"
+                                                value={form.address2}
+                                                onChange={f('address2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div data-err={errs.villageLocality ? '1' : undefined}>
                                             <Label>Village / Locality *</Label>
-                                            <input className="form-input" placeholder="Village/Locality" value={form.villageLocality} onChange={f('villageLocality')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.villageLocality ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Village/Locality"
+                                                value={form.villageLocality}
+                                                onChange={f('villageLocality')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.villageLocality
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.villageLocality} />
                                         </div>
                                         <div data-err={errs.city ? '1' : undefined}>
                                             <Label>City / Town *</Label>
-                                            <input className="form-input" placeholder="City" value={form.city} onChange={f('city')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.city ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="City"
+                                                value={form.city}
+                                                onChange={f('city')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.city ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.city} />
                                         </div>
                                         <div data-err={errs.district ? '1' : undefined}>
                                             <Label>District *</Label>
-                                            <input className="form-input" placeholder="District" value={form.district} onChange={f('district')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.district ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="District"
+                                                value={form.district}
+                                                onChange={f('district')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.district
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.district} />
                                         </div>
                                         <div data-err={errs.state ? '1' : undefined}>
                                             <Label>State *</Label>
-                                            <select className="form-select" value={form.state} onChange={f('state')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.state ? '#DC2626' : undefined }}>
-                                                {STATES.map((s) => <option key={s}>{s}</option>)}
+                                            <select
+                                                className="form-select"
+                                                value={form.state}
+                                                onChange={f('state')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.state ? '#DC2626' : undefined,
+                                                }}
+                                            >
+                                                {STATES.map((s) => (
+                                                    <option key={s}>{s}</option>
+                                                ))}
                                             </select>
                                             <Err msg={errs.state} />
                                         </div>
                                         <div data-err={errs.pinCode ? '1' : undefined}>
                                             <Label>PIN Code *</Label>
-                                            <input className="form-input" placeholder="6-digit PIN" value={form.pinCode} onChange={f('pinCode')} maxLength={6} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.pinCode ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="6-digit PIN"
+                                                value={form.pinCode}
+                                                onChange={f('pinCode')}
+                                                maxLength={6}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.pinCode
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.pinCode} />
                                         </div>
                                     </Grid>
@@ -1793,38 +3000,118 @@ export const OrganisationCreate = () => {
 
                             {/* ── Operational & Safety Mapping ── */}
                             <Card>
-                                <SectionHeader icon={BarChart3} title="Operational & Safety Mapping" />
+                                <SectionHeader
+                                    icon={BarChart3}
+                                    title="Operational & Safety Mapping"
+                                />
                                 <Body>
                                     <Grid className="grid-cols-responsive-3">
                                         <div data-err={errs.numTrainingVehicles ? '1' : undefined}>
                                             <Label>Number of Training Vehicles *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numTrainingVehicles} onChange={f('numTrainingVehicles')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numTrainingVehicles ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numTrainingVehicles}
+                                                onChange={f('numTrainingVehicles')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numTrainingVehicles
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numTrainingVehicles} />
                                         </div>
                                         <div data-err={errs.numTrainers ? '1' : undefined}>
                                             <Label>Number of Trainers *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numTrainers} onChange={f('numTrainers')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numTrainers ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numTrainers}
+                                                onChange={f('numTrainers')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numTrainers
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numTrainers} />
                                         </div>
                                         <div data-err={errs.numStudentsEnrolled ? '1' : undefined}>
                                             <Label>Number of Students Enrolled *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numStudentsEnrolled} onChange={f('numStudentsEnrolled')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numStudentsEnrolled ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numStudentsEnrolled}
+                                                onChange={f('numStudentsEnrolled')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numStudentsEnrolled
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numStudentsEnrolled} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
-                                        <div data-err={errs.numGPSDevicesAssignedMds ? '1' : undefined}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
+                                        <div
+                                            data-err={
+                                                errs.numGPSDevicesAssignedMds ? '1' : undefined
+                                            }
+                                        >
                                             <Label>Number of GPS Devices Assigned *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numGPSDevicesAssignedMds} onChange={f('numGPSDevicesAssignedMds')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numGPSDevicesAssignedMds ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numGPSDevicesAssignedMds}
+                                                onChange={f('numGPSDevicesAssignedMds')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numGPSDevicesAssignedMds
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numGPSDevicesAssignedMds} />
                                         </div>
                                         <div>
                                             <Label>Number of Beacons Assigned (Optional)</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numBeaconsAssignedMds} onChange={f('numBeaconsAssignedMds')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numBeaconsAssignedMds}
+                                                onChange={f('numBeaconsAssignedMds')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div data-err={errs.subscriptionPlan ? '1' : undefined}>
                                             <Label>Subscription Plan *</Label>
-                                            <select className="form-select" value={form.subscriptionPlan} onChange={f('subscriptionPlan')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.subscriptionPlan ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.subscriptionPlan}
+                                                onChange={f('subscriptionPlan')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.subscriptionPlan
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>Basic Plan</option>
                                                 <option>Standard Plan</option>
@@ -1833,33 +3120,98 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.subscriptionPlan} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-2"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div>
                                             <Label>Safety Officer Name (Optional)</Label>
-                                            <input className="form-input" placeholder="Name" value={form.safetyOfficerName} onChange={f('safetyOfficerName')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Name"
+                                                value={form.safetyOfficerName}
+                                                onChange={f('safetyOfficerName')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div>
                                             <Label>Safety Officer Contact (Optional)</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.safetyOfficerContact} onChange={f('safetyOfficerContact')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.safetyOfficerContact}
+                                                onChange={f('safetyOfficerContact')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
-                                    <div style={{ marginTop: 24, padding: '16px 20px', background: 'var(--surface)', borderRadius: 12, border: '1.5px solid var(--border)' }}>
-                                        <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-                                            <input type="checkbox" checked={form.consentCheckbox} onChange={handleConsent} style={{ width: 18, height: 18, accentColor: 'var(--primary)' }} />
-                                            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
-                                                I agree to VanLoka’s safety and compliance onboarding
+                                    <div
+                                        style={{
+                                            marginTop: 24,
+                                            padding: '16px 20px',
+                                            background: 'var(--surface)',
+                                            borderRadius: 12,
+                                            border: '1.5px solid var(--border)',
+                                        }}
+                                    >
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 12,
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={form.consentCheckbox}
+                                                onChange={handleConsent}
+                                                style={{
+                                                    width: 18,
+                                                    height: 18,
+                                                    accentColor: 'var(--primary)',
+                                                }}
+                                            />
+                                            <div
+                                                style={{
+                                                    fontSize: 13,
+                                                    fontWeight: 700,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
+                                                I agree to VanLoka’s safety and compliance
+                                                onboarding
                                             </div>
                                         </label>
                                         {form.consentTimestamp && (
-                                            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8, marginLeft: 30 }}>
-                                                Consent captured on: <strong>{form.consentTimestamp}</strong>
+                                            <div
+                                                style={{
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    marginTop: 8,
+                                                    marginLeft: 30,
+                                                }}
+                                            >
+                                                Consent captured on:{' '}
+                                                <strong>{form.consentTimestamp}</strong>
                                             </div>
                                         )}
                                         <Err msg={errs.consentCheckbox} />
                                     </div>
                                     <div style={{ marginTop: 16 }}>
                                         <Label>Remarks / Notes (Optional)</Label>
-                                        <textarea className="form-input" rows={2} placeholder="Special instructions or conditions" value={form.remarksNotes} onChange={f('remarksNotes')} style={{ width: '100%', boxSizing: 'border-box', resize: 'vertical' }} />
+                                        <textarea
+                                            className="form-input"
+                                            rows={2}
+                                            placeholder="Special instructions or conditions"
+                                            value={form.remarksNotes}
+                                            onChange={f('remarksNotes')}
+                                            style={{
+                                                width: '100%',
+                                                boxSizing: 'border-box',
+                                                resize: 'vertical',
+                                            }}
+                                        />
                                     </div>
                                 </Body>
                             </Card>
@@ -1876,12 +3228,35 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.orgName ? '1' : undefined}>
                                             <Label>Institution Name *</Label>
-                                            <input className="form-input" placeholder="Legal name of the school or college" value={form.orgName} onChange={f('orgName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.orgName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Legal name of the school or college"
+                                                value={form.orgName}
+                                                onChange={f('orgName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.orgName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.orgName} />
                                         </div>
                                         <div data-err={errs.institutionType ? '1' : undefined}>
                                             <Label>Institution Type *</Label>
-                                            <select className="form-select" value={form.institutionType} onChange={f('institutionType')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.institutionType ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.institutionType}
+                                                onChange={f('institutionType')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.institutionType
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>School</option>
                                                 <option>PU College</option>
@@ -1892,10 +3267,24 @@ export const OrganisationCreate = () => {
                                             <Err msg={errs.institutionType} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.affiliationBoard ? '1' : undefined}>
                                             <Label>Affiliation Board / University *</Label>
-                                            <select className="form-select" value={form.affiliationBoard} onChange={f('affiliationBoard')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.affiliationBoard ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.affiliationBoard}
+                                                onChange={f('affiliationBoard')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.affiliationBoard
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>CBSE</option>
                                                 <option>ICSE</option>
@@ -1908,7 +3297,18 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <div data-err={errs.registrationType ? '1' : undefined}>
                                             <Label>Registration Type *</Label>
-                                            <select className="form-select" value={form.registrationType} onChange={f('registrationType')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.registrationType ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.registrationType}
+                                                onChange={f('registrationType')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.registrationType
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>Trust</option>
                                                 <option>Society</option>
@@ -1921,52 +3321,165 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <div data-err={errs.registrationNo ? '1' : undefined}>
                                             <Label>Registration Number *</Label>
-                                            <input className="form-input" placeholder="Registration No" value={form.registrationNo} onChange={f('registrationNo')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.registrationNo ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Registration No"
+                                                value={form.registrationNo}
+                                                onChange={f('registrationNo')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.registrationNo
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.registrationNo} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.udiseCode ? '1' : undefined}>
                                             <Label>UDISE Code / College Code *</Label>
-                                            <input className="form-input" placeholder="UDISE-123" value={form.udiseCode} onChange={f('udiseCode')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.udiseCode ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="UDISE-123"
+                                                value={form.udiseCode}
+                                                onChange={f('udiseCode')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.udiseCode
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.udiseCode} />
                                         </div>
                                         <div>
                                             <Label>GST Number (Optional)</Label>
-                                            <input className="form-input" placeholder="GST Number" value={form.gstNumber} onChange={f('gstNumber')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="GST Number"
+                                                value={form.gstNumber}
+                                                onChange={f('gstNumber')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div data-err={errs.panNumber ? '1' : undefined}>
                                             <Label>PAN Number *</Label>
-                                            <input className="form-input" placeholder="AABCC1234A" value={form.panNumber} onChange={f('panNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.panNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="AABCC1234A"
+                                                value={form.panNumber}
+                                                onChange={f('panNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.panNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.panNumber} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.primaryContactName ? '1' : undefined}>
                                             <Label>Contact Person Name *</Label>
-                                            <input className="form-input" placeholder="Principal / Coordinator" value={form.primaryContactName} onChange={f('primaryContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Principal / Coordinator"
+                                                value={form.primaryContactName}
+                                                onChange={f('primaryContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactName} />
                                         </div>
                                         <div data-err={errs.primaryContactPhone1 ? '1' : undefined}>
                                             <Label>Contact Mobile Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.primaryContactPhone1} onChange={f('primaryContactPhone1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactPhone1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.primaryContactPhone1}
+                                                onChange={f('primaryContactPhone1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactPhone1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactPhone1} />
                                         </div>
                                         <div data-err={errs.primaryContactEmail ? '1' : undefined}>
                                             <Label>Contact Email ID *</Label>
-                                            <input className="form-input" placeholder="email@example.com" value={form.primaryContactEmail} onChange={f('primaryContactEmail')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.primaryContactEmail ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="email@example.com"
+                                                value={form.primaryContactEmail}
+                                                onChange={f('primaryContactEmail')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.primaryContactEmail
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.primaryContactEmail} />
                                         </div>
                                     </Grid>
-                                    <Grid className="grid-cols-responsive-2" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-2"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.emergencyContactName ? '1' : undefined}>
                                             <Label>Emergency Contact Name *</Label>
-                                            <input className="form-input" placeholder="Escalation contact" value={form.emergencyContactName} onChange={f('emergencyContactName')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactName ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Escalation contact"
+                                                value={form.emergencyContactName}
+                                                onChange={f('emergencyContactName')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactName
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactName} />
                                         </div>
-                                        <div data-err={errs.emergencyContactNumber ? '1' : undefined}>
+                                        <div
+                                            data-err={errs.emergencyContactNumber ? '1' : undefined}
+                                        >
                                             <Label>Emergency Contact Number *</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.emergencyContactNumber} onChange={f('emergencyContactNumber')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.emergencyContactNumber ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.emergencyContactNumber}
+                                                onChange={f('emergencyContactNumber')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.emergencyContactNumber
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.emergencyContactNumber} />
                                         </div>
                                     </Grid>
@@ -1980,26 +3493,77 @@ export const OrganisationCreate = () => {
                                     <Grid className="grid-cols-responsive-2">
                                         <div data-err={errs.address1 ? '1' : undefined}>
                                             <Label>Campus Address Line 1 *</Label>
-                                            <input className="form-input" placeholder="Street, Landmark" value={form.address1} onChange={f('address1')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.address1 ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Street, Landmark"
+                                                value={form.address1}
+                                                onChange={f('address1')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.address1
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.address1} />
                                         </div>
                                         <div>
                                             <Label>Campus Address Line 2 (Optional)</Label>
-                                            <input className="form-input" placeholder="Extension data" value={form.address2} onChange={f('address2')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Extension data"
+                                                value={form.address2}
+                                                onChange={f('address2')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div data-err={errs.villageLocality ? '1' : undefined}>
                                             <Label>Village / Locality *</Label>
-                                            <input className="form-input" placeholder="Rural/Urban mapping" value={form.villageLocality} onChange={f('villageLocality')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.villageLocality ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Rural/Urban mapping"
+                                                value={form.villageLocality}
+                                                onChange={f('villageLocality')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.villageLocality
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.villageLocality} />
                                         </div>
                                         <div data-err={errs.city ? '1' : undefined}>
                                             <Label>City / Town *</Label>
-                                            <input className="form-input" placeholder="Auto-suggested from PIN" value={form.city} onChange={f('city')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.city ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Auto-suggested from PIN"
+                                                value={form.city}
+                                                onChange={f('city')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.city ? '#DC2626' : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.city} />
                                         </div>
                                         <div data-err={errs.district ? '1' : undefined}>
                                             <Label>District *</Label>
-                                            <select className="form-select" value={form.district} onChange={f('district')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.district ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.district}
+                                                onChange={f('district')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.district
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select District</option>
                                                 <option>Bengaluru Urban</option>
                                                 <option>Bengaluru Rural</option>
@@ -2010,14 +3574,38 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <div data-err={errs.state ? '1' : undefined}>
                                             <Label>State *</Label>
-                                            <select className="form-select" value={form.state} onChange={f('state')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.state ? '#DC2626' : undefined }}>
-                                                {STATES.map((s) => <option key={s}>{s}</option>)}
+                                            <select
+                                                className="form-select"
+                                                value={form.state}
+                                                onChange={f('state')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.state ? '#DC2626' : undefined,
+                                                }}
+                                            >
+                                                {STATES.map((s) => (
+                                                    <option key={s}>{s}</option>
+                                                ))}
                                             </select>
                                             <Err msg={errs.state} />
                                         </div>
                                         <div data-err={errs.pinCode ? '1' : undefined}>
                                             <Label>PIN Code *</Label>
-                                            <input className="form-input" placeholder="6-digit validation" value={form.pinCode} onChange={f('pinCode')} maxLength={6} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.pinCode ? '#DC2626' : undefined }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="6-digit validation"
+                                                value={form.pinCode}
+                                                onChange={f('pinCode')}
+                                                maxLength={6}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.pinCode
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.pinCode} />
                                         </div>
                                     </Grid>
@@ -2026,42 +3614,139 @@ export const OrganisationCreate = () => {
 
                             {/* ── OPERATIONAL & SAFETY MAPPING ── */}
                             <Card>
-                                <SectionHeader icon={BarChart3} title="Operational & Safety Mapping" />
+                                <SectionHeader
+                                    icon={BarChart3}
+                                    title="Operational & Safety Mapping"
+                                />
                                 <Body>
-                                    <Grid className="grid-cols-responsive-3" style={{ marginTop: 16 }}>
+                                    <Grid
+                                        className="grid-cols-responsive-3"
+                                        style={{ marginTop: 16 }}
+                                    >
                                         <div data-err={errs.numStudents ? '1' : undefined}>
                                             <Label>Number of Students *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numStudents} onChange={f('numStudents')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numStudents ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numStudents}
+                                                onChange={f('numStudents')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numStudents
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numStudents} />
                                         </div>
                                         <div data-err={errs.numStaff ? '1' : undefined}>
                                             <Label>Number of Staff *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numStaff} onChange={f('numStaff')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numStaff ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numStaff}
+                                                onChange={f('numStaff')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numStaff
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numStaff} />
                                         </div>
                                         <div data-err={errs.numVehiclesOperated ? '1' : undefined}>
                                             <Label>Number of Vehicles Operated *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numVehiclesOperated} onChange={f('numVehiclesOperated')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numVehiclesOperated ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numVehiclesOperated}
+                                                onChange={f('numVehiclesOperated')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numVehiclesOperated
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numVehiclesOperated} />
                                         </div>
                                         <div data-err={errs.numDriversAssigned ? '1' : undefined}>
                                             <Label>Number of Drivers Assigned *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numDriversAssigned} onChange={f('numDriversAssigned')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numDriversAssigned ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numDriversAssigned}
+                                                onChange={f('numDriversAssigned')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numDriversAssigned
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numDriversAssigned} />
                                         </div>
                                         <div data-err={errs.numBeaconsAssigned ? '1' : undefined}>
                                             <Label>Number of Beacons Assigned *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numBeaconsAssigned} onChange={f('numBeaconsAssigned')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numBeaconsAssigned ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numBeaconsAssigned}
+                                                onChange={f('numBeaconsAssigned')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numBeaconsAssigned
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numBeaconsAssigned} />
                                         </div>
-                                        <div data-err={errs.numGPSDevicesAssigned ? '1' : undefined}>
+                                        <div
+                                            data-err={errs.numGPSDevicesAssigned ? '1' : undefined}
+                                        >
                                             <Label>Number of GPS Devices Assigned *</Label>
-                                            <input type="number" className="form-input" placeholder="0" value={form.numGPSDevicesAssigned} onChange={f('numGPSDevicesAssigned')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.numGPSDevicesAssigned ? '#DC2626' : undefined }} />
+                                            <input
+                                                type="number"
+                                                className="form-input"
+                                                placeholder="0"
+                                                value={form.numGPSDevicesAssigned}
+                                                onChange={f('numGPSDevicesAssigned')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.numGPSDevicesAssigned
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            />
                                             <Err msg={errs.numGPSDevicesAssigned} />
                                         </div>
                                         <div data-err={errs.subscriptionPlan ? '1' : undefined}>
                                             <Label>Subscription Plan *</Label>
-                                            <select className="form-select" value={form.subscriptionPlan} onChange={f('subscriptionPlan')} style={{ width: '100%', boxSizing: 'border-box', borderColor: errs.subscriptionPlan ? '#DC2626' : undefined }}>
+                                            <select
+                                                className="form-select"
+                                                value={form.subscriptionPlan}
+                                                onChange={f('subscriptionPlan')}
+                                                style={{
+                                                    width: '100%',
+                                                    boxSizing: 'border-box',
+                                                    borderColor: errs.subscriptionPlan
+                                                        ? '#DC2626'
+                                                        : undefined,
+                                                }}
+                                            >
                                                 <option value="">Select</option>
                                                 <option>Basic Plan</option>
                                                 <option>Standard Plan</option>
@@ -2071,23 +3756,74 @@ export const OrganisationCreate = () => {
                                         </div>
                                         <div>
                                             <Label>Safety Officer Name</Label>
-                                            <input className="form-input" placeholder="Name" value={form.safetyOfficerName} onChange={f('safetyOfficerName')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="Name"
+                                                value={form.safetyOfficerName}
+                                                onChange={f('safetyOfficerName')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                         <div>
                                             <Label>Safety Officer Contact</Label>
-                                            <input className="form-input" placeholder="XXXXXXXXXX" value={form.safetyOfficerContact} onChange={f('safetyOfficerContact')} style={{ width: '100%', boxSizing: 'border-box' }} />
+                                            <input
+                                                className="form-input"
+                                                placeholder="XXXXXXXXXX"
+                                                value={form.safetyOfficerContact}
+                                                onChange={f('safetyOfficerContact')}
+                                                style={{ width: '100%', boxSizing: 'border-box' }}
+                                            />
                                         </div>
                                     </Grid>
-                                    <div style={{ marginTop: 24, padding: '16px 20px', background: 'var(--surface)', borderRadius: 12, border: '1.5px solid var(--border)' }}>
-                                        <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-                                            <input type="checkbox" checked={form.consentCheckbox} onChange={handleConsent} style={{ width: 18, height: 18, accentColor: 'var(--primary)' }} />
-                                            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>
-                                                I agree to VanLoka’s safety and compliance onboarding
+                                    <div
+                                        style={{
+                                            marginTop: 24,
+                                            padding: '16px 20px',
+                                            background: 'var(--surface)',
+                                            borderRadius: 12,
+                                            border: '1.5px solid var(--border)',
+                                        }}
+                                    >
+                                        <label
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 12,
+                                                cursor: 'pointer',
+                                            }}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                checked={form.consentCheckbox}
+                                                onChange={handleConsent}
+                                                style={{
+                                                    width: 18,
+                                                    height: 18,
+                                                    accentColor: 'var(--primary)',
+                                                }}
+                                            />
+                                            <div
+                                                style={{
+                                                    fontSize: 13,
+                                                    fontWeight: 700,
+                                                    color: 'var(--text)',
+                                                }}
+                                            >
+                                                I agree to VanLoka’s safety and compliance
+                                                onboarding
                                             </div>
                                         </label>
                                         {form.consentTimestamp && (
-                                            <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 8, marginLeft: 30 }}>
-                                                Consent captured on: <strong>{form.consentTimestamp}</strong>
+                                            <div
+                                                style={{
+                                                    fontSize: 11,
+                                                    color: 'var(--muted)',
+                                                    marginTop: 8,
+                                                    marginLeft: 30,
+                                                }}
+                                            >
+                                                Consent captured on:{' '}
+                                                <strong>{form.consentTimestamp}</strong>
                                             </div>
                                         )}
                                         <Err msg={errs.consentCheckbox} />
@@ -2101,79 +3837,185 @@ export const OrganisationCreate = () => {
                     <Card>
                         <SectionHeader icon={FileUp} title="Document Uploads" />
                         <Body>
-                            {(form.orgType === 'Office' || form.orgType === 'Institute' || form.orgType === 'Motor Driving School') && (
-                                <div style={{
-                                    background: '#FFFBEB',
-                                    border: '1px solid #FEF3C7',
-                                    padding: '14px 18px',
-                                    borderRadius: 12,
-                                    marginBottom: 20,
-                                    fontSize: 12,
-                                    color: '#B45309',
-                                    fontWeight: 700,
-                                    display: 'flex',
-                                    alignItems: 'flex-start',
-                                    gap: 12
-                                }}>
+                            {(form.orgType === 'Office' ||
+                                form.orgType === 'Institute' ||
+                                form.orgType === 'Motor Driving School') && (
+                                <div
+                                    style={{
+                                        background: '#FFFBEB',
+                                        border: '1px solid #FEF3C7',
+                                        padding: '14px 18px',
+                                        borderRadius: 12,
+                                        marginBottom: 20,
+                                        fontSize: 12,
+                                        color: '#B45309',
+                                        fontWeight: 700,
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        gap: 12,
+                                    }}
+                                >
                                     <Info size={20} style={{ marginTop: 2 }} />
                                     <div>
-                                        <div style={{ textTransform: 'uppercase', marginBottom: 4, letterSpacing: '.05em' }}>Document Guidelines</div>
-                                        Compulsory upload required (*) documents. Max file size: 5MB. Formats: PDF, JPG, PNG.
+                                        <div
+                                            style={{
+                                                textTransform: 'uppercase',
+                                                marginBottom: 4,
+                                                letterSpacing: '.05em',
+                                            }}
+                                        >
+                                            Document Guidelines
+                                        </div>
+                                        Compulsory upload required (*) documents. Max file size:
+                                        5MB. Formats: PDF, JPG, PNG.
                                     </div>
                                 </div>
                             )}
 
                             <Grid className="grid-cols-responsive-3">
-                                {(form.orgType === 'Institute' ? [
-                                    { label: 'PAN Card *', key: 'panCard' },
-                                    { label: 'Registration Certificate *', key: 'registrationCert' },
-                                    { label: 'UDISE / College Code Proof *', key: 'udiseProof' },
-                                    { label: 'Safety SOP *', key: 'safetySop' },
-                                    { label: 'Transport Policy *', key: 'transportPolicy' },
-                                    { label: 'Insurance Certificate *', key: 'insuranceCert' },
-                                    { label: 'Driver Vetting Policy *', key: 'driverVettingPolicy' },
-                                    { label: 'Vehicle Maintenance Policy *', key: 'maintenancePolicy' },
-                                    { label: 'CCTV / Panic Button Policy', key: 'cctvPolicy' },
-                                    { label: 'Subscription Agreement *', key: 'subscriptionAgreement' },
-                                    { label: 'Consent Declaration *', key: 'consentDeclaration' },
-                                ] : form.orgType === 'Vendor' ? [
-                                    { label: 'PAN Card *', key: 'panCard' },
-                                    { label: 'GST Certificate *', key: 'gstCert' },
-                                    { label: 'Bank Proof (Cancelled Cheque) *', key: 'bankProof' },
-                                    { label: 'Signed Contract *', key: 'contractDoc' },
-                                    { label: 'Aadhaar Card (if Individual) *', key: 'aadhaarCard' },
-                                    { label: 'Insurance Certificate *', key: 'insuranceCert' },
-                                    { label: 'UDYAM / MSME Certificate', key: 'udyamCert' },
-                                    { label: 'Safety Equipment Checklist', key: 'safetyEquipChecklist' },
-                                ] : form.orgType === 'Motor Driving School' ? [
-                                    { label: 'RTO License Copy *', key: 'rtoLicenseCopy' },
-                                    { label: 'PAN Card *', key: 'panCard' },
-                                    { label: 'Registration Certificate *', key: 'registrationCert' },
-                                    { label: 'Safety SOP *', key: 'safetySop' },
-                                    { label: 'Trainer Certification List *', key: 'trainerCertList' },
-                                    { label: 'Vehicle Insurance Certificates *', key: 'insuranceCert' },
-                                    { label: 'Vehicle Fitness Certificates *', key: 'fitnessCert' },
-                                    { label: 'Driver Vetting Policy *', key: 'driverVettingPolicy' },
-                                    { label: 'CCTV / Panic Button Policy', key: 'cctvPolicy' },
-                                    { label: 'Subscription Agreement *', key: 'subscriptionAgreement' },
-                                    { label: 'Consent Declaration *', key: 'consentDeclaration' },
-                                ] : form.orgType === 'Office' ? [
-                                    { label: 'Registration Certificate *', key: 'registrationCert' },
-                                    { label: 'GST Certificate *', key: 'gstCert' },
-                                    { label: 'PAN Card *', key: 'panCard' },
-                                    { label: 'UDYAM / MSME Certificate *', key: 'udyamCert' },
-                                    { label: 'Transport Policy', key: 'transportPolicy' },
-                                    { label: 'Safety SOP', key: 'safetySop' },
-                                    { label: 'Vendor Policy', key: 'vendorPolicy' },
-                                    { label: 'Driver Vetting Policy', key: 'driverVettingPolicy' },
-                                    { label: 'Insurance Certificate', key: 'insuranceCert' },
-                                    { label: 'Subscription Agreement', key: 'subscriptionAgreement' },
-                                    { label: 'Additional Doc', key: 'additionalDoc' },
-                                ] : [
-                                    { label: 'Registration Certificate', key: 'registrationCert' },
-                                    { label: 'GST Certificate', key: 'gstCert' },
-                                    { label: 'PAN Card', key: 'panCard' },
-                                ]).map(({ label, key }) => (
+                                {(form.orgType === 'Institute'
+                                    ? [
+                                          { label: 'PAN Card *', key: 'panCard' },
+                                          {
+                                              label: 'Registration Certificate *',
+                                              key: 'registrationCert',
+                                          },
+                                          {
+                                              label: 'UDISE / College Code Proof *',
+                                              key: 'udiseProof',
+                                          },
+                                          { label: 'Safety SOP *', key: 'safetySop' },
+                                          { label: 'Transport Policy *', key: 'transportPolicy' },
+                                          {
+                                              label: 'Insurance Certificate *',
+                                              key: 'insuranceCert',
+                                          },
+                                          {
+                                              label: 'Driver Vetting Policy *',
+                                              key: 'driverVettingPolicy',
+                                          },
+                                          {
+                                              label: 'Vehicle Maintenance Policy *',
+                                              key: 'maintenancePolicy',
+                                          },
+                                          {
+                                              label: 'CCTV / Panic Button Policy',
+                                              key: 'cctvPolicy',
+                                          },
+                                          {
+                                              label: 'Subscription Agreement *',
+                                              key: 'subscriptionAgreement',
+                                          },
+                                          {
+                                              label: 'Consent Declaration *',
+                                              key: 'consentDeclaration',
+                                          },
+                                      ]
+                                    : form.orgType === 'Vendor'
+                                      ? [
+                                            { label: 'PAN Card *', key: 'panCard' },
+                                            { label: 'GST Certificate *', key: 'gstCert' },
+                                            {
+                                                label: 'Bank Proof (Cancelled Cheque) *',
+                                                key: 'bankProof',
+                                            },
+                                            { label: 'Signed Contract *', key: 'contractDoc' },
+                                            {
+                                                label: 'Aadhaar Card (if Individual) *',
+                                                key: 'aadhaarCard',
+                                            },
+                                            {
+                                                label: 'Insurance Certificate *',
+                                                key: 'insuranceCert',
+                                            },
+                                            { label: 'UDYAM / MSME Certificate', key: 'udyamCert' },
+                                            {
+                                                label: 'Safety Equipment Checklist',
+                                                key: 'safetyEquipChecklist',
+                                            },
+                                        ]
+                                      : form.orgType === 'Motor Driving School'
+                                        ? [
+                                              {
+                                                  label: 'RTO License Copy *',
+                                                  key: 'rtoLicenseCopy',
+                                              },
+                                              { label: 'PAN Card *', key: 'panCard' },
+                                              {
+                                                  label: 'Registration Certificate *',
+                                                  key: 'registrationCert',
+                                              },
+                                              { label: 'Safety SOP *', key: 'safetySop' },
+                                              {
+                                                  label: 'Trainer Certification List *',
+                                                  key: 'trainerCertList',
+                                              },
+                                              {
+                                                  label: 'Vehicle Insurance Certificates *',
+                                                  key: 'insuranceCert',
+                                              },
+                                              {
+                                                  label: 'Vehicle Fitness Certificates *',
+                                                  key: 'fitnessCert',
+                                              },
+                                              {
+                                                  label: 'Driver Vetting Policy *',
+                                                  key: 'driverVettingPolicy',
+                                              },
+                                              {
+                                                  label: 'CCTV / Panic Button Policy',
+                                                  key: 'cctvPolicy',
+                                              },
+                                              {
+                                                  label: 'Subscription Agreement *',
+                                                  key: 'subscriptionAgreement',
+                                              },
+                                              {
+                                                  label: 'Consent Declaration *',
+                                                  key: 'consentDeclaration',
+                                              },
+                                          ]
+                                        : form.orgType === 'Office'
+                                          ? [
+                                                {
+                                                    label: 'Registration Certificate *',
+                                                    key: 'registrationCert',
+                                                },
+                                                { label: 'GST Certificate *', key: 'gstCert' },
+                                                { label: 'PAN Card *', key: 'panCard' },
+                                                {
+                                                    label: 'UDYAM / MSME Certificate *',
+                                                    key: 'udyamCert',
+                                                },
+                                                {
+                                                    label: 'Transport Policy',
+                                                    key: 'transportPolicy',
+                                                },
+                                                { label: 'Safety SOP', key: 'safetySop' },
+                                                { label: 'Vendor Policy', key: 'vendorPolicy' },
+                                                {
+                                                    label: 'Driver Vetting Policy',
+                                                    key: 'driverVettingPolicy',
+                                                },
+                                                {
+                                                    label: 'Insurance Certificate',
+                                                    key: 'insuranceCert',
+                                                },
+                                                {
+                                                    label: 'Subscription Agreement',
+                                                    key: 'subscriptionAgreement',
+                                                },
+                                                { label: 'Additional Doc', key: 'additionalDoc' },
+                                            ]
+                                          : [
+                                                {
+                                                    label: 'Registration Certificate',
+                                                    key: 'registrationCert',
+                                                },
+                                                { label: 'GST Certificate', key: 'gstCert' },
+                                                { label: 'PAN Card', key: 'panCard' },
+                                            ]
+                                ).map(({ label, key }) => (
                                     <div key={key}>
                                         <Label>{label}</Label>
                                         <label
@@ -2185,21 +4027,56 @@ export const OrganisationCreate = () => {
                                                 height: 96,
                                                 borderRadius: 12,
                                                 border: '2px dashed var(--border)',
-                                                background: form[key as keyof Form] ? '#F5F3FF' : 'var(--surface)',
+                                                background: form[key as keyof Form]
+                                                    ? '#F5F3FF'
+                                                    : 'var(--surface)',
                                                 cursor: 'pointer',
                                                 gap: 6,
-                                                borderColor: form[key as keyof Form] ? 'var(--primary)' : undefined,
-                                                transition: 'all 0.2s'
+                                                borderColor: form[key as keyof Form]
+                                                    ? 'var(--primary)'
+                                                    : undefined,
+                                                transition: 'all 0.2s',
                                             }}
                                         >
-                                            <div style={{ fontSize: 26, color: form[key as keyof Form] ? 'var(--primary)' : '#CBD5E1' }}>
-                                                {form[key as keyof Form] ? <CheckCircle2 size={26} /> : <FileUp size={26} />}
+                                            <div
+                                                style={{
+                                                    fontSize: 26,
+                                                    color: form[key as keyof Form]
+                                                        ? 'var(--primary)'
+                                                        : '#CBD5E1',
+                                                }}
+                                            >
+                                                {form[key as keyof Form] ? (
+                                                    <CheckCircle2 size={26} />
+                                                ) : (
+                                                    <FileUp size={26} />
+                                                )}
                                             </div>
-                                            <span style={{ fontSize: 10, fontWeight: 700, color: form[key as keyof Form] ? 'var(--primary)' : (errs[key as keyof Form] ? '#DC2626' : '#94A3B8'), textAlign: 'center', padding: '0 8px' }}>
-                                                {form[key as keyof Form] ? (form[key as keyof Form] as File).name : (errs[key as keyof Form] || 'No file chosen')}
+                                            <span
+                                                style={{
+                                                    fontSize: 10,
+                                                    fontWeight: 700,
+                                                    color: form[key as keyof Form]
+                                                        ? 'var(--primary)'
+                                                        : errs[key as keyof Form]
+                                                          ? '#DC2626'
+                                                          : '#94A3B8',
+                                                    textAlign: 'center',
+                                                    padding: '0 8px',
+                                                }}
+                                            >
+                                                {form[key as keyof Form]
+                                                    ? (form[key as keyof Form] as File).name
+                                                    : errs[key as keyof Form] || 'No file chosen'}
                                             </span>
-                                            <span style={{ fontSize: 9, color: '#CBD5E1' }}>Click to upload</span>
-                                            <input type="file" style={{ display: 'none' }} onChange={handleDoc(key as keyof Form)} />
+                                            <span style={{ fontSize: 9, color: '#CBD5E1' }}>
+                                                Click to upload
+                                            </span>
+                                            <input
+                                                type="file"
+                                                style={{ display: 'none' }}
+                                                onChange={handleDoc(key as keyof Form)}
+                                            />
                                         </label>
                                     </div>
                                 ))}
@@ -2293,7 +4170,7 @@ export const OrganisationCreate = () => {
 
             {/* Confirmation Modal */}
             {showConfirm && (
-                <UpdateConfirmOverlay 
+                <UpdateConfirmOverlay
                     title={form.orgName}
                     onConfirm={confirmUpdate}
                     onCancel={() => setShowConfirm(false)}
